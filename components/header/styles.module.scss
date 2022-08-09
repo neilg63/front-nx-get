@@ -1,0 +1,30 @@
+.header {
+  padding: 12px 0;
+  transition: height .2s linear;
+  position: fixed;
+  width: 100%;
+  z-index: 3;
+  top: 0;
+}
+
+.scrolled {
+  box-shadow: 0 8px 24px rgba(0,0,0,.2);
+  background-color: white;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: var(--header-align);
+  position: relative;
+}
+
+
+.logoLink {
+  @media screen and (max-width: 900px) {
+    img {
+      height: 2.5rem;
+      width: auto;
+    }
+  }
+}
