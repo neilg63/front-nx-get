@@ -1,20 +1,20 @@
-import { JsonApiResource } from 'next-drupal';
 import Head from 'next/head';
 import { SiteInfo } from '../../lib/api-view-results';
-import { extractMeta } from '../../lib/ui-entity';
+import { NodeEntity } from '../../lib/entity-data';
+import { MetaDataSet } from '../../lib/ui-entity';
 import Footer from '../footer';
 import Header from "../header";
 
 export interface LayoutProps {
   site: SiteInfo,
-  items?: JsonApiResource[],
-  entity?: JsonApiResource,
+  items?: NodeEntity[],
+  entity?: NodeEntity,
   children?: React.ReactNode,
   wrapperClasses?: string
+  meta: MetaDataSet
 }
 
-const Layout = ({entity, site, children, wrapperClasses}: LayoutProps) => {
-  const meta = extractMeta(entity);
+const Layout = ({entity, site, meta, children, wrapperClasses}: LayoutProps) => {
   const footer = site instanceof Object ? site.menus.footer : [];
   return (
     <>

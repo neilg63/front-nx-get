@@ -1,5 +1,5 @@
-import { NodeEntity } from "./entity-data";
-import { paramsToQueryString } from "./utils";
+import { NodeEntity, PageDataSet } from "./entity-data";
+import { notEmptyString, paramsToQueryString } from "./utils";
 
 export class BasicNodeInfo {
   uuid = "";
@@ -41,53 +41,103 @@ export class BasicNodeInfo {
   }
 }
 
-export interface SimpleMenuItem {
-  path: string;
-  title: string;
-  has_children: boolean;
-  children?: SimpleMenuItem[];
+export class SimpleMenuItem {
+  path = "";
+  title = "";
+  hasChildren = false;
+  children: SimpleMenuItem[] = [];
+
+  constructor(inData: any = null) {
+    if (inData instanceof Object) {
+      const keys = Object.keys(inData);
+      if (keys.includes("title") && notEmptyString(inData.path)) {
+        this.path = inData.path;
+      }
+      if (notEmptyString(inData.title)) {
+        this.title = inData.title;
+      }
+      if (keys.includes("has_children")) {
+        this.hasChildren = inData.has_children;
+      } else if (keys.includes("hasChildren")) {
+        this.hasChildren = inData.hasChildren;
+      }
+      if (keys.includes("children") && inData.children instanceof Array) {
+        this.children = inData.children.map(
+          (item: any) => new SimpleMenuItem(item)
+        );
+      }
+      this.hasChildren = this.children.length > 0;
+    }
+  }
 }
 
-export interface SiteInfoCore {
-  name: string;
-  slogan: string;
+export class SiteInfoCore {
+  name = "";
+  slogan = "";
   [key: string]: string;
+
+  constructor(inData: any = null) {
+    if (inData instanceof Object) {
+      if (notEmptyString(inData.name)) {
+        this.name = inData.name;
+      }
+      if (notEmptyString(inData.slogan)) {
+        this.slogan = inData.slogan;
+      }
+    }
+  }
 }
 
-export interface SiteMenus {
-  main: SimpleMenuItem[];
-  footer: SimpleMenuItem[];
+export class SiteMenus {
+  main: SimpleMenuItem[] = [];
+  footer: SimpleMenuItem[] = [];
   [key: string]: SimpleMenuItem[];
+
+  constructor(inData: any = null) {
+    if (inData instanceof Object) {
+      Object.entries(inData).forEach(([key, items]: [string, any]) => {
+        if (items instanceof Array) {
+          this[key] = items.map((item) => new SimpleMenuItem(item));
+        }
+      });
+    }
+  }
 }
 
-export interface SiteInfo {
-  info: SiteInfoCore;
-  menus: SiteMenus;
+export class SiteInfo {
+  info: SiteInfoCore = new SiteInfoCore();
+  menus: SiteMenus = new SiteMenus();
   [key: string]: any;
-}
 
-const defaultSiteInfo = {
-  info: {
-    name: "",
-    slogam: "",
-  },
-  menus: {
-    main: [],
-    footer: [],
-  },
-};
+  constructor(inData: any = null) {
+    if (inData instanceof Object) {
+      Object.entries(inData).forEach(([key, value]: [string, any]) => {
+        if (key === "info" && value instanceof Object) {
+          this.info = new SiteInfoCore(value);
+        } else if (key === "menus" && value instanceof Object) {
+          this.menus = new SiteMenus(value);
+        } else {
+          this[key] = value;
+        }
+      });
+    }
+  }
+}
 
 export const fetchApiViewResults = async (
   key: string,
   params: any = null
-): Promise<NodeEntity[]> => {
+): Promise<PageDataSet> => {
+  const queryParams: any = params instanceof Object ? params : {};
+  if (queryParams.mode) {
+    queryParams.mode = "next";
+  }
   const uri =
     [process.env.NEXT_PUBLIC_DRUPAL_BASE_URL, "api", key].join("/") +
-    paramsToQueryString(params);
+    paramsToQueryString(queryParams);
   const res = await fetch(uri);
-  const data = res.status >= 200 && res.status < 300 ? await res.json() : [];
-  const results = data instanceof Array ? data : [];
-  return results.map((row) => new NodeEntity(row));
+  const data = res.status >= 200 && res.status < 300 ? await res.json() : {};
+  return new PageDataSet(data);
 };
 
 export const fetchNodeInfoResults = async (
@@ -109,7 +159,7 @@ export const fetchNodeInfoResults = async (
   return results.map((item) => new BasicNodeInfo(item));
 };
 
-export const fetchFullNode = async (path: string): Promise<NodeEntity> => {
+export const fetchFullNode = async (path: string): Promise<PageDataSet> => {
   const key = path.replace(/^\//, "");
   const uri =
     [process.env.NEXT_PUBLIC_DRUPAL_BASE_URL, "jsonuuid", "node-full"].join(
@@ -117,7 +167,7 @@ export const fetchFullNode = async (path: string): Promise<NodeEntity> => {
     ) + paramsToQueryString({ alias: path });
   const res = await fetch(uri);
   const data = res.status >= 200 && res.status < 300 ? await res.json() : {};
-  return new NodeEntity(data);
+  return new PageDataSet(data);
 };
 
 export const fetchNodeInfo = async (path: string): Promise<BasicNodeInfo> => {
@@ -133,6 +183,6 @@ export const getSiteInfo = async (): Promise<SiteInfo> => {
   ].join("/");
   const res = await fetch(uri);
   const data = res.status >= 200 && res.status < 300 ? await res.json() : [];
-  const result = data instanceof Object ? data : defaultSiteInfo;
+  const result = new SiteInfo(data);
   return result;
 };

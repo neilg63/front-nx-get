@@ -104,9 +104,6 @@ export const smartCastString = (input: any = null): string => {
 
 export const paramsToQueryString = (params: any = null) => {
   const entries = params instanceof Object ? Object.entries(params) : [];
-  if (entries.some((entry) => entry[0] === "m") === false) {
-    entries.push(["m", "e"]);
-  }
   return entries.length > 0
     ? "?" + entries.map(([key, value]) => key + "=" + smartCastString(value))
     : "";

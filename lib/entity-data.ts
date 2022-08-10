@@ -1,3 +1,5 @@
+import { SiteInfo, SiteInfoCore } from "./api-view-results";
+import { MetaDataSet } from "./ui-entity";
 import {
   isArrayOfObjectsWith,
   isNumeric,
@@ -138,7 +140,7 @@ export class MediaItem {
 
   constructor(inData: any = null) {
     if (inData instanceof Object) {
-      Object.entries(([key, value]: [string, any]) => {
+      Object.entries(inData).forEach(([key, value]: [string, any]) => {
         if (key === "sizes" && value instanceof Object) {
           this.sizes = new Map(Object.entries(value));
         } else if (
@@ -215,7 +217,7 @@ export class NodeEntity {
   promote = false;
   sticky = false;
   field_images: MediaItem[] = [];
-  field_media?: MediaItem;
+  field_media: MediaItem = new MediaItem();
   field_document?: MediaItem;
   field_tags: TaxTerm[] = [];
   [name: string]: any;
@@ -268,12 +270,29 @@ export class NodeEntity {
     }
   }
 
-  get firstImage() {
+  get hasBody() {
+    return notEmptyString(this.body, 2);
+  }
+
+  get hasSubtitle() {
+    return notEmptyString(this.field_subtitle, 1);
+  }
+
+  get firstImage(): MediaItem {
     if (isObjectWith(this.field_media, "uri")) {
       return this.field_media;
     } else if (isArrayOfObjectsWith(this.field_images, "uri")) {
       return this.field_images[0];
+    } else {
+      return new MediaItem(null);
     }
+  }
+
+  get hasImage() {
+    return (
+      isObjectWith(this.field_media, "uri") ||
+      isArrayOfObjectsWith(this.field_images, "uri")
+    );
   }
 
   get hasImages() {
@@ -281,5 +300,42 @@ export class NodeEntity {
       this.field_images instanceof Array &&
       this.field_images.filter((mi: MediaItem) => mi.isImage).length > 0
     );
+  }
+}
+
+export class PageDataSet {
+  entity: NodeEntity = new NodeEntity();
+  items: NodeEntity[] = [];
+  site: SiteInfo = new SiteInfo();
+  meta: MetaDataSet = new MetaDataSet();
+  page = 0;
+  perPage = 0;
+  total = 0;
+
+  constructor(inData: any = null) {
+    if (inData instanceof Object) {
+      const keys = Object.keys(inData);
+      if (keys.includes("entity")) {
+        this.entity = new NodeEntity(inData.entity);
+      }
+      if (keys.includes("items") && inData.items instanceof Array) {
+        this.items = inData.items((item: any) => new NodeEntity(item));
+      }
+      if (keys.includes("site") && isObjectWith(inData.site, "name")) {
+        this.site = new SiteInfo(inData.site);
+      }
+      if (keys.includes("meta") && isObjectWith(inData.meta, "title")) {
+        this.meta = new MetaDataSet(inData.meta);
+      }
+      if (keys.includes("page") && typeof inData.page === "number") {
+        this.page = inData.page;
+      }
+      if (keys.includes("perPage") && typeof inData.perPage === "number") {
+        this.perPage = inData.perPage;
+      }
+      if (keys.includes("total") && typeof inData.total === "number") {
+        this.total = inData.total;
+      }
+    }
   }
 }

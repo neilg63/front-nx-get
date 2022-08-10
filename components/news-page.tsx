@@ -1,15 +1,15 @@
 import { NextPage } from "next";
-import { JsonApiResource } from "next-drupal";
 import parse from "html-react-parser";
 import Link from 'next/link';
 import { toImageSrc, toImageSrcSet } from "../lib/ui-entity";
-import { notEmptyString, defaultImageLoader } from "../lib/utils";
+import { notEmptyString } from "../lib/utils";
+import { NodeEntity } from "../lib/entity-data";
 
-const NewsPage: NextPage<{entity: JsonApiResource}> = ({entity} ) => {  
+const NewsPage: NextPage<{entity: NodeEntity}> = ({entity}: {entity: NodeEntity} ) => {  
   const keys = Object.keys(entity);
-  console.log( entity.field_media)
-  const hasImage = entity.field_media instanceof Object;
-  const image = hasImage ? entity.field_media : {};
+  console.log( entity.field_images)
+  const hasImage = entity.field_images instanceof Array && entity.field_images.length > 0;
+  const image = entity.firstImage;
   
   const hasBody = keys.includes('body') && notEmptyString(entity.body);
   const hasSubtitle = keys.includes('subtitle');

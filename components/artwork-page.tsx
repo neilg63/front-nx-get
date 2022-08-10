@@ -1,11 +1,11 @@
 import { NextPage } from "next";
-import { JsonApiResource } from "next-drupal";
 import parse from "html-react-parser";
 import Link from 'next/link';
 import { toImageSrc, toImageSrcSet } from "../lib/ui-entity";
 import { notEmptyString, defaultImageLoader } from "../lib/utils";
+import { NodeEntity } from "../lib/entity-data";
 
-const ArtworkPage: NextPage<{entity: JsonApiResource}> = ({entity} ) => {  
+const ArtworkPage: NextPage<{entity: NodeEntity}> = ({entity} ) => {  
   const keys = Object.keys(entity);
   const images = entity.field_images instanceof Array ? entity.field_images : [];
   const hasImages = images.length > 0;
