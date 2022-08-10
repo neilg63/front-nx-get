@@ -1,30 +1,16 @@
-import type { GetStaticPathsContext, GetStaticPathsResult, GetStaticProps, GetStaticPropsContext } from 'next'
-import { fetchNodeEntity } from '../../lib/entity-data';
-import { matchContextualPaths } from '../../lib/match-paths';
+import type { GetServerSideProps, GetStaticPathsContext, GetStaticPathsResult, GetStaticProps, GetStaticPropsContext } from 'next'
 import ExhibitionPage from '../../components/exhibition-page';
-import { getSiteInfo } from '../../lib/api-view-results';
+import { fetchFullNode } from '../../lib/api-view-results';
 
-export async function getStaticPaths(
-  context: GetStaticPathsContext,
-): Promise<GetStaticPathsResult> {
-  const sections = ['exhibitions'];
-  const paths = await matchContextualPaths(sections, context, 'simple');
-  return {
-    paths,
-    fallback: "blocking",
-  }
-}
+export const getServerSideProps: GetServerSideProps = async (context: any) => {
+  const { exhibitions, slug } = context?.params;
+  const alias = [exhibitions, slug].join('/');
+  const page = await fetchFullNode(alias);
 
-
-export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext) => {
-  const path = ['/exhibitions', context.params?.slug].join('/')
-  const entity = await fetchNodeEntity('exhibition', path, 'path');
-  const site = await getSiteInfo();
   return {
     props: {
-      entity,
-      site
-    },
+      ...page
+    }
   }
 }
 
