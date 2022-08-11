@@ -1,13 +1,12 @@
 import Link from 'next/link';
-import { SiteInfo } from '../../lib/api-view-results';
+import { BaseEntity, SiteInfo } from '../../lib/api-view-results';
+import { PageDataSet } from '../../lib/entity-data';
 import styles from './styles.module.scss';
 
-interface HeaderLayout {
-  site: SiteInfo
-}
-
-const Header = ({site}: HeaderLayout) => {
-  const main = site instanceof Object ? site.menus.main : [];
+const Header = (data: BaseEntity) => {
+  const pageData = new PageDataSet(data)
+  const { site } = pageData;
+  const main = site instanceof SiteInfo ? site.menus.main : [];
   return (
     <header className='header'>
       <nav className='top-nav'>

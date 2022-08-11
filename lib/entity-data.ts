@@ -208,6 +208,7 @@ export class MediaItem {
 
 export class NodeEntity {
   nid = 0;
+  tid = 0;
   uuid = "";
   status = 0;
   path = "";
@@ -224,9 +225,17 @@ export class NodeEntity {
 
   constructor(inData: any = null) {
     if (inData instanceof Object) {
-      const strFields = ["path", "title", "body", "summary", "bundle", "uuid"];
+      const strFields = [
+        "path",
+        "title",
+        "body",
+        "summary",
+        "bundle",
+        "uuid",
+        "name",
+      ];
       const boolFields = ["promote", "sticky"];
-      const intFields = ["nid", "status"];
+      const intFields = ["nid", "tid", "status"];
       const mediaFields = ["field_media", "field_document", "field_video"];
       const taxFields = ["field_type", "field_material"];
       const entityFields = [
@@ -236,7 +245,7 @@ export class NodeEntity {
         "field_related_press",
         "field_related_videos",
       ];
-      Object.entries(([key, value]: [string, any]) => {
+      Object.entries(inData).map(([key, value]: [string, any]) => {
         const dataType = typeof value;
         if (dataType === "number") {
           if ([...strFields, ...boolFields].includes(key) === false) {
@@ -265,6 +274,8 @@ export class NodeEntity {
           this.fieldTags = value
             .map((row: any) => new TaxTerm(row))
             .filter((term: TaxTerm) => term.hasName);
+        } else {
+          this[key] = value;
         }
       });
     }
@@ -276,6 +287,10 @@ export class NodeEntity {
 
   get hasSubtitle() {
     return notEmptyString(this.field_subtitle, 1);
+  }
+
+  get isTaxonomyTerm() {
+    return this.nid < 1 && this.tid > 0;
   }
 
   get firstImage(): MediaItem {
@@ -319,9 +334,9 @@ export class PageDataSet {
         this.entity = new NodeEntity(inData.entity);
       }
       if (keys.includes("items") && inData.items instanceof Array) {
-        this.items = inData.items((item: any) => new NodeEntity(item));
+        this.items = inData.items.map((item: any) => new NodeEntity(item));
       }
-      if (keys.includes("site") && isObjectWith(inData.site, "name")) {
+      if (keys.includes("site") && isObjectWith(inData.site, "info")) {
         this.site = new SiteInfo(inData.site);
       }
       if (keys.includes("meta") && isObjectWith(inData.meta, "title")) {

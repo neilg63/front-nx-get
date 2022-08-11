@@ -1,11 +1,13 @@
 import { NextPage } from "next";
 import parse from "html-react-parser";
 import Link from 'next/link';
-import { SiteInfo } from "../lib/api-view-results";
-import { NodeEntity } from "../lib/entity-data";
+import { BaseEntity, SiteInfo } from "../lib/api-view-results";
+import { NodeEntity, PageDataSet } from "../lib/entity-data";
 
-const ArtworkList: NextPage<{items: NodeEntity[], site: SiteInfo }> = ({items} ) => {  
-  const hasItems = items.length > 0;
+const ArtworkList: NextPage<BaseEntity> = (data) => {  
+  const pageData = new PageDataSet(data);
+  const { items } = pageData
+  const hasItems = items instanceof Array && items.length > 0;
   return <section className="artwork-list">
     {hasItems && <ul>
         {items.map(item => <li key={item.uuid}>

@@ -3,9 +3,11 @@ import parse from "html-react-parser";
 import Link from 'next/link';
 import { defaultImageLoader } from "../lib/utils";
 import { MediaItem, NodeEntity, PageDataSet } from "../lib/entity-data";
+import { BaseEntity } from "../lib/api-view-results";
 
-const ArtworkPage: NextPage<PageDataSet> = ({entity, site, meta} ) => {  
-  const keys = Object.keys(entity);
+const ArtworkPage: NextPage<BaseEntity> = (data) => {  
+  const pageData = new PageDataSet(data);
+  const { entity } = pageData;
   const nextAlias = '/artworks';
   return <article className="artwork">
       <h1><Link href={nextAlias}><a>{entity.title}</a></Link></h1>

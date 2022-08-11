@@ -1,6 +1,6 @@
 import Head from 'next/head';
-import { SiteInfo } from '../../lib/api-view-results';
-import { NodeEntity } from '../../lib/entity-data';
+import { BaseEntity, SiteInfo } from '../../lib/api-view-results';
+import { NodeEntity, PageDataSet } from '../../lib/entity-data';
 import { MetaDataSet } from '../../lib/ui-entity';
 import Footer from '../footer';
 import Header from "../header";
@@ -14,7 +14,13 @@ export interface LayoutProps {
   meta: MetaDataSet
 }
 
-const Layout = ({entity, site, meta, children, wrapperClasses}: LayoutProps) => {
+const Layout = (data: BaseEntity) => {
+  const { children } = data;
+  const wrapperClasses = '';
+  const pageData = new PageDataSet(data)
+  const { site, meta } = pageData;
+
+  console.log(site.menus.main)
   const footer = site instanceof Object ? site.menus.footer : [];
   return (
     <>

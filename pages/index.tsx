@@ -1,14 +1,16 @@
-import type { NextPage, GetStaticPropsContext, GetStaticProps } from 'next'
+import type { NextPage, GetServerSideProps } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { getSiteInfo, SimpleMenuItem, SiteInfo } from '../lib/api-view-results'
+import { BaseEntity, fetchApiViewResults } from '../lib/api-view-results'
+import { PageDataSet } from '../lib/entity-data'
 
-const Home: NextPage<{site: SiteInfo}> = ({site} ) => {
-  const { main, footer } = site.menus;
+const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
+  const pageData = new PageDataSet(data);
+  const { items } = pageData;
   return (
     <>
-      {main.map((item) => {
-        return <li key={item.path}>
+      {items.map((item) => {
+        return <li key={item.tid}>
           <Link href={item.path}><a>{item.title}</a></Link>
         </li>
       })}
@@ -16,13 +18,12 @@ const Home: NextPage<{site: SiteInfo}> = ({site} ) => {
   )
 }
 
-export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext) => {
-  const siteData = await getSiteInfo();
+export const getServerSideProps: GetServerSideProps = async () => {
+  const pageData = await fetchApiViewResults('tags');
   return {
     props: {
-      site: siteData
+      ...pageData
     },
-    revalidate: false
   }
 }
 

@@ -1,18 +1,15 @@
-import type { GetStaticProps, GetStaticPropsContext } from 'next'
+import type { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router';
-import { fetchApiViewResults, getSiteInfo } from '../../lib/api-view-results';
+import { fetchApiViewResults } from '../../lib/api-view-results';
 import ArtworkList from '../../components/artwork-list';
 
 
-export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext) => {
-  const viewResults = await fetchApiViewResults('artworks');
-  const site = await getSiteInfo();
+export const getServerSideProps: GetServerSideProps = async () => {
+  const pageData = await fetchApiViewResults('artworks');
   return {
     props: {
-      items: viewResults,
-      site
+      ...pageData
     },
-    revalidate: false
   }
 }
 

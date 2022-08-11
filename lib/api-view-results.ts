@@ -1,6 +1,10 @@
 import { NodeEntity, PageDataSet } from "./entity-data";
 import { notEmptyString, paramsToQueryString } from "./utils";
 
+export interface BaseEntity {
+  [key: string]: any;
+}
+
 export class BasicNodeInfo {
   uuid = "";
   nid = 0;
@@ -127,17 +131,20 @@ export class SiteInfo {
 export const fetchApiViewResults = async (
   key: string,
   params: any = null
-): Promise<PageDataSet> => {
+): Promise<BaseEntity> => {
   const queryParams: any = params instanceof Object ? params : {};
-  if (queryParams.mode) {
+  if (!queryParams.mode) {
     queryParams.mode = "next";
   }
+  const queryStr = new URLSearchParams(queryParams).toString();
   const uri =
     [process.env.NEXT_PUBLIC_DRUPAL_BASE_URL, "api", key].join("/") +
-    paramsToQueryString(queryParams);
-  const res = await fetch(uri);
+    "?" +
+    queryStr;
+  const res = await fetch(uri, { method: "GET" });
   const data = res.status >= 200 && res.status < 300 ? await res.json() : {};
-  return new PageDataSet(data);
+  const d = data instanceof Array ? data[0] : Object.keys(data);
+  return data;
 };
 
 export const fetchNodeInfoResults = async (
@@ -159,7 +166,7 @@ export const fetchNodeInfoResults = async (
   return results.map((item) => new BasicNodeInfo(item));
 };
 
-export const fetchFullNode = async (path: string): Promise<PageDataSet> => {
+export const fetchFullNode = async (path: string): Promise<BaseEntity> => {
   const key = path.replace(/^\//, "");
   const uri =
     [process.env.NEXT_PUBLIC_DRUPAL_BASE_URL, "jsonuuid", "node-full"].join(
@@ -167,7 +174,7 @@ export const fetchFullNode = async (path: string): Promise<PageDataSet> => {
     ) + paramsToQueryString({ alias: path });
   const res = await fetch(uri);
   const data = res.status >= 200 && res.status < 300 ? await res.json() : {};
-  return new PageDataSet(data);
+  return data;
 };
 
 export const fetchNodeInfo = async (path: string): Promise<BasicNodeInfo> => {

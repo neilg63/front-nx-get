@@ -1,26 +1,32 @@
-import type { GetStaticProps, GetStaticPropsContext } from 'next'
+import type { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router';
-import { fetchApiViewResults, getSiteInfo } from '../../lib/api-view-results';
+import { fetchApiViewResults } from '../../lib/api-view-results';
 import ArtworkList from '../../components/artwork-list';
-import { isNumeric } from '../../lib/utils';
+import { isNumeric, notEmptyString } from '../../lib/utils';
 
 
-export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext) => {
+export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const yearRef = context.params?.year;
   let y = 0;
-  if (isNumeric(yearRef)) {
+  let first = 'artworks';
+  let second = '';
+  if (isNumeric(yearRef) && yearRef.length === 4) {
     y = typeof yearRef === 'string' ? parseInt(yearRef, 10) : typeof yearRef === 'number' ? yearRef : 0;
+    if (y < 1960) {
+      y = new Date().getFullYear();
+    }
   }
-  if (y < 1950) {
-    y = new Date().getFullYear();
+  if (y < 1960 && notEmptyString(yearRef, 2)) {
+    first = 'artworks-by-tag';
+    second = yearRef;
+  } else {
+    second = y.toString();
   }
-  const uri = ['artworks', y].join('/');
-  const viewResults = await fetchApiViewResults(uri);
-  const site = await getSiteInfo();
+  const uri = [first, second].join('/');
+  const pageData = await fetchApiViewResults(uri);
   return {
     props: {
-      items: viewResults,
-      site
+      ...pageData
     },
   }
 }

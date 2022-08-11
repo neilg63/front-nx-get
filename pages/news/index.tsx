@@ -1,15 +1,13 @@
-import type { GetStaticProps, GetStaticPropsContext } from 'next'
-import { fetchApiViewResults, getSiteInfo } from '../../lib/api-view-results';
+import type { GetServerSideProps } from 'next'
+import { fetchApiViewResults } from '../../lib/api-view-results';
 import NewsList from '../../components/news-list';
 
 
-export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext) => {
-  const viewResults = await fetchApiViewResults('news');
-  const site = await getSiteInfo();
+export const getServerSideProps: GetServerSideProps = async () => {
+  const pageData = await fetchApiViewResults('news');
   return {
     props: {
-      items: viewResults,
-      site
+      ...pageData
     },
   }
 }
