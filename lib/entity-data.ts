@@ -141,8 +141,12 @@ export class MediaItem {
   constructor(inData: any = null) {
     if (inData instanceof Object) {
       Object.entries(inData).forEach(([key, value]: [string, any]) => {
-        if (key === "sizes" && value instanceof Object) {
-          this.sizes = new Map(Object.entries(value));
+        if (key === "sizes") {
+          if (value instanceof Map) {
+            this.sizes = value;
+          } else if (value instanceof Object) {
+            this.sizes = new Map(Object.entries(value));
+          }
         } else if (
           ["height", "width"].includes(key) &&
           typeof value === "number"
@@ -204,6 +208,10 @@ export class MediaItem {
   get srcSet(): string {
     return this.imageStyles.length ? toImageSrcSet(this.imageStyles) : "";
   }
+
+  toImageSrc() {
+    return this.srcSet;
+  }
 }
 
 export class NodeEntity {
@@ -261,7 +269,7 @@ export class NodeEntity {
           }
         } else if (isObjectWith(value, "uri") && mediaFields.includes(key)) {
           this[key] = new MediaItem(value);
-        } else if (isArrayOfObjectsWith(value, "uri")) {
+        } else if (isArrayOfObjectsWith(value, "uri") && value.length > 0) {
           this.field_images = value.map((row: any) => new MediaItem(row));
         } else if (isObjectWith(value, "name") && taxFields.includes(key)) {
           this[key] = new TaxTerm(value);
@@ -294,9 +302,16 @@ export class NodeEntity {
   }
 
   get firstImage(): MediaItem {
-    if (isObjectWith(this.field_media, "uri")) {
+    if (
+      this.field_media instanceof MediaItem &&
+      this.field_media.uri.length > 5
+    ) {
       return this.field_media;
-    } else if (isArrayOfObjectsWith(this.field_images, "uri")) {
+    } else if (
+      this.field_images.length > 0 &&
+      this.field_images[0] instanceof MediaItem &&
+      this.field_images[0].uri.length > 5
+    ) {
       return this.field_images[0];
     } else {
       return new MediaItem(null);
@@ -315,6 +330,10 @@ export class NodeEntity {
       this.field_images instanceof Array &&
       this.field_images.filter((mi: MediaItem) => mi.isImage).length > 0
     );
+  }
+
+  get images() {
+    return this.hasImages ? this.field_images : [];
   }
 }
 
