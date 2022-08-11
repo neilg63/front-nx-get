@@ -14,7 +14,8 @@ export const getStaticProps: GetStaticProps = async (context: GetStaticPropsCont
   if (y < 1950) {
     y = new Date().getFullYear();
   }
-  const viewResults = await fetchApiViewResults('artworks/year');
+  const uri = ['artworks', y].join('/');
+  const viewResults = await fetchApiViewResults(uri);
   const site = await getSiteInfo();
   return {
     props: {
