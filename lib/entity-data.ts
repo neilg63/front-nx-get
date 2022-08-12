@@ -5,46 +5,12 @@ import {
   isNumeric,
   isObjectWith,
   notEmptyString,
+  toFullUri,
 } from "./utils";
 
 export interface CTConfigSet {
   [key: string]: string[];
 }
-
-const includeKeys = {
-  article: ["field_media", "field_tags"],
-  news: ["field_media", "field_tags"],
-  exhibition: ["field_images", "field_tags"],
-};
-
-const coreNodeKeys = [
-  "title",
-  "status",
-  "path",
-  "body",
-  "created",
-  "uid",
-  "metatag",
-];
-
-const extraNodeFields = {
-  exhibition: [
-    "field_date_range",
-    "field_images",
-    "field_tags",
-    "field_subtitle",
-  ],
-  news: ["field_date", "field_media", "field_subtitle"],
-  artwork: [
-    "field_year",
-    "field_material_text",
-    "field_location",
-    "field_provenance",
-    "field_images",
-    "field_tags",
-    "field_dimensions",
-  ],
-};
 
 export interface KeyStringValue {
   key: string;
@@ -109,22 +75,22 @@ const toImageStyles = (
   return styles;
 };
 
-const toImageSrcSetFromAttrs = (imgs: ImageStyleAttrs[]) => {
+/* const toImageSrcSetFromAttrs = (imgs: ImageStyleAttrs[]) => {
   return imgs.map((img) => [img.uri, img.size].join(" ")).join(", ");
 };
 
 const toImageSrcFromAttrs = (imgs: ImageStyleAttrs[]) => {
   return imgs.length > 0 ? imgs[0].uri : "";
-};
+}; */
 
 export const toImageSrcSet = (row: any = null) => {
   const imgs = toImageStyles(row);
-  return imgs.map((img) => [img.uri, img.size].join(" ")).join(", ");
+  return imgs.map((img) => [toFullUri(img.uri), img.size].join(" ")).join(", ");
 };
 
 export const toImageSrc = (row: any = null) => {
   const imgs = toImageStyles(row);
-  return imgs.length > 0 ? imgs[0].uri : "";
+  return imgs.length > 0 ? toFullUri(imgs[0].uri) : "";
 };
 
 export class MediaItem {
@@ -198,7 +164,7 @@ export class MediaItem {
     if (bestMatch.length < 1) {
       bestMatch = this.uri;
     }
-    return bestMatch;
+    return toFullUri(bestMatch);
   }
 
   get imageStyles(): ImageStyleAttrs[] {
@@ -320,8 +286,8 @@ export class NodeEntity {
 
   get hasImage() {
     return (
-      isObjectWith(this.field_media, "uri") ||
-      isArrayOfObjectsWith(this.field_images, "uri")
+      (this.field_media instanceof MediaItem && this.field_media.isImage) ||
+      this.hasImages
     );
   }
 

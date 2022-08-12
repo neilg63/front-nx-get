@@ -108,3 +108,11 @@ export const paramsToQueryString = (params: any = null) => {
     ? "?" + entries.map(([key, value]) => key + "=" + smartCastString(value))
     : "";
 };
+
+export const toFullUri = (uri: string): string => {
+  if (uri.startsWith("/")) {
+    return process.env.NEXT_PUBLIC_DRUPAL_BASE_URL + uri;
+  } else {
+    return uri;
+  }
+};
