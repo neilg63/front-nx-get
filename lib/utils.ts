@@ -102,6 +102,32 @@ export const smartCastString = (input: any = null): string => {
   }
 };
 
+export const smartCastNumber = (
+  item: any,
+  defVal = 0,
+  isInt = false
+): number => {
+  let out = defVal;
+  if (typeof item === "string") {
+    if (item.length > 0) {
+      if (/^\s*-?\d+(\.\d+)?\s*/.test(item)) {
+        out = isInt ? parseInt(item, 10) : parseFloat(item);
+      }
+    }
+  } else if (typeof item === "number") {
+    out = item;
+  }
+  return out;
+};
+
+export const smartCastInt = (item: any, defVal = 0): number => {
+  return smartCastNumber(item, defVal, true);
+};
+
+export const smartCastFloat = (item: any, defVal = 0): number => {
+  return smartCastNumber(item, defVal, false);
+};
+
 export const paramsToQueryString = (params: any = null) => {
   const entries = params instanceof Object ? Object.entries(params) : [];
   return entries.length > 0

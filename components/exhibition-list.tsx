@@ -9,7 +9,6 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
   const pageData = new PageDataSet(data);
   const hasItems = pageData.items.length > 0;
   const { items } = pageData;
-  console.log(items[0].field_images.length, items[0].hasImage)
   return <section className="exhibition-list">
     {hasItems && <ul>
         {items.map(item => <li key={item.uuid}>

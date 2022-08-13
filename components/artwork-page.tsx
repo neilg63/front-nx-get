@@ -13,10 +13,12 @@ const ArtworkPage: NextPage<BaseEntity> = (data) => {
       <h1><Link href={nextAlias}><a>{entity.title}</a></Link></h1>
       {entity.hasSubtitle && <h3 className="subitlte">{parse(entity.field_subtitle)}</h3>}
       {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
-      {entity.hasImages && entity.images.map((item:MediaItem) => <figure key={item.uuid}>
-        <img srcSet={item.toImageSrc()} src={item.size('ax_1300x1300')} alt={item.alt} />
+    {entity.hasImages && <section className="media-items">
+      {entity.images.map((item:MediaItem) => <figure key={item.uuid}>
+        <img srcSet={item.srcSet} src={item.medium} alt={item.alt} />
         <figcaption>{item.field_credit}</figcaption>
       </figure>)}
+    </section>}
   </article>
 }
 

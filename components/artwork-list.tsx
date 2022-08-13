@@ -12,7 +12,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
     {hasItems && <ul>
         {items.map(item => <li key={item.uuid}>
           <Link href={item.path}><a>
-            {item.hasImage && <img src={item.firstImage.size('max_650x650')} alt={item.title} />}
+            {item.hasImage && <img src={item.firstImage.preview} alt={item.title} />}
             <span className="text">{item.title}</span>
           </a></Link>
         </li>)} 

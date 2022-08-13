@@ -1,18 +1,22 @@
 import { NextPage } from "next";
-import parse from "html-react-parser";
 import Link from 'next/link';
-import { SiteInfo } from "../lib/api-view-results";
-import { NodeEntity } from "../lib/entity-data";
+import { BaseEntity } from "../lib/api-view-results";
+import { NodeEntity, PageDataSet } from "../lib/entity-data";
+import { mediumDate } from "../lib/converters";
 
-const NewsList: NextPage<{items: NodeEntity[], siteData: SiteInfo }> = ({items} ) => {  
+const NewsList: NextPage<BaseEntity> = (data) => {  
+  const pageData = new PageDataSet(data);
+  const { items } = pageData;
   const hasItems = items.length > 0;
-  return <section className="artwork-list">
+  return <section className="news-list">
     {hasItems && <ul>
-        {items.map(item => <li key={item.uuid}>
-          <Link href={item.path}><a>
-            {item.hasImage && <img src={item.firstImage.size('max_650x650')} alt={item.title} />}  
+      {items.map((item: NodeEntity) => <li key={item.uuid}>
+        <time>{ mediumDate(item.field_date) }</time>
+          <h3><Link href={item.path}><a>
+            {item.hasImage && <img src={item.firstImage.preview} alt={item.title} />}  
             <span className="text">{item.title}</span>
-          </a></Link>
+          </a></Link></h3>
+          <summary>{item.summary}</summary>
         </li>)} 
       </ul>}
   </section>

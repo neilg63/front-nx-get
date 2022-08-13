@@ -175,8 +175,12 @@ export class MediaItem {
     return this.imageStyles.length ? toImageSrcSet(this.imageStyles) : "";
   }
 
-  toImageSrc() {
-    return this.srcSet;
+  get medium() {
+    return this.size("max_1300x1300");
+  }
+
+  get preview() {
+    return this.size("max_650x650");
   }
 }
 
@@ -189,6 +193,7 @@ export class NodeEntity {
   title = "";
   bundle = "";
   body = "";
+  summary = "";
   promote = false;
   sticky = false;
   field_images: MediaItem[] = [];
@@ -239,8 +244,8 @@ export class NodeEntity {
           this.field_images = value.map((row: any) => new MediaItem(row));
         } else if (isObjectWith(value, "name") && taxFields.includes(key)) {
           this[key] = new TaxTerm(value);
-        } else if (isObjectWith(value, "name") && taxFields.includes(key)) {
-          this[key] = new TaxTerm(value);
+        } else if (entityFields.includes(key) && value instanceof Array) {
+          this[key] = value.map((item: any) => new NodeEntity(item));
         } else if (
           isArrayOfObjectsWith(value, "name") &&
           key === "field_tags"
@@ -300,6 +305,22 @@ export class NodeEntity {
 
   get images() {
     return this.hasImages ? this.field_images : [];
+  }
+
+  get tagList(): string {
+    if (this.field_tags instanceof Array && this.field_tags.length > 0) {
+      return this.field_tags.map((tm) => tm.name).join(", ");
+    } else {
+      return "";
+    }
+  }
+
+  get key() {
+    return notEmptyString(this.uuid)
+      ? this.uuid
+      : this.tid > 0
+      ? ["tid", this.tid].join("-")
+      : ["nid", this.nid].join("-");
   }
 }
 

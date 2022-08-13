@@ -17,7 +17,7 @@ const About: NextPage<PageDataSet> = ({ entity, site, meta} ) => {
       <h3 className="subtitle">{parse(entity.field_subtitle)}</h3>
       <div className="body">{parse(entity.body)}</div>
       {hasImages && images.map((item:MediaItem) => <figure key={item.uuid}>
-        <img srcSet={item.toImageSrc()} src={item.size('max_1300x1300')} alt={item.alt} />
+        <img srcSet={item.srcSet} src={item.medium} alt={item.alt} />
         <figcaption>{item.field_credit}</figcaption>
       </figure>)}
     </article>

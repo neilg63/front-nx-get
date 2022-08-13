@@ -5,46 +5,6 @@ export interface BaseEntity {
   [key: string]: any;
 }
 
-export class BasicNodeInfo {
-  uuid = "";
-  nid = 0;
-  title = "";
-  alias = "";
-  changed = 0;
-  constructor(inData: any = null) {
-    if (inData instanceof Object) {
-      const { uuid, nid, title, alias, changed } = inData;
-      if (uuid) {
-        this.uuid = uuid.toString();
-      }
-      if (nid) {
-        this.nid = nid;
-      }
-      if (title) {
-        this.title = title.toString();
-      }
-      if (alias) {
-        this.alias = alias.toString();
-      }
-      if (typeof changed === "number") {
-        this.changed = changed;
-      }
-    }
-  }
-
-  get hasUuid() {
-    return this.uuid.length > 16;
-  }
-
-  get age() {
-    return new Date().getTime() / 1000 - this.changed;
-  }
-
-  get daysOld() {
-    return this.age / (24 * 60 * 60);
-  }
-}
-
 export class SimpleMenuItem {
   path = "";
   title = "";
@@ -147,25 +107,6 @@ export const fetchApiViewResults = async (
   return data;
 };
 
-export const fetchNodeInfoResults = async (
-  path: string
-): Promise<BasicNodeInfo[]> => {
-  const key = path
-    .replace(/^\//, "")
-    .replace(/\/+/g, "--")
-    .replace("artworks--", "artwork--");
-  const uri = [
-    process.env.NEXT_PUBLIC_DRUPAL_BASE_URL,
-    "jsonuuid",
-    "node",
-    key,
-  ].join("/");
-  const res = await fetch(uri);
-  const data = res.status >= 200 && res.status < 300 ? await res.json() : [];
-  const results = data instanceof Array ? data : [];
-  return results.map((item) => new BasicNodeInfo(item));
-};
-
 export const fetchFullNode = async (path: string): Promise<BaseEntity> => {
   const key = path.replace(/^\//, "");
   const uri =
@@ -175,11 +116,6 @@ export const fetchFullNode = async (path: string): Promise<BaseEntity> => {
   const res = await fetch(uri);
   const data = res.status >= 200 && res.status < 300 ? await res.json() : {};
   return data;
-};
-
-export const fetchNodeInfo = async (path: string): Promise<BasicNodeInfo> => {
-  const results = await fetchNodeInfoResults(path);
-  return results.length > 0 ? results[0] : new BasicNodeInfo();
 };
 
 export const getSiteInfo = async (): Promise<SiteInfo> => {

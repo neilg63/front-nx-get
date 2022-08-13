@@ -19,8 +19,6 @@ const Layout = (data: BaseEntity) => {
   const wrapperClasses = '';
   const pageData = new PageDataSet(data)
   const { site, meta } = pageData;
-
-  console.log(site.menus.main)
   const footer = site instanceof Object ? site.menus.footer : [];
   return (
     <>

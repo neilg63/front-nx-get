@@ -1,29 +1,23 @@
 import { NextPage } from "next";
 import parse from "html-react-parser";
 import Link from 'next/link';
-import { toImageSrc, toImageSrcSet } from "../lib/ui-entity";
-import { notEmptyString } from "../lib/utils";
-import { NodeEntity } from "../lib/entity-data";
+import { MediaItem, NodeEntity, PageDataSet } from "../lib/entity-data";
+import { BaseEntity } from "../lib/api-view-results";
 
-const NewsPage: NextPage<{entity: NodeEntity}> = ({entity}: {entity: NodeEntity} ) => {  
-  const keys = Object.keys(entity);
-  console.log( entity.field_images)
-  const hasImage = entity.field_images instanceof Array && entity.field_images.length > 0;
-  const image = entity.firstImage;
-  
-  const hasBody = keys.includes('body') && notEmptyString(entity.body);
-  const hasSubtitle = keys.includes('subtitle');
+const NewsPage: NextPage<BaseEntity> = (data) => {  
+  const pageData = new PageDataSet(data);
+  const { entity } = pageData;
   const nextAlias = '/news';
   return <article className="news">
-    {hasBody && <>
-      <h1><Link href={nextAlias}><a>{entity.title}</a></Link></h1>
-      {hasSubtitle && <h3 className="subitlte">{parse(entity.field_subtitle)}</h3>}
-      {hasBody && <div className="body">{parse(entity.body)}</div>}
-      {hasImage && <figure key={image.id}>
-        <img srcSet={toImageSrcSet(image)} src={toImageSrc(image)} alt={image.alt} />
-        <figcaption>{image.field_credit}</figcaption>
-      </figure>}
-    </>}
+    <h1><Link href={nextAlias}><a>{entity.title}</a></Link></h1>
+    {entity.hasSubtitle && <h3 className="subitlte">{parse(entity.field_subtitle)}</h3>}
+    {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
+    {entity.hasImages && <section className="media-items">
+      {entity.images.map((item:MediaItem) => <figure key={item.uuid}>
+        <img srcSet={item.srcSet} src={item.medium} alt={item.alt} />
+        <figcaption>{item.field_credit}</figcaption>
+      </figure>)}
+    </section>}
   </article>
 }
 
