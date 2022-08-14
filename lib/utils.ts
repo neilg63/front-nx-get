@@ -142,3 +142,22 @@ export const toFullUri = (uri: string): string => {
     return uri;
   }
 };
+
+export const extractQueryParamsFromContext = (context: any) => {
+  const entries =
+    context instanceof Object && context.query instanceof Object
+      ? Object.entries(context.query)
+      : [];
+  return new Map(entries);
+};
+
+/*
+Convert contextual query string page number of page index (0 => page 1)
+*/
+export const extractPageIndexFromContext = (context: any) => {
+  const paramMap = extractQueryParamsFromContext(context);
+  const pageRef = paramMap.has("page")
+    ? smartCastInt(paramMap.get("page"), 10)
+    : 1;
+  return pageRef > 1 ? pageRef - 1 : 0;
+};

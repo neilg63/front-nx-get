@@ -3,13 +3,15 @@ import Link from 'next/link';
 import { BaseEntity } from "../lib/api-view-results";
 import { NodeEntity, PageDataSet } from "../lib/entity-data";
 import { mediumDate } from "../lib/converters";
+import Paginator from "./widgets/paginator";
 
 const NewsList: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
   const { items } = pageData;
   const hasItems = items.length > 0;
   return <section className="news-list">
-    {hasItems && <ul>
+    {hasItems && <>
+      <ul>
       {items.map((item: NodeEntity) => <li key={item.uuid}>
         <time>{ mediumDate(item.field_date) }</time>
           <h3><Link href={item.path}><a>
@@ -18,7 +20,9 @@ const NewsList: NextPage<BaseEntity> = (data) => {
           </a></Link></h3>
           <summary>{item.summary}</summary>
         </li>)} 
-      </ul>}
+      </ul>
+      <Paginator pageData={pageData} maxLinks={10} />
+    </>}
   </section>
 }
 
