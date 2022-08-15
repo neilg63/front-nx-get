@@ -1,7 +1,8 @@
-import Link from 'next/link';
+import { Pagination } from '@nextui-org/react';
+import { NextRouter, useRouter } from 'next/router';
 import { PageDataSet } from '../../lib/entity-data';
 
-const buildNavItems = (pageData: PageDataSet, maxLinks = 10) => {
+/* const buildNavItems = (pageData: PageDataSet, maxLinks = 10) => {
   const { page, perPage, total, meta } = pageData;
   if (!maxLinks) {
     maxLinks = 10;
@@ -67,20 +68,22 @@ const buildNavItems = (pageData: PageDataSet, maxLinks = 10) => {
     })
   }
   return items;
+} */
+
+const goToPaginated = (page: number, base: string, router: NextRouter) => {
+  const href = `${base}?page=${page}`;
+  router.push(href);
 }
 
 const Paginator = ({pageData, maxLinks}: {pageData: PageDataSet, maxLinks: number}) => {
-  const navItems = buildNavItems(pageData, maxLinks);
+  //const navItems = buildNavItems(pageData, maxLinks);
+  const { page, perPage, total, meta } = pageData;
+  const numPages = Math.ceil(total / perPage);
+  const pageNum = page + 1;
+  const basePath = pageData.meta.path;
+  const router = useRouter();
   return (
-    <nav className='paginator'>
-      <ul className='pages'>
-      {navItems.map(item => {
-        return <li key={item.key} className={item.classNames}>
-          <Link href={item.path}><a>{item.title}</a></Link>
-        </li>
-      })}
-      </ul>
-    </nav>
+    <Pagination total={numPages} initialPage={pageNum} onChange={page => goToPaginated(page, basePath, router)} />
   );
 }
 

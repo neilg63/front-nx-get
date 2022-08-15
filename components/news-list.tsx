@@ -17,7 +17,7 @@ const NewsList: NextPage<BaseEntity> = (data) => {
       {items.map((item: NodeEntity) => <li key={item.uuid}>
         <time>{ mediumDate(item.field_date) }</time>
           <h3><Link href={item.path}><a>
-            {item.hasImage && <Image loader={defaultImageLoader} src={item.preview} alt={item.alt} width={item.calcWidth('preview')} height={item.calcHeight('preview')} />}
+            {item.hasImage && <Image loader={defaultImageLoader} src={item.firstImage.preview} alt={item.alt} width={item.firstImage.calcWidth('preview')} height={item.firstImage.calcHeight('preview')} />}
             <span className="text">{item.title}</span>
           </a></Link></h3>
           <summary>{item.summary}</summary>

@@ -5,6 +5,8 @@ import { MetaDataSet } from "../lib/ui-entity";
 import { BaseEntity, SiteInfo } from "../lib/api-view-results";
 import { NodeEntity, PageDataSet } from "../lib/entity-data";
 import Paginator from "./widgets/paginator";
+import Image from "next/image";
+import { defaultImageLoader } from "../lib/utils";
 
 const ExhibitionList: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
@@ -15,10 +17,10 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
       <ul>
           {items.map(item => <li key={item.uuid}>
             <Link href={item.path}><a>
-              {item.hasImage && <img src={item.firstImage.size('max_650x650')} alt={item.title} />}  
+              {item.hasImage && <Image loader={defaultImageLoader} src={item.firstImage.preview} alt={item.alt} width={item.firstImage.calcWidth('preview')} height={item.firstImage.calcHeight('preview')} />}
               <span className="text">{item.title}</span>
             </a></Link>
-          </li>)} 
+          </li>)}
       </ul>
       <Paginator pageData={pageData} maxLinks={10} />
     </>}
