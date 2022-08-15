@@ -219,8 +219,8 @@ export class MediaItem {
       const ar = this.width! / this.height!;
       const hp = this.height! / dims.height;
       const wp = this.width! / dims.width!;
-      height = wp > hp ? dims.height : dims.height / ar;
-      width = wp > hp ? dims.width / ar : dims.width;
+      height = wp < hp ? dims.height : dims.height / ar;
+      width = wp < hp ? dims.width / ar : dims.width;
     }
     return { width, height };
   }

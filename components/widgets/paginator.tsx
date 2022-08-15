@@ -77,13 +77,14 @@ const goToPaginated = (page: number, base: string, router: NextRouter) => {
 
 const Paginator = ({pageData, maxLinks}: {pageData: PageDataSet, maxLinks: number}) => {
   //const navItems = buildNavItems(pageData, maxLinks);
+  const maxSiblings = Math.floor(maxLinks / 2);
   const { page, perPage, total, meta } = pageData;
   const numPages = Math.ceil(total / perPage);
   const pageNum = page + 1;
   const basePath = pageData.meta.path;
   const router = useRouter();
   return (
-    <Pagination total={numPages} initialPage={pageNum} onChange={page => goToPaginated(page, basePath, router)} />
+    <Pagination total={numPages} initialPage={pageNum} onChange={page => goToPaginated(page, basePath, router)} siblings={maxSiblings} rounded={false} />
   );
 }
 

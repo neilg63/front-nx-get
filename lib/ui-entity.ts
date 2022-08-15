@@ -2,6 +2,14 @@ import { notEmptyString } from "./utils";
 
 const imageStyles = ["max_650x650", "max_1300x1300", "max_2600x2600"];
 
+const correctLocalPath = (path = "") => {
+  if (path.startsWith("/") === false && path.startsWith("https://") === false) {
+    return "/" + path;
+  } else {
+    return path;
+  }
+};
+
 export class MetaDataSet {
   title = "";
   description = "";
@@ -17,8 +25,10 @@ export class MetaDataSet {
             case "title":
             case "description":
             case "image":
-            case "path":
               this[key] = value;
+              break;
+            case "path":
+              this[key] = correctLocalPath(value);
               break;
           }
         } else if (value instanceof Array && key === "keywords") {

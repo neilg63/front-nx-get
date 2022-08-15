@@ -11,8 +11,7 @@ body {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: Helvetica Neue, sans-serif;
   color: $dark;
   background-color: $light;
 }
@@ -140,6 +139,23 @@ body .nprogress {
 
 .grid {
   display: grid;
+  figure {
+    position: relative;
+    figcaption {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 1em 5%;
+      background-color: rgba($light, 0.5);
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+    &:hover figcaption {
+      opacity: 1;
+    }
+  }
 }
 
 figure {
@@ -154,4 +170,8 @@ figure {
 .grid-6 {
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   column-gap: 2.5%;
+}
+
+#nextui-tooltip {
+  border: solid 1px $mid-grey;
 }

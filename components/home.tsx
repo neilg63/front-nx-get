@@ -16,7 +16,7 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
     <ul className="tag-list">
       {items.map((item) => {
         return <li key={item.key}>
-          <Tooltip content={numRelatedLabel(item.num_related)}><Link href={item.path}><a>{item.title}</a></Link></Tooltip>
+          <Tooltip content={numRelatedLabel(item.num_related)} rounded={false} shadow={false} className='bordered'><Link href={item.path}><a>{item.title}</a></Link></Tooltip>
         </li>
       })}
     </ul>

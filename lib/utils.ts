@@ -72,8 +72,14 @@ export const truncatePlain = (val: string, maxChars = 200) => {
   return str;
 };
 
-export const defaultImageLoader = ({ src }: { src: string }) => {
-  return src;
+export const defaultImageLoader = ({
+  src,
+  width,
+}: {
+  src: string;
+  width: number;
+}) => {
+  return src + `?w=${width}`;
 };
 
 const objectToString = (obj: any): string => {

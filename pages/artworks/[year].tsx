@@ -17,8 +17,8 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
     }
   }
   if (y < 1960 && notEmptyString(yearRef, 2)) {
-    first = 'artworks-by-tag';
-    second = yearRef;
+    first = yearRef.startsWith('tag--') || yearRef.startsWith('tags--')? 'artworks-by-tag' : 'artworks-by-type';
+    second = yearRef.includes('--')? yearRef.split('--').pop() : yearRef;
   } else {
     second = y.toString();
   }
