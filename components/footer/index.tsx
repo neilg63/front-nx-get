@@ -1,18 +1,15 @@
 import Link from "next/link";
-import { SimpleMenuItem } from "../../lib/api-view-results";
+import { SimpleMenuItem, SiteInfo } from "../../lib/api-view-results";
 import styles from './styles.module.scss';
 
-interface FooterLaboutProps { 
-  menu: SimpleMenuItem[];
-}
-
-const Footer = ({menu}: FooterLaboutProps) => {
+const Footer = ({ site }: SiteInfo) => {
+  const menu = site.menus.footer;
   return (
     <footer className='container'>
       <div className={styles.wrapper}>
         <nav>
           <ul>
-            {menu.map(item => {
+            {menu.map((item: SimpleMenuItem) => {
               return <li key={item.path}>
                 <Link href={item.path}><a>{item.title}</a></Link>
               </li>

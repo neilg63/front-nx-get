@@ -4,6 +4,7 @@ import { CssBaseline } from '@nextui-org/react';
 import { PageDataSet } from '../lib/entity-data';
 import Header from '../components/header';
 import { isObjectWith } from '../lib/utils';
+import Footer from '../components/footer';
 
 class AppDocument extends Document {
   static async getInitialProps(ctx: any) {
@@ -19,7 +20,7 @@ class AppDocument extends Document {
     const { props } = __NEXT_DATA__;
     const data: any = isObjectWith(props, 'pageProps')? props.pageProps : {};
     const pageData = new PageDataSet(data)
-    const { meta } = pageData;
+    const { meta, site } = pageData;
     return (
       <Html lang="en">
         <Head title={meta.title}>
@@ -39,6 +40,7 @@ class AppDocument extends Document {
           <Header {...pageData} />
           <Main />
           <NextScript />
+          <Footer {...site} />
         </body>
       </Html>
     );
