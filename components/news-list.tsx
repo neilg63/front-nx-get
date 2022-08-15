@@ -4,6 +4,8 @@ import { BaseEntity } from "../lib/api-view-results";
 import { NodeEntity, PageDataSet } from "../lib/entity-data";
 import { mediumDate } from "../lib/converters";
 import Paginator from "./widgets/paginator";
+import Image from "next/image";
+import { defaultImageLoader } from "../lib/utils";
 
 const NewsList: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
@@ -15,7 +17,7 @@ const NewsList: NextPage<BaseEntity> = (data) => {
       {items.map((item: NodeEntity) => <li key={item.uuid}>
         <time>{ mediumDate(item.field_date) }</time>
           <h3><Link href={item.path}><a>
-            {item.hasImage && <img src={item.firstImage.preview} alt={item.title} />}  
+            {item.hasImage && <Image loader={defaultImageLoader} src={item.preview} alt={item.alt} width={item.calcWidth('preview')} height={item.calcHeight('preview')} />}
             <span className="text">{item.title}</span>
           </a></Link></h3>
           <summary>{item.summary}</summary>

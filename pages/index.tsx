@@ -1,5 +1,4 @@
 import type { NextPage, GetServerSideProps } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 import { BaseEntity, fetchApiViewResults } from '../lib/api-view-results'
 import { PageDataSet } from '../lib/entity-data'
@@ -26,9 +25,7 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
 export const getServerSideProps: GetServerSideProps = async () => {
   const pageData = await fetchApiViewResults('tags');
   return {
-    props: {
-      ...pageData
-    },
+    props: pageData,
   }
 }
 

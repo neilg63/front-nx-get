@@ -17,3 +17,17 @@ export const mediumDate = (dtRef: string | Date): string => {
   const dt = typeof dtRef === "string" ? new Date(expandDate(dtRef)) : dtRef;
   return format(dt, "d LLLL yyyy");
 };
+
+export const sanitize = (str: string, separator = "-") => {
+  return str
+    .toLowerCase()
+    .trim()
+    .replace(/[éèë]+/g, "e")
+    .replace(/[ìíïî]+/g, "i")
+    .replace(/[òóõôöø]+/g, "o")
+    .replace(/[ùûúü]+/g, "u")
+    .replace(/[ŝśšṡ]+/g, "s")
+    .replace(/[ß]+/g, "ss")
+    .replace(/[^a-z0-9]+/g, separator)
+    .replace(/([a-z0-9])[^a-z0-9]+$/, "$1");
+};

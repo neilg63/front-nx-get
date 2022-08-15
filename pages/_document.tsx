@@ -37,10 +37,8 @@ class AppDocument extends Document {
           {CssBaseline.flush()}
         </Head>
         <body>
-          <Header {...pageData} />
           <Main />
           <NextScript />
-          <Footer {...site} />
         </body>
       </Html>
     );

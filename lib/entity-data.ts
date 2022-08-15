@@ -1,4 +1,5 @@
 import { SiteInfo, SiteInfoCore } from "./api-view-results";
+import { sanitize } from "./converters";
 import { MetaDataSet } from "./ui-entity";
 import {
   isArrayOfObjectsWith,
@@ -41,6 +42,14 @@ export class TaxTerm {
 
   get hasName() {
     return notEmptyString(this.name);
+  }
+
+  get slug() {
+    return sanitize(this.name);
+  }
+
+  get key() {
+    return ["term", this.uuid, this.name].join("-");
   }
 
   toString(): string {
@@ -304,7 +313,7 @@ export class NodeEntity {
           isArrayOfObjectsWith(value, "name") &&
           key === "field_tags"
         ) {
-          this.fieldTags = value
+          this.field_tags = value
             .map((row: any) => new TaxTerm(row))
             .filter((term: TaxTerm) => term.hasName);
         } else {

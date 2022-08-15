@@ -2,7 +2,7 @@ import Link from "next/link";
 import { SimpleMenuItem, SiteInfo } from "../../lib/api-view-results";
 import styles from './styles.module.scss';
 
-const Footer = ({ site }: SiteInfo) => {
+const Footer = ({ site }: {site: SiteInfo}) => {
   const menu = site.menus.footer;
   return (
     <footer className='container'>

@@ -17,7 +17,17 @@ a {
   box-sizing: border-box;
 }
 
-.main-wrapper {
+.top-nav {
+  > ul {
+    display: flex;
+    flex-flow: row wrap;
+    li {
+      padding: 0.5em 1em;
+    }
+  }
+}
+
+.gt-outer body > div > div {
   position: relative;
   min-height: 100vh;
   margin: 0 auto;
@@ -62,3 +72,28 @@ a {
   }
 }
 
+.row {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+ul, ol {
+  &.row {
+    list-style: none;
+  }
+  &.terms {
+    li {
+      padding: 0.25em 1em 0.25em 0;
+      a {
+        &::after {
+          content: ",";
+        }
+      }
+      &:last-child {
+        a::after {
+          content: "";
+        }
+      }
+    }
+  }
+}

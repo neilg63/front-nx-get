@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import parse from "html-react-parser";
 import Link from 'next/link';
 import { defaultImageLoader } from "../lib/utils";
-import { MediaItem, NodeEntity, PageDataSet } from "../lib/entity-data";
+import { MediaItem, PageDataSet } from "../lib/entity-data";
 import { BaseEntity } from "../lib/api-view-results";
 import Image from "next/image";
 
