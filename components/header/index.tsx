@@ -3,8 +3,7 @@ import { BaseEntity, SiteInfo } from '../../lib/api-view-results';
 import { PageDataSet } from '../../lib/entity-data';
 import styles from './styles.module.scss';
 
-const Header = (data: BaseEntity) => {
-  const pageData = new PageDataSet(data)
+const Header = (pageData: PageDataSet) => {
   const { site } = pageData;
   const main = site instanceof SiteInfo ? site.menus.main : [];
   return (

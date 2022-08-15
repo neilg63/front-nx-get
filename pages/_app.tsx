@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Router, { useRouter } from 'next/router';
+import { NextUIProvider } from '@nextui-org/react';
 import '../styles/globals.scss'
 import type { AppProps } from 'next/app'
-import Head from 'next/head'
-import Image from 'next/image'
 import Layout from '../components/layout'
 import { QueryClient, QueryClientProvider, Hydrate } from "@tanstack/react-query"
 import NProgress from "nprogress"
@@ -54,19 +53,16 @@ export default function App({ Component, pageProps }: AppProps) {
   }
   return   <QueryClientProvider client={queryClientRef.current}>
     <Hydrate state={pageProps.dehydratedState}>
-    <TopContext.Provider value={{
-    height,
-    width,
-    setHeight,
-    setWidth,
-    }}>
-    <Layout {...pageProps} wrapperClasses={wrapperClassName}>
-
-      <main className={styles.main}>
-        <Component {...pageProps } path={asPath} />
-      </main>
-  </Layout>
-  </TopContext.Provider>
-  </Hydrate>
+      <TopContext.Provider value={{
+      height,
+      width,
+      setHeight,
+      setWidth,
+        }}>
+       <NextUIProvider {...pageProps}>
+           <Component {...pageProps } path={asPath} />
+        </NextUIProvider>
+    </TopContext.Provider>
+    </Hydrate>
   </QueryClientProvider>
 }

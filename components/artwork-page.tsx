@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { defaultImageLoader } from "../lib/utils";
 import { MediaItem, NodeEntity, PageDataSet } from "../lib/entity-data";
 import { BaseEntity } from "../lib/api-view-results";
+import Image from "next/image";
 
 const ArtworkPage: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
@@ -14,8 +15,8 @@ const ArtworkPage: NextPage<BaseEntity> = (data) => {
       {entity.hasSubtitle && <h3 className="subitlte">{parse(entity.field_subtitle)}</h3>}
       {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
     {entity.hasImages && <section className="media-items">
-      {entity.images.map((item:MediaItem) => <figure key={item.uuid}>
-        <img srcSet={item.srcSet} src={item.medium} alt={item.alt} />
+      {entity.images.map((item: MediaItem) => <figure key={item.uri} data-key={item.uri} data-dims={item.dims('medium')}>
+        <Image loader={defaultImageLoader}  sizes={item.srcSet} src={item.medium} alt={item.alt} width={item.calcWidth('medium')} height={item.calcHeight('medium')} />
         <figcaption>{item.field_credit}</figcaption>
       </figure>)}
     </section>}

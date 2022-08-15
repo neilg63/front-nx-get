@@ -10,15 +10,15 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
   const { items } = pageData
   const hasItems = items instanceof Array && items.length > 0;
   return <section className="artwork-list">
-    {hasItems && <><ul>
-        {items.map(item => <li key={item.uuid}>
+    {hasItems && <><section className="column">
+      {items.map(item => <article key={item.uuid} data-key={item.uuid}>
             <Link href={item.path}><a>
               {item.hasImage && <img src={item.firstImage.preview} alt={item.title} />}
               <span className="text">{item.title}</span>
             </a></Link>
-          </li>)} 
-      </ul>
-      <Paginator pageData={pageData} maxLinks={10} />
+          </article>)} 
+      </section>
+      <Paginator pageData={pageData} maxLinks={8} />
     </>}
   </section>
 }

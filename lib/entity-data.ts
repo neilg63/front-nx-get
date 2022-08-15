@@ -5,6 +5,7 @@ import {
   isNumeric,
   isObjectWith,
   notEmptyString,
+  smartCastInt,
   toFullUri,
 } from "./utils";
 
@@ -15,6 +16,11 @@ export interface CTConfigSet {
 export interface KeyStringValue {
   key: string;
   value: string;
+}
+
+export interface Dims2D {
+  width: number;
+  height: number;
 }
 
 export class TaxTerm {
@@ -75,13 +81,33 @@ const toImageStyles = (
   return styles;
 };
 
-/* const toImageSrcSetFromAttrs = (imgs: ImageStyleAttrs[]) => {
-  return imgs.map((img) => [img.uri, img.size].join(" ")).join(", ");
+export const imageSizeRef = (size: string): string => {
+  switch (size) {
+    case "preview":
+      return "max_650x650";
+    case "large":
+      return "max_2600x2600";
+    default:
+      return "max_1300x1300";
+  }
 };
 
-const toImageSrcFromAttrs = (imgs: ImageStyleAttrs[]) => {
-  return imgs.length > 0 ? imgs[0].uri : "";
-}; */
+export const calcMaxSize = (size: string): Dims2D => {
+  let width = 650;
+  let height = 650;
+  const segments = imageSizeRef(size).split("_");
+  if (segments.length > 0) {
+    const refStr = segments.pop();
+    if (typeof refStr === "string" && refStr.includes("x")) {
+      const [w, h] = refStr.split("x").map((s) => smartCastInt(s));
+      if (w > 0 && h > 0) {
+        width = w;
+        height = h;
+      }
+    }
+  }
+  return { width, height };
+};
 
 export const toImageSrcSet = (row: any = null) => {
   const imgs = toImageStyles(row);
@@ -90,6 +116,7 @@ export const toImageSrcSet = (row: any = null) => {
 
 export const toImageSrc = (row: any = null) => {
   const imgs = toImageStyles(row);
+  console.log(imgs);
   return imgs.length > 0 ? toFullUri(imgs[0].uri) : "";
 };
 
@@ -175,12 +202,39 @@ export class MediaItem {
     return this.imageStyles.length ? toImageSrcSet(this.imageStyles) : "";
   }
 
+  calcTargetDims(size: string): Dims2D {
+    const dims = calcMaxSize(size);
+    let height = dims.height;
+    let width = dims.width;
+    if (this.width) {
+      const ar = this.width! / this.height!;
+      const hp = this.height! / dims.height;
+      const wp = this.width! / dims.width!;
+      height = wp > hp ? dims.height : dims.height / ar;
+      width = wp > hp ? dims.width / ar : dims.width;
+    }
+    return { width, height };
+  }
+
+  calcHeight(size: string): number {
+    return this.calcTargetDims(size).height;
+  }
+
+  calcWidth(size: string): number {
+    return this.calcTargetDims(size).width;
+  }
+
   get medium() {
     return this.size("max_1300x1300");
   }
 
   get preview() {
     return this.size("max_650x650");
+  }
+
+  dims(size: string) {
+    const dims = calcMaxSize(size);
+    return `${dims.width}x${dims.height}`;
   }
 }
 
