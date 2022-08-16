@@ -17,10 +17,10 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
   const hasItems = items instanceof Array && items.length > 0;
   const basePath = '/artworks/';
   return <section className="artwork-list">
-    {hasItems && <><div className="grid grid-6">
-      {items.map(item => <figure key={item.uuid} data-key={item.uuid} data-dims={item.firstImage.dims('medium')}>
-          <Link href={item.path} className="image-holder"><a>
-            {item.hasImage && <Image loader={defaultImageLoader} src={item.firstImage.preview} alt={item.alt} width={item.firstImage.calcWidth('preview')} height={item.firstImage.calcHeight('preview')} />}
+    {hasItems && <><div className="flex-rows-6">
+      {items.map(item => <figure key={item.uuid} data-key={item.uuid} data-dims={item.firstImage.dims('medium')} style={item.firstImage.calcAspectStyle()}>
+          <Link href={item.path} className="image-holder"><a className="image-link">
+            {item.hasImage && <Image loader={defaultImageLoader} src={item.firstImage.preview} alt={item.alt} width={item.firstImage.calcWidth('preview')} height={item.firstImage.calcHeight('preview')} objectFit='contain' layout='intrinsic' />}
             </a></Link>
           <figcaption>
           <h3><Link href={item.path}><a>{item.title}</a></Link></h3>

@@ -6,6 +6,8 @@ import { mediumDate } from "../lib/converters";
 import Paginator from "./widgets/paginator";
 import Image from "next/image";
 import { defaultImageLoader } from "../lib/utils";
+import DownloadLink from "./widgets/download-link";
+import labels from "../lib/labels";
 
 const PressList: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
@@ -20,10 +22,12 @@ const PressList: NextPage<BaseEntity> = (data) => {
           <h3><Link href={item.path}><a>
             {item.hasImage && <Image loader={defaultImageLoader} src={item.firstImage.preview} alt={item.alt} width={item.firstImage.calcWidth('preview')} height={item.firstImage.calcHeight('preview')} />}
             <span className="text">{item.title}</span>
-          </a></Link></h3>
+        </a></Link></h3>
+        <p>{item.field_source}</p>
+        <DownloadLink item={item.field_document!} label={ labels.downloadPdf} />
         </li>)} 
       </ul>
-      {showPaginator && <Paginator pageData={pageData} maxLinks={10} />}
+      {showPaginator && <Paginator pageData={pageData} maxLinks={8} />}
     </>}
   </section>
 }

@@ -1,4 +1,8 @@
 $max-screen-width: 1800px;
+$large-screen-width: 1350px;
+$mid-screen-width: 900px;
+$mini-screen-width: 673px;
+$small-screen-width: 450px;
 
 $dark: #333333;
 $mid-grey: #999999;
@@ -137,6 +141,8 @@ body .nprogress {
   width: 100vw;
 }
 
+.flex-rows-6,
+.grid-rows-6,
 .grid {
   display: grid;
   figure {
@@ -167,9 +173,39 @@ figure {
   }
 }
 
-.grid-6 {
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  column-gap: 2.5%;
+.flex-rows-6 {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: stretch;
+  justify-content: space-between;
+  > figure {
+    width: 100%;
+    @media screen and (min-width: $mini-screen-width) {
+      height: 30vh;
+      width: auto;
+    }
+    @media screen and (min-width: $mid-screen-width) {
+      height: 20vh;
+      width: auto;
+    }
+    position: relative;
+    padding: 1vh;
+    .image-link {
+      display: block;
+      max-height: 100%;
+      span {
+        max-height: 100%;
+      }
+    }
+  }
+}
+
+.grid-rows-6 {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto;
+  figure {
+    max-height: 20vh;
+  }
 }
 
 #nextui-tooltip {

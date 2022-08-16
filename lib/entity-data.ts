@@ -185,8 +185,16 @@ export class MediaItem {
     return this.type === "image";
   }
 
+  get isDocument() {
+    return this.type === "document";
+  }
+
   get hasSizes() {
     return this.sizes instanceof Map && this.sizes.size > 0;
+  }
+
+  get src() {
+    return toFullUri(this.uri);
   }
 
   size(key = ""): string {
@@ -211,7 +219,7 @@ export class MediaItem {
     return this.imageStyles.length ? toImageSrcSet(this.imageStyles) : "";
   }
 
-  calcTargetDims(size: string): Dims2D {
+  calcTargetDims(size: string, round = false): Dims2D {
     const dims = calcMaxSize(size);
     let height = dims.height;
     let width = dims.width;
@@ -222,7 +230,11 @@ export class MediaItem {
       height = wp < hp ? dims.height : dims.height / ar;
       width = wp < hp ? dims.width * ar : dims.width;
     }
-    return { width, height };
+    if (round) {
+      return { width: Math.round(width), height: Math.round(height) };
+    } else {
+      return { width, height };
+    }
   }
 
   calcHeight(size: string): number {
@@ -242,8 +254,12 @@ export class MediaItem {
   }
 
   dims(size: string) {
-    const dims = calcMaxSize(size);
+    const dims = this.calcTargetDims(size, true);
     return `${dims.width}x${dims.height}`;
+  }
+  calcAspectStyle() {
+    const ar = this.width! / this.height!;
+    return { aspectRatio: ar.toString() };
   }
 }
 
@@ -356,6 +372,12 @@ export class NodeEntity {
     return (
       (this.field_media instanceof MediaItem && this.field_media.isImage) ||
       this.hasImages
+    );
+  }
+
+  get hasDocument() {
+    return (
+      this.field_document instanceof MediaItem && this.field_document.isDocument
     );
   }
 
