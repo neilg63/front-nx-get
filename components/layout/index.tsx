@@ -1,25 +1,14 @@
 import Head from 'next/head';
-import { BaseEntity, SiteInfo } from '../../lib/api-view-results';
-import { NodeEntity, PageDataSet } from '../../lib/entity-data';
-import { MetaDataSet } from '../../lib/ui-entity';
+import { BaseEntity } from '../../lib/api-view-results';
+import { PageDataSet } from '../../lib/entity-data';
 import Footer from '../footer';
 import Header from "../header";
-
-export interface LayoutProps {
-  site: SiteInfo,
-  items?: NodeEntity[],
-  entity?: NodeEntity,
-  children?: React.ReactNode,
-  wrapperClasses?: string
-  meta: MetaDataSet
-}
 
 const Layout = (data: BaseEntity) => {
   const { children } = data;
   const wrapperClasses = '';
   const pageData = new PageDataSet(data)
   const { site, meta } = pageData;
-  const footer = site instanceof Object ? site.menus.footer : [];
   return (
     <>
       <Head>
@@ -37,12 +26,10 @@ const Layout = (data: BaseEntity) => {
       </Head>
       
       <div className={wrapperClasses}>
-        <Header site={site}/>
+        <Header {...pageData} />
           {children}
-        <Footer menu={footer}/>
+        <Footer site={site} />
       </div>
-      
-      <script src="/js/global.js" defer={true} />
     </>
   );
 };
