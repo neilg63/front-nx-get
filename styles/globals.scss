@@ -187,11 +187,8 @@ figure {
     @media screen and (min-width: $mid-screen-width) {
       height: 15vw;
     }
-    @media screen and (min-width: $large-screen-width) {
-      height: 20vw;
-    }
     @media screen and (min-width: $max-screen-width) {
-      height: 360px;
+      height: 240px;
     }
     position: relative;
     padding: 1vh;
