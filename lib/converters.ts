@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { validDateString } from "./utils";
 
 export const expandDate = (dtRef: string): string => {
   if (dtRef.length === 10 && dtRef.includes("-")) {
@@ -14,8 +15,13 @@ export const shortDate = (dtRef: string | Date): string => {
 };
 
 export const mediumDate = (dtRef: string | Date): string => {
-  const dt = typeof dtRef === "string" ? new Date(expandDate(dtRef)) : dtRef;
-  return format(dt, "d LLLL yyyy");
+  const isString = typeof dtRef === "string";
+  if ((isString && validDateString(dtRef)) || dtRef instanceof Date) {
+    const dt = isString ? new Date(expandDate(dtRef)) : dtRef;
+    return format(dt, "d LLLL yyyy");
+  } else {
+    return "";
+  }
 };
 
 export const sanitize = (str: string, separator = "-") => {

@@ -72,6 +72,10 @@ export const truncatePlain = (val: string, maxChars = 200) => {
   return str;
 };
 
+export const validDateString = (dt: any) => {
+  return typeof dt === "string" && /^\d\d\d\d-\d\d-\d\d/.test(dt);
+};
+
 export const defaultImageLoader = ({
   src,
   width,

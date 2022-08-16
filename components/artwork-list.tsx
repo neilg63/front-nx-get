@@ -18,7 +18,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
   const basePath = '/artworks/';
   return <section className="artwork-list">
     {hasItems && <><div className="grid grid-6">
-      {items.map(item => <figure key={item.uuid} data-key={item.uuid}>
+      {items.map(item => <figure key={item.uuid} data-key={item.uuid} data-dims={item.firstImage.dims('medium')}>
           <Link href={item.path} className="image-holder"><a>
             {item.hasImage && <Image loader={defaultImageLoader} src={item.firstImage.preview} alt={item.alt} width={item.firstImage.calcWidth('preview')} height={item.firstImage.calcHeight('preview')} />}
             </a></Link>

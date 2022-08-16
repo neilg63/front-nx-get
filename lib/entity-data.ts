@@ -217,10 +217,10 @@ export class MediaItem {
     let width = dims.width;
     if (this.width) {
       const ar = this.width! / this.height!;
-      const hp = this.height! / dims.height;
       const wp = this.width! / dims.width!;
+      const hp = this.height! / dims.height;
       height = wp < hp ? dims.height : dims.height / ar;
-      width = wp < hp ? dims.width / ar : dims.width;
+      width = wp < hp ? dims.width * ar : dims.width;
     }
     return { width, height };
   }
