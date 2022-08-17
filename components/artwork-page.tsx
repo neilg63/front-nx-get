@@ -8,28 +8,39 @@ import Image from "next/image";
 import TagList from "./widgets/tag-list";
 import TypeLink from "./widgets/type-link";
 import YearLink from "./widgets/year-link";
+import { containerProps } from "../lib/styles";
+import { Container } from "@nextui-org/react";
+import SeoHead from "./layout/head";
+import Head from "next/head";
 
 const ArtworkPage: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
-  const { entity } = pageData;
+  const { entity, meta } = pageData;
   const nextAlias = '/artworks';
   const basePath = '/artworks';
-  return <article className="artwork">
-      <h1><Link href={nextAlias}><a>{entity.title}</a></Link></h1>
-      <div className="info">
-      {entity.hasSubtitle && <h3 className="subitlte">{parse(entity.field_subtitle)}</h3>}
-       <TypeLink value={entity.field_type} basePath={basePath} />
-      <YearLink value={entity.field_year} basePath={basePath} />
-      {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
-        <TagList terms={entity.field_tags} base={basePath} prefix="tag" />
-      </div>
-    {entity.hasImages && <section className="media-items">
-      {entity.images.map((item: MediaItem) => <figure key={item.uri} data-key={item.uri} data-dims={item.dims('medium')}>
-        <Image loader={defaultImageLoader}  sizes={item.srcSet} src={item.medium} alt={item.alt} width={item.calcWidth('medium')} height={item.calcHeight('medium')} />
-        <figcaption>{item.field_credit}</figcaption>
-      </figure>)}
-    </section>}
-  </article>
+  return <>
+    <Head>
+      <SeoHead meta={meta} />
+    </Head>
+    <Container {...containerProps}>
+      <article className="artwork">
+          <h1><Link href={nextAlias}><a>{entity.title}</a></Link></h1>
+          <div className="info">
+          {entity.hasSubtitle && <h3 className="subitlte">{parse(entity.field_subtitle)}</h3>}
+          <TypeLink value={entity.field_type} basePath={basePath} />
+          <YearLink value={entity.field_year} basePath={basePath} />
+          {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
+            <TagList terms={entity.field_tags} base={basePath} prefix="tag" />
+          </div>
+        {entity.hasImages && <section className="media-items">
+          {entity.images.map((item: MediaItem) => <figure key={item.uri} data-key={item.uri} data-dims={item.dims('medium')}>
+            <Image loader={defaultImageLoader}  sizes={item.srcSet} src={item.medium} alt={item.alt} width={item.calcWidth('medium')} height={item.calcHeight('medium')} />
+            <figcaption>{item.field_credit}</figcaption>
+          </figure>)}
+        </section>}
+      </article>
+    </Container>
+  </>
 }
 
 export default ArtworkPage;

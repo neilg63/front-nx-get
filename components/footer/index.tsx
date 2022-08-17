@@ -3,7 +3,7 @@ import { SimpleMenuItem, SiteInfo } from "../../lib/api-view-results";
 import styles from './styles.module.scss';
 
 const Footer = ({ site }: {site: SiteInfo}) => {
-  const menuItems = site instanceof Object && site.menu instanceof Object && site.menu.footer instanceof Array ? site.menu.footer : [];
+  const menuItems = site instanceof Object && site.menus instanceof Object && site.menus.footer instanceof Array ? site.menus.footer : [];
   const hasMenuItems = menuItems.length > 0;
   return (
     <footer className='container footer'>

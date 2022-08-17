@@ -125,7 +125,6 @@ export const toImageSrcSet = (row: any = null) => {
 
 export const toImageSrc = (row: any = null) => {
   const imgs = toImageStyles(row);
-  console.log(imgs);
   return imgs.length > 0 ? toFullUri(imgs[0].uri) : "";
 };
 

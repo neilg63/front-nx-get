@@ -6,13 +6,22 @@ import { mediumDate } from "../lib/converters";
 import Paginator from "./widgets/paginator";
 import Image from "next/image";
 import { defaultImageLoader } from "../lib/utils";
+import { Container } from "@nextui-org/react";
+import { containerProps } from "../lib/styles";
+import Head from "next/head";
+import SeoHead from "./layout/head";
 
 const NewsList: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
-  const { items, total, perPage} = pageData;
+  const { items, meta, total, perPage} = pageData;
   const hasItems = items.length > 0;
   const showPaginator = total > 0 && total > perPage;
-  return <section className="news-list">
+  return <>
+    <Head>
+      <SeoHead meta={meta} />
+    </Head>
+    <Container {...containerProps}>
+      <section className="press-list"></section><section className="news-list">
     {hasItems && <>
       <ul>
       {items.map((item: NodeEntity) => <li key={item.uuid}>
@@ -26,7 +35,9 @@ const NewsList: NextPage<BaseEntity> = (data) => {
       </ul>
       {showPaginator && <Paginator pageData={pageData} maxLinks={8} />}
     </>}
-  </section>
+      </section>
+    </Container>
+    </>
 }
 
 export default NewsList;

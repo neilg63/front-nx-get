@@ -1,37 +1,46 @@
 import type { NextPage, GetServerSideProps } from 'next'
 import parse from "html-react-parser"
 import Image from 'next/image'
-import Link from 'next/link'
-import { useRouter } from 'next/router';
-import { MediaItem, NodeEntity, PageDataSet } from '../../lib/entity-data';
-import { fetchFullNode, SiteInfo } from '../../lib/api-view-results';
-import { MetaDataSet } from '../../lib/ui-entity';
+import { MediaItem, PageDataSet } from '../../lib/entity-data';
+import { BaseEntity, fetchFullNode } from '../../lib/api-view-results';
+import { Container } from '@nextui-org/react';
+import { defaultImageLoader } from '../../lib/utils';
+import Head from 'next/head';
+import SeoHead from '../../components/layout/head';
 
 
-const About: NextPage<PageDataSet> = ({ entity, site, meta} ) => {
-  const images = entity.field_images instanceof Array ? entity.field_images : [];
-  const hasImages = images.length > 0;
+const About: NextPage<BaseEntity> = (data) => {  
+  const pageData = new PageDataSet(data);
+  const { entity, meta } = pageData;
   return (
-    <article>
-      <h1>{entity.title}</h1>
-      <h3 className="subtitle">{parse(entity.field_subtitle)}</h3>
-      <div className="body">{parse(entity.body)}</div>
-      {hasImages && images.map((item:MediaItem) => <figure key={item.uuid}>
-        <img srcSet={item.srcSet} src={item.medium} alt={item.alt} />
-        <figcaption>{item.field_credit}</figcaption>
-      </figure>)}
-    </article>
+    <>
+      <Head>
+        <SeoHead meta={meta} />
+      </Head>
+      <Container as="main"
+        display="flex"
+        direction="column"
+        justify="center"
+        alignItems="center">
+        <article>
+          <h1>{entity.title}</h1>
+          <div className="body">{parse(entity.body)}</div>
+          {entity.hasImages && <section className="media-items">
+            {entity.images.map((item: MediaItem) => <figure key={item.uri} data-key={item.uri} data-dims={item.dims('medium')}>
+              <Image loader={defaultImageLoader}  sizes={item.srcSet} src={item.medium} alt={item.alt} width={item.calcWidth('medium')} height={item.calcHeight('medium')} />
+              <figcaption>{item.field_credit}</figcaption>
+            </figure>)}
+          </section>}
+        </article>
+      </Container>
+    </>
   )
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const alias = 'about';
-  const page = await fetchFullNode(alias);
-
+  const page = await fetchFullNode('about');
   return {
-    props: {
-      page
-    }
+    props: page
   }
 }
 

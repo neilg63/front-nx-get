@@ -51,7 +51,6 @@ export default function App({ Component, pageProps }: AppProps) {
   if (!queryClientRef.current) {
     queryClientRef.current = new QueryClient()
   }
-  console.log()
   const theme = {
     type: 'light',
     className

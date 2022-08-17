@@ -2,9 +2,8 @@ import React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { CssBaseline } from '@nextui-org/react';
 import { PageDataSet } from '../lib/entity-data';
-import Header from '../components/header';
 import { isObjectWith } from '../lib/utils';
-import Footer from '../components/footer';
+import SeoHead from '../components/layout/head';
 
 class AppDocument extends Document {
   static async getInitialProps(ctx: any) {
@@ -20,20 +19,10 @@ class AppDocument extends Document {
     const { props } = __NEXT_DATA__;
     const data: any = isObjectWith(props, 'pageProps')? props.pageProps : {};
     const pageData = new PageDataSet(data)
-    const { meta, site } = pageData;
+    const { meta } = pageData;
     return (
       <Html lang="en">
-        <Head title={meta.title}>
-          <link rel="shortcut icon" href="/favicon.ico?v=6" type="image/x-icon"></link>
-          <meta property="og:type" content="article" />
-          <meta property="og:title" content={meta.title} />
-          <meta property="twitter:title" content={meta.title} />
-          <meta name="description" content={meta.description} />
-          <meta property="og:description" content={meta.description} />
-          <meta property="twitter:description" content={meta.description} />
-          <meta property="og:image" content={meta.image} />
-          <meta property="twitter:card" content="summary_large_image" />
-          <meta name="twitter:image" content={meta.image} />
+        <Head>
           {CssBaseline.flush()}
         </Head>
         <body>
