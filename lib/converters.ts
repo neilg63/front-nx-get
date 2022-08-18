@@ -18,7 +18,7 @@ export const mediumDate = (dtRef: string | Date): string => {
   const isString = typeof dtRef === "string";
   if ((isString && validDateString(dtRef)) || dtRef instanceof Date) {
     const dt = isString ? new Date(expandDate(dtRef)) : dtRef;
-    return format(dt, "d LLLL yyyy");
+    return format(dt, "dd MM yyyy");
   } else {
     return "";
   }
