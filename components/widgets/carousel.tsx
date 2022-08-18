@@ -1,7 +1,8 @@
 import useEmblaCarousel from 'embla-carousel-react';
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useLayoutEffect } from "react";
 import { MediaItem } from "../../lib/entity-data";
 import { Image } from '@nextui-org/react';
+
 
 const Carousel = ({items}: { items: MediaItem[] }) => {  
   const hasImages = items instanceof Array && items.length > 0;
@@ -53,6 +54,9 @@ const Carousel = ({items}: { items: MediaItem[] }) => {
     onSelect();
     setScrollSnaps(embla.scrollSnapList());
     embla.on("select", onSelect);
+    setTimeout(() => {
+      embla.reInit();
+    }, 375)
   }, [embla, setScrollSnaps, onSelect]);
   return <div className="carousel-container" ref={emblaRef}>
         {hasImages && <section className="media-items flex">
