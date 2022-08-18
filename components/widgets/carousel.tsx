@@ -1,11 +1,14 @@
 import useEmblaCarousel from 'embla-carousel-react';
-import { useState, useEffect, useCallback, useLayoutEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { MediaItem } from "../../lib/entity-data";
 import { Image } from '@nextui-org/react';
 
 
-const Carousel = ({items}: { items: MediaItem[] }) => {  
-  const hasImages = items instanceof Array && items.length > 0;
+const Carousel = ({ items }: { items: MediaItem[] }) => {
+  const numSlides = items instanceof Array && items.length;
+  const hasSlides = numSlides > 0;
+  const startCarousel = numSlides > 1;
+
   const [emblaRef, embla] = useEmblaCarousel({
     align: "start",
     // aligns the first slide to the start
@@ -59,24 +62,24 @@ const Carousel = ({items}: { items: MediaItem[] }) => {
     }, 375)
   }, [embla, setScrollSnaps, onSelect]);
   return <div className="carousel-container" ref={emblaRef}>
-        {hasImages && <section className="media-items flex">
+        {hasSlides && <section className="media-items flex">
         {items.map((item: MediaItem) => <figure key={item.uri} data-key={item.uri} data-dims={item.dims('medium')}>
           <Image srcSet={item.srcSet} src={item.medium} alt={item.alt} width='auto' height='100%' />
           <figcaption>{item.field_credit}</figcaption>
         </figure>)}
       </section>}
-        <div className="slide-nav">
-          <div className="flex items-center justify-center mt-5 space-x-2">
-            {scrollSnaps.map((index, idx) => (
-              <button
-                className={`w-2 h-2 rounded-full ${
-                  idx === selectedIndex ? "bg-yellow-500" : "bg-gray-300"
-                }`}
-                key={idx}
-                onClick={() => scrollTo(idx)}>{ (idx +1 ).toString() }</button>
-            ))}
-          </div>
-      </div>
+      {startCarousel && <div className="slide-nav">
+        <div className="flex items-center justify-center mt-5 space-x-2">
+          {scrollSnaps.map((_, idx) => (
+            <button
+              className={`w-2 h-2 rounded-full ${
+                idx === selectedIndex ? "bg-yellow-500" : "bg-gray-300"
+              }`}
+              key={idx}
+              onClick={() => scrollTo(idx)}>{ (idx +1 ).toString() }</button>
+          ))}
+        </div>
+      </div>}
   </div>
 }
 
