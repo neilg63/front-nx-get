@@ -237,6 +237,14 @@ figure {
     }
     figure {
       flex-flow: column nowrap;
+      a.image-link {
+        display: block;
+        position: relative;
+        max-height: 15vw;
+        > span {
+          height: 15vw;
+        }
+      }
     }
   }
 }
@@ -251,4 +259,20 @@ figure {
 
 #nextui-tooltip {
   border: solid 1px $mid-grey;
+}
+
+.carousel-container {
+  overflow: hidden;
+  .flex {
+    display: flex;
+    flex-flow: row nowrap;
+    > figure {
+      flex: 0 0 100%;
+      height: calc(50vw - 2em);
+      padding: 0;
+      @media screen and (min-width: $max-screen-width) {
+        height: calc(900px - 2em);
+      }
+    }
+  }
 }

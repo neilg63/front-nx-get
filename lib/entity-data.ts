@@ -215,7 +215,7 @@ export class MediaItem {
   }
 
   get srcSet(): string {
-    return this.imageStyles.length ? toImageSrcSet(this.imageStyles) : "";
+    return this.imageStyles.length > 0 ? toImageSrcSet(this.sizes) : "";
   }
 
   calcTargetDims(size: string, round = false): Dims2D {
@@ -267,6 +267,7 @@ export class NodeEntity {
   tid = 0;
   uuid = "";
   status = 0;
+  num_media = 0;
   path = "";
   title = "";
   bundle = "";
@@ -292,7 +293,7 @@ export class NodeEntity {
         "name",
       ];
       const boolFields = ["promote", "sticky"];
-      const intFields = ["nid", "tid", "status"];
+      const intFields = ["nid", "tid", "status", "num_media"];
       const mediaFields = ["field_media", "field_document", "field_video"];
       const taxFields = ["field_type", "field_material"];
       const entityFields = [
@@ -367,6 +368,19 @@ export class NodeEntity {
     }
   }
 
+  hasTextField(fn = "") {
+    const kNames = [fn];
+    if (fn.startsWith("field_") === false) {
+      kNames.unshift(["field_", fn].join("_"));
+    }
+    const key = Object.keys(this).find((k) => kNames.includes(fn));
+    if (key) {
+      return notEmptyString(this[key]);
+    } else {
+      return false;
+    }
+  }
+
   get hasImage() {
     return (
       (this.field_media instanceof MediaItem && this.field_media.isImage) ||
@@ -389,6 +403,20 @@ export class NodeEntity {
 
   get images() {
     return this.hasImages ? this.field_images : [];
+  }
+
+  get numMedia() {
+    return this.num_media > 0
+      ? this.num_media
+      : this.hasImages
+      ? this.field_images.length
+      : 0;
+  }
+
+  get numMediaLabel() {
+    const num = this.numMedia;
+    const pl = num > 1 ? "s" : "";
+    return num > 0 ? `${num} media item${pl}` : "";
   }
 
   get tagList(): string {
