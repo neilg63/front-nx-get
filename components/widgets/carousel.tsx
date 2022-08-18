@@ -1,6 +1,5 @@
 import useEmblaCarousel from 'embla-carousel-react';
 import { useState, useEffect, useCallback } from "react";
-import { defaultImageLoader } from "../../lib/utils";
 import { MediaItem } from "../../lib/entity-data";
 import { Image } from '@nextui-org/react';
 
