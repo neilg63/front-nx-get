@@ -1,10 +1,24 @@
 import useEmblaCarousel from 'embla-carousel-react';
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useLayoutEffect } from "react";
 import { MediaItem } from "../../lib/entity-data";
 import { Image } from '@nextui-org/react';
 
+function useWindowSize() {
+  const [size, setSize] = useState([0, 0]);
+  useLayoutEffect(() => {
+    function updateSize() {
+      setSize([window.innerWidth, window.innerHeight]);
+    }
+    window.addEventListener('resize', updateSize);
+    updateSize();
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+  return size;
+}
+
 const Carousel = ({items}: { items: MediaItem[] }) => {  
   const hasImages = items instanceof Array && items.length > 0;
+  const [width, height] = useWindowSize();
   const [emblaRef, embla] = useEmblaCarousel({
     align: "start",
     // aligns the first slide to the start
@@ -54,7 +68,8 @@ const Carousel = ({items}: { items: MediaItem[] }) => {
     setScrollSnaps(embla.scrollSnapList());
     embla.on("select", onSelect);
   }, [embla, setScrollSnaps, onSelect]);
-  return <div className="carousel-container" ref={emblaRef}>
+  const sizeAttrs = `${width}x${height}`;
+  return <div className="carousel-container" ref={emblaRef} data-window={ sizeAttrs }>
         {hasImages && <section className="media-items flex">
         {items.map((item: MediaItem) => <figure key={item.uri} data-key={item.uri} data-dims={item.dims('medium')}>
           <Image srcSet={item.srcSet} src={item.medium} alt={item.alt} width='auto' height='100%' />
