@@ -3,7 +3,6 @@ import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { CssBaseline } from '@nextui-org/react';
 import { PageDataSet } from '../lib/entity-data';
 import { isObjectWith } from '../lib/utils';
-import SeoHead from '../components/layout/head';
 
 class AppDocument extends Document {
   static async getInitialProps(ctx: any) {
@@ -22,7 +21,7 @@ class AppDocument extends Document {
     const { meta } = pageData;
     return (
       <Html lang="en">
-        <Head>
+        <Head title={ meta.title }>
           {CssBaseline.flush()}
         </Head>
         <body>

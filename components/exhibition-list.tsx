@@ -1,15 +1,12 @@
 import { NextPage } from "next";
-import parse from "html-react-parser";
 import Link from 'next/link';
-import { MetaDataSet } from "../lib/ui-entity";
-import { BaseEntity, SiteInfo } from "../lib/api-view-results";
-import { NodeEntity, PageDataSet } from "../lib/entity-data";
+import { BaseEntity } from "../lib/api-view-results";
+import { PageDataSet } from "../lib/entity-data";
 import Paginator from "./widgets/paginator";
-import Image from "next/image";
 import { defaultImageLoader } from "../lib/utils";
 import Head from "next/head";
 import SeoHead from "./layout/head";
-import { Container } from "@nextui-org/react";
+import { Container, Image } from "@nextui-org/react";
 import { containerProps } from "../lib/styles";
 import DateRange from "./widgets/date-range";
 
@@ -27,12 +24,12 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
         {hasItems && <><div className="columns">
           {items.map(item => <figure key={item.uuid} data-key={item.uuid} data-dims={item.firstImage.dims('medium')}>
               <Link href={item.path} className="image-holder"><a className="image-link">
-                {item.hasImage && <Image loader={defaultImageLoader} src={item.firstImage.preview} alt={item.alt} width={item.firstImage.calcWidth('preview')} height={item.firstImage.calcHeight('preview')} objectFit='contain' layout='intrinsic' />}
+                {item.hasImage && <Image src={item.firstImage.preview} alt={item.alt} width={'auto'} height={'100%'} objectFit='contain' />}
                 </a></Link>
               <figcaption>
                 <h3><Link href={item.path}><a>{item.title}</a></Link></h3>
-               
-                <DateRange item={item.field_date_range}  />
+              {item.hasTextField('placename') && <p className="place-name">{ item.field_placename }</p>}
+                <p className="date-range"><DateRange item={item.field_date_range}  /></p>
               </figcaption>
               </figure>)} 
           </div>

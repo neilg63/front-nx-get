@@ -1,8 +1,6 @@
 import Head from 'next/head';
 import { BaseEntity } from '../../lib/api-view-results';
 import { PageDataSet } from '../../lib/entity-data';
-import Footer from '../footer';
-import Header from "../header";
 
 const Layout = (data: BaseEntity) => {
   const { children } = data;

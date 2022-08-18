@@ -2,8 +2,8 @@ import { NextPage } from "next";
 import Link from 'next/link';
 import { BaseEntity } from "../lib/api-view-results";
 import { NodeEntity, PageDataSet } from "../lib/entity-data";
-import { mediumDate } from "../lib/converters";
 import Paginator from "./widgets/paginator";
+import { shortDate } from "../lib/converters";
 import Image from "next/image";
 import { defaultImageLoader } from "../lib/utils";
 import { Container } from "@nextui-org/react";
@@ -25,7 +25,7 @@ const NewsList: NextPage<BaseEntity> = (data) => {
     {hasItems && <>
       <ul>
       {items.map((item: NodeEntity) => <li key={item.uuid}>
-        <time>{ mediumDate(item.field_date) }</time>
+        <time>{ shortDate(item.field_date) }</time>
           <h3><Link href={item.path}><a>
             {item.hasImage && <Image loader={defaultImageLoader} src={item.firstImage.preview} alt={item.alt} width={item.firstImage.calcWidth('preview')} height={item.firstImage.calcHeight('preview')} />}
             <span className="text">{item.title}</span>
