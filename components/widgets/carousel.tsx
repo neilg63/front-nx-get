@@ -64,14 +64,13 @@ const Carousel = ({items}: { items: MediaItem[] }) => {
       </section>}
         <div className="slide-nav">
           <div className="flex items-center justify-center mt-5 space-x-2">
-            {scrollSnaps.map((_, idx) => (
+            {scrollSnaps.map((index, idx) => (
               <button
                 className={`w-2 h-2 rounded-full ${
                   idx === selectedIndex ? "bg-yellow-500" : "bg-gray-300"
                 }`}
                 key={idx}
-                onClick={() => scrollTo(idx)}
-              />
+                onClick={() => scrollTo(idx)}>{ (idx +1 ).toString() }</button>
             ))}
           </div>
       </div>
