@@ -4,7 +4,7 @@ const SeoHead = ({ meta }: { meta: MetaDataSet }) => {
   return (
     <>
       <title>{meta.title}</title>
-      <link rel="shortcut icon" href="/favicon.ico?v=6" type="image/x-icon"></link>
+      <link rel="shortcut icon" href="/assets/favicon.ico?v=6" type="image/x-icon"></link>
       <meta property="og:type" content="article" />
       <meta property="og:title" content={meta.title} />
       <meta property="twitter:title" content={meta.title} />
