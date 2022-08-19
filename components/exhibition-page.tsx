@@ -9,6 +9,7 @@ import { containerProps } from "../lib/styles";
 import { Container } from "@nextui-org/react";
 import Head from "next/head";
 import SeoHead from "./layout/head";
+import Carousel from "./widgets/carousel";
 
 const ExhibitionPage: NextPage<BaseEntity> = (data ) => {  
   const pageData = new PageDataSet(data);
@@ -22,13 +23,8 @@ const ExhibitionPage: NextPage<BaseEntity> = (data ) => {
     <article className="exhibition">
         <h1><Link href={nextAlias}><a>{entity.title}</a></Link></h1>
         {entity.hasSubtitle && <h3 className="subtitle">{parse(entity.field_subtitle)}</h3>}
+        {entity.hasImages && <Carousel items={entity.images} />}
         {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
-        {entity.hasImages && <section className="media-items">
-        {entity.images.map((item: MediaItem) => <figure key={item.uri} data-key={item.uri} data-dims={item.dims('medium')}>
-          <Image loader={defaultImageLoader}  sizes={item.srcSet} src={item.medium} alt={item.alt} width={item.calcWidth('medium')} height={item.calcHeight('medium')} />
-          <figcaption>{item.field_credit}</figcaption>
-        </figure>)}
-      </section>}
       </article>
     </Container>
     </>
