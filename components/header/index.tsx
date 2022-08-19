@@ -9,6 +9,7 @@ const Header = (pageData: PageDataSet) => {
   const hasMenuItems = mainItems instanceof Array && mainItems.length > 0;
   return (
     <header className='header'>
+      <Link href={'/'}><a className='logo'></a></Link>
       <nav className='top-nav'>
         {hasMenuItems && <ul>
           {mainItems.map(item => {
@@ -18,6 +19,7 @@ const Header = (pageData: PageDataSet) => {
           })}
         </ul>}
       </nav>
+      <div className='expand-nav icon-hamburger'></div>
     </header>
   );
 }
