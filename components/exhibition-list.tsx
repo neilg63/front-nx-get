@@ -31,7 +31,7 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
               {item.hasTextField('placename') && <p className="place-name">{ item.field_placename }</p>}
                 <p className="date-range"><DateRange item={item.field_date_range}  /></p>
               </figcaption>
-              </figure>)}
+          </figure>)}
           </div>
           {showPaginator && <Paginator pageData={pageData} maxLinks={8} />}
         </>}
