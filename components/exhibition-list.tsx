@@ -20,7 +20,7 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps}>
-      <section className="exhibition-list">
+      <section className="exhibition-list grid-list">
         {hasItems && <><div className="columns">
           {items.map(item => <figure key={item.uuid} data-key={item.uuid} data-dims={item.firstImage.dims('medium')}>
               <Link href={item.path} className="image-holder"><a className="image-link">

@@ -3,10 +3,8 @@ import Link from 'next/link';
 import { BaseEntity } from "../lib/api-view-results";
 import { NodeEntity, PageDataSet } from "../lib/entity-data";
 import Paginator from "./widgets/paginator";
-import { shortDate } from "../lib/converters";
-import Image from "next/image";
-import { defaultImageLoader } from "../lib/utils";
-import { Container } from "@nextui-org/react";
+import { mediumDate } from "../lib/converters";
+import { Container, Image } from "@nextui-org/react";
 import { containerProps } from "../lib/styles";
 import Head from "next/head";
 import SeoHead from "./layout/head";
@@ -21,20 +19,21 @@ const NewsList: NextPage<BaseEntity> = (data) => {
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps}>
-      <section className="press-list"></section><section className="news-list">
-    {hasItems && <>
-      <ul>
-      {items.map((item: NodeEntity) => <li key={item.uuid}>
-        <time>{ shortDate(item.field_date) }</time>
-          <h3><Link href={item.path}><a>
-            {item.hasImage && <Image loader={defaultImageLoader} src={item.firstImage.preview} alt={item.alt} width={item.firstImage.calcWidth('preview')} height={item.firstImage.calcHeight('preview')} />}
-            <span className="text">{item.title}</span>
-          </a></Link></h3>
-          <summary>{item.summary}</summary>
-        </li>)} 
-      </ul>
-      {showPaginator && <Paginator pageData={pageData} maxLinks={8} />}
-    </>}
+      <section className="news-list grid-list">
+        {hasItems && <><div className="columns">
+          {items.map((item: NodeEntity) => <figure key={item.uuid}>
+            <time>{ mediumDate(item.field_date) }</time>
+              <Link href={item.path} className="image-holder"><a className="image-link">
+              {item.hasImage && <Image src={item.firstImage.preview} alt={item.alt} width={'auto'} height={'100%'} objectFit='contain' />}
+              </a></Link>
+            <figcaption>
+              <h3><Link href={item.path}><a>{item.title}</a></Link></h3>
+            {item.hasTextField('placename') && <p className="place-name">{ item.field_placename }</p>}
+            </figcaption>
+            </figure>)}
+          </div>
+          {showPaginator && <Paginator pageData={pageData} maxLinks={8} />}
+        </>}
       </section>
     </Container>
     </>
