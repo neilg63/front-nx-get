@@ -97,7 +97,7 @@ header.header {
     align-items: center;
   }
 
-  ul, li, figure {
+  ul, li, figure, p, h3, h4 {
     margin-block-start: 0;
     margin-block-end: 0;
     margin-inline-start: 0;
@@ -187,13 +187,29 @@ body .nprogress {
   display: grid;
   figure {
     position: relative;
+    font-size: 0.8em;
     figcaption {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      padding: 1em 5%;
+      padding: 1em 10%;
+      
+      h3,
+      p,
+      ul, li {
+        font-size: 1em;
+        margin: 0;
+      }
+      h3,
+      p,
+      ul {
+        padding: 0 0 0.25em 0;
+      }
+      ul li {
+        padding: 0;
+      }
       background-color: rgba($light, 0.5);
       opacity: 0;
       transition: opacity 0.5s ease-in-out;
@@ -242,7 +258,7 @@ figure {
   }
 }
 
-.exhibition-list {
+.grid-list {
 
   .columns {
     @media screen and (min-width: $mini-screen-width) {
