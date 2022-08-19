@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="7.8069153"
+   height="10.421875"
+   viewBox="0 0 7.8069154 10.421875"
+   version="1.1"
+   id="svg6"
+   sodipodi:docname="prev-arrow-narrow.svg"
+   inkscape:version="1.1.2 (b8e25be8, 2022-02-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs10" />
+  <sodipodi:namedview
+     id="namedview8"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     width="7.88px"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="45.254834"
+     inkscape:cx="0.14363106"
+     inkscape:cy="7.0821163"
+     inkscape:window-width="1920"
+     inkscape:window-height="1035"
+     inkscape:window-x="1792"
+     inkscape:window-y="23"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="Group_16" />
+  <g
+     id="arrow_next"
+     data-name="arrow next"
+     transform="translate(0.2890625,0.4066719)">
+    <g
+       id="Group_16"
+       data-name="Group 16"
+       transform="rotate(-90,101.304,283.804)">
+      <path
+         style="color:#000000;fill:#000000;-inkscape-stroke:none"
+         d="m 384.70022,190.00285 0.81445,-0.57812 -4.98242,-7 v 0 c -0.24674,-0.26563 -0.23583,-0.30384 -0.45898,0 l -4.98047,7 0.81445,0.57812 4.39648,-6.17773 z"
+         id="Line_2"
+         sodipodi:nodetypes="ccccccccc" />
+    </g>
+  </g>
+</svg>

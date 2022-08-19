@@ -28,11 +28,11 @@ export const sanitize = (str: string, separator = "-") => {
   return str
     .toLowerCase()
     .trim()
-    .replace(/[éèë]+/g, "e")
-    .replace(/[ìíïî]+/g, "i")
-    .replace(/[òóõôöø]+/g, "o")
-    .replace(/[ùûúü]+/g, "u")
-    .replace(/[ŝśšṡ]+/g, "s")
+    .replace(/[éèë]/g, "e")
+    .replace(/[ìíïî]/g, "i")
+    .replace(/[òóõôöø]/g, "o")
+    .replace(/[ùûúü]/g, "u")
+    .replace(/[ŝśšṡ]/g, "s")
     .replace(/[ß]+/g, "ss")
     .replace(/[^a-z0-9]+/g, separator)
     .replace(/([a-z0-9])[^a-z0-9]+$/, "$1");

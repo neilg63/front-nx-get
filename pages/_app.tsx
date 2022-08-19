@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Router, { useRouter } from 'next/router';
 import { NextUIProvider } from '@nextui-org/react';
-import '../styles/globals.scss'
+import '../styles/globals.scss';
 import type { AppProps } from 'next/app'
-import { QueryClient, QueryClientProvider, Hydrate } from "@tanstack/react-query"
-import NProgress from "nprogress"
-import "nprogress/nprogress.css"
+import { QueryClient, QueryClientProvider, Hydrate } from "@tanstack/react-query";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
+import "../public/icomoon/style.css";
 import Header from '../components/header';
 import Footer from '../components/footer';
 
