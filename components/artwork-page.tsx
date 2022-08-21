@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import parse from "html-react-parser";
 import Link from 'next/link';
 import { PageDataSet } from "../lib/entity-data";
-import { BaseEntity } from "../lib/api-view-results";
+import { BaseEntity } from "../lib/interfaces";
 import TagList from "./widgets/tag-list";
 import TypeLink from "./widgets/type-link";
 import YearLink from "./widgets/year-link";
