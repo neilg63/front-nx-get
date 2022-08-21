@@ -76,7 +76,7 @@ header.header {
   @media screen and (min-width: $mid-screen-width) {
     display: grid;
     grid-template-columns: 15em auto;
-    column-gap: 2.5vw;
+    column-gap: 2.5%;
     align-items: flex-start;
     grid-template-areas: "header main"
       "footer footer";
@@ -267,7 +267,7 @@ figure {
     @media screen and (min-width: $mini-screen-width) {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      column-gap: 2.5vw;
+      column-gap: 2.5%;
     }
     figure {
       flex-flow: column nowrap;
@@ -277,6 +277,12 @@ figure {
         max-height: 15vw;
         > span {
           height: 15vw;
+        }
+        @media screen and (min-width: $max-screen-width) {
+          max-height: 270px;
+          > span {
+            height: 270px;
+          }
         }
       }
     }
@@ -298,6 +304,7 @@ figure {
 .artwork-list {
   width: 100%;
   max-width: 100%;
+  padding-right: 2.5%;
 }
 
 .carousel-container {
