@@ -69,6 +69,7 @@ header.header {
   justify-content: flex-start;
   align-items: center;
   > main {
+    position: relative;
     width: 100%;
   }
 
@@ -84,6 +85,7 @@ header.header {
     }
     main {
       grid-area: main;
+      width: auto;
     }
     footer {
       grid-area: footer;
@@ -185,6 +187,7 @@ body .nprogress {
 .grid-rows-6,
 .grid {
   display: grid;
+  width: 100%;
   figure {
     position: relative;
     font-size: 0.8em;
@@ -290,6 +293,11 @@ figure {
 
 #nextui-tooltip {
   border: solid 1px $mid-grey;
+}
+
+.artwork-list {
+  width: 100%;
+  max-width: 100%;
 }
 
 .carousel-container {

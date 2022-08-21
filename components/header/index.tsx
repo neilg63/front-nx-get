@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import { BaseEntity, SiteInfo } from '../../lib/api-view-results';
-import { PageDataSet } from '../../lib/entity-data';
+import { SiteInfo, PageDataSet } from '../../lib/entity-data';
 import styles from './styles.module.scss';
 
 const Header = (pageData: PageDataSet) => {

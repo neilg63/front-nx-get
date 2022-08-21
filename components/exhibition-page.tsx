@@ -1,10 +1,8 @@
 import { NextPage } from "next";
 import Link from 'next/link';
 import parse from "html-react-parser";
-import { MediaItem, PageDataSet } from "../lib/entity-data";
-import { BaseEntity } from "../lib/api-view-results";
-import Image from "next/image";
-import { defaultImageLoader } from "../lib/utils";
+import { BaseEntity } from "../lib/interfaces";
+import { PageDataSet } from "../lib/entity-data";
 import { containerProps } from "../lib/styles";
 import { Container } from "@nextui-org/react";
 import Head from "next/head";

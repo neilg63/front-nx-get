@@ -2,12 +2,12 @@ import type { NextPage, GetServerSideProps } from 'next'
 import parse from "html-react-parser"
 import Image from 'next/image'
 import { MediaItem, PageDataSet } from '../../lib/entity-data';
-import { BaseEntity, fetchFullNode } from '../../lib/api-view-results';
+import { BaseEntity } from '../../lib/interfaces';
+import { fetchFullNode } from '../../lib/api-view-results';
 import { Container } from '@nextui-org/react';
 import { defaultImageLoader } from '../../lib/utils';
 import Head from 'next/head';
 import SeoHead from '../../components/layout/head';
-
 
 const About: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
@@ -17,11 +17,7 @@ const About: NextPage<BaseEntity> = (data) => {
       <Head>
         <SeoHead meta={meta} />
       </Head>
-      <Container as="main"
-        display="flex"
-        direction="column"
-        justify="center"
-        alignItems="center">
+      <Container >
         <article>
           <h1>{entity.title}</h1>
           <div className="body">{parse(entity.body)}</div>

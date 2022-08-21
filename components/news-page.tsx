@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import parse from "html-react-parser";
 import Link from 'next/link';
 import { PageDataSet } from "../lib/entity-data";
-import { BaseEntity } from "../lib/api-view-results";
+import { BaseEntity } from "../lib/interfaces";
 import { Container } from "@nextui-org/react";
 import { containerProps } from "../lib/styles";
 import Head from "next/head";
