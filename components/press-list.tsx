@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import Link from 'next/link';
-import { BaseEntity } from "../lib/api-view-results";
+import { BaseEntity } from "../lib/interfaces";
 import { NodeEntity, PageDataSet } from "../lib/entity-data";
 import { mediumDate } from "../lib/converters";
 import Paginator from "./widgets/paginator";
