@@ -2,7 +2,7 @@ import { Container, Tooltip } from "@nextui-org/react";
 import { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { BaseEntity } from "../lib/api-view-results";
+import { BaseEntity } from "../lib/interfaces";
 import { PageDataSet } from "../lib/entity-data";
 import { containerProps } from "../lib/styles";
 import SeoHead from "./layout/head";
