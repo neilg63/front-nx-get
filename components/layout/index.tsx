@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { BaseEntity } from '../../lib/api-view-results';
+import { BaseEntity } from '../../lib/interfaces';
 import { PageDataSet } from '../../lib/entity-data';
 
 const Layout = (data: BaseEntity) => {
