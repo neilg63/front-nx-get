@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SimpleMenuItem, SiteInfo } from "../../lib/api-view-results";
+import { SimpleMenuItem, SiteInfo } from "../../lib/entity-data";
 import styles from './styles.module.scss';
 
 const Footer = ({ site }: {site: SiteInfo}) => {
