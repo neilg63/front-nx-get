@@ -1,5 +1,6 @@
+import contentTypes from "./content-types";
 import { sanitize } from "./converters";
-import { Dims2D } from "./interfaces";
+import { Dims2D, KeyStringValue } from "./interfaces";
 import { MetaDataSet } from "./ui-entity";
 import {
   isArrayOfObjectsWith,
@@ -537,6 +538,83 @@ export class PageDataSet {
       }
       if (keys.includes("total") && typeof inData.total === "number") {
         this.total = inData.total;
+      }
+    }
+  }
+}
+
+export class SearchPageDataSet extends PageDataSet {
+  containers: Map<string, NodeEntity[]> = new Map();
+  bundles: string[] = [];
+
+  constructor(inData: any = null) {
+    super(inData);
+    if (inData instanceof Object) {
+      const { containers, bundles } = inData;
+      if (bundles instanceof Array && bundles.length > 0) {
+        this.bundles = bundles;
+      }
+      if (containers instanceof Object) {
+        Object.entries(containers).forEach(([key, value]) => {
+          if (value instanceof Array) {
+            this.containers.set(
+              key,
+              value.map((item) => new NodeEntity(item))
+            );
+          }
+        });
+      }
+    }
+  }
+
+  get bundleSet(): KeyStringValue[] {
+    return Object.entries(contentTypes)
+      .filter((entry) => this.bundles.includes(entry[0]))
+      .map(([key, value]) => {
+        return {
+          key,
+          value,
+        };
+      });
+  }
+
+  hasSections(key = "") {
+    return this.containers.has(key);
+  }
+
+  results(key = ""): NodeEntity[] {
+    const items = this.containers.has(key) ? this.containers.get(key) : [];
+    return items instanceof Array ? items : [];
+  }
+}
+
+export type WidgetContent = NodeEntity | NodeEntity[] | MediaItem;
+
+export class PageWidget {
+  type = "node";
+  content: WidgetContent = new NodeEntity();
+  constructor(type = "node", content: any = null) {
+    this.type = type;
+    if (content instanceof Object) {
+      this.content = content;
+    }
+  }
+}
+
+export class CompoundPageDataSet extends PageDataSet {
+  widgets: Map<string, PageWidget> = new Map();
+
+  constructor(inData: any = null) {
+    super(inData);
+    if (inData instanceof Object) {
+      const { widgets } = inData;
+      if (widgets instanceof Object) {
+        Object.entries(widgets).forEach(([key, value]: any[]) => {
+          if (value instanceof Object) {
+            const { type, content } = value;
+            this.widgets.set(key, new PageWidget(type, content));
+          }
+        });
       }
     }
   }

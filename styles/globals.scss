@@ -8,6 +8,7 @@ $dark: #333333;
 $mid-grey: #999999;
 $light-grey: #cccccc;
 $light: white;
+$primary: #ff6600;
 
 html,
 body {
@@ -16,7 +17,7 @@ body {
 }
 
 body {
-  font-family: Helvetica Neue, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   color: $dark;
   background-color: $light;
 }
@@ -39,8 +40,18 @@ header.header {
     background: url(/assets/signature.svg) no-repeat top left;
     background-size: contain;
   }
-  @media screen {
-    
+
+  .expand-nav {
+    display: block;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+  
+  @media screen and (min-width: $mid-screen-width) {
+    .expand-nav {
+        display: none;
+      }
   }
 }
 
@@ -53,6 +64,32 @@ header.header {
     }
     li {
       padding: 0.5em 1em;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      &.search-link,
+      &.section--home {
+        .icon {
+          font-size: 1.5rem;
+        }
+      }
+      &.search-link {
+        .icon {
+          font-size: 1.5rem;
+        }
+        > div:first-child {
+          width: auto;
+          max-width: 0;
+          overflow: hidden;
+          transition: all 0.333s ease-in-out;
+        }
+        &:hover {
+          >div:first-child {
+              max-width: 10em;
+              margin-right: 0.25em;
+            }
+        }
+      }
     }
   }
 }

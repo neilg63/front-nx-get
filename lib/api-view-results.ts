@@ -1,5 +1,10 @@
 import { BaseEntity } from "./interfaces";
-import { paramsToQueryString } from "./utils";
+import {
+  isObjectWithArray,
+  isObjectWithObject,
+  notEmptyString,
+  paramsToQueryString,
+} from "./utils";
 
 export const fetchApiViewResults = async (
   key: string,
@@ -29,4 +34,47 @@ export const fetchFullNode = async (path: string): Promise<BaseEntity> => {
   const res = await fetch(uri);
   const data = res.status >= 200 && res.status < 300 ? await res.json() : {};
   return data;
+};
+
+export const getSearchResults = async (
+  q: string,
+  bundles = [],
+  bodyMode = 1,
+  num = 25
+): Promise<BaseEntity> => {
+  if (notEmptyString(q)) {
+    const ct = bundles.length > 0 ? bundles.join(",").toLowerCase() : "all";
+    const uri =
+      [process.env.NEXT_PUBLIC_DRUPAL_BASE_URL, "jsonuuid", "search"].join(
+        "/"
+      ) + paramsToQueryString({ q, b: bodyMode, n: num, ct });
+    const res = await fetch(uri);
+    const result =
+      res.status >= 200 && res.status < 300 ? await res.json() : {};
+    if (isObjectWithArray(result, "items")) {
+      return result;
+    }
+  }
+  return { valid: false, total: 0, num: 0, items: [] };
+};
+
+export const fetchSearchResultsPage = async (
+  q: string,
+  page = 0
+): Promise<BaseEntity> => {
+  if (notEmptyString(q)) {
+    const uri =
+      [
+        process.env.NEXT_PUBLIC_DRUPAL_BASE_URL,
+        "jsonuuid",
+        "search-results",
+      ].join("/") + paramsToQueryString({ q, page });
+    const res = await fetch(uri);
+    const result =
+      res.status >= 200 && res.status < 300 ? await res.json() : {};
+    if (isObjectWithObject(result, "containers")) {
+      return result;
+    }
+  }
+  return { valid: false, total: 0, num: 0, bundles: [], containers: [] };
 };
