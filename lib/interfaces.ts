@@ -7,6 +7,17 @@ export interface KeyStringValue {
   value: string;
 }
 
+export interface SlugNameNum {
+  num: number;
+  slug: string;
+  name: string;
+}
+
+export interface YearNum {
+  num: number;
+  year: number;
+}
+
 export interface Dims2D {
   width: number;
   height: number;

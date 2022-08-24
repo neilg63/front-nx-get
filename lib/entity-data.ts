@@ -1,6 +1,6 @@
 import contentTypes from "./content-types";
 import { sanitize } from "./converters";
-import { Dims2D, KeyStringValue } from "./interfaces";
+import { Dims2D, KeyStringValue, SlugNameNum, YearNum } from "./interfaces";
 import { MetaDataSet } from "./ui-entity";
 import {
   isArrayOfObjectsWith,
@@ -489,6 +489,17 @@ export class NodeEntity {
     return num > 0 ? `${num} media item${pl}` : "";
   }
 
+  get typeYearLabel() {
+    const parts: string[] = [];
+    if (notEmptyString(this.field_type)) {
+      parts.push(this.field_type);
+    }
+    if (this.field_year) {
+      parts.push(this.field_year.toString());
+    }
+    return parts.join(" / ");
+  }
+
   get tagList(): string {
     if (this.field_tags instanceof Array && this.field_tags.length > 0) {
       return this.field_tags.map((tm) => tm.name).join(", ");
@@ -514,6 +525,7 @@ export class PageDataSet {
   page = 0;
   perPage = 0;
   total = 0;
+  sets: Map<string, SlugNameNum[] | YearNum[]> = new Map();
 
   constructor(inData: any = null) {
     if (inData instanceof Object) {
@@ -538,6 +550,13 @@ export class PageDataSet {
       }
       if (keys.includes("total") && typeof inData.total === "number") {
         this.total = inData.total;
+      }
+      if (keys.includes("sets") && inData.sets instanceof Object) {
+        Object.entries(inData.sets).forEach(([key, value]) => {
+          if (value instanceof Array) {
+            this.sets.set(key, value);
+          }
+        });
       }
     }
   }
