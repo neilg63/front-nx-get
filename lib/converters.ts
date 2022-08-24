@@ -37,3 +37,11 @@ export const sanitize = (str: string, separator = "-") => {
     .replace(/[^a-z0-9]+/g, separator)
     .replace(/([a-z0-9])[^a-z0-9]+$/, "$1");
 };
+
+export const toAlias = (path: string): string => {
+  let alias = path.length > 1 ? path.substring(1) : path;
+  if (alias.length < 2) {
+    alias = "home";
+  }
+  return alias;
+};

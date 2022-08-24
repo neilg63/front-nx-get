@@ -12,7 +12,7 @@ const YearLink = ({ value, basePath }: { value: any, basePath: string}) => {
   return (
     <>
       { hasValue && 
-        <p className="year"><Link href={yearPath(year, basePath)}><a>{year}</a></Link></p>
+        <Link href={yearPath(year, basePath)}><a>{year}</a></Link>
     }
     </>
   );

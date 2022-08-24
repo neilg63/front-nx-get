@@ -141,7 +141,10 @@ export const smartCastFloat = (item: any, defVal = 0): number => {
 export const paramsToQueryString = (params: any = null) => {
   const entries = params instanceof Object ? Object.entries(params) : [];
   return entries.length > 0
-    ? "?" + entries.map(([key, value]) => key + "=" + smartCastString(value))
+    ? "?" +
+        entries
+          .map(([key, value]) => key + "=" + smartCastString(value))
+          .join("&")
     : "";
 };
 

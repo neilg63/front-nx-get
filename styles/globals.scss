@@ -8,6 +8,7 @@ $dark: #333333;
 $mid-grey: #999999;
 $light-grey: #cccccc;
 $light: white;
+$primary: #ff6600;
 
 html,
 body {
@@ -16,7 +17,7 @@ body {
 }
 
 body {
-  font-family: Helvetica Neue, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   color: $dark;
   background-color: $light;
 }
@@ -39,8 +40,18 @@ header.header {
     background: url(/assets/signature.svg) no-repeat top left;
     background-size: contain;
   }
-  @media screen {
-    
+
+  .expand-nav {
+    display: block;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+  
+  @media screen and (min-width: $mid-screen-width) {
+    .expand-nav {
+        display: none;
+      }
   }
 }
 
@@ -53,6 +64,41 @@ header.header {
     }
     li {
       padding: 0.5em 1em;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      &.search-link,
+      &.section--home {
+        .icon {
+          font-size: 1.5rem;
+          cursor: pointer;
+          &:hover {
+            color: $primary;
+          }
+        }
+      }
+      &.search-link {
+        .icon {
+          font-size: 1.5rem;
+        }
+        > div:first-child {
+          width: auto;
+          max-width: 0;
+          overflow: hidden;
+          transition: all 0.333s ease-in-out;
+        }
+        &:hover {
+          >div:first-child {
+              max-width: 10em;
+              margin-right: 0.25em;
+            }
+        }
+      }
+      &:hover {
+        a {
+          color: $primary;
+        }
+      }
     }
   }
 }
@@ -183,22 +229,36 @@ body .nprogress {
   width: 100vw;
 }
 
-.flex-rows-6,
 .grid-rows-6,
 .grid {
   display: grid;
+}
+
+.flex-rows-6,
+.grid-rows-6,
+.grid {
   width: 100%;
   figure {
     position: relative;
     font-size: 0.8em;
-    figcaption {
+    
+    figcaption,
+    a.image-link {
       position: absolute;
+    }
+    .image-link {
+      top: 0;
+      left: 0;
+      right: 2em;
+      bottom: 2em;
+    }
+    figcaption {
+
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      padding: 1em 10%;
-      
+      padding: 1em 10%; 
       h3,
       p,
       ul, li {
@@ -215,12 +275,18 @@ body .nprogress {
       }
       background-color: rgba($light, 0.5);
       opacity: 0;
+      pointer-events: none;
       transition: opacity 0.5s ease-in-out;
     }
-    &:hover figcaption {
+   /*  &:hover figcaption {
       opacity: 1;
-    }
+    } */
   }
+}
+
+.flex-rows-6 {
+  margin-right: -2em;
+  width: calc(100% + 2em);
 }
 
 figure {
@@ -240,14 +306,14 @@ figure {
   > figure {
     width: 100%;
     @media screen and (min-width: $mini-screen-width) {
-      height: 20v2;
+      height: 13.333vw;
       width: auto;
     }
     @media screen and (min-width: $mid-screen-width) {
-      height: 15vw;
+      height: 10vw;
     }
     @media screen and (min-width: $max-screen-width) {
-      height: 240px;
+      height: 180px;
     }
     position: relative;
     padding: 1vh;
@@ -375,6 +441,88 @@ figure {
       &.active {
         background-color: $mid-grey;
       }
+    }
+  }
+}
+
+.filter-nav {
+  width: 100%;
+  .row {
+    > label,
+    .nextui-radio-point {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .nextui-radio-group-items,
+    .nextui-radio-group-items label {
+      display: flex;
+      flex-flow: row nowrap;
+    }
+    .nextui-radio-group-items {
+      margin: 0;
+      padding: 0.5em auto;
+    }
+    .nextui-radio-group-items > label {
+      height: 1em;
+      max-height: 1em;
+      > div {
+        max-height: 1em;
+      }
+      border-right: solid 1px $dark;
+      &:last-child {
+        border-right: none;
+      }
+      padding: 0 0.5em 0 0;
+      margin: 0 0.5em 0 0;
+    }
+    .nextui-radio--checked {
+      .nextui-radio-label {
+        color: $primary;
+      }
+    }
+  }
+
+  .sub-nav {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    li {
+      position: relative;
+      padding: 0.125em 0.625em;
+  
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0.5em;
+        bottom: 0.5em;
+        right: 0;
+        border-right: solid 1px $dark;
+      }
+  
+      &:last-child {
+        &::after {
+          border-right: none;
+        }
+      }
+      &.active {
+        a {
+          color: $primary;
+        }
+      }
+    }
+  }
+  &.show-by-year {
+    .years-nav {
+      max-height: 5em;
+      opacity: 1;
+    }
+  }
+  &.show-by-type {
+    .types-nav {
+      max-height: 5em;
+      opacity: 1;
     }
   }
 }
