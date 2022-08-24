@@ -71,6 +71,10 @@ header.header {
       &.section--home {
         .icon {
           font-size: 1.5rem;
+          cursor: pointer;
+          &:hover {
+            color: $primary;
+          }
         }
       }
       &.search-link {
@@ -88,6 +92,11 @@ header.header {
               max-width: 10em;
               margin-right: 0.25em;
             }
+        }
+      }
+      &:hover {
+        a {
+          color: $primary;
         }
       }
     }

@@ -13,8 +13,9 @@ const FigureResultPreview = ({ item, index }: { item: NodeEntity, index: number 
       <Link href={item.path}><a className="image-link">
         {item.hasImage && <Image loader={defaultImageLoader} src={item.firstImage.preview} alt={item.alt} width={item.firstImage.calcWidth('preview')} height={item.firstImage.calcHeight('preview')} />}
         <figcaption>
-          <h3><Link href={item.path}><a>{item.title}</a></Link></h3>
-          <TagList terms={item.field_tags} base='/artworks' prefix='tag' />
+          <h3>{item.title}</h3>
+          <p>{item.tagList}</p>
+          <p>{item.typeYearLabel}</p>
         </figcaption>
       </a></Link>
     </figure>

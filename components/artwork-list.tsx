@@ -54,8 +54,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
   const { items, meta } = pageData;
   const [showPaginator, setShowPaginator] = useState(false);
   const [filterMode, setFilterMode] = useState('all');
-  const [hasItems, setHasItems] = useState(false)
-  const basePath = '/artworks/';
+  const [hasItems, setHasItems] = useState(false);
   const emptyFigStyles = { width: 0, display: 'none' };
   const [hasYears, setHasYears] = useState(false)
   const [hasTypes, setHasTypes] = useState(false)
@@ -131,10 +130,9 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
                 {item.hasImage && <Image loader={defaultImageLoader} src={item.firstImage.preview} alt={item.alt} width={item.firstImage.calcWidth('preview')} height={item.firstImage.calcHeight('preview')} objectFit='contain' layout='intrinsic' />}
                 </a></Link>
               <figcaption>
-               <h3><Link href={item.path}><a>{item.title}</a></Link></h3>
-                <TagList terms={item.field_tags} base='/artworks' prefix='tag' />
-                <TypeLink value={item.field_type} basePath={basePath} />
-                <YearLink value={item.field_year} basePath={basePath} />
+              <h3><Link href={item.path}><a>{item.title}</a></Link></h3>
+              <p>{item.typeYearLabel}</p>
+              <p>{item.tagList}</p>
               </figcaption>
             </figure>)}
           <figure className="empty-figure" style={ emptyFigStyles }></figure>

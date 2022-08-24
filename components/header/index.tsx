@@ -1,5 +1,5 @@
 import { Input } from '@nextui-org/react';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from 'next/link';
 import { toAlias } from '../../lib/converters';
 import { SiteInfo, PageDataSet, SimpleMenuItem } from '../../lib/entity-data';
@@ -25,8 +25,8 @@ const isHomeLink = (item: SimpleMenuItem): boolean => {
 
 const Header = (pageData: PageDataSet) => {
   const { site } = pageData;
-  const mainItems = site instanceof Object && site.menus instanceof Object? site.menus.main : [];
-  const hasMenuItems = mainItems instanceof Array && mainItems.length > 0;
+  const [mainItems, setMainItems] = useState<SimpleMenuItem[]>([]);
+  const [hasMenuItems, setHasMenuItems] = useState(false);
   const [search, setSearch] = useState('');
   const router = useRouter();
 
@@ -43,6 +43,12 @@ const Header = (pageData: PageDataSet) => {
     const path = ['/search', encodeURIComponent(search)].join('/');
     router.push(path);
   }
+
+  useEffect(() => {
+    const items = site instanceof Object && site.menus instanceof Object? site.menus.main : [];
+    setMainItems(items);
+    setHasMenuItems(items instanceof Array && items.length > 0);
+  }, [site])
 
   return (
     <header className='header'>
