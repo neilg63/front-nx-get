@@ -6,7 +6,7 @@ import { PageDataSet, SimpleMenuItem } from '../../lib/entity-data';
 import { useRouter } from 'next/router';
 import { notEmptyString } from '../../lib/utils';
 
-const renderClassNames = (item: SimpleMenuItem): string => {
+const renderClassNames = (item: SimpleMenuItem, subAlias = ''): string => {
   const alias = toAlias(item.path);
   const parts = alias.split('/');
   const cls = [['section', parts[0]].join('--')];
@@ -15,6 +15,10 @@ const renderClassNames = (item: SimpleMenuItem): string => {
     if (parts.length > 2) {
       cls.push(['page', ...parts].join('--'));
     }
+  }
+  const aliasStart = item.path.length > 1 ? item.path.substring(1).split('/').shift()! : '';
+  if (aliasStart === subAlias) {
+    cls.push('active');
   }
   return cls.join(' ');
 }
@@ -27,6 +31,7 @@ const Header = (pageData: PageDataSet) => {
   const { site } = pageData;
   const [mainItems, setMainItems] = useState<SimpleMenuItem[]>([]);
   const [hasMenuItems, setHasMenuItems] = useState(false);
+  const [subAlias, setSubAlias] = useState('/');
   const [search, setSearch] = useState('');
   const router = useRouter();
 
@@ -57,10 +62,13 @@ const Header = (pageData: PageDataSet) => {
   }
 
   useEffect(() => {
-    const items = site instanceof Object && site.menus instanceof Object? site.menus.main : [];
+    const items = site instanceof Object && site.menus instanceof Object ? site.menus.main : [];
+    const path = router.asPath;
+    const sub = typeof path === 'string' && path.length > 1 ? path.substring(1).split('/').shift()! : '';
+    setSubAlias(sub);
     setMainItems(items);
     setHasMenuItems(items instanceof Array && items.length > 0);
-  }, [site])
+  }, [site, setSubAlias, router])
 
   return (
     <header className='header'>
@@ -68,7 +76,7 @@ const Header = (pageData: PageDataSet) => {
       <nav className='top-nav'>
         {hasMenuItems && <ul>
           {mainItems.map(item => {
-            return <li key={item.path} className={ renderClassNames(item)  }>
+            return <li key={item.path} className={ renderClassNames(item, subAlias)  }>
               <Link href={item.path}><a>{isHomeLink(item) ? <i className='icon icon-home' title={ item.title }></i> : item.title }</a></Link>
             </li>
           })}

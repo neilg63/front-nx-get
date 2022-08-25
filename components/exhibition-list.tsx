@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { BaseEntity } from "../lib/interfaces";
 import { PageDataSet } from "../lib/entity-data";
 import Paginator from "./widgets/paginator";
-import { defaultImageLoader } from "../lib/utils";
 import Head from "next/head";
 import SeoHead from "./layout/head";
 import { Container, Image } from "@nextui-org/react";

@@ -72,10 +72,16 @@ header.header {
       }
     }
     li {
-      padding: 0.5em 1em;
+      padding: 0 1em;
       display: flex;
       flex-flow: row nowrap;
       align-items: center;
+      user-select: none;
+      &.active {
+        a {
+          font-weight: bold;
+        }
+      }
       &.search-link,
       &.section--home {
         .icon {
@@ -96,12 +102,6 @@ header.header {
           overflow: hidden;
           transition: all 0.333s ease-in-out;
         }
-        &:hover {
-          > div:first-child {
-            max-width: 10em;
-            margin-right: 0.25em;
-          }
-        }
       }
       &:hover {
         a {
@@ -109,6 +109,21 @@ header.header {
         }
       }
     }
+    &:hover {
+      li.search-link > div:first-child {
+        max-width: 10em;
+        margin-right: 0.25em;
+      }
+    }
+  }
+}
+
+.top-nav,
+.filter-nav {
+  h1,
+  h2,
+  li {
+    text-transform: uppercase;
   }
 }
 
@@ -218,12 +233,26 @@ ul, ol {
     justify-content: center;
     align-items: center;
     li {
-      padding: 0.25em 1em;
+      padding: 0 0.5em;
+      position: relative;
+      &::after {
+        position: absolute;
+        top: 0.625em;
+        bottom: 0.625em;
+        right: 0;
+        content: " ";
+        border-right: solid 1px $dark;
+      }
+      &:last-child {
+        &::after {
+          border-right: none;
+        }
+      }
       a {
         display: flex;
-        padding: 0.5em;
-        font-weight: bold;
-        color: $mid-grey;
+        padding: 0.25em 0.5em;
+        color: $dark;
+        white-space: nowrap;
         &:hover {
           background-color: $mid-grey;
           color: white;
@@ -487,8 +516,11 @@ figure {
           border-right: none;
         }
       }
-      &.active {
+      &:hover {
         color: $primary;
+      }
+      &.active {
+        font-weight: bold;
       }
     }
   }
