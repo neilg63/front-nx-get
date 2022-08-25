@@ -2,9 +2,9 @@ import { Input } from '@nextui-org/react';
 import { useEffect, useState } from "react";
 import Link from 'next/link';
 import { toAlias } from '../../lib/converters';
-import { SiteInfo, PageDataSet, SimpleMenuItem } from '../../lib/entity-data';
-import styles from './styles.module.scss';
+import { PageDataSet, SimpleMenuItem } from '../../lib/entity-data';
 import { useRouter } from 'next/router';
+import { notEmptyString } from '../../lib/utils';
 
 const renderClassNames = (item: SimpleMenuItem): string => {
   const alias = toAlias(item.path);
@@ -30,6 +30,13 @@ const Header = (pageData: PageDataSet) => {
   const [search, setSearch] = useState('');
   const router = useRouter();
 
+  const submitSearch = () => {
+    if (notEmptyString(search, 1)) {
+      const path = ['/search', encodeURIComponent(search.toLowerCase())].join('/');
+      router.push(path);
+    }
+  }
+
   const updateSearch = (e: any) => {
     if (e instanceof Object) {
       const { target } = e;
@@ -39,9 +46,14 @@ const Header = (pageData: PageDataSet) => {
     }
   }
 
-  const submitSearch = () => {
-    const path = ['/search', encodeURIComponent(search)].join('/');
-    router.push(path);
+  const submitOnEnter = (e: any) => {
+    if (e instanceof Object) {
+      if (e.keyCode) {
+        if (e.keyCode === 13) {
+          submitSearch();
+        }
+      }
+    }
   }
 
   useEffect(() => {
@@ -61,7 +73,7 @@ const Header = (pageData: PageDataSet) => {
             </li>
           })}
           <li className="search-link">
-            <Input name='search' value={search} onChange={updateSearch} className='search-field' size='sm' />
+            <Input name='search' value={search} onChange={updateSearch} className='search-field' size='sm' onKeyDown={e => (submitOnEnter(e))} />
             <i className='icon icon-search' title='Search' onClick={submitSearch}></i>
           </li>
         </ul>}

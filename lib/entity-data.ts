@@ -96,6 +96,7 @@ export class SiteInfo {
 
 export class TaxTerm {
   name = "";
+  slug = "";
   uuid = "";
 
   constructor(inData: any = null) {
@@ -104,18 +105,20 @@ export class TaxTerm {
       if (keys.includes("name")) {
         this.name = inData.name;
       }
+      if (keys.includes("slug")) {
+        this.slug = inData.slug;
+      }
       if (keys.includes("uuid")) {
         this.uuid = inData.uuid;
+      }
+      if (this.slug.length < 1) {
+        this.slug = sanitize(this.name);
       }
     }
   }
 
   get hasName() {
     return notEmptyString(this.name);
-  }
-
-  get slug() {
-    return sanitize(this.name);
   }
 
   get key() {

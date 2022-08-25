@@ -26,3 +26,11 @@ export interface Dims2D {
 export interface BaseEntity {
   [key: string]: any;
 }
+
+export interface FilterOption {
+  key: string;
+  name: string;
+  itemKey?: string;
+  selected?: boolean;
+  className?: string;
+}
