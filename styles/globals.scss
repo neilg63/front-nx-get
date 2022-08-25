@@ -3,6 +3,7 @@ $large-screen-width: 1350px;
 $mid-screen-width: 900px;
 $mini-screen-width: 673px;
 $small-screen-width: 450px;
+$sidebar-width: 15em;
 
 $dark: #333333;
 $mid-grey: #999999;
@@ -49,6 +50,9 @@ header.header {
   }
   
   @media screen and (min-width: $mid-screen-width) {
+    position: sticky;
+    top: 2em;
+    width: $sidebar-width;
     .expand-nav {
         display: none;
       }
@@ -145,7 +149,7 @@ header.header {
 
   @media screen and (min-width: $mid-screen-width) {
     display: grid;
-    grid-template-columns: 15em auto;
+    grid-template-columns: $sidebar-width auto;
     column-gap: 2.5%;
     align-items: flex-start;
     grid-template-areas: "header main"
@@ -563,6 +567,70 @@ figure {
   &.show-by-type {
     .types-nav {
       max-height: 5em;
+      opacity: 1;
+    }
+  }
+}
+
+.gt-outer body>div#__next>div {
+  .splash-overlay,
+  .splash-overlay figure,
+  .splash-overlay figure figcaption,
+  .splash-overlay figure > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .splash-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      opacity: 0;
+      pointer-events: none;
+      background-color: white;
+
+      figure {
+        width: 100%;
+        height: 100%;
+        img {
+          width: 100%;
+          max-width: $max-screen-width;
+          height: auto;
+        }
+        figcaption {
+          position: absolute;
+          top: 25%;
+          bottom: 25%;
+          left: 10%;
+          right: 10%;
+          cursor: pointer;
+          font-size: 5vw;
+          color: $primary;
+          opacity: 0;
+          transition: opacity 0.5s ease-in-out;
+        }
+        &:hover {
+          figcaption {
+            opacity: 1;
+          }
+        }
+      }
+
+      transition: opacity 0.5s ease-in-out;
+
+      &.show-splash {
+        opacity: 1;
+        pointer-events: all;
+      }
+    }
+  .show-splash-link {
+    cursor: pointer;
+    opacity: 0;
+    padding: 2em 0;
+    font-weight: bold;
+    &:hover {
       opacity: 1;
     }
   }

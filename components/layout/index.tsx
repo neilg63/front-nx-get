@@ -3,10 +3,8 @@ import { BaseEntity } from '../../lib/interfaces';
 import { PageDataSet } from '../../lib/entity-data';
 
 const Layout = (data: BaseEntity) => {
-  const { children } = data;
-  const wrapperClasses = '';
   const pageData = new PageDataSet(data)
-  const { site, meta } = pageData;
+  const { meta } = pageData;
   return (
     <>
       <Head>
