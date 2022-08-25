@@ -610,7 +610,18 @@ export class SearchPageDataSet extends PageDataSet {
   }
 }
 
-export type WidgetContent = NodeEntity | NodeEntity[] | MediaItem;
+export interface SimpleTerm {
+  tid: number;
+  title: string;
+  bundle: string;
+  path: string;
+  num_related?: number;
+  slug?: string;
+}
+
+export type WidgetItems = NodeEntity[] | MediaItem[] | SimpleTerm[];
+
+export type WidgetContent = NodeEntity | MediaItem | WidgetItems;
 
 export class PageWidget {
   type = "node";
@@ -639,5 +650,29 @@ export class CompoundPageDataSet extends PageDataSet {
         });
       }
     }
+  }
+
+  getWidgetTerms(key = ""): WidgetContent {
+    if (this.widgets.has(key)) {
+      const pw = this.widgets.get(key)!;
+      if (pw.type === "terms") {
+        if (pw.content instanceof Array) {
+          return pw.content;
+        }
+      }
+    }
+    return [];
+  }
+
+  getMediaItems(key = ""): MediaItem[] {
+    if (this.widgets.has(key)) {
+      const pw = this.widgets.get(key)!;
+      if (pw.type === "media") {
+        if (pw.content instanceof Array) {
+          return pw.content.map((item) => new MediaItem(item));
+        }
+      }
+    }
+    return [];
   }
 }
