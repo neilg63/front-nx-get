@@ -17,7 +17,7 @@ const About: NextPage<BaseEntity> = (data) => {
       <Head>
         <SeoHead meta={meta} />
       </Head>
-      <Container >
+      <Container as='main'>
         <article>
           <h1>{entity.title}</h1>
           <div className="body">{parse(entity.body)}</div>

@@ -321,6 +321,10 @@ export class MediaItem {
     return this.size("max_1300x1300");
   }
 
+  get large() {
+    return this.size("max_2600x2600");
+  }
+
   get preview() {
     return this.size("max_650x650");
   }
@@ -674,5 +678,17 @@ export class CompoundPageDataSet extends PageDataSet {
       }
     }
     return [];
+  }
+
+  getEntity(key = ""): NodeEntity {
+    if (this.widgets.has(key)) {
+      const pw = this.widgets.get(key)!;
+      if (pw.type === "node") {
+        if (pw.content instanceof Object) {
+          return new NodeEntity(pw.content);
+        }
+      }
+    }
+    return new NodeEntity();
   }
 }
