@@ -691,4 +691,16 @@ export class CompoundPageDataSet extends PageDataSet {
     }
     return new NodeEntity();
   }
+
+  getEntities(key = ""): NodeEntity[] {
+    if (this.widgets.has(key)) {
+      const pw = this.widgets.get(key)!;
+      if (pw.type === "nodes") {
+        if (pw.content instanceof Array) {
+          return pw.content.map((item) => new NodeEntity(item));
+        }
+      }
+    }
+    return [];
+  }
 }
