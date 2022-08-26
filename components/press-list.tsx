@@ -33,7 +33,7 @@ const PressList: NextPage<BaseEntity> = (data) => {
               <span className="text">{item.title}</span>
           </a></Link></h3>
           <p>{item.field_source}</p>
-          {item.hasDocument && <DownloadLink item={item.field_document!} label={ labels.downloadPdf} />}
+          {item.hasDocument && <DownloadLink item={item.field_document!} label={ labels.download_pdf} />}
           </li>)} 
         </ul>
         {showPaginator && <Paginator pageData={pageData} maxLinks={8} />}

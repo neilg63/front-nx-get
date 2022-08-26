@@ -147,6 +147,17 @@ header.header {
     text-transform: uppercase;
   }
 
+  .close-link {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+  }
+
+  .subtitle-link {
+    cursor: pointer;
+  }
+
   article, figure, section {
     h2, h3, h4, h5 {
       font-size: 1em;
@@ -616,6 +627,7 @@ figure {
         }
         figcaption {
           position: absolute;
+          user-select: none;
           top: 25%;
           bottom: 25%;
           left: 10%;
@@ -625,17 +637,38 @@ figure {
           color: $primary;
           opacity: 0;
           transition: opacity 0.5s ease-in-out;
+          i, span {
+            display: inline-block;
+          }
+          i.icon {
+            position: relative;
+            margin-left: 0.25em;
+            margin-right: 0.25em;
+            font-size: 0.75em;
+            transition: margin 0.5s ease-in-out;
+          }
+          &:hover {
+            i.icon {
+              position: relative;
+              left: 0;
+              margin-left: 0.5em;
+              margin-right: 0;
+            }
+          }
         }
         &:hover {
           figcaption {
-            opacity: 1;
+            opacity: 0.6667;
+            &:hover {
+              opacity: 1;
+            }
           }
         }
       }
 
       transition: opacity 0.5s ease-in-out;
 
-      &.show-splash {
+      &.active {
         opacity: 1;
         pointer-events: all;
       }
@@ -649,10 +682,29 @@ figure {
       opacity: 1;
     }
   }
+
+  .tag-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out;
+    &.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
 }
 
 .home-container {
   display: grid;
+
+    justify-content: flex-start;
+      align-items: flex-start;
   grid-template-areas: "main right"
       "footer footer";
   grid-template-columns: 3fr 2fr;
@@ -661,7 +713,40 @@ figure {
   }
   .news-previews {
     grid-area: right;
+
+    a:hover a, h4:hover, .more-link:hover {
+      color: $primary;
+      user-select: none;
+    }
+
+    .news-items {
+      article {
+        border-bottom: dotted 1px $dark;
+        margin: 0 0 0.25em 0;
+        padding: 0 0 0.25em 0;
+      }
+      margin-bottom: 1em;
+    }
+
+    .artwork-links {
+      margin-top: 2em;
+      h3 {
+        border-bottom: dotted 1px $dark;
+      }
+    }
+
+    > .more-link {
+      position: relative;
+      margin: 1.5em 0 3em 0;
+    }
+
+    .subtitle {
+      border-bottom: dotted 1px $dark;
+    }
   }
+
+
+
   .video-previews {
     grid-area: footer;
     display: grid;
