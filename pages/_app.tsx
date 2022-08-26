@@ -22,8 +22,10 @@ Router.events.on("routeChangeError", () => NProgress.done())
 export interface AppContextInterface {
   width: number;
   height: number;
+  escaped: boolean;
   setHeight: Function;
   setWidth: Function;
+  setEscaped: Function;
 }
 
 export const TopContext = React.createContext<AppContextInterface | null>(null);
@@ -43,9 +45,28 @@ export default function App({ Component, pageProps }: AppProps) {
   const className = buildOuterContextClasses(asPath);
   const [height, setHeight] = useState(600);
   const [width, setWidth] = useState(1200);
+  const [escaped, setEscaped] = useState(false);
+
+  const handleEscape = () => {
+    setEscaped(true);
+    setTimeout(() => {
+      setEscaped(false);
+    }, 500);
+  }
+
+
+
   useEffect(() => {
     setHeight(window.outerHeight);
     setWidth(window.outerWidth);
+    const handleKeyDown = (e: any) => {
+      switch (e.which) {
+        case 27:
+          handleEscape();
+          break;
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
   }, [])
   const { site } = pageProps;
   const queryClientRef = React.useRef<QueryClient>()
@@ -59,10 +80,12 @@ export default function App({ Component, pageProps }: AppProps) {
   return   <QueryClientProvider client={queryClientRef.current}>
     <Hydrate state={pageProps.dehydratedState}>
       <TopContext.Provider value={{
-      height,
-      width,
-      setHeight,
-      setWidth,
+        height,
+       width,
+        escaped,
+        setHeight,
+        setWidth,
+        setEscaped
         }}>
         <NextUIProvider {...pageProps} theme={theme}>
             <Header {...pageProps} />
