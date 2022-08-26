@@ -174,3 +174,15 @@ export const extractPageIndexFromContext = (context: any) => {
     : 1;
   return pageRef > 1 ? pageRef - 1 : 0;
 };
+
+export const buildConditionalClassNames = (
+  baseClassName = "",
+  trueClassName = "",
+  isTrue = false
+): string => {
+  const cls = [baseClassName];
+  if (isTrue) {
+    cls.push(trueClassName);
+  }
+  return cls.join(" ");
+};
