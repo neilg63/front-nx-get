@@ -142,6 +142,21 @@ header.header {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+
+  .upper {
+    text-transform: uppercase;
+  }
+
+  article, figure, section {
+    h2, h3, h4, h5 {
+      font-size: 1em;
+      font-weight: normal;
+    }
+    > h2, > h3, > h4, > h5 {
+      text-transform: uppercase;
+    }
+  }
+
   > main {
     position: relative;
     width: 100%;
@@ -633,5 +648,23 @@ figure {
     &:hover {
       opacity: 1;
     }
+  }
+}
+
+.home-container {
+  display: grid;
+  grid-template-areas: "main right"
+      "footer footer";
+  grid-template-columns: 3fr 2fr;
+  .current-exhition {
+    grid-area: main;
+  }
+  .news-previews {
+    grid-area: right;
+  }
+  .video-previews {
+    grid-area: footer;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 }

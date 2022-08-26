@@ -3,13 +3,14 @@ import { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { BaseEntity } from "../lib/interfaces";
-import { CompoundPageDataSet, MediaItem, SimpleTerm } from "../lib/entity-data";
+import { CompoundPageDataSet, MediaItem, NodeEntity, SimpleTerm } from "../lib/entity-data";
 import { containerProps } from "../lib/styles";
 import SeoHead from "./layout/head";
 import { useEffect, useState } from "react";
 import { clearLocal, fromLocal, hasLocal, toLocal } from "../lib/localstore";
-import MediaFigure from "./widgets/media-figure";
-import DateRange from "./widgets/date-range";
+import NewsItemPreview from "./widgets/news-item-preview";
+import VideoPreview from "./widgets/video-preview";
+import ExhibitionPreview from "./widgets/exhibition-preview";
 
 const numRelatedLabel = (numRelated = 0) => {
   const pl = numRelated === 1 ? '' : 's';
@@ -48,6 +49,10 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
   const hasSplash = numItems > 0;
   const hasCurrExhib = pageData.widgets.has('current_exhibition')
   const currentExhibition = pageData.getEntity('current_exhibition');
+  const newsItems = pageData.getEntities('latest_news');
+  const hasNews = newsItems.length > 0;
+  const videos = pageData.getEntities('latest_videos');
+  const hasVideos = videos.length > 0;
   const hideSplash = () => {
     toLocal('splash-viewed', true);
     setSplashClasses('splash-overlay');
@@ -66,17 +71,14 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
       <Head>
         <SeoHead meta={meta} />
       </Head>
-      <Container {...containerProps}>
-        {hasCurrExhib && <article>
-          <Link href={currentExhibition.path}>
-            <a>
-              <h3>{currentExhibition.title}</h3>
-              <MediaFigure item={currentExhibition.firstImage} size='preview' width='auto' height='100%' />
-              <p><DateRange item={currentExhibition.field_date_range} /></p>
-              <p>{currentExhibition.summary}</p>
-            </a>
-          </Link>
-        </article>}
+      <Container {...containerProps} className="home-container">
+        {hasCurrExhib && <section className='current-exhibition'><h2>Current Exhibition</h2><ExhibitionPreview node={ currentExhibition } /></section>}
+        {hasNews && <section className='news-previews column'>
+          {newsItems.map((item: NodeEntity) => <NewsItemPreview key={['news', item.uuid].join('-')} node={item} />)}
+          <h3 className='more-link'><Link href='/news'><a>More</a></Link></h3>
+        </section>}
+            {hasVideos && <section className='video-previews row'>{videos.map((item: NodeEntity) => <VideoPreview key={['video', item.uuid].join('-')} node={item} />)}
+        </section>}
         <ul className="tag-list">
         {tags.map((item: SimpleTerm, index: number) => {
           return <li key={toKey('tag', item.slug, index)}>
