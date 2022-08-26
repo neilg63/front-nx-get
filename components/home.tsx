@@ -6,13 +6,14 @@ import { BaseEntity } from "../lib/interfaces";
 import { CompoundPageDataSet, MediaItem, NodeEntity, SimpleTerm } from "../lib/entity-data";
 import { containerProps } from "../lib/styles";
 import SeoHead from "./layout/head";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { clearLocal, fromLocal, hasLocal, toLocal } from "../lib/localstore";
 import NewsItemPreview from "./widgets/news-item-preview";
 import VideoPreview from "./widgets/video-preview";
 import ExhibitionPreview from "./widgets/exhibition-preview";
 import labels from "../lib/labels";
 import { buildConditionalClassNames } from "../lib/utils";
+import { TopContext } from "../pages/_app";
 
 const numRelatedLabel = (numRelated = 0) => {
   const pl = numRelated === 1 ? '' : 's';
@@ -37,6 +38,7 @@ const buildSplashClasses = (): string => {
 
 const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
   const pageData = new CompoundPageDataSet(data);
+  const context = useContext(TopContext);
   const { meta } = pageData;
   const [splashClasses, setSplashClasses] = useState('splash-overlay');
   const [tagOverlayClasses, setTagOverClasses] = useState('tag-overlay');
@@ -52,6 +54,7 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
   const hasNews = newsItems.length > 0;
   const videos = pageData.getEntities('latest_videos');
   const hasVideos = videos.length > 0;
+
   const hideSplash = () => {
     toLocal('splash-viewed', true);
     setSplashClasses('splash-overlay');
@@ -61,17 +64,25 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
     clearLocal('splash-viewed');
     setSplashClasses('splash-overlay show-splash');
   }
+ 
+  const showHideTags = (hide = true) => {
+     setTagOverClasses(buildConditionalClassNames('tag-overlay', 'active', !hide));
+  }
 
   const toggleShowTags = () => {
     const active = tagOverlayClasses.includes('active')
-    setTagOverClasses(buildConditionalClassNames('tag-overlay', 'active', !active));
+    showHideTags(active);
   }
 
   useEffect(() => {
     setSplashClasses(buildSplashClasses());
-    const active = tagOverlayClasses.includes('active')
-    setTagOverClasses(buildConditionalClassNames('tag-overlay', 'active', active));
-  },[splashClasses, setSplashClasses, tagOverlayClasses, setTagOverClasses])
+    if (context) {
+      if (context.escaped) {
+        hideSplash();
+        showHideTags(true);
+      }
+    }
+  },[splashClasses, setSplashClasses, tagOverlayClasses, setTagOverClasses, context])
   return (
     <>
       <Head>
