@@ -11,7 +11,7 @@ export const expandDate = (dtRef: string): string => {
 
 export const shortDate = (dtRef: string | Date): string => {
   const dt = typeof dtRef === "string" ? new Date(expandDate(dtRef)) : dtRef;
-  return format(dt, "dd MM yyyy");
+  return format(dt, "dd.MM.yyyy");
 };
 
 export const mediumDate = (dtRef: string | Date): string => {

@@ -7,6 +7,7 @@ const labels = {
   artworks: "Artworks",
   related_artworks: "Get Related",
   all_artworks: "See All",
+  about_title: "About",
 };
 
 export default labels;

@@ -7,6 +7,14 @@ export interface KeyStringValue {
   value: string;
 }
 
+export interface SimpleLink {
+  path: string;
+  title: string;
+  itemKey?: string;
+  selected?: boolean;
+  className?: string;
+}
+
 export interface SlugNameNum {
   num: number;
   slug: string;

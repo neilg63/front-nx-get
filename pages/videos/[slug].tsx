@@ -1,10 +1,10 @@
 import type { GetServerSideProps } from 'next'
-import ExhibitionPage from '../../components/exhibition-page';
+import VideoPage from '../../components/video-page';
 import { fetchFullNode } from '../../lib/api-view-results';
 
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const { slug } = context?.params;
-  const alias = ['exhibitions', slug].join('/');
+  const alias = ['videos', slug].join('/');
   const pageData = await fetchFullNode(alias);
 
   return {
@@ -12,4 +12,4 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
   }
 }
 
-export default ExhibitionPage;
+export default VideoPage;

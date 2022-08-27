@@ -1,7 +1,7 @@
 import type { GetServerSideProps } from 'next'
-import PressList from '../../components/press-list';
-import { fetchApiViewResults } from '../../lib/api-view-results';
-import { extractPageIndexFromContext, isNumeric } from '../../lib/utils';
+import PressList from '../../../components/press-list';
+import { fetchApiViewResults } from '../../../lib/api-view-results';
+import { extractPageIndexFromContext, isNumeric } from '../../../lib/utils';
 
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const page = extractPageIndexFromContext(context);
