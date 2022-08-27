@@ -102,7 +102,12 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
             <h4 className='subtitle-link'><Link href='/artwroks'><a>{ labels.all_artworks }</a></Link></h4>
           </div>
         </section>
-            {hasVideos && <section className='video-previews row'>{videos.map((item: NodeEntity) => <VideoPreview key={['video', item.uuid].join('-')} node={item} />)}
+        {hasVideos && <section className='video-previews column'>
+          <h3 className='section-header'>{ labels.latest_videos }</h3>
+          <div className='items'>
+            {videos.map((item: NodeEntity) => <VideoPreview key={['video', item.uuid].join('-')} node={item} />)}
+          </div>
+
         </section>}
         <aside className={tagOverlayClasses}>
           <p className='close-link' onClick={() => toggleShowTags()}><i className='icon icon-close'></i></p>

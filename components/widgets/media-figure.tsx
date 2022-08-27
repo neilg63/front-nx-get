@@ -1,4 +1,4 @@
-import { Image } from "@nextui-org/react";
+import { Image, ObjectFit } from "@nextui-org/react";
 import { MediaItem } from "../../lib/entity-data";
 
 const toMediaSrc = (item: MediaItem, size: string) => {
@@ -12,9 +12,9 @@ const toMediaSrc = (item: MediaItem, size: string) => {
   }
 }
 
-const MediaFigure = ({ item, size, width, height}: { item: MediaItem, size: string, width: string | number, height: string | number }) => {
+const MediaFigure = ({ item, size, width, height, objectFit}: { item: MediaItem, size: string, width: string | number, height: string | number, objectFit: ObjectFit }) => {
   const src = toMediaSrc(item, size);
-  return <figure className={size}><Image src={src} alt={item.alt} width={width} height={height} objectFit='contain' /></figure>
+  return <figure className={size}><Image src={src} alt={item.alt} width={width} height={height} objectFit={objectFit} /></figure>
 }
 
 
