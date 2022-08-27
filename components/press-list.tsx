@@ -12,6 +12,7 @@ import Head from "next/head";
 import SeoHead from "./layout/head";
 import { Container } from "@nextui-org/react";
 import { containerProps } from "../lib/styles";
+import AboutNav from "./widgets/about-nav";
 
 const PressList: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
@@ -23,6 +24,7 @@ const PressList: NextPage<BaseEntity> = (data) => {
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps}>
+      <AboutNav current='/about/press' />
       <section className="press-list">
       {hasItems && <>
         <ul>

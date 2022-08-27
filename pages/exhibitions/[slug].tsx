@@ -1,4 +1,4 @@
-import type { GetServerSideProps, GetStaticPathsContext, GetStaticPathsResult, GetStaticProps, GetStaticPropsContext } from 'next'
+import type { GetServerSideProps } from 'next'
 import ExhibitionPage from '../../components/exhibition-page';
 import { fetchFullNode } from '../../lib/api-view-results';
 

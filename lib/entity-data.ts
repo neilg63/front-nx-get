@@ -77,6 +77,7 @@ export class SiteMenus {
 export class SiteInfo {
   info: SiteInfoCore = new SiteInfoCore();
   menus: SiteMenus = new SiteMenus();
+  credits = "";
   [key: string]: any;
 
   constructor(inData: any = null) {
@@ -86,6 +87,8 @@ export class SiteInfo {
           this.info = new SiteInfoCore(value);
         } else if (key === "menus" && value instanceof Object) {
           this.menus = new SiteMenus(value);
+        } else if (key === "credits" && typeof value === "string") {
+          this.credits = value;
         } else {
           this[key] = value;
         }
@@ -469,6 +472,20 @@ export class NodeEntity {
     return (
       this.field_document instanceof MediaItem && this.field_document.isDocument
     );
+  }
+
+  get hasVideo() {
+    return (
+      this.field_video instanceof MediaItem &&
+      notEmptyString(this.field_video.uri)
+    );
+  }
+
+  get vimeoUrl() {
+    if (this.hasVideo && this.field_video.uri.includes("vimeo.")) {
+      const id = this.field_video.uri.replace(/^.*?\bvimeo\.[^\/]+?\//, "");
+      return `https://player.vimeo.com/video/${id}`;
+    }
   }
 
   get hasImages() {
