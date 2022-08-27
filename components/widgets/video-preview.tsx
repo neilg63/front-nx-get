@@ -9,7 +9,7 @@ const VideoPreview = ({node}: {node: NodeEntity}) => {
   return <figure className='node-preview'>
     <Link href={node.path}>
       <a>
-        <MediaFigure item={ node.firstImage } size='preview' width='auto' height='100%' />
+        <MediaFigure item={ node.firstImage } size='preview' width='auto' height='100%' objectFit='cover' />
         <h4>{node.title}</h4>
         <p>{shortDate(node.field_date)}</p>
       </a>

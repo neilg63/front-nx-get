@@ -7,7 +7,7 @@ const ExhibitionPreview = ({node}: {node: NodeEntity}) => {
   return <article>
     <Link href={node.path}><a>
         <h3>{node.title}</h3>
-        <MediaFigure item={node.firstImage} size='preview' width='auto' height='100%' />
+      <MediaFigure item={node.firstImage} size='medium' width='100%' height='auto' objectFit='contain' />
         <p><DateRange item={node.field_date_range} /></p>
         <p>{node.summary}</p>
       </a>

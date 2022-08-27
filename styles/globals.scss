@@ -820,8 +820,16 @@ figure {
   grid-template-areas: "main right"
       "footer footer";
   grid-template-columns: 3fr 2fr;
+  column-gap: 2.5%;
   .current-exhition {
     grid-area: main;
+    figure {
+      width: 100%;
+      > div,
+      img {
+        width: 100%;
+      }
+    }
   }
   .news-previews {
     grid-area: right;
@@ -857,11 +865,23 @@ figure {
     }
   }
 
-
-
   .video-previews {
     grid-area: footer;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    padding: 2em 0;
+    h3 {
+      margin: 0.5em 0 1em 0;
+      padding: 0.25em 0;
+    }
+    .items {
+      width: 100%;
+      margin: 0.5em 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      column-gap: 2.5%;
+    }
+    figure > div,
+    figure {
+      aspect-ratio: 16 / 9;
+    }
   }
 }
