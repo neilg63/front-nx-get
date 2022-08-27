@@ -15,7 +15,8 @@ const iconClassName = (uri = '') => {
 }
 
 const Footer = ({ site }: { site: SiteInfo }) => {
-  const { menus, credits } = site;
+  const siteObj = site instanceof Object ? site : { menus: {footer: [], social: []}, credits: '' };
+  const { menus, credits } = siteObj;
   const hasMenus = menus instanceof Object;
   const menuItems = hasMenus && menus.footer instanceof Array ? menus.footer : [];
   const sociaItems = hasMenus && menus.social instanceof Array ? menus.social : [];
