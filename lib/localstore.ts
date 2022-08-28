@@ -80,6 +80,17 @@ export const fromLocal = (key = "", maxAge = -1): StorageItem => {
   return obj;
 };
 
+export const tempLocalBool = (key = ""): boolean => {
+  const stored = fromLocal(key, 60);
+  return stored.valid && stored.data === 1;
+};
+
+export const setTempLocalBool = (key = "", isTrue = false): string => {
+  const intVal = isTrue ? 1 : 0;
+  toLocal(key, intVal, "int");
+  return key;
+};
+
 export const clearLocal = (key = "", fuzzy = false): boolean => {
   const keys = Object.keys(localStorage);
   let deleted = false;

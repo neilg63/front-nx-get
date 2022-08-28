@@ -1,9 +1,9 @@
 import { NextPage } from "next";
 import Link from 'next/link';
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useContext, useCallback } from "react";
 import { BaseEntity, FilterOption, SlugNameNum, YearNum } from "../lib/interfaces";
 import { NodeEntity, PageDataSet } from "../lib/entity-data";
-import Paginator from "./widgets/paginator";
+//import Paginator from "./widgets/paginator";
 import Image from "next/image";
 import { defaultImageLoader, isNumeric, notEmptyString } from "../lib/utils";
 import TypeLink from "./widgets/type-link";
@@ -12,9 +12,13 @@ import Head from "next/head";
 import { Container, Radio } from "@nextui-org/react";
 import SeoHead from "./layout/head";
 import { containerProps } from "../lib/styles";
-import { setEmtyFigureHeight } from "../lib/dom";
+import { getScrollTop, setEmtyFigureHeight } from "../lib/dom";
 import { useRouter } from "next/router";
 import { MetaDataSet } from "../lib/ui-entity";
+import { TopContext } from "../pages/_app";
+import { fetchApiViewResults } from "../lib/api-view-results";
+import { setTempLocalBool, tempLocalBool } from "../lib/localstore";
+import labels from "../lib/labels";
 
 
 const filterOpts = [
@@ -48,6 +52,11 @@ const extractTypeFromList = (slug = '', items: SlugNameNum[]) => {
   return tagName;
 }
 
+const itemId = (id = '') => ['artwork-preview', id].join('-');
+
+
+const figureKey = (id = '', index = 0) => ['af', id, index].join('-');
+
 const navClassName = (mode: string): string => {
   return ['filter-nav', ['show-by', mode].join('-')].join(' ');
 }
@@ -68,6 +77,43 @@ const ArtworkYearNav = ({ years, current }: { years: YearNum[], current: string 
   );
 }
 
+const isLifeYear = (yearRef: string): boolean => {
+  if (isNumeric(yearRef) && yearRef.length === 4) {
+    const y = typeof yearRef === 'string' ? parseInt(yearRef, 10) : typeof yearRef === 'number' ? yearRef : 0;
+    return y > 1950;
+  } else {
+    return false;
+  }
+}
+
+const loadMore = async (path = '', page = 1): Promise<NodeEntity[]> => {
+  try {
+    const parts = path.replace(/^\//, '').split('/');
+    let base = 'artworks';
+    const uriParts = [];
+    if (parts.length > 1) {
+      let second = parts[1];
+      if (!isLifeYear(second)) {
+        base = second.startsWith('tag--') ? 'artworks-by-tag' : 'artworks-by-type';
+        second = second.includes('--') ? second.split('--').shift()! : second;
+      }
+      uriParts.push(base);
+      uriParts.push(second);
+    } else {
+      uriParts.push(base);
+    }
+    const uri = uriParts.join('/');
+    const data: any = await fetchApiViewResults(uri, { page });
+    if (data instanceof Object && data.items instanceof Array) {
+      return data.items.map((n:any) => new NodeEntity(n));
+    } else {
+      return []
+    }
+  } catch (e: any) {
+    return [];
+  }
+}
+
 const ArtworkTypeNav = ({ types, current }: { types: SlugNameNum[], current: string }) => {
   const basePath = '/artworks/';
   return (
@@ -81,12 +127,16 @@ const ArtworkTypeNav = ({ types, current }: { types: SlugNameNum[], current: str
 
 const ArtworkList: NextPage<BaseEntity> = (data) => {  
   const pageData = useMemo(() => new PageDataSet(data), [data]);
-  const [items, setItems] = useState<NodeEntity[]>([]);
-  const [meta, setMeta] = useState(new MetaDataSet());
-  const [showPaginator, setShowPaginator] = useState(false);
+  //const pageData = new PageDataSet(data);
+  const context = useContext(TopContext);
+  const [scrollPage, setScrollPage] = useState(pageData.page);
+  const maxScrollPages = 5;
+  const [scrollLoadPos, setScrollLoadPos] = useState(0);
+  const isLloading = tempLocalBool('loading');
+  const [loading, setLoading] = useState<boolean>(isLloading);
+  //const [showPaginator, setShowPaginator] = useState(false);
   const [contextualTitle, setContextualTitle] = useState('Artworks');
   const [filterMode, setFilterMode] = useState('all');
-  const [hasItems, setHasItems] = useState(false);
   const emptyFigStyles = { width: 0, display: 'none' };
   const [hasYears, setHasYears] = useState(false)
   const [hasTypes, setHasTypes] = useState(false)
@@ -95,7 +145,6 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
   const [filterOptions, setFilterOptions] = useState<FilterOption[]>([]);
   const [subPath, setSubPath] = useState('');
   const router = useRouter();
-  
   const changeFilterMode = (mode: string) => {
     setFilterMode(mode);
     if (mode === 'all') {
@@ -103,6 +152,26 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       if (currPath !== '/artworks') {
         router.push('/artworks');
       }
+    }
+  }
+
+  const loadNext = () => {
+    const currPath = router.asPath.split('?').shift();
+    //const scrollPageIndex = scrollPage - pageData.page;
+    const nextPage = pageData.nextPageOffset;
+    if (pageData.mayLoad(maxScrollPages)) {
+      setTempLocalBool('loading', true);
+      setLoading(true);
+      loadMore(router.asPath, nextPage).then((items: NodeEntity[]) => {
+        pageData.addItems(items);
+        setLoading(false);
+        setTimeout(() => {
+          setTempLocalBool('loading', false);
+        }, 500);
+      });
+    } else {
+      const nextPageNum = nextPage + 1;
+      router.push(currPath + '?page=' + nextPageNum);
     }
   }
 
@@ -114,8 +183,6 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       setHasYears(true);
     }
     const typeRefs = pageData.sets.has('types') ? pageData.sets.get('types') : [];
-    setItems(items);
-    setMeta(meta);
     if (typeRefs instanceof Array && typeRefs.length > 0) {
       setTypes(typeRefs as SlugNameNum[]);
       setHasTypes(true);
@@ -150,8 +217,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       setContextualTitle(titleParts.join(' | '));
     }
     setFilterMode(fm);
-    setShowPaginator(total > 0 && total > perPage);
-    setHasItems(items instanceof Array && items.length > 0);
+    //setShowPaginator(total > 0 && total > perPage && scrollPage < 2);
     setFilterOptions(filterOpts.map((row, ri) => {
       const itemKey = ['filter-opt', row.key, ri].join('-');
       const selected = row.key === fm;
@@ -159,13 +225,57 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       return { ...row, itemKey, selected, className }
     }));
     setEmtyFigureHeight(document);
+
+    const fetchMoreItems = () => {
+      setLoading(true);
+      setTempLocalBool('loading', true);
+      const nextPage = pageData.nextPageOffset;
+      if (pageData.mayLoad(maxScrollPages)) {
+        setScrollPage(nextPage);
+        loadMore(router.asPath, nextPage).then((items: NodeEntity[]) => {
+          pageData.addItems(items);
+          setTimeout(() => {
+            setLoading(false);
+            setTempLocalBool('loading', false);
+          }, 1000);
+        });
+      }
+      
+    }
+
+    const onScroll = () => {
+       const st = getScrollTop();
+      const isLoading = loading || tempLocalBool('loading');
+       if (context && !isLoading && scrollPage < pageData.numPages) {
+         const relPage = scrollPage - pageData.page;
+          const divisor = scrollPage < 2 ? 4 : relPage < 3 ? 3 : 2;
+          const stopVal = context.height / divisor;
+          const targetVal = scrollLoadPos + stopVal;
+         if (st > targetVal) {
+            setScrollLoadPos(st);
+            fetchMoreItems();
+         } else if (st < scrollLoadPos) {
+           setScrollLoadPos(st); 
+          }
+       }
+    };
     setTimeout(() => {
-      setEmtyFigureHeight(document);
+     setEmtyFigureHeight(document);
     }, 500);
-  }, [pageData, contextualTitle, setContextualTitle, subPath,setSubPath, router, types]);
+    setTimeout(() => {
+     setTempLocalBool('loading', false);
+    }, 3000);
+    window.addEventListener('scroll', onScroll);
+    if (pageData.loadedPages < 2 && pageData.numPages > 1) {
+      setTimeout(fetchMoreItems, 500);
+    }
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, [pageData, contextualTitle, subPath, router, types, context, scrollPage, scrollLoadPos, loading]);
   return <>
     <Head>
-      <SeoHead meta={meta} />
+      <SeoHead meta={pageData.meta} />
     </Head>
     <Container {...containerProps}>
       <nav className={navClassName(filterMode)}>
@@ -179,8 +289,8 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
         {hasTypes && <ArtworkTypeNav types={types} current={ subPath }/>}
       </nav>
       <section className="artwork-list">
-        {hasItems && <><div className="flex-rows-6">
-          {items.map(item => <figure key={item.uuid} style={item.firstImage.calcAspectStyle()} className='node'>
+        {pageData.hasItems && <><div className="flex-rows-6">
+          {pageData.items.map((item, index) => <figure key={figureKey(item.uuid, index)} id={ itemId(item.uuid) }  style={item.firstImage.calcAspectStyle()} className='node'>
             <Link href={item.path} className="image-holder"><a className="image-link" title={ item.numMediaLabel }>
                 {item.hasImage && <Image loader={defaultImageLoader} src={item.firstImage.preview} alt={item.alt} width={item.firstImage.calcWidth('preview')} height={item.firstImage.calcHeight('preview')} objectFit='contain' layout='intrinsic' />}
                 </a></Link>
@@ -192,7 +302,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
             </figure>)}
           <figure className="empty-figure" style={ emptyFigStyles }></figure>
           </div>
-          {showPaginator && <Paginator pageData={pageData} maxLinks={8} />}
+          {pageData.mayLoadMore && <p onClick={() => loadNext()} title={pageData.nextPageOffset.toString()} className='load-more'><span className='text-label'>{pageData.moreInfo} {labels.load_older }</span><i className='icon icon-next-arrow-narrow'></i></p>}
         </>}
       </section>
     </Container>

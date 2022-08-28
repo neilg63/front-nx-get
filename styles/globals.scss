@@ -282,6 +282,23 @@ header.header {
   }
 }
 
+
+.load-more {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  &:hover {
+    color: $primary;
+  }
+  i, span {
+    display: inline-block;
+  }
+  i.icon {
+    margin-left: 0.375em;
+    font-size: 1.125em;
+  }
+}
+
 .row, .column {
   display: flex;
 }
@@ -626,13 +643,16 @@ figure {
   }
 
   .sub-nav {
+    position: relative;
     max-height: 0;
     overflow: hidden;
     opacity: 0;
+    justify-content: flex-start;
+    left: -0.625em;
     li {
       position: relative;
       padding: 0.125em 0.625em;
-  
+      user-select: none;
       &::after {
         content: "";
         position: absolute;
@@ -649,8 +669,11 @@ figure {
       }
       &.active {
         a {
-          color: $primary;
+          font-weight: bold;
         }
+      }
+      &:hover {
+        color: $primary;
       }
     }
   }

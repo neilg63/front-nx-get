@@ -21,3 +21,6 @@ export const setEmtyFigureHeight = (document: Document) => {
     }
   }
 };
+
+export const getScrollTop = () =>
+  window.pageYOffset || document.documentElement.scrollTop;
