@@ -42,3 +42,8 @@ export interface FilterOption {
   selected?: boolean;
   className?: string;
 }
+
+export interface StartEnd {
+  start: number;
+  end: number;
+}

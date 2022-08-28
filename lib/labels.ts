@@ -8,6 +8,7 @@ const labels = {
   related_artworks: "Get Related",
   all_artworks: "See All",
   about_title: "About",
+  load_older: "Older",
 };
 
 export default labels;

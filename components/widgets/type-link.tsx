@@ -16,7 +16,7 @@ const TypeLink = ({ value, basePath }: { value: any, basePath: string}) => {
   return (
     <>
       { hasValue && 
-        <p className="type"><Link href={typePath(slug, basePath)}><a>{name}</a></Link></p>
+        <Link href={typePath(slug, basePath)}><a>{name}</a></Link>
     }
     </>
   );

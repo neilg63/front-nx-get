@@ -1,6 +1,12 @@
 import contentTypes from "./content-types";
 import { sanitize } from "./converters";
-import { Dims2D, KeyStringValue, SlugNameNum, YearNum } from "./interfaces";
+import {
+  Dims2D,
+  KeyStringValue,
+  SlugNameNum,
+  StartEnd,
+  YearNum,
+} from "./interfaces";
 import { MetaDataSet } from "./ui-entity";
 import {
   isArrayOfObjectsWith,
@@ -583,6 +589,64 @@ export class PageDataSet {
         });
       }
     }
+  }
+
+  addItems(items: NodeEntity[] = []) {
+    const currNids = this.items.map((row) => row.nid);
+    for (const item of items) {
+      const exists = currNids.includes(item.nid);
+      if (!exists) {
+        this.items.push(item);
+      }
+    }
+  }
+
+  get hasItems() {
+    return this.items.length > 0;
+  }
+
+  get numPages() {
+    return this.perPage > 0 && this.total > 0
+      ? Math.ceil(this.total / this.perPage)
+      : 1;
+  }
+
+  get loadedPages() {
+    return Math.ceil(this.items.length / this.perPage);
+  }
+
+  get loadedPageIndex() {
+    return this.loadedPages > 0 ? this.loadedPages - 1 : 0;
+  }
+
+  get nextPageOffset() {
+    return this.page + this.loadedPages;
+  }
+
+  get startEnd(): StartEnd {
+    const start = this.page * this.perPage + 1;
+    const endRefNum =
+      start + Math.ceil(this.items.length / this.perPage) * this.perPage - 1;
+    const end = endRefNum > this.total ? this.total : endRefNum;
+    return { start, end };
+  }
+
+  get moreInfo() {
+    const { start, end } = this.startEnd;
+    return `${start} to ${end} of ${this.total}`;
+  }
+
+  get mayLoadMore() {
+    const { end } = this.startEnd;
+    return end < this.total;
+  }
+
+  mayLoad(maxScrollPages = 5) {
+    return maxScrollPages > Math.ceil(this.items.length / this.perPage);
+  }
+
+  get showMore() {
+    return this.numPages > 1 && this.items.length < this.total;
   }
 }
 
