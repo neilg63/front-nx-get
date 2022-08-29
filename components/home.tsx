@@ -99,7 +99,7 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
           <div className='artwork-links'>
             <h3 className='subtitle'>{labels.artworks}</h3>
             <h4 className='subtitle-link' onClick={() => toggleShowTags()}>{labels.related_artworks}</h4>
-            <h4 className='subtitle-link'><Link href='/artwroks'><a>{ labels.all_artworks }</a></Link></h4>
+            <h4 className='subtitle-link'><Link href='/artworks'><a>{ labels.all_artworks }</a></Link></h4>
           </div>
         </section>
         {hasVideos && <section className='video-previews column'>

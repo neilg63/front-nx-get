@@ -3,7 +3,8 @@ import { NodeEntity } from "../../lib/entity-data";
 import DateRange from "./date-range";
 import MediaFigure from "./media-figure";
 
-const ExhibitionPreview = ({node}: {node: NodeEntity}) => {
+const ExhibitionPreview = ({ node }: { node: NodeEntity }) => {
+  
   return <article>
     <Link href={node.path}><a>
         <h3>{node.title}</h3>

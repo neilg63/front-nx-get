@@ -6,7 +6,7 @@ import Timeline from '../../../components/timeline';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const page = extractPageIndexFromContext(context);
-  const pageData = await fetchApiViewResults('press-releases', { page });
+  const pageData = await fetchApiViewResults('timeline', { page });
   return {
     props: pageData,
   }
