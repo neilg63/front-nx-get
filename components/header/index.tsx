@@ -72,7 +72,7 @@ const Header = (pageData: PageDataSet) => {
 
   return (
     <header className='header'>
-      <Link href={'/'}><a className='logo'></a></Link>
+      <Link href={'/tags'}><a className='logo'></a></Link>
       <nav className='top-nav'>
         {hasMenuItems && <ul>
           {mainItems.map(item => {
