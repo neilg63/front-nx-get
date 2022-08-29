@@ -283,18 +283,35 @@ header.header {
 }
 
 
-.load-more {
+.listing-nav {
   cursor: pointer;
   display: flex;
   align-items: center;
-  &:hover {
-    color: $primary;
+  margin: 0.75em 0 1.5em 0;
+  .nav-link {
+    display: flex;
+    align-items: center;
+    &:hover {
+      color: $primary;
+    }
+    &.prev {
+      margin-right: 1em;
+    }
+    &.next {
+      margin-left: 1em;
+    }
   }
   i, span {
     display: inline-block;
   }
+
   i.icon {
-    margin-left: 0.375em;
+    &.next {
+      margin-left: 0.25em;
+    }
+    &.prev {
+      margin-right: 0.25em;
+    }
     font-size: 1.125em;
   }
 }
