@@ -17,8 +17,9 @@ import { useRouter } from "next/router";
 import { MetaDataSet } from "../lib/ui-entity";
 import { TopContext } from "../pages/_app";
 import { fetchApiViewResults } from "../lib/api-view-results";
-import { setTempLocalBool, tempLocalBool } from "../lib/localstore";
+import { fromLocal, setTempLocalBool, tempLocalBool, toLocal } from "../lib/localstore";
 import labels from "../lib/labels";
+import { isMinLargeSize, numScrollBatches } from "../lib/settings";
 
 
 const filterOpts = [
@@ -103,9 +104,23 @@ const loadMore = async (path = '', page = 1): Promise<NodeEntity[]> => {
       uriParts.push(base);
     }
     const uri = uriParts.join('/');
-    const data: any = await fetchApiViewResults(uri, { page });
-    if (data instanceof Object && data.items instanceof Array) {
-      return data.items.map((n:any) => new NodeEntity(n));
+    const key = [uri, 'items', page].join('--');
+    const stored = fromLocal(key, 900);
+    let items: any[] = [];
+    if (stored.valid && !stored.expired) {
+      if (stored.data instanceof Object && stored.data instanceof Array && stored.data.length > 0)  {
+        items = stored.data
+      }
+    }
+    if (items.length < 1) {
+      const data: any = await fetchApiViewResults(uri, { page });
+      if (data instanceof Object && data.items instanceof Array) {
+        items = data.items;
+        toLocal(key, items);
+      }
+    }    
+    if (items instanceof Array && items.length > 0) {
+      return items.map((n:any) => new NodeEntity(n));
     } else {
       return []
     }
@@ -130,7 +145,8 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
   //const pageData = new PageDataSet(data);
   const context = useContext(TopContext);
   const [scrollPage, setScrollPage] = useState(pageData.page);
-  const maxScrollPages = 5;
+  const isLarge = isMinLargeSize(context);
+  const maxScrollPages = isLarge ? numScrollBatches.large : numScrollBatches.standard;
   const [scrollLoadPos, setScrollLoadPos] = useState(0);
   const isLloading = tempLocalBool('loading');
   const [loading, setLoading] = useState<boolean>(isLloading);
@@ -155,11 +171,11 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
     }
   }
 
-  const loadNext = () => {
+  const loadNextPrev = (forward = true) => {
     const currPath = router.asPath.split('?').shift();
     //const scrollPageIndex = scrollPage - pageData.page;
-    const nextPage = pageData.nextPageOffset;
-    if (pageData.mayLoad(maxScrollPages)) {
+    const nextPage = forward? pageData.nextPageOffset : pageData.prevPageOffset(maxScrollPages);
+    if (pageData.mayLoad(maxScrollPages) && forward) {
       setTempLocalBool('loading', true);
       setLoading(true);
       loadMore(router.asPath, nextPage).then((items: NodeEntity[]) => {
@@ -175,8 +191,16 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
     }
   }
 
+  const loadNext = () => {
+    loadNextPrev(true);
+  }
+
+  const loadPrev = () => {
+    loadNextPrev(false);
+  }
+
   useEffect(() => {
-    const { items, total, meta, perPage } = pageData;
+    const { items } = pageData;
     const yearRefs = pageData.sets.has('years') ? pageData.sets.get('years') : [];
     if (yearRefs instanceof Array && yearRefs.length > 0) {
       setYears(yearRefs as YearNum[]);
@@ -302,7 +326,11 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
             </figure>)}
           <figure className="empty-figure" style={ emptyFigStyles }></figure>
           </div>
-          {pageData.mayLoadMore && <p onClick={() => loadNext()} title={pageData.nextPageOffset.toString()} className='load-more'><span className='text-label'>{pageData.moreInfo} {labels.load_older }</span><i className='icon icon-next-arrow-narrow'></i></p>}
+          {pageData.showListingNav && <nav className='listing-nav row'>
+            {pageData.mayLoadPrevious && <span className='nav-link prev' title={pageData.nextPageOffset.toString()} onClick={() => loadPrev()}><i className='icon icon-prev-arrow-narrow prev'></i>{ labels.load_newer}</span>}
+            <span className='text-label' onClick={() => loadNextPrev(pageData.mayLoadMore)}>{pageData.listingInfo} </span>
+            {pageData.mayLoadMore && <span className='nav-link next' title={pageData.nextPageOffset.toString()} onClick={() => loadNext()}>{ labels.load_older}<i className='icon icon-next-arrow-narrow next'></i></span>}
+          </nav>}
         </>}
       </section>
     </Container>

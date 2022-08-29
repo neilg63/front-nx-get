@@ -9,6 +9,7 @@ const labels = {
   all_artworks: "See All",
   about_title: "About",
   load_older: "Older",
+  load_newer: "Newer",
 };
 
 export default labels;

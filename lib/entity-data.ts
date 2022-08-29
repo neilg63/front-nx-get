@@ -623,6 +623,11 @@ export class PageDataSet {
     return this.page + this.loadedPages;
   }
 
+  prevPageOffset(numPerBatch = 5) {
+    const prevOffset = this.page - numPerBatch;
+    return prevOffset > 0 ? prevOffset : 0;
+  }
+
   get startEnd(): StartEnd {
     const start = this.page * this.perPage + 1;
     const endRefNum =
@@ -631,7 +636,7 @@ export class PageDataSet {
     return { start, end };
   }
 
-  get moreInfo() {
+  get listingInfo() {
     const { start, end } = this.startEnd;
     return `${start} to ${end} of ${this.total}`;
   }
@@ -639,6 +644,14 @@ export class PageDataSet {
   get mayLoadMore() {
     const { end } = this.startEnd;
     return end < this.total;
+  }
+
+  get mayLoadPrevious() {
+    return this.page > 0;
+  }
+
+  get showListingNav() {
+    return this.mayLoadMore || this.mayLoadPrevious;
   }
 
   mayLoad(maxScrollPages = 5) {
