@@ -1,4 +1,4 @@
-import { Container, Image, Tooltip } from "@nextui-org/react";
+import { Container, Image } from "@nextui-org/react";
 import { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
@@ -14,15 +14,6 @@ import ExhibitionPreview from "./widgets/exhibition-preview";
 import labels from "../lib/labels";
 import { buildConditionalClassNames } from "../lib/utils";
 import { TopContext } from "../pages/_app";
-
-const numRelatedLabel = (numRelated = 0) => {
-  const pl = numRelated === 1 ? '' : 's';
-  return numRelated > 0? `${numRelated} related artwork${pl}` : '';
-}
-
-const toKey = (prefix = '', slug = '', index = 0) => {
-  return [prefix, slug, index].join('-');
-}
 
 const buildSplashClasses = (): string => {
   const hasSeenRef = hasLocal('splash-viewed');
@@ -41,8 +32,6 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
   const context = useContext(TopContext);
   const { meta } = pageData;
   const [splashClasses, setSplashClasses] = useState('splash-overlay');
-  const [tagOverlayClasses, setTagOverClasses] = useState('tag-overlay');
-  const tags = pageData.getWidgetTerms('tags');
   const splashItems = pageData.getMediaItems('splash');
   const numItems = splashItems instanceof Array ? splashItems.length : 0;
   const randIndex = Math.floor(Math.random() * 0.999999 * numItems);
@@ -64,25 +53,15 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
     clearLocal('splash-viewed');
     setSplashClasses('splash-overlay show-splash');
   }
- 
-  const showHideTags = (hide = true) => {
-     setTagOverClasses(buildConditionalClassNames('tag-overlay', 'active', !hide));
-  }
-
-  const toggleShowTags = () => {
-    const active = tagOverlayClasses.includes('active')
-    showHideTags(active);
-  }
 
   useEffect(() => {
     setSplashClasses(buildSplashClasses());
     if (context) {
       if (context.escaped) {
         hideSplash();
-        showHideTags(true);
       }
     }
-  },[splashClasses, setSplashClasses, tagOverlayClasses, setTagOverClasses, context])
+  }, [splashClasses, setSplashClasses, context]);
   return (
     <>
       <Head>
@@ -98,7 +77,7 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
           <h3 className='more-link'><Link href='/news'><a>More</a></Link></h3>
           <div className='artwork-links'>
             <h3 className='subtitle'>{labels.artworks}</h3>
-            <h4 className='subtitle-link' onClick={() => toggleShowTags()}>{labels.related_artworks}</h4>
+            <h4 className='subtitle-link'><Link href='/tags'><a>{labels.related_artworks}</a></Link></h4>
             <h4 className='subtitle-link'><Link href='/artworks'><a>{ labels.all_artworks }</a></Link></h4>
           </div>
         </section>
@@ -109,16 +88,6 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
           </div>
 
         </section>}
-        <aside className={tagOverlayClasses}>
-          <p className='close-link' onClick={() => toggleShowTags()}><i className='icon icon-close'></i></p>
-          <ul className="tag-list">
-            {tags.map((item: SimpleTerm, index: number) => {
-              return <li key={toKey('tag', item.slug, index)}>
-                  <Tooltip content={numRelatedLabel(item.num_related)} rounded={false} shadow={false} className='bordered'><Link href={item.path}><a>{item.title}</a></Link></Tooltip>
-                </li>
-              })}
-            </ul>
-        </aside>
         <p className="show-splash-link" onClick={() => showSplash()}>Show splash</p>
       </Container>
       {hasSplash && <aside className={splashClasses}>

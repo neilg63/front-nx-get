@@ -365,6 +365,7 @@ export class NodeEntity {
   field_media: MediaItem = new MediaItem();
   field_document?: MediaItem;
   field_tags: TaxTerm[] = [];
+  duplicate = false;
   [name: string]: any;
 
   constructor(inData: any = null) {
@@ -594,10 +595,8 @@ export class PageDataSet {
   addItems(items: NodeEntity[] = []) {
     const currNids = this.items.map((row) => row.nid);
     for (const item of items) {
-      const exists = currNids.includes(item.nid);
-      if (!exists) {
-        this.items.push(item);
-      }
+      item.duplicate = currNids.includes(item.nid);
+      this.items.push(item);
     }
   }
 

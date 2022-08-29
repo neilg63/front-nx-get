@@ -14,7 +14,6 @@ import SeoHead from "./layout/head";
 import { containerProps } from "../lib/styles";
 import { getScrollTop, setEmtyFigureHeight } from "../lib/dom";
 import { useRouter } from "next/router";
-import { MetaDataSet } from "../lib/ui-entity";
 import { TopContext } from "../pages/_app";
 import { fetchApiViewResults } from "../lib/api-view-results";
 import { fromLocal, setTempLocalBool, tempLocalBool, toLocal } from "../lib/localstore";
@@ -174,7 +173,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
   const loadNextPrev = (forward = true) => {
     const currPath = router.asPath.split('?').shift();
     //const scrollPageIndex = scrollPage - pageData.page;
-    const nextPage = forward? pageData.nextPageOffset : pageData.prevPageOffset(maxScrollPages);
+    const nextPage = forward ? pageData.nextPageOffset : pageData.prevPageOffset(maxScrollPages);
     if (pageData.mayLoad(maxScrollPages) && forward) {
       setTempLocalBool('loading', true);
       setLoading(true);
@@ -296,7 +295,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
     return () => {
       window.removeEventListener('scroll', onScroll);
     };
-  }, [pageData, contextualTitle, subPath, router, types, context, scrollPage, scrollLoadPos, loading]);
+  }, [pageData, contextualTitle, subPath, router, types, context, scrollPage, scrollLoadPos, loading, maxScrollPages]);
   return <>
     <Head>
       <SeoHead meta={pageData.meta} />
@@ -314,7 +313,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       </nav>
       <section className="artwork-list">
         {pageData.hasItems && <><div className="flex-rows-6">
-          {pageData.items.map((item, index) => <figure key={figureKey(item.uuid, index)} id={ itemId(item.uuid) }  style={item.firstImage.calcAspectStyle()} className='node'>
+          {pageData.items.map((item, index) => item.duplicate ? <figure className='hidden' key={figureKey(item.uuid, index)}></figure> : <figure key={figureKey(item.uuid, index)} id={ itemId(item.uuid) }  style={item.firstImage.calcAspectStyle()} className='node'>
             <Link href={item.path} className="image-holder"><a className="image-link" title={ item.numMediaLabel }>
                 {item.hasImage && <Image loader={defaultImageLoader} src={item.firstImage.preview} alt={item.alt} width={item.firstImage.calcWidth('preview')} height={item.firstImage.calcHeight('preview')} objectFit='contain' layout='intrinsic' />}
                 </a></Link>
