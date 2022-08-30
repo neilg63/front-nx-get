@@ -16,3 +16,9 @@ export const containerProps: ContainerProps = {
   fluid: true,
   wrap: "wrap",
 };
+
+export const displayNone = { display: "none" };
+
+export const remPx = 16;
+
+export const timelineItemWidth = remPx * 20;

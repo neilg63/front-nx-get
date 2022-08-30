@@ -1,3 +1,5 @@
+import { capitalize } from "./utils";
+
 const contentTypes = {
   artwork: "Artworks",
   exhibition: "Exhibitions",
@@ -7,6 +9,13 @@ const contentTypes = {
   press: "Press releases",
   press_article: "Press Articles",
   publication: "Publications",
+};
+
+export const bundleName = (bundle: string) => {
+  switch (bundle) {
+    default:
+      return capitalize(bundle.replace(/_/g, " "));
+  }
 };
 
 export default contentTypes;

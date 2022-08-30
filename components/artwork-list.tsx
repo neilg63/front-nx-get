@@ -1,17 +1,15 @@
 import { NextPage } from "next";
-import Link from 'next/link';
 import { useState, useEffect, useMemo, useContext, useCallback } from "react";
 import { BaseEntity, FilterOption, SlugNameNum, YearNum } from "../lib/interfaces";
 import { NodeEntity, PageDataSet } from "../lib/entity-data";
 //import Paginator from "./widgets/paginator";
-import Image from "next/image";
-import { defaultImageLoader, isNumeric, notEmptyString } from "../lib/utils";
+import { isNumeric, notEmptyString } from "../lib/utils";
 import TypeLink from "./widgets/type-link";
 import YearLink from "./widgets/year-link";
 import Head from "next/head";
-import { Container, Radio } from "@nextui-org/react";
+import { Container } from "@nextui-org/react";
 import SeoHead from "./layout/head";
-import { containerProps } from "../lib/styles";
+import { containerProps, displayNone } from "../lib/styles";
 import { getScrollTop, setEmtyFigureHeight } from "../lib/dom";
 import { useRouter } from "next/router";
 import { TopContext } from "../pages/_app";
@@ -19,6 +17,7 @@ import { fetchApiViewResults } from "../lib/api-view-results";
 import { fromLocal, setTempLocalBool, tempLocalBool, toLocal } from "../lib/localstore";
 import labels from "../lib/labels";
 import { isMinLargeSize, numScrollBatches } from "../lib/settings";
+import ArtwworkFigure from "./widgets/artwork-figure";
 
 
 const filterOpts = [
@@ -51,11 +50,6 @@ const extractTypeFromList = (slug = '', items: SlugNameNum[]) => {
   }
   return tagName;
 }
-
-const itemId = (id = '') => ['artwork-preview', id].join('-');
-
-
-const figureKey = (id = '', index = 0) => ['af', id, index].join('-');
 
 const navClassName = (mode: string): string => {
   return ['filter-nav', ['show-by', mode].join('-')].join(' ');
@@ -313,16 +307,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       </nav>
       <section className="artwork-list">
         {pageData.hasItems && <><div className="flex-rows-6">
-          {pageData.items.map((item, index) => item.duplicate ? <figure className='hidden' key={figureKey(item.uuid, index)}></figure> : <figure key={figureKey(item.uuid, index)} id={ itemId(item.uuid) }  style={item.firstImage.calcAspectStyle()} className='node'>
-            <Link href={item.path} className="image-holder"><a className="image-link" title={ item.numMediaLabel }>
-                {item.hasImage && <Image loader={defaultImageLoader} src={item.firstImage.preview} alt={item.alt} width={item.firstImage.calcWidth('preview')} height={item.firstImage.calcHeight('preview')} objectFit='contain' layout='intrinsic' />}
-                </a></Link>
-              <figcaption>
-              <h3><Link href={item.path}><a>{item.title}</a></Link></h3>
-              <p>{item.typeYearLabel}</p>
-              <p>{item.tagList}</p>
-              </figcaption>
-            </figure>)}
+          {pageData.items.map((item, index) => item.duplicate ? <figure className='hidden' key={item.indexedKey(index)} style={displayNone}></figure> : <ArtwworkFigure item={item} index={ index } />)}
           <figure className="empty-figure" style={ emptyFigStyles }></figure>
           </div>
           {pageData.showListingNav && <nav className='listing-nav row'>

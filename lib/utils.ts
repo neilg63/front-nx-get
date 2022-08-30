@@ -76,6 +76,19 @@ export const validDateString = (dt: any) => {
   return typeof dt === "string" && /^\d\d\d\d-\d\d-\d\d/.test(dt);
 };
 
+export const capitalize = (str: string): string => {
+  if (notEmptyString(str)) {
+    const trimmed = str.trim();
+    if (trimmed.length > 1) {
+      return trimmed.substring(0, 1).toUpperCase() + trimmed.substring(1);
+    } else {
+      return trimmed.toUpperCase();
+    }
+  } else {
+    return "";
+  }
+};
+
 export const defaultImageLoader = ({
   src,
   width,

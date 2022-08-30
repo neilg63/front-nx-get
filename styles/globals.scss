@@ -32,6 +32,28 @@ a {
   box-sizing: border-box;
 }
 
+article,
+figure,
+section {
+
+  >h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-size: 1em;
+    font-weight: normal;
+  }
+
+  >h1,
+  >h2,
+  >h3,
+  >h4,
+  >h5 {
+    text-transform: uppercase;
+  }
+}
+
 header.header {
   .logo {
     position: relative;
@@ -158,16 +180,6 @@ header.header {
 
   .subtitle-link {
     cursor: pointer;
-  }
-
-  article, figure, section {
-    > h1, h2, h3, h4, h5 {
-      font-size: 1em;
-      font-weight: normal;
-    }
-    > h1, > h2, > h3, > h4, > h5 {
-      text-transform: uppercase;
-    }
   }
 
   .section-header {
@@ -339,7 +351,7 @@ header.header {
 
 .timeline-item-container {
   position: relative;
-  height: 15em;
+  height: 12em;
   width: 100%;
   min-width: calc(100vw - $sidebar-width - 7.5vw);
   overflow: hidden;
@@ -356,21 +368,105 @@ header.header {
 
       .timeline-holder {
         flex-flow: row nowrap;
-        width: auto;
-  
-        >div.timeline-item {
+        width: 10000%;
+        position: relative;
+        transition: left 0.5s ease-in-out;
+        text-align: center;
+        > div.timeline-item {
           position: relative;
           width: 20em;
-          padding: 1em;
-          margin: 1em 3em 1em 0;
+          padding: 4rem 1rem 1rem 1em;
+          margin: 1em 0;
+          &.selected {
+            h3, h4 {
+              font-weight: bold;
+            }
+          }
+          &::before,
+          &::after {
+            position: absolute;
+            content: " ";
+          }
+          &::before {
+            border-top: solid 1px $dark;
+            top: 0;
+            left: 0;
+            right: 0;
+          }
+          &::after {
+            top: 0;
+            left: 50%;
+            height: 3rem;
+            border-right: solid 1px $dark;
+          }
         }
       }
     }
+
+  .timeline-dir-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    
+    i.icon {
+      position: absolute;
+      font-size: 2rem;
+      top: 4rem;
+      opacity: 0;
+      &:hover {
+        color: $primary;
+      }
+      &.prev {
+        left: 0;
+      }
+      &.next {
+        right: 0;
+      }
+    }
+    &.show-prev .prev,
+    &.show-next .next {
+      opacity: 1;
+      cursor: pointer;
+      pointer-events: all;
+    }
+  }
+}
+
+.related-content {
+  margin: 2rem 0 1rem 0;
+  padding: 1rem 0;
+  li {
+    em {
+      display: inline-block;
+      margin-right: 0.5em;
+    }
+    margin-bottom: 0.625em;
+    a {
+      &:hover {
+        color: $primary;
+      }
+    }
+  }
 }
 
 .timeline-details {
   width: 100%;
-  max-width: 40em;
+  @media screen and (min-width: $mini-screen-width) {
+    width: 90%;
+  }
+  @media screen and (min-width: $mid-screen-width) {
+    width: 80%;
+    max-width: 80em;
+  }
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 2.5%;
 }
 
 .column {

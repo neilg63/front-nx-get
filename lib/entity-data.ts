@@ -423,6 +423,9 @@ export class NodeEntity {
           this[key] = value;
         }
       });
+      if (notEmptyString(this.url) && this.path.length < 2) {
+        this.path = this.url;
+      }
     }
   }
 
@@ -453,6 +456,10 @@ export class NodeEntity {
     } else {
       return new MediaItem(null);
     }
+  }
+
+  indexedKey(index: number): string {
+    return [this.bundle, this.uuid, index].join("-");
   }
 
   hasTextField(fn = "") {
@@ -545,6 +552,13 @@ export class NodeEntity {
       : this.tid > 0
       ? ["tid", this.tid].join("-")
       : ["nid", this.nid].join("-");
+  }
+
+  get hasRelatedContent() {
+    return (
+      this.field_related_content instanceof Array &&
+      this.field_related_content.length > 0
+    );
   }
 }
 
