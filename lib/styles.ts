@@ -16,3 +16,5 @@ export const containerProps: ContainerProps = {
   fluid: true,
   wrap: "wrap",
 };
+
+export const displayNone = { display: "none" };

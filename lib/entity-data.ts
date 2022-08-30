@@ -455,6 +455,10 @@ export class NodeEntity {
     }
   }
 
+  indexedKey(index: number): string {
+    return [this.bundle, this.uuid, index].join("-");
+  }
+
   hasTextField(fn = "") {
     const kNames = [fn];
     if (fn.startsWith("field_") === false) {
