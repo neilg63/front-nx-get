@@ -25,14 +25,14 @@ const TagsMaze: NextPage<BaseEntity> = (data: BaseEntity) => {
         <SeoHead meta={pageData.meta} />
       </Head>
     <Container {...containerProps} className='tags-container'>
-      <h2>{ labels.tag_list_title}</h2>
-      <ul className='tag-list'>
+      <h2 className='seo-hide'>{ labels.tag_list_title}</h2>
+      <div className='tag-list'>
         {pageData.hasItems && pageData.items.map((item: SimpleTerm, index: number) => {
-          return <li key={toKey('tag', item.slug, index)}>
-              <Tooltip content={numRelatedLabel(item.num_related)} rounded={false} shadow={false} className='bordered'><Link href={item.path}><a>{item.title}</a></Link></Tooltip>
-            </li>
+          return <span key={toKey('tag', item.slug, index)} title={numRelatedLabel(item.num_related)} className='tag'>
+              <Link href={item.path}><a>{item.title}</a></Link>
+            </span>
           })}
-      </ul>
+      </div>
     </Container>
   </>
 }

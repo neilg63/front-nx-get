@@ -13,6 +13,10 @@ const contentTypes = {
 
 export const bundleName = (bundle: string) => {
   switch (bundle) {
+    case "aricle":
+      return "Essay";
+    case "gttv":
+      return "GTTV";
     default:
       return capitalize(bundle.replace(/_/g, " "));
   }
