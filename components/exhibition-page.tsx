@@ -2,12 +2,19 @@ import { NextPage } from "next";
 import Link from 'next/link';
 import parse from "html-react-parser";
 import { BaseEntity } from "../lib/interfaces";
-import { PageDataSet } from "../lib/entity-data";
+import { NodeEntity, PageDataSet } from "../lib/entity-data";
 import { containerProps } from "../lib/styles";
 import { Container } from "@nextui-org/react";
 import Head from "next/head";
 import SeoHead from "./layout/head";
 import Carousel from "./widgets/carousel";
+import MediaFigure from "./widgets/media-figure";
+import RelatedItem from "./widgets/related-item";
+
+
+const relatedKey = (row: NodeEntity, index: number): string => {
+  return ['related', row.uuid, index].join('-');
+}
 
 const ExhibitionPage: NextPage<BaseEntity> = (data ) => {  
   const pageData = new PageDataSet(data);
@@ -17,13 +24,16 @@ const ExhibitionPage: NextPage<BaseEntity> = (data ) => {
     <Head>
       <SeoHead meta={meta} />
     </Head>
-    <Container {...containerProps}>
-    <article className="exhibition">
-        <h1><Link href={nextAlias}><a>{entity.title}</a></Link></h1>
-        {entity.hasSubtitle && <h3 className="subtitle">{parse(entity.field_subtitle)}</h3>}
-        {entity.hasImages && <Carousel items={entity.images} />}
-        {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
-      </article>
+    <Container {...containerProps} className='exhibition-container'>
+      <article className="exhibition">
+          <h1><Link href={nextAlias}><a>{entity.title}</a></Link></h1>
+          {entity.hasSubtitle && <h3 className="subtitle">{parse(entity.field_subtitle)}</h3>}
+          {entity.hasImages && <Carousel items={entity.images} />}
+        <div className="body">{parse(entity.body)}</div>
+        <div className='related-artworks flex-grid-2'>
+          {entity.hasRelatedArtworks && entity.related_artworks.map((row: NodeEntity, index: number) => <RelatedItem key={relatedKey(row, index)} item={ row } />)}
+          </div>
+        </article>
     </Container>
     </>
 }

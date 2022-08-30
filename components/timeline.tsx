@@ -105,8 +105,8 @@ const Timeline: NextPage<BaseEntity> = (data: any = null) => {
           {node.hasRelatedContent && <ul className='related-content'>
             {node.field_related_content.map((item: NodeEntity) => <li key={['related', node.nid, item.nid].join('-') }>
                 <h4>
+                  <Link href={item.path}>{item.title}</Link>
                   <em>{bundleName(item.bundle )}</em>
-                  <Link href={item.path}>{ item.title }</Link>
                 </h4>
             </li>)
             }

@@ -389,6 +389,7 @@ export class NodeEntity {
         "field_related_exhibitions",
         "field_related_press",
         "field_related_videos",
+        "related_artworks",
       ];
       Object.entries(inData).map(([key, value]: [string, any]) => {
         const dataType = typeof value;
@@ -425,6 +426,9 @@ export class NodeEntity {
       });
       if (notEmptyString(this.url) && this.path.length < 2) {
         this.path = this.url;
+      }
+      if (this.body !== "string") {
+        this.body = "";
       }
     }
   }
@@ -558,6 +562,12 @@ export class NodeEntity {
     return (
       this.field_related_content instanceof Array &&
       this.field_related_content.length > 0
+    );
+  }
+
+  get hasRelatedArtworks() {
+    return (
+      this.related_artworks instanceof Array && this.related_artworks.length > 0
     );
   }
 }

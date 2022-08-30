@@ -3,7 +3,12 @@ $large-screen-width: 1350px;
 $mid-screen-width: 900px;
 $mini-screen-width: 673px;
 $small-screen-width: 450px;
+$tall-screen-height: 750px;
 $sidebar-width: 15em;
+$top-padding-standard: 6.25rem;
+$top-logo-margin-bottom-standard: 3rem;
+$top-padding-tall: 7.25rem;
+$top-logo-margin-bottom-tall: 4rem;
 
 $dark: #333333;
 $mid-grey: #999999;
@@ -30,6 +35,12 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.seo-hide {
+  position: absolute;
+  left: -2000em;
+  top: -1000em;
 }
 
 article,
@@ -59,7 +70,7 @@ header.header {
     position: relative;
     display: block;
     width: 100%;
-    height: 5rem;
+    height: 3rem;
     background: url(/assets/signature.svg) no-repeat top left;
     background-size: contain;
   }
@@ -76,8 +87,14 @@ header.header {
     top: 2em;
     width: $sidebar-width;
     .expand-nav {
-        display: none;
+      display: none;
+    }
+    .logo {
+      margin-bottom: $top-logo-margin-bottom-standard;
+      @media (min-height: $tall-screen-height) {
+        margin-bottom: $top-logo-margin-bottom-tall;
       }
+    }
   }
 }
 
@@ -155,6 +172,11 @@ header.header {
   }
 }
 
+body,
+div#__next {
+  margin: 0 auto;
+}
+
 .gt-outer body > div#__next > div {
   position: relative;
   min-height: 100vh;
@@ -200,14 +222,18 @@ header.header {
     align-items: flex-start;
     grid-template-areas: "header main"
       "footer footer";
-    header {
+    > header {
       grid-area: header;
     }
-    main {
+    > main {
       grid-area: main;
       width: auto;
+      padding-top: $top-padding-standard;
+      @media (min-height: $tall-screen-height) {
+        padding-top: $top-padding-tall;
+      }
     }
-    footer {
+    > footer {
       grid-area: footer;
     }
   }
@@ -278,6 +304,36 @@ header.header {
   }
 }
 
+.section--tags-theme.gt-outer body>div#__next>div {
+  position: relative;
+  @media screen and (min-width: $mid-screen-width) {
+      align-items: flex-start;
+      grid-template-areas: "main"
+          "footer";
+
+      grid-template-columns: 1fr;
+      > header {
+        position: absolute;
+        top: 1rem;
+        bottom: 0;
+        left: 2.5%;
+        nav {
+          opacity: 0;
+          pointer-events: none;
+        }
+      }
+
+      > main {
+        width: 100%;
+        max-width: 100%;
+        pointer-events: none;
+        .tag-list a {
+          pointer-events: all;
+        }
+      }
+      
+    }
+}
 .paginator {
   ul {
     display: flex;
@@ -441,7 +497,7 @@ header.header {
   li {
     em {
       display: inline-block;
-      margin-right: 0.5em;
+      margin-left: 0.5em;
     }
     margin-bottom: 0.625em;
     a {
@@ -469,6 +525,30 @@ header.header {
   column-gap: 2.5%;
 }
 
+.flex-grid-4 {
+  display: grid;
+  grid-template-columns: 1fr;
+  @media screen and (min-width: $mini-screen-width) {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 2.5%;
+  }
+  @media screen and (min-width: $mid-screen-width) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  @media screen and (min-width: $large-screen-width) {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+.flex-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+
+  @media screen and (min-width: $mid-screen-width) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 .column {
   flex-flow: column wrap;
 }
@@ -493,43 +573,52 @@ ul, ol {
       }
     }
   }
+}
 
-  &.tag-list {
-    display: flex;
-    flex-flow: row wrap;
-    max-width: 80em;
-    width: 80%;
-    justify-content: center;
-    align-items: center;
-    li {
-      padding: 0 0.5em;
-      position: relative;
+.tag-list {
+  display: block;
+
+  /* max-width: 80em;
+  width: 80%; */
+  justify-content: flex-start;
+  align-items: center;
+
+  > .tag {
+    padding: 0;
+    display: inline;
+    position: relative;
+    font-size: 2rem;
+    white-space: normal;
+
+    &::after {
+      position: absolute;
+      top: 0;
+      height: 1.125em;
+      right: 0;
+      content: " ";
+      border-right: solid 1px $dark;
+    }
+
+    &:last-child {
       &::after {
-        position: absolute;
-        top: 0.625em;
-        bottom: 0.625em;
-        right: 0;
-        content: " ";
-        border-right: solid 1px $dark;
+        border-right: none;
       }
-      &:last-child {
+    }
+
+    a {
+      padding: 0 0.375em;
+      color: $dark;
+      white-space: normal;
+
+      &:hover {
+        background-color: $mid-grey;
+        color: white;
         &::after {
-          border-right: none;
-        }
-      }
-      a {
-        display: flex;
-        padding: 0.25em 0.5em;
-        color: $dark;
-        white-space: nowrap;
-        &:hover {
-          background-color: $mid-grey;
-          color: white;
+          border-right: solid 1px $mid-grey;
         }
       }
     }
   }
-
 }
 
 body .nprogress {
