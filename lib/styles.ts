@@ -18,3 +18,7 @@ export const containerProps: ContainerProps = {
 };
 
 export const displayNone = { display: "none" };
+
+export const remPx = 16;
+
+export const timelineItemWidth = remPx * 20;
