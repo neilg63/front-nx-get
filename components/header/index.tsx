@@ -23,6 +23,14 @@ const renderClassNames = (item: SimpleMenuItem, subAlias = ''): string => {
   return cls.join(' ');
 }
 
+const renderTarget = (item: SimpleMenuItem): string => {
+  if (item.path.startsWith('https://')) {
+    return '_blank';
+  } else {
+    return '_self';
+  }
+}
+
 const isHomeLink = (item: SimpleMenuItem): boolean => {
   return toAlias(item.path) === 'home';
 }
@@ -77,7 +85,7 @@ const Header = (pageData: PageDataSet) => {
         {hasMenuItems && <ul>
           {mainItems.map(item => {
             return <li key={item.path} className={ renderClassNames(item, subAlias)  }>
-              <Link href={item.path}><a>{isHomeLink(item) ? <i className='icon icon-home' title={ item.title }></i> : item.title }</a></Link>
+              <Link href={item.path}><a target={ renderTarget(item) }>{isHomeLink(item) ? <i className='icon icon-home' title={ item.title }></i> : item.title }</a></Link>
             </li>
           })}
           <li className="search-link">

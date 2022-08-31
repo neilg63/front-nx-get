@@ -14,6 +14,9 @@ import ExhibitionPreview from "./widgets/exhibition-preview";
 import labels from "../lib/labels";
 import { buildConditionalClassNames } from "../lib/utils";
 import { TopContext } from "../pages/_app";
+import { useRouter } from "next/router";
+import { globalPagePaths } from "../lib/settings";
+import { addBodyClass, removeBodyClass } from "../lib/dom";
 
 const buildSplashClasses = (): string => {
   const hasSeenRef = hasLocal('splash-viewed');
@@ -30,13 +33,16 @@ const buildSplashClasses = (): string => {
 const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
   const pageData = new CompoundPageDataSet(data);
   const context = useContext(TopContext);
+  const router: any = useRouter();
+
   const { meta } = pageData;
   const [splashClasses, setSplashClasses] = useState('splash-overlay');
+  const [enableOverlay, setEnableOverlay] = useState(false);
   const splashItems = pageData.getMediaItems('splash');
   const numItems = splashItems instanceof Array ? splashItems.length : 0;
   const randIndex = Math.floor(Math.random() * 0.999999 * numItems);
   const splash = numItems > 0 ? splashItems[randIndex] : new MediaItem();
-  const hasSplash = numItems > 0;
+  const hasSplash = enableOverlay && numItems > 0;
   const hasCurrExhib = pageData.widgets.has('current_exhibition')
   const currentExhibition = pageData.getEntity('current_exhibition');
   const newsItems = pageData.getEntities('latest_news');
@@ -51,17 +57,26 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
 
   const showSplash = () => {
     clearLocal('splash-viewed');
-    setSplashClasses('splash-overlay show-splash');
+    setSplashClasses('splash-overlay active');
   }
 
   useEffect(() => {
     setSplashClasses(buildSplashClasses());
+    if (splashClasses.includes('active')) {
+      addBodyClass(document, 'show-fullscreen-overlay');
+    } else {
+      removeBodyClass(document, 'show-fullscreen-overlay');
+    }
     if (context) {
       if (context.escaped) {
         hideSplash();
       }
     }
-  }, [splashClasses, setSplashClasses, context]);
+      if (router.components instanceof Object) {
+      const hasReferrers = Object.keys(router.components).some(p => globalPagePaths.includes(p) === false);
+      setEnableOverlay(!hasReferrers);
+    }
+  }, [splashClasses, context, enableOverlay, router]);
   return (
     <>
       <Head>

@@ -24,3 +24,25 @@ export const setEmtyFigureHeight = (document: Document) => {
 
 export const getScrollTop = () =>
   window.pageYOffset || document.documentElement.scrollTop;
+
+const addRemoveBodyClass = (
+  document: Document,
+  clsName = "",
+  remove = false
+) => {
+  const exists = document.body.classList.contains(clsName);
+  if (!exists && remove === false) {
+    document.body.classList.add(clsName);
+  }
+  if (exists && remove) {
+    document.body.classList.remove(clsName);
+  }
+};
+
+export const addBodyClass = (document: Document, clsName = "") => {
+  addRemoveBodyClass(document, clsName, false);
+};
+
+export const removeBodyClass = (document: Document, clsName = "") => {
+  addRemoveBodyClass(document, clsName, true);
+};
