@@ -428,7 +428,7 @@ export class NodeEntity {
       if (notEmptyString(this.url) && this.path.length < 2) {
         this.path = this.url;
       }
-      if (this.body !== "string") {
+      if (typeof this.body !== "string") {
         this.body = "";
       }
     }

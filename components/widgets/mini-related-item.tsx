@@ -1,7 +1,5 @@
 import Link from "next/link";
 import { NodeEntity } from "../../lib/entity-data";
-import MediaFigure from "./media-figure";
-
 
 const MiniRelatedItem = ({ item }: { item: NodeEntity }) => {
   return <div className='related-mini' >

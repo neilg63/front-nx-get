@@ -5,9 +5,9 @@ $mini-screen-width: 673px;
 $small-screen-width: 450px;
 $tall-screen-height: 750px;
 $sidebar-width: 15em;
-$top-padding-standard: 6.25rem;
+$top-padding-standard: 5.75rem;
 $top-logo-margin-bottom-standard: 3rem;
-$top-padding-tall: 7.25rem;
+$top-padding-tall: 6.75rem;
 $top-logo-margin-bottom-tall: 4rem;
 
 $dark: #333333;
@@ -48,6 +48,7 @@ figure,
 section {
 
   >h1,
+  header > h1,
   h2,
   h3,
   h4,
@@ -57,6 +58,7 @@ section {
   }
 
   >h1,
+  header>h1,
   >h2,
   >h3,
   >h4,
@@ -177,13 +179,17 @@ div#__next {
   margin: 0 auto;
 }
 
+div#__next {
+  width: 100%;
+}
+
 .gt-outer body > div#__next > div {
   position: relative;
   min-height: 100vh;
   margin: 0 auto;
   padding: 2rem 2.5%;
   max-width: $max-screen-width;
-  flex: 1;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -220,6 +226,7 @@ div#__next {
     grid-template-columns: $sidebar-width auto;
     column-gap: 2.5%;
     align-items: flex-start;
+    justify-items: stretch;
     grid-template-areas: "header main"
       "footer footer";
     > header {
@@ -228,6 +235,7 @@ div#__next {
     > main {
       grid-area: main;
       width: auto;
+      min-width: calc(90vw - $sidebar-width);
       padding-top: $top-padding-standard;
       @media (min-height: $tall-screen-height) {
         padding-top: $top-padding-tall;
@@ -237,6 +245,12 @@ div#__next {
       grid-area: footer;
     }
   }
+
+    @media screen and (min-width: $max-screen-width) {
+      >main {
+        min-width: calc($max-screen-width - $sidebar-width - 12.5%);
+      }
+    }
 
   footer.footer {
     width: 100%;
@@ -1165,5 +1179,59 @@ figure {
     figure {
       aspect-ratio: 16 / 9;
     }
+  }
+}
+
+main > article {
+  width: 100%;
+  > header {
+    margin: 0 auto 0.625em auto;
+    border-top: dotted 1px $dark;
+    border-bottom: dotted 1px $dark;
+    padding: 0.25em 0;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items:center;
+    justify-content:flex-start;
+    > h1 {
+      margin-block-start: 0;
+      margin-block-end: 0;
+    }
+  }
+  > .info {
+    margin: 1em 0 2em 0;
+  }
+}
+
+.links-2 {
+  a {
+    display: inline-block;
+    margin-right: 0.625em;
+    &::after {
+      content: "/";
+      display: inline-block;
+      margin-left: 0.625em;
+    }
+    &:last-child {
+      margin-right: 0;
+      &::after {
+        content: "";
+      }
+    }
+  }
+
+}
+
+.related {
+  margin: 0 0 2em 0;
+  > h3 {
+    margin: 0.625em auto 0.25em auto;
+    padding: 0.5em 0;
+    border-top: dotted 1px $dark;
+    border-bottom: dotted 1px $dark;
+    text-transform: uppercase;
+  }
+  > div {
+    margin: 0.5em 0 1em 0;
   }
 }

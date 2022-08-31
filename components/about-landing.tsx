@@ -16,7 +16,7 @@ import AboutNav from "./widgets/about-nav";
 const AboutLanding: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
   const { entity, meta } = pageData;
-
+  console.log(entity);
   const router = useRouter();
   const currentPathRef = router.asPath;
   const pathParts = currentPathRef.substring(1).split('/');

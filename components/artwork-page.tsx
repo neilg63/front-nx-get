@@ -33,8 +33,7 @@ const ArtworkPage: NextPage<BaseEntity> = (data) => {
         </header>
         {entity.hasImages && <Carousel items={entity.images} />}
         <div className="info">
-          <TypeLink value={entity.field_type} basePath={basePath} />
-          <YearLink value={entity.field_year} basePath={basePath} />
+          <p className="year-type links-2"><TypeLink value={entity.field_type} basePath={basePath} /> <YearLink value={entity.field_year} basePath={basePath} /></p>
           {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
           <TagList terms={entity.field_tags} base={basePath} prefix="tag" />
         </div>
