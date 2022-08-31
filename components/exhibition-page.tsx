@@ -8,13 +8,9 @@ import { Container } from "@nextui-org/react";
 import Head from "next/head";
 import SeoHead from "./layout/head";
 import Carousel from "./widgets/carousel";
-import MediaFigure from "./widgets/media-figure";
 import RelatedItem from "./widgets/related-item";
+import { relatedKey } from "../lib/ui-entity";
 
-
-const relatedKey = (row: NodeEntity, index: number): string => {
-  return ['related', row.uuid, index].join('-');
-}
 
 const ExhibitionPage: NextPage<BaseEntity> = (data ) => {  
   const pageData = new PageDataSet(data);
@@ -32,7 +28,7 @@ const ExhibitionPage: NextPage<BaseEntity> = (data ) => {
         <div className="body">{parse(entity.body)}</div>
         <div className='related-artworks flex-grid-2'>
           {entity.hasRelatedArtworks && entity.related_artworks.map((row: NodeEntity, index: number) => <RelatedItem key={relatedKey(row, index)} item={ row } />)}
-          </div>
+        </div>
         </article>
     </Container>
     </>

@@ -570,6 +570,13 @@ export class NodeEntity {
       this.related_artworks instanceof Array && this.related_artworks.length > 0
     );
   }
+
+  get hasRelatedExhibitions() {
+    return (
+      this.field_related_exhibitions instanceof Array &&
+      this.field_related_exhibitions.length > 0
+    );
+  }
 }
 
 export class PageDataSet {

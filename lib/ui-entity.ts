@@ -1,3 +1,4 @@
+import { NodeEntity } from "./entity-data";
 import { notEmptyString } from "./utils";
 
 const imageStyles = ["max_650x650", "max_1300x1300", "max_2600x2600"];
@@ -74,7 +75,7 @@ export const toImageSrc = (row: any = null) => {
   return imgs.length > 0 ? imgs[0].uri : "";
 };
 
-export const extractFromImageStyles = (
+/* export const extractFromImageStyles = (
   styleMap: any = null,
   style = "max_650x650"
 ): string => {
@@ -85,4 +86,8 @@ export const extractFromImageStyles = (
     return styleMap[keys[0]];
   }
   return "";
+}; */
+
+export const relatedKey = (row: NodeEntity, index: number): string => {
+  return ["related", row.bundle, row.uuid, index].join("-");
 };

@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import parse from "html-react-parser";
 import Link from 'next/link';
-import { PageDataSet } from "../lib/entity-data";
+import { NodeEntity, PageDataSet } from "../lib/entity-data";
 import { BaseEntity } from "../lib/interfaces";
 import TagList from "./widgets/tag-list";
 import TypeLink from "./widgets/type-link";
@@ -11,6 +11,8 @@ import { Container } from "@nextui-org/react";
 import SeoHead from "./layout/head";
 import Head from "next/head";
 import Carousel from "./widgets/carousel";
+import RelatedItem from "./widgets/related-item";
+import { relatedKey } from "../lib/ui-entity";
 
 const ArtworkPage: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
@@ -33,6 +35,9 @@ const ArtworkPage: NextPage<BaseEntity> = (data) => {
           <YearLink value={entity.field_year} basePath={basePath} />
           {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
           <TagList terms={entity.field_tags} base={basePath} prefix="tag" />
+        </div>
+        <div className='related-exhibitions flex-grid-2'>
+          {entity.hasRelatedExhibitions && entity.field_related_exhibitions.map((row: NodeEntity, index: number) => <RelatedItem key={relatedKey(row, index)} item={ row } />)}
         </div>
       </article>
     </Container>
