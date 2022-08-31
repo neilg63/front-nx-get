@@ -554,7 +554,7 @@ img {
 .grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  column-gap: 2.5%;
+  column-gap: 5%;
   align-items: stretch;
   figure,
   .text-details {
@@ -1189,10 +1189,21 @@ figure {
 
     justify-content: flex-start;
       align-items: flex-start;
-  grid-template-areas: "main right"
+  grid-template-areas: "header header"
+      "main right"
       "footer footer";
   grid-template-columns: 3fr 2fr;
   column-gap: 2.5%;
+  align-items: stretch;
+  > header {
+    grid-area: header;
+    width: 100%;
+    padding: 0.5em 0;
+    .icon {
+      font-size: 1.5rem;
+    }
+  }
+
   .current-exhition {
     grid-area: main;
     figure {
@@ -1261,21 +1272,27 @@ figure {
 main > article {
   width: 100%;
   > header {
-    margin: 0 auto 0.625em auto;
-    border-top: dotted 1px $dark;
-    border-bottom: dotted 1px $dark;
-    padding: 0.25em 0;
-    display: flex;
-    flex-flow: row nowrap;
-    align-items:center;
-    justify-content:flex-start;
-    > h1 {
-      margin-block-start: 0;
-      margin-block-end: 0;
-    }
+    
   }
   > .info {
     margin: 1em 0 2em 0;
+  }
+}
+
+main > header,
+main > article > header {
+  margin: 0 auto 0.625em auto;
+  border-top: dotted 1px $dark;
+  border-bottom: dotted 1px $dark;
+  padding: 0.25em 0;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+
+  >h1 {
+    margin-block-start: 0;
+    margin-block-end: 0;
   }
 }
 
