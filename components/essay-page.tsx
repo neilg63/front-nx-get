@@ -6,6 +6,7 @@ import { BaseEntity } from "../lib/interfaces";
 import MediaFigure from "./widgets/media-figure";
 import RelatedItem from "./widgets/related-item";
 import { relatedKey } from "../lib/ui-entity";
+import contentTypes from "../lib/content-types";
 
 const EssayPage: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
@@ -15,8 +16,11 @@ const EssayPage: NextPage<BaseEntity> = (data) => {
     <h1><Link href={nextAlias}><a>{entity.title}</a></Link></h1>
     {entity.hasImage && <MediaFigure item={ entity.field_media } size='large' width='100%' height='auto' objectFit='contain' />}
     {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
-    <div className='related-artworks flex-grid-2'>
-      {entity.hasRelatedArtworks && entity.related_artworks.map((row: NodeEntity, index: number) => <RelatedItem key={relatedKey(row, index)} item={ row } />)}
+    <div className='related-artworks related'>
+      <h3>{ contentTypes.artwork }</h3>
+      <div className='flex-grid-2'>
+        {entity.hasRelatedArtworks && entity.related_artworks.map((row: NodeEntity, index: number) => <RelatedItem key={relatedKey(row, index)} item={row} />)}
+      </div>
     </div>
   </article>
 }
