@@ -10,6 +10,7 @@ import SeoHead from "./layout/head";
 import Carousel from "./widgets/carousel";
 import RelatedItem from "./widgets/related-item";
 import { relatedKey } from "../lib/ui-entity";
+import contentTypes from "../lib/content-types";
 
 
 const ExhibitionPage: NextPage<BaseEntity> = (data ) => {  
@@ -26,8 +27,11 @@ const ExhibitionPage: NextPage<BaseEntity> = (data ) => {
           {entity.hasSubtitle && <h3 className="subtitle">{parse(entity.field_subtitle)}</h3>}
           {entity.hasImages && <Carousel items={entity.images} />}
         <div className="body">{parse(entity.body)}</div>
-        <div className='related-artworks flex-grid-2'>
-          {entity.hasRelatedArtworks && entity.related_artworks.map((row: NodeEntity, index: number) => <RelatedItem key={relatedKey(row, index)} item={ row } />)}
+        <div className='related-artworks related'>
+          <h3>{ contentTypes.artwork }</h3>
+          <div className='flex-grid-2'>
+            {entity.hasRelatedArtworks && entity.related_artworks.map((row: NodeEntity, index: number) => <RelatedItem key={relatedKey(row, index)} item={row} />)}
+          </div>
         </div>
         </article>
     </Container>

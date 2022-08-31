@@ -83,6 +83,7 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
         <SeoHead meta={meta} />
       </Head>
       <Container {...containerProps} className="home-container">
+        <header className="home-header section-header"><i className='icon icon-home'></i></header>
         {hasCurrExhib && <section className='current-exhibition'><h3>{ labels.current_exhibition }</h3><ExhibitionPreview node={ currentExhibition } /></section>}
         <section className='news-previews column'>
           <h3>{labels.latest_news}</h3>
