@@ -1,5 +1,5 @@
 import type { GetServerSideProps } from 'next'
-import PressPage from '../../../../components/press-page';
+import EssayPage from '../../../../components/essay-page';
 import { fetchFullNode } from '../../../../lib/api-view-results';
 
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
@@ -11,4 +11,4 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
   }
 }
 
-export default PressPage;
+export default EssayPage;
