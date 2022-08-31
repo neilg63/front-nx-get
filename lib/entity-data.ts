@@ -1,5 +1,5 @@
 import contentTypes from "./content-types";
-import { sanitize } from "./converters";
+import { sanitize, shortDate } from "./converters";
 import {
   Dims2D,
   KeyStringValue,
@@ -15,6 +15,7 @@ import {
   notEmptyString,
   smartCastInt,
   toFullUri,
+  validDateString,
 } from "./utils";
 
 export class SimpleMenuItem {
@@ -427,7 +428,7 @@ export class NodeEntity {
       if (notEmptyString(this.url) && this.path.length < 2) {
         this.path = this.url;
       }
-      if (this.body !== "string") {
+      if (typeof this.body !== "string") {
         this.body = "";
       }
     }
@@ -517,6 +518,14 @@ export class NodeEntity {
     return this.hasImages ? this.field_images : [];
   }
 
+  get shortDate() {
+    if (validDateString(this.field_date)) {
+      return shortDate(this.field_date);
+    } else {
+      return "";
+    }
+  }
+
   get numMedia() {
     return this.num_media > 0
       ? this.num_media
@@ -575,6 +584,20 @@ export class NodeEntity {
     return (
       this.field_related_exhibitions instanceof Array &&
       this.field_related_exhibitions.length > 0
+    );
+  }
+
+  get hasRelatedEssays() {
+    return (
+      this.field_related_essays instanceof Array &&
+      this.field_related_essays.length > 0
+    );
+  }
+
+  get hasRelatedPress() {
+    return (
+      this.field_related_press instanceof Array &&
+      this.field_related_press.length > 0
     );
   }
 }
