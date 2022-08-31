@@ -62,7 +62,7 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
 
   useEffect(() => {
     setSplashClasses(buildSplashClasses());
-    if (splashClasses.includes('active')) {
+    if (splashClasses.includes('active') && enableOverlay) {
       addBodyClass(document, 'show-fullscreen-overlay');
     } else {
       removeBodyClass(document, 'show-fullscreen-overlay');
