@@ -27,17 +27,14 @@ const PressList: NextPage<BaseEntity> = (data) => {
       <AboutNav current='/about/press' />
       <section className="press-list">
       {hasItems && <>
-        <ul>
-        {items.map((item: NodeEntity) => <li key={item.uuid}>
+        <div className='press-releases  flex-grid-2'>
+        {items.map((item: NodeEntity) => <div className='related-mini' key={item.uuid}>
           <time>{ mediumDate(item.field_date) }</time>
-            <h3><Link href={item.path}><a>
-              {item.hasImage && <Image loader={defaultImageLoader} src={item.firstImage.preview} alt={item.alt} width={item.firstImage.calcWidth('preview')} height={item.firstImage.calcHeight('preview')} />}
-              <span className="text">{item.title}</span>
-          </a></Link></h3>
-          <p>{item.field_source}</p>
+            <h3><Link href={item.path}><a>{item.title}</a></Link></h3>
+            <p>{item.field_source}</p>
           {item.hasDocument && <DownloadLink item={item.field_document!} label={ labels.download_pdf} />}
-          </li>)} 
-        </ul>
+          </div>)} 
+        </div>
         {showPaginator && <Paginator pageData={pageData} maxLinks={8} />}
       </>}
     </section>

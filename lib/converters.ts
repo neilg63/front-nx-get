@@ -9,19 +9,25 @@ export const expandDate = (dtRef: string): string => {
   }
 };
 
-export const shortDate = (dtRef: string | Date): string => {
-  const dt = typeof dtRef === "string" ? new Date(expandDate(dtRef)) : dtRef;
-  return format(dt, "dd.MM.yyyy");
-};
-
-export const mediumDate = (dtRef: string | Date): string => {
+export const customDate = (
+  dtRef: string | Date,
+  code = "dd/MM/yyyy"
+): string => {
   const isString = typeof dtRef === "string";
   if ((isString && validDateString(dtRef)) || dtRef instanceof Date) {
     const dt = isString ? new Date(expandDate(dtRef)) : dtRef;
-    return format(dt, "d LLLL yyyy");
+    return dt.getTime() >= 0 ? format(dt, code) : "";
   } else {
     return "";
   }
+};
+
+export const shortDate = (dtRef: string | Date): string => {
+  return customDate(dtRef, "dd.MM.yyyy");
+};
+
+export const mediumDate = (dtRef: string | Date): string => {
+  return customDate(dtRef, "d LLLL yyyy");
 };
 
 export const sanitize = (str: string, separator = "-") => {
@@ -44,4 +50,30 @@ export const toAlias = (path: string): string => {
     alias = "home";
   }
   return alias;
+};
+
+export const toMimeType = (extension = "") => {
+  switch (extension.toLowerCase()) {
+    case "pdf":
+      return "application/pdf";
+    case "jpeg":
+    case "jpg":
+      return "image/jpeg";
+    case "png":
+      return "image/png";
+    case "gif":
+      return "image/gif";
+    case "svg":
+      return "image/svg+xml";
+    case "mp4":
+    case "m4v":
+    case "mpeg4":
+      return "video/mp4";
+    case "mp3":
+      return "audio/mpeg";
+    case "webm":
+      return "video/webm";
+    default:
+      return "application/octet-stream";
+  }
 };

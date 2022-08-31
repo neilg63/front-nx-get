@@ -784,21 +784,17 @@ figure {
       grid-template-columns: 1fr 1fr;
       column-gap: 2.5%;
     }
+    @media screen and (min-width: $mid-screen-width) {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
     figure {
       flex-flow: column nowrap;
       a.image-link {
         display: block;
         position: relative;
-        max-height: 15vw;
-        > span {
-          height: 15vw;
-        }
-        @media screen and (min-width: $max-screen-width) {
-          max-height: 270px;
-          > span {
-            height: 270px;
-          }
-        }
+      }
+      figcaption {
+        text-align: center;
       }
     }
   }
@@ -1271,18 +1267,22 @@ figure {
 
 main > article {
   width: 100%;
-  > header {
-    
-  }
   > .info {
     margin: 1em 0 2em 0;
+  }
+}
+
+.press-list {
+  width: 100%;
+  .related-mini {
+    margin: 0 0 2em 0;
   }
 }
 
 main > header,
 main > article > header {
   margin: 0 auto 0.625em auto;
-  border-top: dotted 1px $dark;
+  /* border-top: dotted 1px $dark; */
   border-bottom: dotted 1px $dark;
   padding: 0.25em 0;
   display: flex;
