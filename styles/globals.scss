@@ -16,6 +16,15 @@ $light-grey: #cccccc;
 $light: white;
 $primary: #ff6600;
 
+@keyframes fadeoutentry {
+  0% {
+    opacity: 0.6667;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 html,
 body {
   padding: 0;
@@ -183,6 +192,33 @@ div#__next {
   width: 100%;
 }
 
+figure {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+
+  &.hidden {
+    display: none;
+  }
+}
+
+ul,
+li,
+figure,
+p,
+h3,
+h4 {
+  margin-block-start: 0;
+  margin-block-end: 0;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
 .gt-outer body > div#__next > div {
   position: relative;
   min-height: 100vh;
@@ -297,25 +333,7 @@ div#__next {
     }
   }
 
-  figure {
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: center;
-    align-items: center;
-    &.hidden {
-      display: none;
-    }
-  }
-
-  ul, li, figure, p, h3, h4 {
-    margin-block-start: 0;
-    margin-block-end: 0;
-    margin-inline-start: 0;
-    margin-inline-end: 0;
-  }
-  img {
-    max-width: 100%;
-  }
+  
 }
 
 .section--tags-theme.gt-outer body>div#__next>div {
@@ -537,6 +555,12 @@ div#__next {
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 2.5%;
+  align-items: stretch;
+  figure,
+  .text-details {
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
 }
 
 .flex-grid-4 {
@@ -601,8 +625,23 @@ ul, ol {
     padding: 0;
     display: inline;
     position: relative;
-    font-size: 2rem;
     white-space: normal;
+
+    font-size: 1rem;
+    @media (min-width: $small-screen-width) {
+      font-size: 1.25rem;
+    }
+    @media (min-width: $mini-screen-width) {
+      font-size: 1.5rem;
+    }
+
+    @media (min-width: $mid-screen-width) {
+      font-size: 1.75rem;
+    }
+
+    @media (min-width: $large-screen-width) {
+      font-size: 2rem;
+    }
 
     &::after {
       position: absolute;
@@ -1013,7 +1052,7 @@ figure {
   figure {
     width: 100%;
     height: 100%;
-
+    cursor: pointer;
     img {
       width: 100%;
       height: auto;
@@ -1023,10 +1062,34 @@ figure {
     figcaption {
       position: absolute;
       user-select: none;
-      top: 25%;
-      bottom: 25%;
-      left: 10%;
+      top: 10%;
+      bottom: 5%;
+      left: 5%;
       right: 10%;
+      opacity: 0.6667;
+      animation-name: fadeoutentry;
+      animation-duration: 1s;
+      animation-delay: 0s;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      @media (min-width: $small-screen-width) {
+        top: 15%;
+        bottom: 15%;
+        left: 10%;
+        right: 10%;
+      }
+      @media (min-width: $mini-screen-width) {
+        top: 20%;
+        bottom: 20%;
+        left: 20%;
+        right: 20%;
+      }
+      @media (min-width: $mid-screen-width) {
+        top: 37.5%;
+          bottom: 37.5%;
+          left: 37.5%;
+          right: 37.5%;
+      }
       cursor: pointer;
       font-size: 5vw;
       color: $primary;
@@ -1058,8 +1121,8 @@ figure {
 
     &:hover {
       figcaption {
-        opacity: 0.6667;
-
+        
+        animation-play-state: initial;
         &:hover {
           opacity: 1;
         }
@@ -1068,6 +1131,19 @@ figure {
   }
 
   transition: opacity 0.5s ease-in-out;
+}
+
+.gt-outer .splash-overlay {
+  figure > figcaption {
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.show-fullscreen-overlay {
+  max-height: 100vw;
+  overflow: hidden;
 }
 
 .section--home-theme .splash-overlay {

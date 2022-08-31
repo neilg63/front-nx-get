@@ -18,3 +18,5 @@ export const isMinLargeSize = (contextRef: any = null) => {
   const screenWidth = context?.width || defaultDeviceSize.width;
   return screenHeight > minLargeSize.height && screenWidth > minLargeSize.width;
 };
+
+export const globalPagePaths = ["/", "/_app"];
