@@ -11,6 +11,7 @@ const labels = {
   about_title: "About",
   load_older: "Older",
   load_newer: "Newer",
+  related_videos: "Related videos",
 };
 
 export default labels;

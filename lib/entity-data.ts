@@ -1,5 +1,5 @@
 import contentTypes from "./content-types";
-import { sanitize, shortDate } from "./converters";
+import { sanitize, shortDate, toMimeType } from "./converters";
 import {
   Dims2D,
   KeyStringValue,
@@ -245,6 +245,12 @@ export class MediaItem {
           this[key] = value;
         }
       });
+      if (this.filemime.length < 1 && notEmptyString(this.uri)) {
+        const extension = this.uri.split("?").pop()?.split(".").pop();
+        if (extension) {
+          this.filemime = toMimeType(extension);
+        }
+      }
     }
   }
 
@@ -598,6 +604,13 @@ export class NodeEntity {
     return (
       this.field_related_press instanceof Array &&
       this.field_related_press.length > 0
+    );
+  }
+
+  get hasRelatedVideos() {
+    return (
+      this.field_related_videos instanceof Array &&
+      this.field_related_videos.length > 0
     );
   }
 }
