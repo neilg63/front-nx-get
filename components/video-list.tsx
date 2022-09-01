@@ -8,6 +8,7 @@ import SeoHead from "./layout/head";
 import { Container, Image } from "@nextui-org/react";
 import { containerProps, videoPreviewStyles } from "../lib/styles";
 import { shortDate } from "../lib/converters";
+import contentTypes from "../lib/content-types";
 
 const VideoList: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
@@ -19,6 +20,9 @@ const VideoList: NextPage<BaseEntity> = (data) => {
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps}>
+      <header className="section-header">
+            <h1>{contentTypes.gttv}</h1>
+        </header>
       <section className="video-list grid-list">
         {hasItems && <><div className="columns">
           {items.map(item => <figure key={item.uuid} data-key={item.uuid} data-dims={item.firstImage.dims('medium')}>

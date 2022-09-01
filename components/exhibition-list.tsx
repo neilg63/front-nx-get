@@ -16,6 +16,7 @@ import { setTempLocalBool, tempLocalBool } from "../lib/localstore";
 import { loadMore } from "../lib/load-more";
 import { getScrollTop } from "../lib/dom";
 import labels from "../lib/labels";
+import contentTypes from "../lib/content-types";
 
 const ExhibitionList: NextPage<BaseEntity> = (data) => {  
   const pageData = useMemo(() => new PageDataSet(data), [data]);
@@ -109,6 +110,9 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
     </Head>
     <Container {...containerProps}>
       <section className="exhibition-list grid-list">
+        <header className="section-header">
+            <h1>{contentTypes.exhibition}</h1>
+        </header>
         {hasItems && <><div className="columns">
           {items.map((item: NodeEntity, index) => <figure key={[item.uuid, index].join('-')} data-dims={item.firstImage.dims('medium')}>
               <Link href={item.path} className="image-holder"><a className="image-link">
