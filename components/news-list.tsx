@@ -8,6 +8,7 @@ import { Container, Image } from "@nextui-org/react";
 import { containerProps } from "../lib/styles";
 import Head from "next/head";
 import SeoHead from "./layout/head";
+import contentTypes from "../lib/content-types";
 
 const NewsList: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
@@ -19,6 +20,9 @@ const NewsList: NextPage<BaseEntity> = (data) => {
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps}>
+        <header className="section-header">
+          <h1>{contentTypes.news}</h1>
+      </header>
       <section className="news-list grid-list">
         {hasItems && <><div className="columns">
           {items.map((item: NodeEntity) => <figure key={item.uuid}>

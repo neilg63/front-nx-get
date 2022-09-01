@@ -53,6 +53,9 @@ a {
 }
 
 article,
+nav,
+main,
+header,
 aside,
 figure,
 section {
@@ -75,6 +78,10 @@ section {
   >h5 {
     text-transform: uppercase;
   }
+}
+
+nav {
+  user-select: none;
 }
 
 header.header {
@@ -251,11 +258,18 @@ img {
     border-bottom: dotted 1px $dark;
     font-weight: normal;
     font-size: 1em;
+    margin-bottom: 1em;
+    width: 100%;
+    h1 {
+      margin: 0;
+      padding: 0;
+    }
   }
 
   > main {
     position: relative;
     width: 100%;
+    padding: 0 2.5%;
   }
 
   @media screen and (min-width: $mid-screen-width) {
@@ -274,6 +288,7 @@ img {
       width: auto;
       min-width: calc(90vw - $sidebar-width);
       padding-top: $top-padding-standard;
+      padding-left: 0;
       @media (min-height: $tall-screen-height) {
         padding-top: $top-padding-tall;
       }
@@ -645,49 +660,71 @@ ul, ol {
 
     font-size: 1rem;
     @media (min-width: $small-screen-width) {
-      font-size: 1.25rem;
+      font-size: 1.3333rem;
     }
     @media (min-width: $mini-screen-width) {
-      font-size: 1.5rem;
+      font-size: 1.6667rem;
     }
 
     @media (min-width: $mid-screen-width) {
-      font-size: 1.75rem;
-    }
-
-    @media (min-width: $large-screen-width) {
       font-size: 2rem;
     }
 
+    @media (min-width: $large-screen-width) {
+      font-size: 2.25rem;
+    }
+
     &::after {
-      position: absolute;
-      top: 0;
-      height: 1.125em;
-      right: 0;
-      content: " ";
-      border-right: solid 1px $dark;
+      display: inline-block;
+      content: "|";
+      margin: 0 0.375em 0 0;
+    }
+
+    &:hover {
+      &::after {
+        color: $mid-grey;
+        transform: scaleY(1.8888) translateY(1.25%);
+      }
     }
 
     &:last-child {
       &::after {
-        border-right: none;
+        content: "";
+        margin: 0;
       }
     }
 
     a {
-      padding: 0 0.375em;
+      position: relative;
+      padding: 0 0.5em 0 0;
       color: $dark;
       white-space: normal;
 
       &:hover {
         background-color: $mid-grey;
         color: white;
-        &::after {
-          border-right: solid 1px $mid-grey;
+        line-height: 1;
+        outline: solid 0.125em $mid-grey;
+        &::before {
+          position: absolute;
+          content: " ";
+          height: 1.3165em;
+          top: -0.09375em;
+          left: -0.625em;
+          @media (min-width: $mid-screen-width) {
+            top: -0.125em;
+            height: 1.40625em;
+          }
+          @media (min-width: $large-screen-width) {
+            height: 1.375em;
+          }
+          border-left: solid 0.625em $mid-grey;
+          z-index: 0;  
         }
       }
     }
   }
+  margin-bottom: 3em;
 }
 
 body .nprogress {
@@ -849,6 +886,10 @@ figure {
       }
     }
   }
+}
+
+main > .related {
+  width: 100%;
 }
 
 .grid-rows-6 {
