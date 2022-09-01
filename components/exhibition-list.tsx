@@ -2,11 +2,10 @@ import { NextPage } from "next";
 import Link from 'next/link';
 import { BaseEntity } from "../lib/interfaces";
 import { NodeEntity, PageDataSet } from "../lib/entity-data";
-import Paginator from "./widgets/paginator";
 import Head from "next/head";
 import SeoHead from "./layout/head";
 import { Container, Image } from "@nextui-org/react";
-import { containerProps } from "../lib/styles";
+import { containerProps, resizeAllGridItems } from "../lib/styles";
 import DateRange from "./widgets/date-range";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
@@ -26,8 +25,8 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
   const isLarge = isMinLargeSize(context);
   const maxScrollPages = isLarge ? numScrollBatches.large : numScrollBatches.standard;
   const [scrollLoadPos, setScrollLoadPos] = useState(0);
-  const isLloading = tempLocalBool('loading');
-  const [loading, setLoading] = useState<boolean>(isLloading);
+  //const isLloading = tempLocalBool('loading');
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const { items, meta, total, perPage } = pageData;
 
@@ -35,19 +34,22 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
     const currPath = router.asPath.split('?').shift();
     const nextPage = forward ? pageData.nextPageOffset : pageData.prevPageOffset(maxScrollPages);
     if (pageData.mayLoad(maxScrollPages) && forward) {
-      setTempLocalBool('loading', true);
+      //setTempLocalBool('loading', true);
       setLoading(true);
       loadMore(router.asPath, nextPage).then((items: NodeEntity[]) => {
         pageData.addItems(items);
         setLoading(false);
-        setTimeout(() => {
+        /* setTimeout(() => {
           setTempLocalBool('loading', false);
-        }, 500);
+        }, 500); */
       });
     } else {
       const nextPageNum = nextPage + 1;
       router.push(currPath + '?page=' + nextPageNum);
     }
+   /*  setTimeout(() => {
+     setTempLocalBool('loading', false);
+    }, 3000); */
   }
 
   const loadNext = () => {
@@ -61,26 +63,26 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
   useEffect(() => {
     const fetchMoreItems = () => {
       setLoading(true);
-      setTempLocalBool('loading', true);
+      //setTempLocalBool('loading', true);
       const nextPage = pageData.nextPageOffset;
       const isLarge = isMinLargeSize(context);
       const max = isLarge ? numScrollBatches.large : numScrollBatches.standard;
       if (pageData.mayLoad(max)) {
         setScrollPage(nextPage);
         loadMore(router.asPath, nextPage).then((items: NodeEntity[]) => {
-          pageData.addItems(items);
+          pageData.addItems(items, true);
           setTimeout(() => {
             setLoading(false);
-            setTempLocalBool('loading', false);
-          }, 500);
+            //setTempLocalBool('loading', false);
+          }, 1000);
         });
       }
     }
 
     const onScroll = () => {
        const st = getScrollTop();
-      const isLoading = loading || tempLocalBool('loading');
-       if (context && !isLoading && scrollPage < pageData.numPages) {
+      const isLoading = loading;
+      if (context && !isLoading && scrollPage < pageData.numPages) {
          const relPage = scrollPage - pageData.page;
           const divisor = scrollPage < 2 ? 4 : relPage < 3 ? 3.2 : 2.5;
           const stopVal = context.height / divisor;
@@ -100,9 +102,11 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
     if (pageData.loadedPages < 2 && pageData.numPages > 1) {
       setTimeout(fetchMoreItems, 500);
     }
+    
     setTimeout(() => {
-     setTempLocalBool('loading', false);
-    }, 3000);
+       resizeAllGridItems(document, window);
+    }, 250);
+    
   }, [pageData, loading,maxScrollPages, router,context, scrollLoadPos, scrollPage])
   return  <>
     <Head>
@@ -114,7 +118,7 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
             <h1>{contentTypes.exhibition}</h1>
         </header>
         {hasItems && <><div className="columns">
-          {items.map((item: NodeEntity, index) => <figure key={[item.uuid, index].join('-')} data-dims={item.firstImage.dims('medium')}>
+          {items.map((item: NodeEntity, index) => <figure key={[item.uuid, index].join('-')} className='node'>
               <Link href={item.path} className="image-holder"><a className="image-link">
                 {item.hasImage && <Image src={item.firstImage.preview} alt={item.alt} width={'auto'} height={'100%'} objectFit='contain' />}
                 </a></Link>

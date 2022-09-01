@@ -24,3 +24,42 @@ export const remPx = 16;
 export const timelineItemWidth = remPx * 20;
 
 export const videoPreviewStyles = { aspectRatio: 16 / 9 };
+
+export function resizeGridItem(
+  grid: HTMLElement,
+  rowGap = 16,
+  window: Window,
+  item: HTMLElement
+) {
+  if (grid instanceof HTMLElement) {
+    const rowHeight = parseInt(
+      window.getComputedStyle(grid).getPropertyValue("grid-auto-rows")
+    );
+    const img = item.querySelector(".image-link");
+    let height = 300;
+    if (img instanceof HTMLElement) {
+      height = img.getBoundingClientRect().height;
+    }
+    const fgc = item.querySelector("figcaption");
+    if (fgc instanceof HTMLElement) {
+      height += fgc.getBoundingClientRect().height;
+    }
+    const rowSpan = Math.ceil((height + rowGap) / (rowHeight + rowGap));
+    item.style.gridRowEnd = "span " + rowSpan;
+  }
+}
+
+export function resizeAllGridItems(document: Document, window: Window) {
+  const grid = document.querySelector(".grid-list .columns");
+  if (grid instanceof HTMLElement) {
+    const gap = window.getComputedStyle(grid).getPropertyValue("grid-row-gap");
+    if (gap) {
+      const rowGap = parseInt(gap);
+      grid.style.gridAutoRows = "1rem";
+      const items = grid.querySelectorAll("figure.node");
+      for (const item of items) {
+        resizeGridItem(grid, rowGap, window, item as HTMLElement);
+      }
+    }
+  }
+}

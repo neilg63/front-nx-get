@@ -837,6 +837,7 @@ figure {
       grid-template-rows: masonry;
       column-gap: 2.5%;
       justify-content: flex-start;
+      grid-row-gap: 1em;
     }
     @media screen and (min-width: $mid-screen-width) {
       grid-template-columns: repeat(3, 1fr);

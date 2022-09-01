@@ -660,11 +660,13 @@ export class PageDataSet {
     }
   }
 
-  addItems(items: NodeEntity[] = []) {
+  addItems(items: NodeEntity[] = [], removeDuplicates = false) {
     const currNids = this.items.map((row) => row.nid);
     for (const item of items) {
       item.duplicate = currNids.includes(item.nid);
-      this.items.push(item);
+      if (!item.duplicate || !removeDuplicates) {
+        this.items.push(item);
+      }
     }
   }
 
