@@ -552,6 +552,7 @@ img {
   }
 }
 
+.grid-2-header,
 .grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -561,6 +562,20 @@ img {
   .text-details {
     justify-content: flex-start;
     align-items: flex-start;
+  }
+}
+
+.grid-2-header {
+  grid-template-areas: "head head"
+    "left right";
+  > h1 {
+    grid-area: head;
+  }
+  > .carousel-container {
+    grid-area: left;
+  }
+   > .text-details {
+    grid-area: right;
   }
 }
 
@@ -783,6 +798,7 @@ figure {
       display: grid;
       grid-template-columns: 1fr 1fr;
       column-gap: 2.5%;
+      justify-content: flex-start;
     }
     @media screen and (min-width: $mid-screen-width) {
       grid-template-columns: 1fr 1fr 1fr;
