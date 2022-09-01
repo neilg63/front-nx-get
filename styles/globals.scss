@@ -796,12 +796,13 @@ figure {
   .columns {
     @media screen and (min-width: $mini-screen-width) {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: masonry;
       column-gap: 2.5%;
       justify-content: flex-start;
     }
     @media screen and (min-width: $mid-screen-width) {
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
     }
     figure {
       flex-flow: column nowrap;
@@ -812,6 +813,15 @@ figure {
       }
       figcaption {
         text-align: center;
+      }
+    }
+    &.video-list {
+      figure {
+        > .nextui-image-container {
+          width: 100%;
+          overflow: hidden;
+          aspect-ratio: 16 / 9;
+        }
       }
     }
   }

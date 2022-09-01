@@ -13,11 +13,11 @@ import { containerProps, displayNone } from "../lib/styles";
 import { getScrollTop, setEmtyFigureHeight } from "../lib/dom";
 import { useRouter } from "next/router";
 import { TopContext } from "../pages/_app";
-import { fetchApiViewResults } from "../lib/api-view-results";
-import { fromLocal, setTempLocalBool, tempLocalBool, toLocal } from "../lib/localstore";
+import { setTempLocalBool, tempLocalBool } from "../lib/localstore";
 import labels from "../lib/labels";
 import { isMinLargeSize, numScrollBatches } from "../lib/settings";
 import ArtwworkFigure from "./widgets/artwork-figure";
+import { loadMore } from "../lib/load-more";
 
 
 const filterOpts = [
@@ -71,57 +71,6 @@ const ArtworkYearNav = ({ years, current }: { years: YearNum[], current: string 
   );
 }
 
-const isLifeYear = (yearRef: string): boolean => {
-  if (isNumeric(yearRef) && yearRef.length === 4) {
-    const y = typeof yearRef === 'string' ? parseInt(yearRef, 10) : typeof yearRef === 'number' ? yearRef : 0;
-    return y > 1950;
-  } else {
-    return false;
-  }
-}
-
-const loadMore = async (path = '', page = 1): Promise<NodeEntity[]> => {
-  try {
-    const parts = path.replace(/^\//, '').split('/');
-    let base = 'artworks';
-    const uriParts = [];
-    if (parts.length > 1) {
-      let second = parts[1];
-      if (!isLifeYear(second)) {
-        base = second.startsWith('tag--') ? 'artworks-by-tag' : 'artworks-by-type';
-        second = second.includes('--') ? second.split('--').shift()! : second;
-      }
-      uriParts.push(base);
-      uriParts.push(second);
-    } else {
-      uriParts.push(base);
-    }
-    const uri = uriParts.join('/');
-    const key = [uri, 'items', page].join('--');
-    const stored = fromLocal(key, 900);
-    let items: any[] = [];
-    if (stored.valid && !stored.expired) {
-      if (stored.data instanceof Object && stored.data instanceof Array && stored.data.length > 0)  {
-        items = stored.data
-      }
-    }
-    if (items.length < 1) {
-      const data: any = await fetchApiViewResults(uri, { page });
-      if (data instanceof Object && data.items instanceof Array) {
-        items = data.items;
-        toLocal(key, items);
-      }
-    }    
-    if (items instanceof Array && items.length > 0) {
-      return items.map((n:any) => new NodeEntity(n));
-    } else {
-      return []
-    }
-  } catch (e: any) {
-    return [];
-  }
-}
-
 const ArtworkTypeNav = ({ types, current }: { types: SlugNameNum[], current: string }) => {
   const basePath = '/artworks/';
   return (
@@ -166,7 +115,6 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
 
   const loadNextPrev = (forward = true) => {
     const currPath = router.asPath.split('?').shift();
-    //const scrollPageIndex = scrollPage - pageData.page;
     const nextPage = forward ? pageData.nextPageOffset : pageData.prevPageOffset(maxScrollPages);
     if (pageData.mayLoad(maxScrollPages) && forward) {
       setTempLocalBool('loading', true);
@@ -254,10 +202,9 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
           setTimeout(() => {
             setLoading(false);
             setTempLocalBool('loading', false);
-          }, 1000);
+          }, 500);
         });
       }
-      
     }
 
     const onScroll = () => {
@@ -265,7 +212,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       const isLoading = loading || tempLocalBool('loading');
        if (context && !isLoading && scrollPage < pageData.numPages) {
          const relPage = scrollPage - pageData.page;
-          const divisor = scrollPage < 2 ? 4 : relPage < 3 ? 3 : 2;
+          const divisor = scrollPage < 2 ? 5 : relPage < 3 ? 4 : 3;
           const stopVal = context.height / divisor;
           const targetVal = scrollLoadPos + stopVal;
          if (st > targetVal) {
@@ -307,7 +254,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       </nav>
       <section className="artwork-list">
         {pageData.hasItems && <><div className="flex-rows-6">
-          {pageData.items.map((item, index) => item.duplicate ? <figure className='hidden' key={item.indexedKey(index)} style={displayNone}></figure> : <ArtwworkFigure item={item} index={ index } />)}
+          {pageData.items.map((item, index) => item.duplicate ? <figure className='hidden' key={item.indexedKey(index)} style={displayNone}></figure> : <ArtwworkFigure item={item} index={ index } key={item.indexedKey(index)} />)}
           <figure className="empty-figure" style={ emptyFigStyles }></figure>
           </div>
           {pageData.showListingNav && <nav className='listing-nav row'>

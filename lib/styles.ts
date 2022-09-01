@@ -22,3 +22,5 @@ export const displayNone = { display: "none" };
 export const remPx = 16;
 
 export const timelineItemWidth = remPx * 20;
+
+export const videoPreviewStyles = { aspectRatio: 16 / 9 };
