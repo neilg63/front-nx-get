@@ -25,7 +25,7 @@ const ArtworkPage: NextPage<BaseEntity> = (data) => {
     <Head>
       <SeoHead meta={meta} />
     </Head>
-    <Container {...containerProps}>
+    <Container {...containerProps} className='grid-sidebar'>
       <article className="artwork">
         <header>
           <h1><Link href={nextAlias}><a>{entity.title}</a></Link></h1>
@@ -37,25 +37,27 @@ const ArtworkPage: NextPage<BaseEntity> = (data) => {
           {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
           <TagList terms={entity.field_tags} base={basePath} prefix="tag" />
         </div>
+      </article>
+      <aside className='sidebar sidebar-right'>
         {entity.hasRelatedExhibitions && <div className='related-exhibitions related'>
           <h3>{contentTypes.exhibition}</h3>
-          <div className='flex-grid-2'>
+          <div className='columns'>
             {entity.field_related_exhibitions.map((row: NodeEntity, index: number) => <RelatedItem key={relatedKey(row, index)} item={row} />)}
           </div>
         </div>}
         {entity.hasRelatedEssays && <div className='related-essays related'>
           <h3>{contentTypes.article}</h3>
-          <div className='flex-grid-4'>
+          <div className='columns'>
             {entity.field_related_essays.map((row: NodeEntity, index: number) => <MiniRelatedItem key={relatedKey(row, index)} item={row} />)}
           </div>
         </div>}
         {entity.hasRelatedPresss && <div className='related-press related'>
           <h3>{contentTypes.press}</h3>
-          <div className='flex-grid-4'>
+          <div className='columns'>
             {entity.field_related_press.map((row: NodeEntity, index: number) => <MiniRelatedItem key={relatedKey(row, index)} item={row} />)}
           </div>
         </div>}
-      </article>
+      </aside>
     </Container>
   </>
 }

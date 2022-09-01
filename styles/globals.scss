@@ -53,6 +53,7 @@ a {
 }
 
 article,
+aside,
 figure,
 section {
 
@@ -551,6 +552,7 @@ img {
   }
 }
 
+.grid-2-header,
 .grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -560,6 +562,20 @@ img {
   .text-details {
     justify-content: flex-start;
     align-items: flex-start;
+  }
+}
+
+.grid-2-header {
+  grid-template-areas: "head head"
+    "left right";
+  > h1 {
+    grid-area: head;
+  }
+  > .carousel-container {
+    grid-area: left;
+  }
+   > .text-details {
+    grid-area: right;
   }
 }
 
@@ -777,24 +793,49 @@ figure {
 }
 
 .grid-list {
-
   .columns {
     @media screen and (min-width: $mini-screen-width) {
       display: grid;
       grid-template-columns: 1fr 1fr;
       column-gap: 2.5%;
+      justify-content: flex-start;
     }
     @media screen and (min-width: $mid-screen-width) {
       grid-template-columns: 1fr 1fr 1fr;
     }
     figure {
       flex-flow: column nowrap;
+      justify-content: flex-start;
       a.image-link {
         display: block;
         position: relative;
       }
       figcaption {
         text-align: center;
+      }
+    }
+  }
+}
+
+.grid-sidebar {
+  @media screen and (min-width: $mid-screen-width) {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    justify-content: flex-start;
+    column-gap: 5%;
+    align-items: flex-start;
+    .related > h3 {
+      margin-top: 0;
+      padding: 0 0 0.25em 0;
+    }
+    .columns {
+      .related-item {
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+        margin-bottom: 1em;
+        padding-bottom: 1em;
+        border-bottom: dotted 1px $dark;
       }
     }
   }
@@ -1270,6 +1311,9 @@ main > article {
   > .info {
     margin: 1em 0 2em 0;
   }
+  > h1 {
+    border-bottom: dotted 1px $dark;
+  }
 }
 
 .press-list {
@@ -1318,13 +1362,24 @@ main > article > header {
 .related {
   margin: 0 0 2em 0;
   > h3 {
-    margin: 0.625em auto 0.25em auto;
     padding: 0.5em 0;
-    border-top: dotted 1px $dark;
     border-bottom: dotted 1px $dark;
     text-transform: uppercase;
   }
   > div {
     margin: 0.5em 0 1em 0;
+  }
+}
+
+article > .related {
+  > h3 {
+    margin: 0.625em auto 0.25em auto;
+    border-top: dotted 1px $dark;
+  }
+}
+
+.sidebar > .related {
+  > h3 {
+    margin: 0 auto 0.25em auto;
   }
 }
