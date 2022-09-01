@@ -419,7 +419,8 @@ export class NodeEntity {
         } else if (isObjectWith(value, "name") && taxFields.includes(key)) {
           this[key] = new TaxTerm(value);
         } else if (entityFields.includes(key) && value instanceof Array) {
-          this[key] = value.map((item: any) => new NodeEntity(item));
+          if (key === "field_rel")
+            this[key] = value.map((item: any) => new NodeEntity(item));
         } else if (
           isArrayOfObjectsWith(value, "name") &&
           key === "field_tags"
@@ -721,7 +722,10 @@ export class PageDataSet {
   }
 
   mayLoad(maxScrollPages = 5) {
-    return maxScrollPages > Math.ceil(this.items.length / this.perPage);
+    const offset = maxScrollPages < 6 ? -1 : 0;
+    return (
+      maxScrollPages > Math.ceil(this.items.length / this.perPage) - offset
+    );
   }
 
   get showMore() {
