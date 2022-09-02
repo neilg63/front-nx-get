@@ -662,7 +662,9 @@ export class PageDataSet {
 
   addItems(items: NodeEntity[] = [], removeDuplicates = false) {
     const currNids = this.items.map((row) => row.nid);
-    for (const item of items) {
+    const numNewItems = items.length;
+    for (let i = 0; i < numNewItems; i++) {
+      const item = items[i];
       item.duplicate = currNids.includes(item.nid);
       if (!item.duplicate || !removeDuplicates) {
         this.items.push(item);

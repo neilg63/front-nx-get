@@ -129,6 +129,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
     } else {
       const nextPageNum = nextPage + 1;
       router.push(currPath + '?page=' + nextPageNum);
+      pageData.page = nextPage;
     }
   }
 
@@ -182,7 +183,6 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       setContextualTitle(titleParts.join(' | '));
     }
     setFilterMode(fm);
-    //setShowPaginator(total > 0 && total > perPage && scrollPage < 2);
     setFilterOptions(filterOpts.map((row, ri) => {
       const itemKey = ['filter-opt', row.key, ri].join('-');
       const selected = row.key === fm;
@@ -195,7 +195,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       setLoading(true);
       setTempLocalBool('loading', true);
       const nextPage = pageData.nextPageOffset;
-      if (pageData.mayLoad(maxScrollPages)) {
+      if (pageData.mayLoad(maxScrollPages) && nextPage > scrollPage) {
         setScrollPage(nextPage);
         loadMore(router.asPath, nextPage).then((items: NodeEntity[]) => {
           pageData.addItems(items);

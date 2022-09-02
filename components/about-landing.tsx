@@ -26,7 +26,7 @@ const AboutLanding: NextPage<BaseEntity> = (data) => {
     </Head>
     <Container {...containerProps} className='about-landing'>
       <AboutNav current={currentPath} />
-      <article>
+      <article className='about-article'>
           <h2>{entity.title}</h2>
           <div className="body">{parse(entity.body)}</div>
           {entity.hasImages && <section className="media-items">

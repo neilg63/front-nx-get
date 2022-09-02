@@ -19,7 +19,8 @@ const isLifeYear = (yearRef: string): boolean => {
 
 export const loadMore = async (path = "", page = 1): Promise<NodeEntity[]> => {
   try {
-    const parts = path.substring(1).split("/");
+    const basePath = path.includes("?") ? path.split("?").shift()! : path;
+    const parts = basePath.substring(1).split("/");
     let base = parts[0];
     const uriParts = [];
     if (parts.length > 1) {
@@ -46,11 +47,7 @@ export const loadMore = async (path = "", page = 1): Promise<NodeEntity[]> => {
     const stored = fromLocal(key, 900);
     let items: any[] = [];
     if (stored.valid && !stored.expired) {
-      if (
-        stored.data instanceof Object &&
-        stored.data instanceof Array &&
-        stored.data.length > 0
-      ) {
+      if (stored.data instanceof Array && stored.data.length > 0) {
         items = stored.data;
       }
     }
