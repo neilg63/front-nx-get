@@ -5,9 +5,9 @@ $mini-screen-width: 673px;
 $small-screen-width: 450px;
 $tall-screen-height: 750px;
 $sidebar-width: 15em;
-$top-padding-standard: 5.75rem;
+$top-padding-standard: 6rem;
 $top-logo-margin-bottom-standard: 3rem;
-$top-padding-tall: 6.75rem;
+$top-padding-tall: 7rem;
 $top-logo-margin-bottom-tall: 4rem;
 
 $dark: #333333;
@@ -227,6 +227,19 @@ img {
   max-width: 100%;
 }
 
+.section-header {
+  border-bottom: dotted 1px $dark;
+  font-weight: normal;
+  font-size: 1em;
+  margin-bottom: 1em;
+  width: 100%;
+  padding: 0 0 0.5em 0;
+
+  h1 {
+    margin: 0;
+  }
+}
+
 .gt-outer body > div#__next > div {
   position: relative;
   min-height: 100vh;
@@ -252,18 +265,6 @@ img {
 
   .subtitle-link {
     cursor: pointer;
-  }
-
-  .section-header {
-    border-bottom: dotted 1px $dark;
-    font-weight: normal;
-    font-size: 1em;
-    margin-bottom: 1em;
-    width: 100%;
-    h1 {
-      margin: 0;
-      padding: 0;
-    }
   }
 
   > main {
@@ -442,7 +443,7 @@ img {
   flex-flow: row wrap;
 }
 
-.press-list {
+.about-listing {
   li {
     padding: 1em 0;
     margin-bottom: 1em;
@@ -577,6 +578,11 @@ img {
   .text-details {
     justify-content: flex-start;
     align-items: flex-start;
+    flex-flow: column nowrap;
+  }
+  figcaption {
+    width: 100%;
+    text-align: center;
   }
 }
 
@@ -1091,8 +1097,13 @@ main > .related {
   width: 100%;
   display: flex;
   flex-flow: column wrap;
+  > h1.section-header {
+    margin-bottom: 0;
+  }
   ul {
-    padding: 1em 0;
+    padding: 0.5em 0;
+    border-bottom: dotted 1px $dark;
+    margin: 0 0 1.5em 0;
     li {
       position: relative;
       padding: 0 1em;

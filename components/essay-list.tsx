@@ -20,15 +20,14 @@ const EssayList: NextPage<BaseEntity> = (data) => {
     <Head>
       <SeoHead meta={meta} />
     </Head>
-    <Container {...containerProps}>
-      <AboutNav current='/about/press' />
-      <section className="press-list">
+    <Container {...containerProps} className='about-listing-container'>
+      <AboutNav current='/about/essays' />
+      <section className="essay-list about-listing">
       {hasItems && <>
         <ul>
         {items.map((item: NodeEntity) => <li key={item.uuid}>
-          <time>{ mediumDate(item.field_date) }</time>
-            <h3><Link href={item.path}><a>{item.title}</a></Link></h3>
-            <p>{item.summary}</p>
+            <h3><Link href={item.path}><a><span className='text-label'>{item.title}</span> <time>{ mediumDate(item.field_date) }</time></a></Link></h3>
+            <p className='summary small'>{item.summary}</p>
           </li>)} 
         </ul>
         {showPaginator && <Paginator pageData={pageData} maxLinks={8} />}

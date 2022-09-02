@@ -23,9 +23,9 @@ const PressList: NextPage<BaseEntity> = (data) => {
     <Head>
       <SeoHead meta={meta} />
     </Head>
-    <Container {...containerProps}>
+    <Container {...containerProps} className='about-listing-container'>
       <AboutNav current='/about/press' />
-      <section className="press-list">
+      <section className="press-list about-listing">
       {hasItems && <>
         <div className='press-releases  flex-grid-2'>
         {items.map((item: NodeEntity) => <div className='related-mini' key={item.uuid}>
