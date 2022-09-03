@@ -89,6 +89,10 @@ export const capitalize = (str: string): string => {
   }
 };
 
+export const keyToTitle = (str: string): string => {
+  return capitalize(str.replace(/_/g, " "));
+};
+
 export const defaultImageLoader = ({
   src,
   width,

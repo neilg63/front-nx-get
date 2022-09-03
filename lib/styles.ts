@@ -1,5 +1,17 @@
 import { ContainerProps } from "@nextui-org/react";
 
+// 2. Call `createTheme` and pass your custom values
+export const customTheme = {
+  type: "light", // it could be "light" or "dark"
+  theme: {
+    colors: {
+      primary: "#ff6600",
+    },
+    space: {},
+    fonts: {},
+  },
+};
+
 export const containerProps: ContainerProps = {
   as: "main",
   display: "flex",
@@ -24,6 +36,8 @@ export const remPx = 16;
 export const timelineItemWidth = remPx * 20;
 
 export const videoPreviewStyles = { aspectRatio: 16 / 9 };
+
+export const tooltipStyles = { borderRadius: 0 };
 
 export function resizeGridItem(
   grid: HTMLElement,
@@ -63,3 +77,14 @@ export function resizeAllGridItems(document: Document, window: Window) {
     }
   }
 }
+
+/* export const setMaxFigureHeight = (container: HTMLElement) => {
+  const fig = container.querySelector("figure.active");
+  if (fig instanceof HTMLElement) {
+    const img = fig.querySelector("img");
+    if (img instanceof HTMLElement) {
+      const height = img.getBoundingClientRect().height;
+      fig.style.maxHeight = `${height}px`;
+    }
+  }
+}; */

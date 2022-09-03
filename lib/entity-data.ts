@@ -419,8 +419,7 @@ export class NodeEntity {
         } else if (isObjectWith(value, "name") && taxFields.includes(key)) {
           this[key] = new TaxTerm(value);
         } else if (entityFields.includes(key) && value instanceof Array) {
-          if (key === "field_rel")
-            this[key] = value.map((item: any) => new NodeEntity(item));
+          this[key] = value.map((item: any) => new NodeEntity(item));
         } else if (
           isArrayOfObjectsWith(value, "name") &&
           key === "field_tags"

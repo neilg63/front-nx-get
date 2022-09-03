@@ -18,6 +18,8 @@ import labels from "../lib/labels";
 import { isMinLargeSize, numScrollBatches } from "../lib/settings";
 import ArtwworkFigure from "./widgets/artwork-figure";
 import { loadMore } from "../lib/load-more";
+import { fetchFullNode } from "../lib/api-view-results";
+import ArtworkInsert from "./widgets/artwork-insert";
 
 
 const filterOpts = [
@@ -82,6 +84,14 @@ const ArtworkTypeNav = ({ types, current }: { types: SlugNameNum[], current: str
   );
 }
 
+const wrapperClasses = (showSelected = false) => {
+  const cls = ['artworks-container'];
+  if (showSelected) {
+    cls.push('show-detailed');
+  }
+  return cls.join(' ');
+}
+
 const ArtworkList: NextPage<BaseEntity> = (data) => {  
   const pageData = useMemo(() => new PageDataSet(data), [data]);
   //const pageData = new PageDataSet(data);
@@ -90,6 +100,8 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
   const isLarge = isMinLargeSize(context);
   const maxScrollPages = isLarge ? numScrollBatches.large : numScrollBatches.standard;
   const [scrollLoadPos, setScrollLoadPos] = useState(0);
+  const [selected, setSelected] = useState<NodeEntity>(new NodeEntity());
+  const [showDetail, setShowDetail] = useState<boolean>(false);
   const isLloading = tempLocalBool('loading');
   const [loading, setLoading] = useState<boolean>(isLloading);
   //const [showPaginator, setShowPaginator] = useState(false);
@@ -223,6 +235,17 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
           }
        }
     };
+    if (selected.nid > 0) {
+      window.location.hash = '#' + selected.path;
+    }
+    if (context) {
+      if (context.escaped) {
+        setShowDetail(false);
+        setSelected(new NodeEntity());
+        window.location.hash = '';
+      }
+    }
+    //loadMax();
     setTimeout(() => {
      setEmtyFigureHeight(document);
     }, 500);
@@ -236,12 +259,12 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
     return () => {
       window.removeEventListener('scroll', onScroll);
     };
-  }, [pageData, contextualTitle, subPath, router, types, context, scrollPage, scrollLoadPos, loading, maxScrollPages]);
+  }, [pageData, contextualTitle, subPath, router, types, context, scrollPage, scrollLoadPos, loading, maxScrollPages, selected]);
   return <>
     <Head>
       <SeoHead meta={pageData.meta} />
     </Head>
-    <Container {...containerProps}>
+    <Container {...containerProps} className={ wrapperClasses(showDetail) }>
       <nav className={navClassName(filterMode)}>
         <h1>{ contextualTitle }</h1>
         <ul 
@@ -254,7 +277,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       </nav>
       <section className="artwork-list">
         {pageData.hasItems && <><div className="flex-rows-6">
-          {pageData.items.map((item, index) => item.duplicate ? <figure className='hidden' key={item.indexedKey(index)} style={displayNone}></figure> : <ArtwworkFigure item={item} index={ index } key={item.indexedKey(index)} />)}
+          {pageData.items.map((item, index) => item.duplicate ? <figure className='hidden' key={item.indexedKey(index)} style={displayNone}></figure> : <ArtwworkFigure item={item} index={index} key={item.indexedKey(index)} />)}
           <figure className="empty-figure" style={ emptyFigStyles }></figure>
           </div>
           {pageData.showListingNav && <nav className='listing-nav row'>

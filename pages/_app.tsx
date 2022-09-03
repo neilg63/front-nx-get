@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Router, { useRouter } from 'next/router';
-import { NextUIProvider } from '@nextui-org/react';
+import { createTheme, NextUIProvider } from '@nextui-org/react';
 import '../styles/globals.scss';
 import type { AppProps } from 'next/app'
 import { QueryClient, QueryClientProvider, Hydrate } from "@tanstack/react-query";
@@ -9,6 +9,7 @@ import "nprogress/nprogress.css";
 import "../public/icomoon/style.css";
 import Header from '../components/header';
 import Footer from '../components/footer';
+import { customTheme } from '../lib/styles';
 
 NProgress.configure({ showSpinner: false })
 
@@ -73,10 +74,7 @@ export default function App({ Component, pageProps }: AppProps) {
   if (!queryClientRef.current) {
     queryClientRef.current = new QueryClient()
   }
-  const theme = {
-    type: 'light',
-    className
-  }
+  const theme = createTheme({ ...customTheme, className });
   return   <QueryClientProvider client={queryClientRef.current}>
     <Hydrate state={pageProps.dehydratedState}>
       <TopContext.Provider value={{

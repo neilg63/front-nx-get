@@ -10,7 +10,7 @@ import SeoHead from "./layout/head";
 import Carousel from "./widgets/carousel";
 import RelatedItem from "./widgets/related-item";
 import { relatedKey } from "../lib/ui-entity";
-import contentTypes from "../lib/content-types";
+import contentTypes, { relatedItemsTitle } from "../lib/content-types";
 import DateRange from "./widgets/date-range";
 
 
@@ -32,12 +32,19 @@ const ExhibitionPage: NextPage<BaseEntity> = (data ) => {
           <div className="body">{parse(entity.body)}</div>
         </div>
       </article>
-      <div className='related-artworks related'>
-        <h3>{ contentTypes.artwork }</h3>
-        <div className='flex-grid-2'>
-          {entity.hasRelatedArtworks && entity.related_artworks.map((row: NodeEntity, index: number) => <RelatedItem key={relatedKey(row, index)} item={row} />)}
-        </div>
+
+    {entity.hasRelatedArtworks && <div className='related-artworks related'>
+      <h3>{contentTypes.artwork}</h3>
+      <div className='flex-grid-2'>
+        {entity.related_artworks.map((row: NodeEntity, index: number) => <RelatedItem key={relatedKey(row, index)} item={row} />)}
       </div>
+    </div>}
+    {entity.hasRelatedPress && <div className='related-press related'>
+      <h3>{relatedItemsTitle('press')}</h3>
+      <div className='flex-grid-2'>
+        {entity.field_related_press.map((row: NodeEntity, index: number) => <RelatedItem key={relatedKey(row, index)} item={row} />)}
+      </div>
+    </div>}
     </Container>
     </>
 }

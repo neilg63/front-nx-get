@@ -26,11 +26,11 @@ export const fetchApiViewResults = async (
 };
 
 export const fetchFullNode = async (path: string): Promise<BaseEntity> => {
-  const key = path.replace(/^\//, "");
+  const alias = path.replace(/^\//, "");
   const uri =
     [process.env.NEXT_PUBLIC_DRUPAL_BASE_URL, "jsonuuid", "node-full"].join(
       "/"
-    ) + paramsToQueryString({ alias: path });
+    ) + paramsToQueryString({ alias });
   const res = await fetch(uri);
   const data = res.status >= 200 && res.status < 300 ? await res.json() : {};
   return data;

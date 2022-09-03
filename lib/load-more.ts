@@ -17,33 +17,40 @@ const isLifeYear = (yearRef: string): boolean => {
   }
 };
 
-export const loadMore = async (path = "", page = 1): Promise<NodeEntity[]> => {
-  try {
-    const basePath = path.includes("?") ? path.split("?").shift()! : path;
-    const parts = basePath.substring(1).split("/");
-    let base = parts[0];
-    const uriParts = [];
-    if (parts.length > 1) {
-      let second = parts[1];
-      switch (base) {
-        case "artworks":
-          if (!isLifeYear(second)) {
-            base = second.startsWith("tag--")
-              ? "artworks-by-tag"
-              : "artworks-by-type";
-            second = second.includes("--")
-              ? second.split("--").shift()!
-              : second;
-          }
-          break;
-      }
-      uriParts.push(base);
-      uriParts.push(second);
-    } else {
-      uriParts.push(base);
+const matchApihUriAndKey = (path = "", page = 1) => {
+  const basePath = path.includes("?") ? path.split("?").shift()! : path;
+  const parts = basePath.substring(1).split("/");
+  let base = parts[0];
+  const uriParts = [];
+  if (parts.length > 1) {
+    let second = parts[1];
+    switch (base) {
+      case "artworks":
+        if (!isLifeYear(second)) {
+          base = second.startsWith("tag--")
+            ? "artworks-by-tag"
+            : "artworks-by-type";
+          second = second.includes("--") ? second.split("--").shift()! : second;
+        }
+        break;
     }
-    const uri = uriParts.join("/");
-    const key = [uri, "items", page].join("--");
+    uriParts.push(base);
+    uriParts.push(second);
+  } else {
+    uriParts.push(base);
+  }
+  const uri = uriParts.join("/");
+  const key = [uri, "items", page].join("--");
+  return { key, uri };
+};
+
+export const loadMore = async (
+  path = "",
+  page = 1,
+  storedOnly = false
+): Promise<NodeEntity[]> => {
+  const { uri, key } = matchApihUriAndKey(path, page);
+  try {
     const stored = fromLocal(key, 900);
     let items: any[] = [];
     if (stored.valid && !stored.expired) {
@@ -51,7 +58,7 @@ export const loadMore = async (path = "", page = 1): Promise<NodeEntity[]> => {
         items = stored.data;
       }
     }
-    if (items.length < 1) {
+    if (items.length < 1 && !storedOnly) {
       const data: any = await fetchApiViewResults(uri, { page });
       if (data instanceof Object && data.items instanceof Array) {
         items = data.items;

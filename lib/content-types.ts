@@ -1,6 +1,10 @@
-import { capitalize } from "./utils";
+import { capitalize, keyToTitle } from "./utils";
 
-const contentTypes = {
+interface StringMap {
+  [key: string]: string;
+}
+
+const contentTypes: StringMap = {
   artwork: "Artworks",
   exhibition: "Exhibitions",
   news: "News",
@@ -18,8 +22,15 @@ export const bundleName = (bundle: string) => {
     case "gttv":
       return "GTTV";
     default:
-      return capitalize(bundle.replace(/_/g, " "));
+      return keyToTitle(bundle);
   }
+};
+
+export const relatedItemsTitle = (bundle: string) => {
+  const bName: string = Object.keys(contentTypes).includes(bundle)
+    ? contentTypes[bundle]
+    : keyToTitle(bundle);
+  return `Related ${bName}`;
 };
 
 export default contentTypes;
