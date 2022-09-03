@@ -7,7 +7,7 @@ import SeoHead from "./layout/head";
 import { Container, Image } from "@nextui-org/react";
 import { containerProps, resizeAllGridItems } from "../lib/styles";
 import DateRange from "./widgets/date-range";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import { isMinLargeSize, numScrollBatches } from "../lib/settings";
 import { TopContext } from "../pages/_app";
@@ -25,45 +25,28 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
   const isLarge = isMinLargeSize(context);
   const maxScrollPages = isLarge ? numScrollBatches.large : numScrollBatches.standard;
   const [scrollLoadPos, setScrollLoadPos] = useState(0);
-  //const isLloading = tempLocalBool('loading');
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const { items, meta, total, perPage } = pageData;
 
-  const loadNextPrev = (forward = true) => {
+  const loadNextPrev = useCallback((forward = true) => {
     const currPath = router.asPath.split('?').shift();
     const nextPage = forward ? pageData.nextPageOffset : pageData.prevPageOffset(maxScrollPages);
     if (pageData.mayLoad(maxScrollPages) && forward) {
-      //setTempLocalBool('loading', true);
       setLoading(true);
       loadMore(router.asPath, nextPage).then((items: NodeEntity[]) => {
         pageData.addItems(items);
         setLoading(false);
-        /* setTimeout(() => {
-          setTempLocalBool('loading', false);
-        }, 500); */
       });
     } else {
       const nextPageNum = nextPage + 1;
       router.push(currPath + '?page=' + nextPageNum);
     }
-   /*  setTimeout(() => {
-     setTempLocalBool('loading', false);
-    }, 3000); */
-  }
-
-  const loadNext = () => {
-    loadNextPrev(true);
-  }
-
-  const loadPrev = () => {
-    loadNextPrev(false);
-  }
+  }, [pageData, maxScrollPages, router])
 
   useEffect(() => {
     const fetchMoreItems = () => {
       setLoading(true);
-      //setTempLocalBool('loading', true);
       const nextPage = pageData.nextPageOffset;
       const isLarge = isMinLargeSize(context);
       const max = isLarge ? numScrollBatches.large : numScrollBatches.standard;
@@ -73,7 +56,6 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
           pageData.addItems(items, true);
           setTimeout(() => {
             setLoading(false);
-            //setTempLocalBool('loading', false);
           }, 1000);
         });
       }
@@ -130,9 +112,9 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
           </figure>)}
           </div>
           {pageData.showListingNav && <nav className='listing-nav row'>
-            {pageData.mayLoadPrevious && <span className='nav-link prev' title={pageData.nextPageOffset.toString()} onClick={() => loadPrev()}><i className='icon icon-prev-arrow-narrow prev'></i>{ labels.load_newer}</span>}
+            {pageData.mayLoadPrevious && <span className='nav-link prev' title={pageData.prevPageOffset(maxScrollPages).toString()} onClick={() => loadNextPrev(false)}><i className='icon icon-prev-arrow-narrow prev'></i>{ labels.load_newer}</span>}
             <span className='text-label' onClick={() => loadNextPrev(pageData.mayLoadMore)}>{pageData.listingInfo} </span>
-            {pageData.mayLoadMore && <span className='nav-link next' title={pageData.nextPageOffset.toString()} onClick={() => loadNext()}>{ labels.load_older}<i className='icon icon-next-arrow-narrow next'></i></span>}
+            {pageData.mayLoadMore && <span className='nav-link next' title={pageData.nextPageOffset.toString()} onClick={() => loadNextPrev(true)}>{ labels.load_older}<i className='icon icon-next-arrow-narrow next'></i></span>}
           </nav>}
         </>}
       </section>

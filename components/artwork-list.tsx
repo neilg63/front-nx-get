@@ -2,7 +2,6 @@ import { NextPage } from "next";
 import { useState, useEffect, useMemo, useContext, useCallback } from "react";
 import { BaseEntity, FilterOption, SlugNameNum, YearNum } from "../lib/interfaces";
 import { NodeEntity, PageDataSet } from "../lib/entity-data";
-//import Paginator from "./widgets/paginator";
 import { isNumeric, notEmptyString } from "../lib/utils";
 import TypeLink from "./widgets/type-link";
 import YearLink from "./widgets/year-link";
@@ -18,8 +17,9 @@ import labels from "../lib/labels";
 import { isMinLargeSize, numScrollBatches } from "../lib/settings";
 import ArtwworkFigure from "./widgets/artwork-figure";
 import { loadMore } from "../lib/load-more";
-import { fetchFullNode } from "../lib/api-view-results";
-import ArtworkInsert from "./widgets/artwork-insert";
+import LoadMoreNav from "./widgets/load-more-nav";
+/* import { fetchFullNode } from "../lib/api-view-results";
+import ArtworkInsert from "./widgets/artwork-insert"; */
 
 
 const filterOpts = [
@@ -124,8 +124,12 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       }
     }
   }
-
-  const loadNextPrev = (forward = true) => {
+/* const onSelect = useCallback(() => {
+    if (!embla) return;
+    setSelectedIndex(embla.selectedScrollSnap());
+}, [embla, setSelectedIndex]); */
+  
+  const loadNextPrev = useCallback((forward = true) => {
     const currPath = router.asPath.split('?').shift();
     const nextPage = forward ? pageData.nextPageOffset : pageData.prevPageOffset(maxScrollPages);
     if (pageData.mayLoad(maxScrollPages) && forward) {
@@ -143,15 +147,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       router.push(currPath + '?page=' + nextPageNum);
       pageData.page = nextPage;
     }
-  }
-
-  const loadNext = () => {
-    loadNextPrev(true);
-  }
-
-  const loadPrev = () => {
-    loadNextPrev(false);
-  }
+  }, [maxScrollPages, pageData, router]);
 
   useEffect(() => {
     const { items } = pageData;
@@ -196,7 +192,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
     }
     setFilterMode(fm);
     setFilterOptions(filterOpts.map((row, ri) => {
-      const itemKey = ['filter-opt', row.key, ri].join('-');
+      const itemKey: string = ['filter-opt', row.key, ri].join('-');
       const selected = row.key === fm;
       const className = selected ? 'active' : 'inactive';
       return { ...row, itemKey, selected, className }
@@ -281,9 +277,9 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
           <figure className="empty-figure" style={ emptyFigStyles }></figure>
           </div>
           {pageData.showListingNav && <nav className='listing-nav row'>
-            {pageData.mayLoadPrevious && <span className='nav-link prev' title={pageData.nextPageOffset.toString()} onClick={() => loadPrev()}><i className='icon icon-prev-arrow-narrow prev'></i>{ labels.load_newer}</span>}
+            {pageData.mayLoadPrevious && <span className='nav-link prev' title={pageData.prevPageOffset(maxScrollPages).toString()} onClick={() => loadNextPrev(false)}><i className='icon icon-prev-arrow-narrow prev'></i>{ labels.load_newer}</span>}
             <span className='text-label' onClick={() => loadNextPrev(pageData.mayLoadMore)}>{pageData.listingInfo} </span>
-            {pageData.mayLoadMore && <span className='nav-link next' title={pageData.nextPageOffset.toString()} onClick={() => loadNext()}>{ labels.load_older}<i className='icon icon-next-arrow-narrow next'></i></span>}
+            {pageData.mayLoadMore && <span className='nav-link next' title={pageData.nextPageOffset.toString()} onClick={() => loadNextPrev(true)}>{ labels.load_older}<i className='icon icon-next-arrow-narrow next'></i></span>}
           </nav>}
         </>}
       </section>

@@ -965,6 +965,36 @@ main > .related {
       color: $primary;
     }
   }
+
+  figure {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    figcaption {
+      position: absolute;
+      bottom: 5vh;
+      left: 5%;
+      right: 5%;
+      padding: 1em;
+      cursor: pointer;
+      pointer-events: all;
+      background-color: rgba($light, 0.6667);
+      @media (min-width: $mid-screen-width) {
+        left: 15%;
+        right: 15%;
+      }
+      @media (min-width: $large-screen-width) {
+        left: 25%;
+        right: 25%;
+      }
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
 }
 
 .carousel-container {

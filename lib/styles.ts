@@ -44,13 +44,14 @@ export function resizeGridItem(
   rowGap = 16,
   window: Window,
   item: HTMLElement
-) {
+): number {
+  let height = 300;
   if (grid instanceof HTMLElement) {
     const rowHeight = parseInt(
       window.getComputedStyle(grid).getPropertyValue("grid-auto-rows")
     );
     const img = item.querySelector(".image-link");
-    let height = 300;
+
     if (img instanceof HTMLElement) {
       height = img.getBoundingClientRect().height;
     }
@@ -61,18 +62,27 @@ export function resizeGridItem(
     const rowSpan = Math.ceil((height + rowGap) / (rowHeight + rowGap));
     item.style.gridRowEnd = "span " + rowSpan;
   }
+  return height;
 }
 
 export function resizeAllGridItems(document: Document, window: Window) {
   const grid = document.querySelector(".grid-list .columns");
   if (grid instanceof HTMLElement) {
     const gap = window.getComputedStyle(grid).getPropertyValue("grid-row-gap");
+    let height = 0;
     if (gap) {
       const rowGap = parseInt(gap);
       grid.style.gridAutoRows = "1rem";
       const items = grid.querySelectorAll("figure.node");
-      for (const item of items) {
-        resizeGridItem(grid, rowGap, window, item as HTMLElement);
+      if (items.length > 2) {
+        const itemWidth = items[0].getBoundingClientRect().width;
+        const gridWidth = grid.getBoundingClientRect().width;
+        const numWide = Math.round(gridWidth / itemWidth);
+        for (const item of items) {
+          height += resizeGridItem(grid, rowGap, window, item as HTMLElement);
+        }
+        const minHeight = Math.ceil(height / numWide);
+        grid.style.minHeight = `${minHeight}px`;
       }
     }
   }

@@ -1,13 +1,25 @@
 import useEmblaCarousel from 'embla-carousel-react';
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import { MediaItem } from "../../lib/entity-data";
 import { Image, useModal, Modal } from '@nextui-org/react';
-import { ImgAttrs } from '../../lib/interfaces';
+import { TopContext } from "../../pages/_app";
+
+const ModalFigure = ({ item }: { item: MediaItem }) => {
+  const alt = item.alt || '';
+  return <figure>
+    <Image src={item.large} srcSet={item.srcSet} alt={ alt } width='auto' height='100%' objectFit='contain' />
+    <figcaption>
+      <h4 className='media-title'>{ item.caption }</h4>
+      {item.hasCredits && <p className='credits'>{ item.field_credits }</p>}
+    </figcaption>
+    </figure>
+}
 
 
 const Carousel = ({ items }: { items: MediaItem[] }) => {
   const numSlides = items instanceof Array && items.length;
   const { setVisible, bindings } = useModal();
+  const context = useContext(TopContext);
   const hasSlides = numSlides > 0;
   const startCarousel = numSlides > 1;
 
@@ -80,16 +92,41 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
     setVisible(false);
   }
 
-  const selectedImgAttrs = (): ImgAttrs => {
+  const toNextPrev = useCallback(() => {
+    if (context) {
+      const diff = context.move < 0 ? -1 : context.move > 0 ? 1 : 0;
+      if (diff !== 0) {
+        context.setMove(0);
+        let targetIndex = selectedIndex + diff;
+        const lastIndex = items.length - 1
+        if (targetIndex < 0) {
+          targetIndex = lastIndex;
+        } else if (targetIndex > lastIndex) {
+          targetIndex = 0;
+        }
+        //setSelectedIndex(targetIndex); 
+        if (diff < 0) {
+          embla?.scrollPrev();
+        } else {
+          embla?.scrollNext();
+        }
+        setSelectedIndex(targetIndex);
+      }
+    }
+  }, [embla, context, selectedIndex, setSelectedIndex, items])
+
+  /* if (context) {
+    if (context.move < 0 || context.move > 0) {
+      
+    }
+  } */
+
+  const selectedItem = (): MediaItem => {
     const item = selectedIndex < items.length ? items[selectedIndex] : items.length > 0 ? items[0] : null;
     if (item instanceof MediaItem) {
-      return {
-        srcSet: item.srcSet,
-        src: item.large,
-        alt: item.alt || '--'
-      }
+      return item;
     } else {
-      return { srcSet: '', src: '', alt: '--'}
+      return new MediaItem();
     }
   }
 
@@ -98,10 +135,15 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
     onSelect();
     setScrollSnaps(embla.scrollSnapList());
     embla.on("select", onSelect);
+
+    if (context) {
+      toNextPrev();
+    }
+
     setTimeout(() => {
       embla.reInit();
     }, 375)
-  }, [embla, setScrollSnaps, onSelect]);
+  }, [embla, setScrollSnaps, onSelect, context, toNextPrev]);
   return <>
     <div className={classNames} ref={emblaRef}>
       {hasSlides && <section className="media-items flex">
@@ -135,7 +177,7 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
         {...bindings}
     >
       <div className='control icon-prev-arrow-wide prev' onClick={e => closeModal()}></div>
-        <Image {...selectedImgAttrs()} width='auto' height='100%' objectFit='contain' />
+      <ModalFigure item={ selectedItem() } />
       </Modal>
   </>
 }

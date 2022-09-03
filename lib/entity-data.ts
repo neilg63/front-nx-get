@@ -285,6 +285,14 @@ export class MediaItem {
     return toFullUri(this.uri);
   }
 
+  get altText() {
+    return notEmptyString(this.alt) ? this.alt : "-";
+  }
+
+  get caption() {
+    return notEmptyString(this.title) ? this.title : this.altText;
+  }
+
   size(key = ""): string {
     let bestMatch = "";
     if (this.hasSizes && this.sizes.has(key)) {
@@ -297,6 +305,10 @@ export class MediaItem {
       bestMatch = this.uri;
     }
     return toFullUri(bestMatch);
+  }
+
+  get hasCredits() {
+    return notEmptyString(this.field_credit);
   }
 
   get imageStyles(): ImageStyleAttrs[] {

@@ -24,9 +24,11 @@ export interface AppContextInterface {
   width: number;
   height: number;
   escaped: boolean;
+  move: number;
   setHeight: Function;
   setWidth: Function;
   setEscaped: Function;
+  setMove: Function;
 }
 
 export const TopContext = React.createContext<AppContextInterface | null>(null);
@@ -47,6 +49,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const [height, setHeight] = useState(600);
   const [width, setWidth] = useState(1200);
   const [escaped, setEscaped] = useState(false);
+  const [move, setMove] = useState(0);
 
   const handleEscape = () => {
     setEscaped(true);
@@ -55,7 +58,12 @@ export default function App({ Component, pageProps }: AppProps) {
     }, 500);
   }
 
-
+  const handleMove = (dir = 0) => {
+    setMove(dir);
+    setTimeout(() => {
+      setMove(0);
+    }, 250);
+  }
 
   useEffect(() => {
     setHeight(window.outerHeight);
@@ -64,6 +72,12 @@ export default function App({ Component, pageProps }: AppProps) {
       switch (e.which) {
         case 27:
           handleEscape();
+          break;
+        case 37:
+          handleMove(-1);
+          break;
+        case 39:
+          handleMove(1);
           break;
       }
     }
@@ -75,16 +89,19 @@ export default function App({ Component, pageProps }: AppProps) {
     queryClientRef.current = new QueryClient()
   }
   const theme = createTheme({ ...customTheme, className });
+  const contextProps = {
+    height,
+    width,
+    escaped,
+    move,
+    setHeight,
+    setWidth,
+    setEscaped,
+    setMove
+  };
   return   <QueryClientProvider client={queryClientRef.current}>
     <Hydrate state={pageProps.dehydratedState}>
-      <TopContext.Provider value={{
-        height,
-       width,
-        escaped,
-        setHeight,
-        setWidth,
-        setEscaped
-        }}>
+      <TopContext.Provider value={contextProps}>
         <NextUIProvider {...pageProps} theme={theme}>
             <Header {...pageProps} />
             <Component {...pageProps} path={asPath} />
