@@ -17,7 +17,6 @@ import labels from "../lib/labels";
 import { isMinLargeSize, numScrollBatches } from "../lib/settings";
 import ArtwworkFigure from "./widgets/artwork-figure";
 import { loadMore } from "../lib/load-more";
-import LoadMoreNav from "./widgets/load-more-nav";
 /* import { fetchFullNode } from "../lib/api-view-results";
 import ArtworkInsert from "./widgets/artwork-insert"; */
 
