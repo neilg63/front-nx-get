@@ -30,7 +30,7 @@ const NewsList: NextPage<BaseEntity> = (data) => {
   useEffect(() => {
     setTimeout(() => {
       resizeAllGridItems(document, window);
-    }, 250);
+    }, 500);
   });
   return <>
     <Head>
