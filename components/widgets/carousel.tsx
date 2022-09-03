@@ -131,7 +131,6 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
         width="100%"
         aria-labelledby="modal-title"
       aria-describedby="modal-description"
-      closeButton={true}
               fullScreen={true}
         {...bindings}
     >

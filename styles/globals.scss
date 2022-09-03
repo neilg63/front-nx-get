@@ -985,8 +985,7 @@ main > .related {
   }
 
   .enlarge-trigger {
-    position: absolute;
-    bottom: 6em;
+    bottom: 3em;
     right: 0;
     width: 2em;
     height: 2em;
@@ -996,22 +995,26 @@ main > .related {
     }
     z-index: 9;
   }
-  >.control {
+  .control,
+  .enlarge-trigger {
     position: absolute;
+    opacity: 0.5;
+    transition: all 0.333s ease-in-out;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  >.control {
     top: 0;
     bottom: 0;
     width: 25%;
     margin-top: -1rem;
     cursor: pointer;
-    opacity: 0.5;
-    transition: all 0.333s ease-in-out;
-    color: $mid-grey;
+    
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
-    &:hover {
-      opacity: 1;
-    }
+   
     &.prev {
       left: 0;
       align-items: flex-start;
@@ -1040,15 +1043,19 @@ main > .related {
     display: flex;
     justify-content: center;
     button {
-      height: 1em;
-      width: 1em;
-      background-color: $light-grey;
+      height: 0.75rem;
+      width: 0.75rem;
+      background-color: $dark;
+      opacity: 0.5;
       border: none;
-      margin: 0 1em;
+      margin: 0 0.5rem;
       border-radius: 50%;
       cursor: pointer;
+      &:hover {
+        background-color: $primary;
+      }
       &.active {
-        background-color: $mid-grey;
+        opacity: 1;
       }
     }
   }
