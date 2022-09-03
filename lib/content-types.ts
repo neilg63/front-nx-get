@@ -1,8 +1,5 @@
-import { capitalize, keyToTitle } from "./utils";
-
-interface StringMap {
-  [key: string]: string;
-}
+import { StringMap } from "./interfaces";
+import { keyToTitle } from "./utils";
 
 const contentTypes: StringMap = {
   artwork: "Artworks",

@@ -47,3 +47,13 @@ export interface StartEnd {
   start: number;
   end: number;
 }
+
+export interface ImgAttrs {
+  src: string;
+  srcSet: string;
+  alt: string;
+}
+
+export interface StringMap {
+  [key: string]: string;
+}

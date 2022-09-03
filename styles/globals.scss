@@ -951,6 +951,22 @@ main > .related {
   opacity: 0;
 }
 
+#nextui-modal {
+  .control {
+    position: absolute;
+    bottom: 5vh;
+    left: 2.5vw;
+    font-size: 2.5vw;
+    cursor: pointer;
+    @media (min-width: $max-screen-width) {
+      font-size: 45px;
+    }
+    &:hover {
+      color: $primary;
+    }
+  }
+}
+
 .carousel-container {
   overflow: hidden;
   position: relative;
@@ -966,6 +982,19 @@ main > .related {
         height: calc(900px - 3em);
       } */
     }
+  }
+
+  .enlarge-trigger {
+    position: absolute;
+    bottom: 6em;
+    right: 0;
+    width: 2em;
+    height: 2em;
+    cursor: pointer;
+    &::before {
+      font-size: 2rem;
+    }
+    z-index: 9;
   }
   >.control {
     position: absolute;
@@ -991,6 +1020,7 @@ main > .related {
       right: 0;
       align-items: flex-end;
     }
+
     font-size: 4vw;
 
     @media screen and (min-width: $max-screen-width) {

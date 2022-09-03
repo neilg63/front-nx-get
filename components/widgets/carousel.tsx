@@ -1,11 +1,13 @@
 import useEmblaCarousel from 'embla-carousel-react';
 import { useState, useEffect, useCallback } from "react";
 import { MediaItem } from "../../lib/entity-data";
-import { Image } from '@nextui-org/react';
+import { Image, useModal, Modal } from '@nextui-org/react';
+import { ImgAttrs } from '../../lib/interfaces';
 
 
 const Carousel = ({ items }: { items: MediaItem[] }) => {
   const numSlides = items instanceof Array && items.length;
+  const { setVisible, bindings } = useModal();
   const hasSlides = numSlides > 0;
   const startCarousel = numSlides > 1;
 
@@ -68,6 +70,29 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
   // make sure embla is mounted and return true operation's
   // can be only performed on it if it's successfully mounted.
 
+  const enlarge = () => {
+    if (items.length > 0) {
+      setVisible(true);
+    }
+  }
+
+  const closeModal = () => {
+    setVisible(false);
+  }
+
+  const selectedImgAttrs = (): ImgAttrs => {
+    const item = selectedIndex < items.length ? items[selectedIndex] : items.length > 0 ? items[0] : null;
+    if (item instanceof MediaItem) {
+      return {
+        srcSet: item.srcSet,
+        src: item.large,
+        alt: item.alt || '--'
+      }
+    } else {
+      return { srcSet: '', src: '', alt: '--'}
+    }
+  }
+
   useEffect(() => {
     if (!embla) return;
     onSelect();
@@ -77,28 +102,43 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
       embla.reInit();
     }, 375)
   }, [embla, setScrollSnaps, onSelect]);
-  return <div className={classNames} ref={emblaRef}>
+  return <>
+    <div className={classNames} ref={emblaRef}>
       {hasSlides && <section className="media-items flex">
-          {items.map((item: MediaItem) => <figure key={item.uri} data-key={item.uri} data-dims={item.dims('medium')}>
-            <Image srcSet={item.srcSet} src={item.medium} alt={item.alt} width='auto' height='100%' />
-            <figcaption>{item.field_credit}</figcaption>
-          </figure>)}
+            {items.map((item: MediaItem) => <figure key={item.uri} data-key={item.uri} data-dims={item.dims('medium')}>
+              <Image srcSet={item.srcSet} src={item.medium} alt={item.alt} width='auto' height='100%' />
+              <figcaption>{item.field_credit}</figcaption>
+            </figure>)}
       </section>}
-    {startCarousel && <>
-      <div className="control prev icon-prev-arrow-wide" onClick={() => scrollPrev()}></div>
-      <div className="control next icon-next-arrow-wide" onClick={() => scrollNext()}></div>
-      <div className="slide-nav">
-        {scrollSnaps.map((_, idx) => (
-          <button
-            className={`${
-              idx === selectedIndex ? "active" : "inactive"
-            }`}
-            key={idx}
-            onClick={() => scrollTo(idx)} />
-        ))}
-      </div>
-    </>}
-  </div>
+      {startCarousel && <>
+        <div className="control prev icon-prev-arrow-wide" onClick={() => scrollPrev()}></div>
+        <div className="control next icon-next-arrow-wide" onClick={() => scrollNext()}></div>
+        <div className="slide-nav">
+          {scrollSnaps.map((_, idx) => (
+            <button
+              className={`${
+                idx === selectedIndex ? "active" : "inactive"
+              }`}
+              key={idx}
+              onClick={() => scrollTo(idx)} />
+          ))}
+        </div>
+      </>}
+      <div className="enlarge-trigger icon icon-enlarge2" onClick={() => enlarge()}></div>
+    </div>
+     <Modal
+      scroll={ false }
+        width="100%"
+        aria-labelledby="modal-title"
+      aria-describedby="modal-description"
+      closeButton={true}
+              fullScreen={true}
+        {...bindings}
+    >
+      <div className='control icon-prev-arrow-wide prev' onClick={e => closeModal()}></div>
+        <Image {...selectedImgAttrs()} width='auto' height='100%' objectFit='contain' />
+      </Modal>
+  </>
 }
 
 export default Carousel;
