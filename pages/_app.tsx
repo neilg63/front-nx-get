@@ -89,6 +89,7 @@ export default function App({ Component, pageProps }: AppProps) {
     queryClientRef.current = new QueryClient()
   }
   const theme = createTheme({ ...customTheme, className });
+  console.log(theme)
   const contextProps = {
     height,
     width,

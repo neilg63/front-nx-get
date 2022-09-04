@@ -6,6 +6,9 @@ export const customTheme = {
   theme: {
     colors: {
       primary: "#ff6600",
+      background: "#ffffff",
+      text: "#333333",
+      active: "#ff6600",
     },
     space: {},
     fonts: {},
@@ -37,7 +40,11 @@ export const timelineItemWidth = remPx * 20;
 
 export const videoPreviewStyles = { aspectRatio: 16 / 9 };
 
-export const tooltipStyles = { borderRadius: 0 };
+export const tooltipStyles = {
+  borderRadius: 0,
+  backgroundColor: "#ff6600",
+  color: "white",
+};
 
 export function resizeGridItem(
   grid: HTMLElement,
