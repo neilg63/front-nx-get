@@ -150,7 +150,7 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
     <div className={classNames} ref={emblaRef}>
       {hasSlides && <section className="media-items flex">
             {items.map((item: MediaItem) => <figure key={item.uri} data-key={item.uri} data-dims={item.dims('medium')}>
-              <Image srcSet={item.srcSet} src={item.medium} alt={item.alt} width='auto' height='100%' />
+              <Image srcSet={item.srcSet} src={item.medium} alt={item.alt} width='auto' height='100%' objectFit='contain' css={ item.calcAspectStyle() } />
               <figcaption>{item.field_credit}</figcaption>
             </figure>)}
       </section>}
