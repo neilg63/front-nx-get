@@ -16,6 +16,15 @@ const renderClassNames = (item: SimpleMenuItem, subAlias = ''): string => {
       cls.push(['page', ...parts].join('--'));
     }
   }
+  switch (parts[0]) {
+    case 'search':
+    case 'home':
+      cls.push('prominent');
+      break;
+    default:
+      cls.push('inner');
+      break;
+  }
   const aliasStart = item.path.length > 1 ? item.path.substring(1).split('/').shift()! : '';
   if (aliasStart === subAlias) {
     cls.push('active');
@@ -41,6 +50,8 @@ const Header = (pageData: PageDataSet) => {
   const [hasMenuItems, setHasMenuItems] = useState(false);
   const [subAlias, setSubAlias] = useState('/');
   const [search, setSearch] = useState('');
+  const [expanded, setExpanded] = useState(false);
+  const [classNames, setClassNames] = useState('header');
   const router = useRouter();
 
   const submitSearch = () => {
@@ -69,17 +80,26 @@ const Header = (pageData: PageDataSet) => {
     }
   }
 
+  const toggleExpanded = () => {
+    setExpanded(!expanded);
+  }
+
   useEffect(() => {
     const items = site instanceof Object && site.menus instanceof Object ? site.menus.main : [];
     const path = router.asPath;
     const sub = typeof path === 'string' && path.length > 1 ? path.substring(1).split('/').shift()! : '';
+    const cls = ['header'];
+    if (expanded) {
+      cls.push('show-menu');
+    }
+    setClassNames(cls.join(' '));
     setSubAlias(sub);
     setMainItems(items);
     setHasMenuItems(items instanceof Array && items.length > 0);
-  }, [site, setSubAlias, router])
+  }, [site, setSubAlias, router, expanded])
 
   return (
-    <header className='header'>
+    <header className={classNames}>
       <Link href={'/tags'}><a className='logo'></a></Link>
       <nav className='top-nav'>
         {hasMenuItems && <ul>
@@ -88,13 +108,13 @@ const Header = (pageData: PageDataSet) => {
               <Link href={item.path}><a target={ renderTarget(item) }>{isHomeLink(item) ? <i className='icon icon-home' title={ item.title }></i> : item.title }</a></Link>
             </li>
           })}
-          <li className="search-link">
+          <li className="search-link prominent">
             <Input name='search' value={search} onChange={updateSearch} className='search-field' size='sm' onKeyDown={e => (submitOnEnter(e))} />
             <i className='icon icon-search' title='Search' onClick={submitSearch}></i>
           </li>
         </ul>}
       </nav>
-      <div className='expand-nav icon-hamburger'></div>
+      <div className='expand-nav icon-hamburger' onClick={() => toggleExpanded()}></div>
     </header>
   );
 }
