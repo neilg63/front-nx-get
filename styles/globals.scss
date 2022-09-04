@@ -302,6 +302,9 @@ img {
     }
     > footer {
       grid-area: footer;
+      @media (min-width: $max-screen-width) {
+        min-width: calc(1800px - 6.25vw);
+      }
     }
   }
 
