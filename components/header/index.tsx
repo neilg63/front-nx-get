@@ -1,10 +1,11 @@
 import { Input } from '@nextui-org/react';
-import { useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import Link from 'next/link';
 import { toAlias } from '../../lib/converters';
 import { PageDataSet, SimpleMenuItem } from '../../lib/entity-data';
 import { useRouter } from 'next/router';
 import { notEmptyString } from '../../lib/utils';
+import { TopContext } from '../../pages/_app';
 
 const renderClassNames = (item: SimpleMenuItem, subAlias = ''): string => {
   const alias = toAlias(item.path);
@@ -46,6 +47,7 @@ const isHomeLink = (item: SimpleMenuItem): boolean => {
 
 const Header = (pageData: PageDataSet) => {
   const { site } = pageData;
+  const context = useContext(TopContext);
   const [mainItems, setMainItems] = useState<SimpleMenuItem[]>([]);
   const [hasMenuItems, setHasMenuItems] = useState(false);
   const [subAlias, setSubAlias] = useState('/');
@@ -80,9 +82,9 @@ const Header = (pageData: PageDataSet) => {
     }
   }
 
-  const toggleExpanded = () => {
+  const toggleExpanded = useCallback(() => {
     setExpanded(!expanded);
-  }
+  }, [expanded]);
 
   useEffect(() => {
     const items = site instanceof Object && site.menus instanceof Object ? site.menus.main : [];
@@ -93,10 +95,15 @@ const Header = (pageData: PageDataSet) => {
       cls.push('show-menu');
     }
     setClassNames(cls.join(' '));
+    if (context) {
+      if (context.escaped) {
+        toggleExpanded();
+      }
+    }
     setSubAlias(sub);
     setMainItems(items);
     setHasMenuItems(items instanceof Array && items.length > 0);
-  }, [site, setSubAlias, router, expanded])
+  }, [site, setSubAlias, router, expanded, context, toggleExpanded])
 
   return (
     <header className={classNames}>
