@@ -97,13 +97,13 @@ const Header = (pageData: PageDataSet) => {
     setClassNames(cls.join(' '));
     if (context) {
       if (context.escaped) {
-        toggleExpanded();
+        setExpanded(false);
       }
     }
     setSubAlias(sub);
     setMainItems(items);
     setHasMenuItems(items instanceof Array && items.length > 0);
-  }, [site, setSubAlias, router, expanded, context, toggleExpanded])
+  }, [site, setSubAlias, router, expanded, context])
 
   return (
     <header className={classNames}>

@@ -17,7 +17,9 @@ const NewsList: NextPage<BaseEntity> = (data) => {
   const hasItems = items.length > 0;
   const showPaginator = total > 0 && total > perPage;
   
-
+  window.addEventListener("resize", () => {
+    resizeAllGridItems(document, window);
+  });
   useEffect(() => {
     setTimeout(() => {
       resizeAllGridItems(document, window);

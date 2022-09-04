@@ -195,10 +195,11 @@ header.header {
             right: 3rem;
             top: 4rem;
             left: 0;
+            max-width: 4em;
           }
         }
         &.inner {
-          padding: 0.25em 4rem;
+          padding: 0.25em 8rem;
           opacity: 0;
           text-align: center;
           pointer-events: none;
@@ -363,12 +364,13 @@ img {
     width: 100%;
     padding: 0 2.5%;
     margin: 0 auto 2em 0;
+    min-width: 100%;
   }
-    @media (max-width: $mid-screen-width) {
-      header {
-        width: 100%;
-      }
+  @media (max-width: $mid-screen-width) {
+    header {
+      width: 100%;
     }
+  }
 
   @media screen and (min-width: $mid-screen-width) {
     display: grid;
@@ -954,6 +956,7 @@ figure {
 }
 
 .grid-list {
+  width: 100%;
   .columns {
     @media screen and (min-width: $mini-screen-width) {
       display: grid;
