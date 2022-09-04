@@ -2,30 +2,21 @@ import { NextPage } from "next";
 import Link from 'next/link';
 import { BaseEntity } from "../lib/interfaces";
 import { NodeEntity, PageDataSet } from "../lib/entity-data";
-import Paginator from "./widgets/paginator";
 import { mediumDate } from "../lib/converters";
 import { Container, Image } from "@nextui-org/react";
 import { containerProps, resizeAllGridItems } from "../lib/styles";
 import Head from "next/head";
 import SeoHead from "./layout/head";
 import contentTypes from "../lib/content-types";
-import { useCallback, useEffect, useMemo } from "react";
-import { useRouter } from "next/router";
-import labels from "../lib/labels";
+import { useEffect, useMemo } from "react";
+import LoadMoreNav from "./widgets/load-more-nav";
 
 const NewsList: NextPage<BaseEntity> = (data) => {  
   const pageData = useMemo(() => new PageDataSet(data), [data]);
   const { items, meta, total, perPage} = pageData;
   const hasItems = items.length > 0;
   const showPaginator = total > 0 && total > perPage;
-  const router = useRouter();
-  const loadNextPrev = useCallback((forward = true) => {
-    const currPath = router.asPath.split('?').shift();
-    const nextPage = forward ? pageData.page + 1 : pageData.page - 1;
-    const nextPageNum = nextPage + 1;
-      router.push(currPath + '?page=' + nextPageNum);
-      pageData.page = nextPage;
-  }, [pageData, router]);
+  
 
   useEffect(() => {
     setTimeout(() => {
@@ -53,11 +44,7 @@ const NewsList: NextPage<BaseEntity> = (data) => {
             </figcaption>
             </figure>)}
           </div>
-          {showPaginator && <nav className='listing-nav row'>
-            {pageData.mayLoadPrevious && <span className='nav-link prev' title={pageData.prevPageOffset(1).toString()} onClick={() => loadNextPrev(false)}><i className='icon icon-prev-arrow-narrow prev'></i>{ labels.load_newer}</span>}
-            <span className='text-label' onClick={() => loadNextPrev(pageData.mayLoadMore)}>{pageData.listingInfo} </span>
-            {pageData.mayLoadMore && <span className='nav-link next' title={pageData.nextPageOffset.toString()} onClick={() => loadNextPrev(true)}>{ labels.load_older}<i className='icon icon-next-arrow-narrow next'></i></span>}
-          </nav>}
+          {showPaginator && <LoadMoreNav data={ pageData } />}
         </>}
       </section>
     </Container>

@@ -2,7 +2,6 @@ import { NextPage } from "next";
 import { useEffect, useState } from 'react'
 import { BaseEntity, KeyStringValue, YearNum } from "../lib/interfaces";
 import { NodeEntity, SearchPageDataSet } from "../lib/entity-data";
-import Paginator from "./widgets/paginator";
 import Head from "next/head";
 import SeoHead from "./layout/head";
 import { Container } from "@nextui-org/react";
@@ -10,6 +9,7 @@ import { containerProps } from "../lib/styles";
 import FigureResultPreview from "./widgets/figure-result-preview";
 import TextResultPreview from "./widgets/text-result-preview";
 import { setEmtyFigureHeight } from "../lib/dom";
+import LoadMoreNav from "./widgets/load-more-nav";
 
 const showItemAsFigure = (bundle: string) => {
   return ['artwork'].includes(bundle);
@@ -58,7 +58,7 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
           </div>
             </div>)} 
         </section>
-        {showPaginator && <Paginator pageData={pageData} maxLinks={8} />}
+        {showPaginator && <LoadMoreNav data={pageData} />}
       </>}
     </Container>
   </>

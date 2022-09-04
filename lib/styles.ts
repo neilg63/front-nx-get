@@ -88,13 +88,14 @@ export function resizeAllGridItems(document: Document, window: Window) {
   }
 }
 
-/* export const setMaxFigureHeight = (container: HTMLElement) => {
-  const fig = container.querySelector("figure.active");
-  if (fig instanceof HTMLElement) {
+/* export const setMaxFigureHeight = (container: HTMLElement, index = 0) => {
+  const figs = container.querySelectorAll("figure");
+  if (figs.length > 0 && index < figs.length && index > 0) {
+    const fig = figs[index];
     const img = fig.querySelector("img");
     if (img instanceof HTMLElement) {
       const height = img.getBoundingClientRect().height;
-      fig.style.maxHeight = `${height}px`;
+      container.style.maxHeight = `${height}px`;
     }
   }
 }; */

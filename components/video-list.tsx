@@ -2,13 +2,13 @@ import { NextPage } from "next";
 import Link from 'next/link';
 import { BaseEntity } from "../lib/interfaces";
 import { PageDataSet } from "../lib/entity-data";
-import Paginator from "./widgets/paginator";
 import Head from "next/head";
 import SeoHead from "./layout/head";
 import { Container, Image } from "@nextui-org/react";
 import { containerProps, videoPreviewStyles } from "../lib/styles";
 import { shortDate } from "../lib/converters";
 import contentTypes from "../lib/content-types";
+import LoadMoreNav from "./widgets/load-more-nav";
 
 const VideoList: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
@@ -35,7 +35,7 @@ const VideoList: NextPage<BaseEntity> = (data) => {
               </figcaption>
           </figure>)}
           </div>
-          {showPaginator && <Paginator pageData={pageData} maxLinks={8} />}
+          {showPaginator && <LoadMoreNav data={pageData} />}
         </>}
       </section>
     </Container>

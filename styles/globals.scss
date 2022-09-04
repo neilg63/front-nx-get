@@ -388,7 +388,7 @@ img {
       
     }
 }
-.paginator {
+/* .paginator {
   ul {
     display: flex;
     flex-flow: row wrap;
@@ -405,7 +405,7 @@ img {
       }
     }
   }
-}
+} */
 
 
 .listing-nav {
@@ -581,6 +581,7 @@ img {
   grid-template-columns: 1fr 1fr;
   column-gap: 5%;
   align-items: stretch;
+  margin-bottom: 2em;
   figure,
   .text-details {
     justify-content: flex-start;
@@ -1004,6 +1005,9 @@ main > .related {
   .flex {
     display: flex;
     flex-flow: row nowrap;
+    align-items: flex-start;
+    transition: height 0.375s ease-in-out;
+      /* Add this */
     > figure {
       flex: 0 0 100%;
       padding: 0;
@@ -1015,7 +1019,7 @@ main > .related {
   }
 
   .enlarge-trigger {
-    bottom: 3em;
+    bottom: 0;
     right: 0;
     width: 2em;
     height: 2em;
@@ -1025,6 +1029,13 @@ main > .related {
     }
     z-index: 9;
   }
+
+  &.show-controls {
+    .enlarge-trigger {
+      bottom: 3em;
+    }
+  }
+
   .control,
   .enlarge-trigger {
     position: absolute;
@@ -1046,11 +1057,11 @@ main > .related {
     justify-content: center;
    
     &.prev {
-      left: 0;
+      left: 0.25em;
       align-items: flex-start;
     }
     &.next {
-      right: 0;
+      right: 0.25em;
       align-items: flex-end;
     }
 
@@ -1058,6 +1069,9 @@ main > .related {
 
     @media screen and (min-width: $max-screen-width) {
       font-size: 4.5rem;
+    }
+    &:hover {
+      color: $primary;
     }
   }
 

@@ -3,9 +3,6 @@ import Link from 'next/link';
 import { BaseEntity } from "../lib/interfaces";
 import { NodeEntity, PageDataSet } from "../lib/entity-data";
 import { mediumDate } from "../lib/converters";
-import Paginator from "./widgets/paginator";
-import Image from "next/image";
-import { defaultImageLoader } from "../lib/utils";
 import DownloadLink from "./widgets/download-link";
 import labels from "../lib/labels";
 import Head from "next/head";
@@ -13,6 +10,7 @@ import SeoHead from "./layout/head";
 import { Container } from "@nextui-org/react";
 import { containerProps } from "../lib/styles";
 import AboutNav from "./widgets/about-nav";
+import LoadMoreNav from "./widgets/load-more-nav";
 
 const PressList: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
@@ -35,7 +33,7 @@ const PressList: NextPage<BaseEntity> = (data) => {
           {item.hasDocument && <DownloadLink item={item.field_document!} label={ labels.download_pdf} />}
           </div>)} 
         </div>
-        {showPaginator && <Paginator pageData={pageData} maxLinks={8} />}
+        {showPaginator && <LoadMoreNav data={pageData} />}
       </>}
     </section>
     </Container>
