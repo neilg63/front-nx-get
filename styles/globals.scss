@@ -6,6 +6,7 @@ $mini-screen-width: 675px;
 $small-screen-width: 450px;
 $tall-screen-height: 750px;
 $sidebar-width: 15em;
+$text-size: 14px; // standard text size, as opposed to the basis for rems;
 $top-padding-standard: 6rem;
 $top-logo-margin-bottom-standard: 3rem;
 $top-padding-tall: 7rem;
@@ -78,9 +79,20 @@ section {
   h3,
   h4,
   h5 {
-    font-size: 1em;
     font-weight: normal;
   }
+
+    >h1,
+    header>h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    p,
+    li {
+      font-size: $text-size;
+      font-weight: normal;
+    }
 
   >h1,
   header>h1,
@@ -267,7 +279,7 @@ header.header {
           transition: all 0.333s ease-in-out;
         }
         &:hover > div:first-child {
-          max-width: 10em;
+          max-width: 12.5em;
           margin-right: 0.25em;
         }
       }
