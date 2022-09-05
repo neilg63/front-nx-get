@@ -55,6 +55,7 @@ const Header = (pageData: PageDataSet) => {
   const [expanded, setExpanded] = useState(false);
   const [classNames, setClassNames] = useState('header');
   const router = useRouter();
+  router.on
 
   const submitSearch = () => {
     if (notEmptyString(search, 1)) {
@@ -89,6 +90,10 @@ const Header = (pageData: PageDataSet) => {
   useEffect(() => {
     const items = site instanceof Object && site.menus instanceof Object ? site.menus.main : [];
     const path = router.asPath;
+    
+    router.events.on('routeChangeComplete', (e) => {
+      setExpanded(false);
+    });
     const sub = typeof path === 'string' && path.length > 1 ? path.substring(1).split('/').shift()! : '';
     const cls = ['header'];
     if (expanded) {
