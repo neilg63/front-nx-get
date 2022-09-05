@@ -80,11 +80,15 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
         window.removeEventListener('scroll', onScroll);
       }
     };
+
     window.addEventListener('scroll', onScroll);
     if (pageData.loadedPages < 2 && pageData.numPages > 1) {
       setTimeout(fetchMoreItems, 500);
     }
     
+    window.addEventListener("resize", () => {
+      resizeAllGridItems(document, window);
+    });
     setTimeout(() => {
        resizeAllGridItems(document, window);
     }, 250);
