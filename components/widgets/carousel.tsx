@@ -31,8 +31,7 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
     cls.push("show-controls");
   }
   const classNames = cls.join(" ");
-  const options = { destroyHeight: 'auto' } // Option
-  const pluginOpts = items.length > 1 ? [AutoHeight(options)] : [];
+  const options = { destroyHeight: 'auto' } // Autoheight Option
   const [emblaRef, embla] = useEmblaCarousel({
     align: "start",
     // aligns the first slide to the start
@@ -49,7 +48,7 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
     inViewThreshold: 0.7,
     // percentage of a slide that need's to be visible
     // inorder to be considered in view, 0.7 is 70%.
-  }, pluginOpts);
+  }, [AutoHeight(options)]);
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const emptyScrollSnaps: number[] = [];
