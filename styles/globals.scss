@@ -146,6 +146,10 @@ header.header {
     height: 3rem;
     background: url(/assets/signature.svg) no-repeat top left;
     background-size: contain;
+    @media (max-width: $mid-screen-width) {
+      max-width: 50%;
+      z-index: 55;
+    }
     @media (min-width: $mid-screen-width) {
       position: relative;
       top: 0;
@@ -246,8 +250,9 @@ header.header {
           }
         }
         &.inner {
-          padding: 0.25em 8rem;
+          padding: 0.25em 6rem;
           font-size: 1.25rem;
+          line-height: 1.375;
           a {
             width: 100%;
           }
@@ -990,11 +995,8 @@ figure {
   > figure {
     width: 100%;
     @media screen and (min-width: $mini-screen-width) {
-      height: 13.333vw;
+      height: 12.5rem;
       width: auto;
-    }
-    @media screen and (min-width: $mid-screen-width) {
-      height: 10vw;
     }
     @media screen and (min-width: $max-screen-width) {
       height: 180px;
