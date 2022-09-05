@@ -55,7 +55,6 @@ const Header = (pageData: PageDataSet) => {
   const [expanded, setExpanded] = useState(false);
   const [classNames, setClassNames] = useState('header');
   const router = useRouter();
-  router.on
 
   const submitSearch = () => {
     if (notEmptyString(search, 1)) {
