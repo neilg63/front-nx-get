@@ -18,11 +18,13 @@ const ModalFigure = ({ item }: { item: MediaItem }) => {
 
 
 const Carousel = ({ items }: { items: MediaItem[] }) => {
-  const numSlides = items instanceof Array && items.length;
+  const numSlides = items instanceof Array ? items.length : 0;
   const { setVisible, bindings } = useModal();
   const context = useContext(TopContext);
   const hasSlides = numSlides > 0;
   const startCarousel = numSlides > 1;
+  const pc = numSlides > 1 ? numSlides * 100 : 100;
+  const sectionStyles = { width: `${pc}%` };
 
   const cls = ["carousel-container"];
   if (startCarousel) {
@@ -148,7 +150,7 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
   }, [embla, setScrollSnaps, onSelect, context, toNextPrev]);
   return <>
     <div className={classNames} ref={emblaRef}>
-      {hasSlides && <section className="media-items flex">
+      {hasSlides && <section className="media-items flex" style={sectionStyles}>
             {items.map((item: MediaItem) => <figure key={item.uri} data-key={item.uri} data-dims={item.dims('medium')}>
               <Image srcSet={item.srcSet} src={item.medium} alt={item.alt} width='auto' height='100%' objectFit='contain' css={ item.calcAspectStyle() } />
               <figcaption>{item.field_credit}</figcaption>
