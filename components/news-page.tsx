@@ -23,9 +23,8 @@ const NewsPage: NextPage<BaseEntity> = (data) => {
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps} className='grid-sidebar'>
-      <h1><BreadcrumbTitle path={ pageData.meta.path } /></h1>
       <article className="news">
-        <h2>{ entity.title }</h2>
+        <h1><BreadcrumbTitle path={pageData.meta.path} title={ entity.title } /></h1>
         {entity.hasSubtitle && <h3 className="subitlte">{parse(entity.field_subtitle)}</h3>}
         {entity.hasImages && <Carousel items={entity.images} />}
         {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
