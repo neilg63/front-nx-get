@@ -17,10 +17,11 @@ const NewsList: NextPage<BaseEntity> = (data) => {
   const hasItems = items.length > 0;
   const showPaginator = total > 0 && total > perPage;
   
-  window.addEventListener("resize", () => {
-    resizeAllGridItems(document, window);
-  });
+ 
   useEffect(() => {
+     window.addEventListener("resize", () => {
+      resizeAllGridItems(document, window);
+    });
     setTimeout(() => {
       resizeAllGridItems(document, window);
     }, 500);
@@ -38,7 +39,7 @@ const NewsList: NextPage<BaseEntity> = (data) => {
           {items.map((item: NodeEntity) => <figure key={item.uuid} className='node'>
             <time>{ mediumDate(item.field_date) }</time>
               <Link href={item.path} className="image-holder"><a className="image-link">
-              {item.hasImage && <Image src={item.firstImage.preview} alt={item.alt} width={'auto'} height={'100%'} objectFit='contain' />}
+              {item.hasImage && <Image src={item.firstImage.preview} alt={item.alt} width={'auto'} height={'100%'} objectFit='contain' style={item.firstImage.calcAspectStyle()} />}
               </a></Link>
             <figcaption>
               <h3><Link href={item.path}><a>{item.title}</a></Link></h3>

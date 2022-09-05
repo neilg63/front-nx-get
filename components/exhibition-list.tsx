@@ -102,7 +102,7 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
         {hasItems && <><div className="columns">
           {items.map((item: NodeEntity, index) => <figure key={[item.uuid, index].join('-')} className='node'>
               <Link href={item.path} className="image-holder"><a className="image-link">
-                {item.hasImage && <Image src={item.firstImage.preview} alt={item.alt} width={'auto'} height={'100%'} objectFit='contain' />}
+                {item.hasImage && <Image src={item.firstImage.preview} alt={item.alt} width={'auto'} height={'100%'} objectFit='contain' style={item.firstImage.calcAspectStyle()} />}
                 </a></Link>
               <figcaption>
                 <h3><Link href={item.path}><a>{item.title}</a></Link></h3>
