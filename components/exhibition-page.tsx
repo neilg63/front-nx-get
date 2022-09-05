@@ -25,7 +25,7 @@ const ExhibitionPage: NextPage<BaseEntity> = (data ) => {
     <Container {...containerProps} className='exhibition-container'>
       <article className="exhibition grid-2-header">
         <h1><Link href={nextAlias}><a>{entity.title}</a></Link></h1>
-        {entity.hasImages && <Carousel items={entity.images} />}
+        <div className='left-container'>{entity.hasImages && <Carousel items={entity.images} />}</div>
         <div className='text-details'>
           <h3><DateRange item={ entity.field_date_range } /></h3>
           {entity.hasSubtitle && <h3 className="subtitle">{parse(entity.field_subtitle)}</h3>}

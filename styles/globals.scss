@@ -740,16 +740,21 @@ img {
 }
 
 .grid-2-header {
-  grid-template-areas: "head head"
-    "left right";
-  > h1 {
-    grid-area: head;
-  }
-  > .carousel-container {
-    grid-area: left;
-  }
-   > .text-details {
-    grid-area: right;
+  @media (min-width: $mid-screen-width) {
+      grid-template-areas: "head head"
+      "left right";
+    > h1 {
+      grid-area: head;
+    }
+  
+    >.left-container {
+      grid-area: left;
+      align-self: flex-start;
+    }
+  
+    >.text-details {
+      grid-area: right;
+    }
   }
 }
 
@@ -1172,18 +1177,36 @@ main > .related {
   }
 
   .enlarge-trigger {
-    bottom: 0.375em;
-    right: 0.375em;
-    width: 1em;
-    height: 1em;
     cursor: pointer;
-    &::before {
-      font-size: 2.5vw;
+    &.middle {
+      top: 0;
+      left: 25%;
+      right: 25%;
+      bottom: 0;
     }
-    @media screen and (min-width: $max-screen-width) {
-      font-size: 45px;
+    &.bottom {
+      bottom: 0.375em;
+      right: 0.375em;
+      width: 1em;
+      height: 1em;
+    
+      &::before {
+        font-size: 2.5vw;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+      }
+    
+      @media screen and (min-width: $max-screen-width) {
+        font-size: 45px;
+      }
     }
     z-index: 9;
+  }
+
+  &:hover {
+    .enlarge-trigger::before {
+      opacity: 1;
+    }
   }
 
   &.show-controls {
@@ -1201,6 +1224,7 @@ main > .related {
       opacity: 1;
     }
   }
+
   >.control {
     top: 0;
     bottom: 0;

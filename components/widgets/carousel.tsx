@@ -169,7 +169,8 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
           ))}
         </div>
       </>}
-      <div className="enlarge-trigger icon icon-enlarge2" onClick={() => enlarge()}></div>
+      <div className="enlarge-trigger middle" onClick={() => enlarge()} title='Enlarge'></div>
+      <div className="enlarge-trigger bottom icon icon-enlarge2" onClick={() => enlarge()}></div>
     </div>
      <Modal
       scroll={ false }
