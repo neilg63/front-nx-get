@@ -247,6 +247,10 @@ header.header {
         }
         &.inner {
           padding: 0.25em 8rem;
+          font-size: 1.25rem;
+          a {
+            width: 100%;
+          }
           opacity: 0;
           text-align: center;
           pointer-events: none;
