@@ -95,14 +95,28 @@ export function resizeAllGridItems(document: Document, window: Window) {
   }
 }
 
-/* export const setMaxFigureHeight = (container: HTMLElement, index = 0) => {
-  const figs = container.querySelectorAll("figure");
+export const defaultContainerStyles = { height: "auto" };
+
+export const calcCarouselContainerStyles = (
+  container: HTMLElement,
+  index = 0,
+  window: Window
+) => {
+  const figs = container.querySelectorAll(".media-items figure");
   if (figs.length > 0 && index < figs.length && index > 0) {
     const fig = figs[index];
     const img = fig.querySelector("img");
     if (img instanceof HTMLElement) {
       const height = img.getBoundingClientRect().height;
       container.style.maxHeight = `${height}px`;
+      const pBotton = window
+        .getComputedStyle(container)
+        .getPropertyPriority("paddingBottom");
+      const cHeight = height + pBotton;
+      return {
+        height: `${cHeight}px`,
+      };
     }
   }
-}; */
+  return defaultContainerStyles;
+};
