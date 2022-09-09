@@ -12,7 +12,6 @@ class AppDocument extends Document {
       styles: React.Children.toArray([initialProps.styles])
     };
   }
-  
   render() {
     const { __NEXT_DATA__ } = this.props;
     const { props } = __NEXT_DATA__;

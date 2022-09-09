@@ -1,3 +1,4 @@
+import { appVersion } from "./settings";
 import { smartCastFloat, smartCastInt } from "./utils";
 
 export interface StorageItem {
@@ -117,4 +118,19 @@ export const hasLocal = (key = "", fuzzy = false): boolean => {
   return fuzzy
     ? keys.some((k) => k.toLowerCase().startsWith(key))
     : keys.includes(key);
+};
+
+export const clearLocalCacheOnNewVersion = () => {
+  let version = 0;
+  const stored = fromLocal("app-version");
+  if (stored.valid) {
+    const v = parseFloat(stored.data);
+    if (v) {
+      version = v;
+    }
+  }
+  if (version < appVersion) {
+    clearLocal();
+  }
+  toLocal("app-version", appVersion);
 };

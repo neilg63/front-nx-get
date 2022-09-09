@@ -211,3 +211,29 @@ export const subNavClassName = (
   const compStr = typeof refVal === "string" ? refVal : refVal.toString();
   return current === compStr ? "active" : "inactive";
 };
+
+export const extractYearUriFromParams = (
+  first = "news",
+  params: any = null
+): string => {
+  const yearRef = params instanceof Object ? params?.year : "";
+  let y = 0;
+  let second = "";
+  if (
+    typeof yearRef === "string" &&
+    isNumeric(yearRef) &&
+    yearRef.length === 4
+  ) {
+    y =
+      typeof yearRef === "string"
+        ? parseInt(yearRef, 10)
+        : typeof yearRef === "number"
+        ? yearRef
+        : 0;
+    if (y < 1960) {
+      y = new Date().getFullYear();
+    }
+    second = y.toString();
+  }
+  return [first, second].join("/");
+};

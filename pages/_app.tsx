@@ -10,6 +10,7 @@ import "../public/icomoon/style.css";
 import Header from '../components/header';
 import Footer from '../components/footer';
 import { customTheme } from '../lib/styles';
+import { clearLocalCacheOnNewVersion } from '../lib/localstore';
 
 NProgress.configure({ showSpinner: false })
 
@@ -43,6 +44,8 @@ const buildOuterContextClasses = (asPath: string) => {
   return wrapperClasses.join(' ');
 }
 
+
+
 export default function App({ Component, pageProps }: AppProps) {
   const { asPath } = useRouter();
   const className = buildOuterContextClasses(asPath);
@@ -68,6 +71,7 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     setHeight(window.outerHeight);
     setWidth(window.outerWidth);
+    clearLocalCacheOnNewVersion();
     const handleKeyDown = (e: any) => {
       switch (e.which) {
         case 27:
@@ -82,6 +86,7 @@ export default function App({ Component, pageProps }: AppProps) {
       }
     }
     window.addEventListener("keydown", handleKeyDown);
+
   }, [])
   const { site } = pageProps;
   const queryClientRef = React.useRef<QueryClient>()

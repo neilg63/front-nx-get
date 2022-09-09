@@ -2,7 +2,7 @@
   Miscellanous settings that are neither controlled by the CMS
   nor environmental (.env.local), but are best grouped in one place
 */
-
+export const appVersion = 0.1;
 /*
  * Min. height at which longer continuous listings kick in
  */

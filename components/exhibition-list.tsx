@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import Link from 'next/link';
-import { BaseEntity } from "../lib/interfaces";
+import { BaseEntity, YearNum } from "../lib/interfaces";
 import { NodeEntity, PageDataSet } from "../lib/entity-data";
 import Head from "next/head";
 import SeoHead from "./layout/head";
@@ -16,6 +16,8 @@ import { loadMore } from "../lib/load-more";
 import { getScrollTop } from "../lib/dom";
 import labels from "../lib/labels";
 import contentTypes from "../lib/content-types";
+import BreadcrumbTitle from "./widgets/breadcrumb-title";
+import YearNav from "./widgets/year-nav";
 
 const ExhibitionList: NextPage<BaseEntity> = (data) => {  
   const pageData = useMemo(() => new PageDataSet(data), [data]);
@@ -27,7 +29,9 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
   const [scrollLoadPos, setScrollLoadPos] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
-  const { items, meta, total, perPage } = pageData;
+  const { items, meta, sets } = pageData;
+  const years = sets.has('years') ? sets.get('years') as YearNum[]: [];
+  const hasYears = years instanceof Array && years.length > 0;
 
   const loadNextPrev = useCallback((forward = true) => {
     const currPath = router.asPath.split('?').shift();
@@ -100,9 +104,10 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
     </Head>
     <Container {...containerProps}>
       <section className="exhibition-list grid-list">
-        <header className="section-header">
-            <h1>{contentTypes.exhibition}</h1>
-        </header>
+        <nav className='filter-nav show-by-year'>
+        <h1><BreadcrumbTitle path={pageData.meta.path} title={ pageData.contextTitle } /></h1>
+        {hasYears && <YearNav years={years} current={ meta.endPath } basePath='/exhibitions' />}
+      </nav>
         {hasItems && <><div className="columns">
           {items.map((item: NodeEntity, index) => <figure key={[item.uuid, index].join('-')} className='node'>
               <Link href={item.path} className="image-holder"><a className="image-link">
