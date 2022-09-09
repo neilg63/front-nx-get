@@ -4,7 +4,7 @@ import { MediaItem } from "../../lib/entity-data";
 import { Image, useModal, Modal } from '@nextui-org/react';
 import { TopContext } from "../../pages/_app";
 import AutoHeight from 'embla-carousel-auto-height'
-import { calcCarouselContainerStyles, defaultContainerStyles } from '../../lib/styles';
+//import { calcCarouselContainerStyles, defaultContainerStyles } from '../../lib/styles';
 
 const ModalFigure = ({ item }: { item: MediaItem }) => {
   const alt = item.alt || '';
@@ -26,7 +26,7 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
   const startCarousel = numSlides > 1;
   const pc = numSlides > 1 ? numSlides * 100 : 100;
   const sectionStyles = { width: `${pc}%` };
-  const [containerStyles, setSectionStyles] = useState(defaultContainerStyles);
+  /* const [containerStyles, setContainerStyles] = useState(defaultContainerStyles); */
 
   const cls = ["carousel-container"];
   if (startCarousel) {
@@ -145,14 +145,10 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
     if (context) {
       toNextPrev();
     }
-    const container = document.querySelector('.carousel-container');
-    if (container instanceof HTMLElement) {
-      setSectionStyles(calcCarouselContainerStyles(container, selectedIndex, window));
-    }
     setTimeout(() => {
       embla.reInit();
     }, 375)
-  }, [embla, onSelect, context, toNextPrev, sectionStyles, selectedIndex]);
+  }, [embla, onSelect, context, toNextPrev, selectedIndex, setScrollSnaps]);
   return <>
     <div className={classNames} ref={emblaRef}>
       {hasSlides && <section className="media-items flex" style={sectionStyles}>

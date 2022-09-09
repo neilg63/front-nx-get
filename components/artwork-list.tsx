@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import { useState, useEffect, useMemo, useContext, useCallback } from "react";
 import { BaseEntity, FilterOption, SlugNameNum, YearNum } from "../lib/interfaces";
 import { NodeEntity, PageDataSet } from "../lib/entity-data";
-import { isNumeric, notEmptyString } from "../lib/utils";
+import { isNumeric, notEmptyString, subNavClassName } from "../lib/utils";
 import TypeLink from "./widgets/type-link";
 import YearLink from "./widgets/year-link";
 import Head from "next/head";
@@ -15,8 +15,9 @@ import { TopContext } from "../pages/_app";
 import { setTempLocalBool, tempLocalBool } from "../lib/localstore";
 import labels from "../lib/labels";
 import { isMinLargeSize, numScrollBatches } from "../lib/settings";
-import ArtwworkFigure from "./widgets/artwork-figure";
+import ArtworkFigure from "./widgets/artwork-figure";
 import { loadMore } from "../lib/load-more";
+import YearNav from "./widgets/year-nav";
 /* import { fetchFullNode } from "../lib/api-view-results";
 import ArtworkInsert from "./widgets/artwork-insert"; */
 
@@ -54,22 +55,6 @@ const extractTypeFromList = (slug = '', items: SlugNameNum[]) => {
 
 const navClassName = (mode: string): string => {
   return ['filter-nav', ['show-by', mode].join('-')].join(' ');
-}
-
-const subNavClassName = (current: string, refVal: string | number): string => {
-  const compStr = typeof refVal === "string" ? refVal : refVal.toString();
-  return current === compStr ? 'active' : 'inactive';
-}
-
-const ArtworkYearNav = ({ years, current }: { years: YearNum[], current: string }) => {
-  const basePath = '/artworks/';
-  return (
-    <ul className='sub-nav years-nav row'>
-      {years.map((item, index) => <li key={['year', item.year, index].join('-')} className={ subNavClassName(current, item.year)}>
-        <YearLink value={ item.year } basePath={basePath} />
-      </li>)}
-    </ul>
-  );
 }
 
 const ArtworkTypeNav = ({ types, current }: { types: SlugNameNum[], current: string }) => {
@@ -267,12 +252,12 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       >
           {filterOptions.map(opt => <li onClick={() => changeFilterMode(opt.key)} key={opt.itemKey} className={opt.className}>{opt.name}</li>)}
       </ul>
-        {hasYears && <ArtworkYearNav years={years} current={ subPath }  />}
+        {hasYears && <YearNav years={years} current={ subPath }  basePath='/artworks' />}
         {hasTypes && <ArtworkTypeNav types={types} current={ subPath }/>}
       </nav>
       <section className="artwork-list">
         {pageData.hasItems && <><div className="flex-rows-6">
-          {pageData.items.map((item, index) => item.duplicate ? <figure className='hidden' key={item.indexedKey(index)} style={displayNone}></figure> : <ArtwworkFigure item={item} index={index} key={item.indexedKey(index)} />)}
+          {pageData.items.map((item, index) => item.duplicate ? <figure className='hidden' key={item.indexedKey(index)} style={displayNone}></figure> : <ArtworkFigure item={item} index={index} key={item.indexedKey(index)} />)}
           <figure className="empty-figure" style={ emptyFigStyles }></figure>
           </div>
           {pageData.showListingNav && <nav className='listing-nav row'>

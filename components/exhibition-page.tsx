@@ -12,19 +12,19 @@ import RelatedItem from "./widgets/related-item";
 import { relatedKey } from "../lib/ui-entity";
 import contentTypes, { relatedItemsTitle } from "../lib/content-types";
 import DateRange from "./widgets/date-range";
+import BreadcrumbTitle from "./widgets/breadcrumb-title";
 
 
 const ExhibitionPage: NextPage<BaseEntity> = (data ) => {  
   const pageData = new PageDataSet(data);
   const { entity, meta } = pageData;
-  const nextAlias = '/exhibitions';
   return  <>
     <Head>
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps} className='exhibition-container'>
       <article className="exhibition grid-2-header">
-        <h1><Link href={nextAlias}><a>{entity.title}</a></Link></h1>
+        <h1><BreadcrumbTitle path={meta.path} title={entity.title} /></h1>
         <div className='left-container'>{entity.hasImages && <Carousel items={entity.images} />}</div>
         <div className='text-details'>
           <h3><DateRange item={ entity.field_date_range } /></h3>

@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { toBundlePlural } from "../../lib/content-types";
-import { isNumeric, keyToTitle, smartCastInt } from "../../lib/utils";
+import { keyToTitle } from "../../lib/utils";
 
 const BreadcrumbTitle = ({ path, title }: { path: string, title: string }) => {
   const alias = path.startsWith('/') ? path.substring(1) : path;
   const parts = alias.split('/');
   const first = parts.length > 0 ? parts[0] : "";
   const lastIndex = parts.length - 1;
+  
   const links = parts.map((segment: string, index: number) => {
     const path = '/' + parts.slice(0, index + 1).join('/');
     let name = '';
@@ -17,16 +18,17 @@ const BreadcrumbTitle = ({ path, title }: { path: string, title: string }) => {
     } else {
       name = keyToTitle(segment);
     }
-    const itemKey = ['bc', parts.slice(0, index + 1).join('--'), index].join('-')
-    const className = index < lastIndex ? 'breadcrumb' : 'current';
+    const isLast = lastIndex === index;
+    const itemKey = ['bc', parts.slice(0, index + 1).join('--'), index].join('-');
+    const className = isLast ? 'current' : 'breadcrumb';
     return {
-      path, name, itemKey, className
+      path, name, itemKey, className, isLast
     }
   });
   return (
     <>
       {links.length > 0 && 
-        links.map(item => <Link href={item.path} key={item.itemKey}><a className={item.className}>{item.name}</a></Link>)
+        links.map(item => item.isLast ? <span key={item.itemKey} className={ item.className}>{item.name}</span> : <Link href={item.path} key={item.itemKey}><a className={item.className}>{item.name}</a></Link>)
     }
     </>
   );

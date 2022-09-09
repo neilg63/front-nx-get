@@ -15,7 +15,7 @@ const TooltipContents = ({item}: {item: NodeEntity}) => {
   </>
 }
 
-const ArtwworkFigure = ({ item, index }: { item: NodeEntity, index: number }) => {
+const ArtworkFigure = ({ item, index }: { item: NodeEntity, index: number }) => {
   return <Tooltip id={itemId(item.uuid)} data-index={index} style={item.firstImage.calcAspectStyle()} className='node' content={<TooltipContents item={item} />} as='figure' rounded={false} shadow={false} placement='bottom' css={tooltipStyles} hideArrow={true}  offset={-24}>
   <Link href={item.path} className="image-holder"><a className="image-link">
       {item.hasImage && <Image loader={defaultImageLoader} src={item.firstImage.preview} alt={item.alt} width={item.firstImage.calcWidth('preview')} height={item.firstImage.calcHeight('preview')} objectFit='contain' layout='intrinsic' />}
@@ -26,4 +26,4 @@ const ArtwworkFigure = ({ item, index }: { item: NodeEntity, index: number }) =>
   </Tooltip>
 }
 
-export default ArtwworkFigure;
+export default ArtworkFigure;

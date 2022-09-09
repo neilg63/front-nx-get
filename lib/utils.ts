@@ -203,3 +203,11 @@ export const buildConditionalClassNames = (
   }
   return cls.join(" ");
 };
+
+export const subNavClassName = (
+  current: string,
+  refVal: string | number
+): string => {
+  const compStr = typeof refVal === "string" ? refVal : refVal.toString();
+  return current === compStr ? "active" : "inactive";
+};

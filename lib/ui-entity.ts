@@ -38,6 +38,11 @@ export class MetaDataSet {
       });
     }
   }
+
+  get endPath() {
+    const parts = typeof this.path === "string" ? this.path.split("/") : [];
+    return parts.length > 0 ? parts[parts.length - 1] : "";
+  }
 }
 
 export interface ImageStyleAttrs {

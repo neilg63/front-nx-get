@@ -8,13 +8,14 @@ import RelatedItem from "./related-item"
 import TypeLink from "./type-link"
 import YearLink from "./year-link"
 import TagList from "./tag-list";
+import BreadcrumbTitle from "./breadcrumb-title";
 
 const ArtworkInsert = ({ entity, basePath }: { entity: NodeEntity, basePath: string }) => { 
 
   return <>
     <article className="artwork">
         <header>
-          <h1>{entity.title}</h1>
+        <h1><BreadcrumbTitle path={entity.path} title={ entity.title } /></h1>
           {entity.hasSubtitle && <h3 className="subitlte">{parse(entity.field_subtitle)}</h3>}
         </header>
         {entity.hasImages && <Carousel items={entity.images} />}

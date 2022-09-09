@@ -95,7 +95,7 @@ export function resizeAllGridItems(document: Document, window: Window) {
   }
 }
 
-export const defaultContainerStyles = { height: "auto" };
+/* export const defaultContainerStyles = { height: "auto" };
 
 export const calcCarouselContainerStyles = (
   container: HTMLElement,
@@ -108,7 +108,6 @@ export const calcCarouselContainerStyles = (
     const img = fig.querySelector("img");
     if (img instanceof HTMLElement) {
       const height = img.getBoundingClientRect().height;
-      container.style.maxHeight = `${height}px`;
       const pBotton = window
         .getComputedStyle(container)
         .getPropertyPriority("paddingBottom");
@@ -119,4 +118,4 @@ export const calcCarouselContainerStyles = (
     }
   }
   return defaultContainerStyles;
-};
+}; */

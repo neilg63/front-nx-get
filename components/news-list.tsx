@@ -1,23 +1,25 @@
 import { NextPage } from "next";
 import Link from 'next/link';
-import { BaseEntity } from "../lib/interfaces";
+import { BaseEntity, YearNum } from "../lib/interfaces";
 import { NodeEntity, PageDataSet } from "../lib/entity-data";
 import { mediumDate } from "../lib/converters";
 import { Container, Image } from "@nextui-org/react";
 import { containerProps, resizeAllGridItems } from "../lib/styles";
 import Head from "next/head";
 import SeoHead from "./layout/head";
-import contentTypes from "../lib/content-types";
 import { useEffect, useMemo } from "react";
 import LoadMoreNav from "./widgets/load-more-nav";
+import BreadcrumbTitle from "./widgets/breadcrumb-title";
+import YearNav from "./widgets/year-nav";
 
 const NewsList: NextPage<BaseEntity> = (data) => {  
   const pageData = useMemo(() => new PageDataSet(data), [data]);
-  const { items, meta, total, perPage} = pageData;
+  const { items, meta, total, perPage, sets } = pageData;
+  const years = sets.has('years') ? sets.get('years') as YearNum[]: [];
+  const hasYears = years instanceof Array && years.length > 0;
   const hasItems = items.length > 0;
   const showPaginator = total > 0 && total > perPage;
-  
- 
+  const subPath = meta.endPath;
   useEffect(() => {
      window.addEventListener("resize", () => {
       resizeAllGridItems(document, window);
@@ -32,8 +34,12 @@ const NewsList: NextPage<BaseEntity> = (data) => {
     </Head>
     <Container {...containerProps}>
         <header className="section-header">
-          <h1>{contentTypes.news}</h1>
       </header>
+      <nav className='filter-nav show-by-year'>
+        <h1><BreadcrumbTitle path={pageData.meta.path} title={ pageData.contextTitle } /></h1>
+
+        {hasYears && <YearNav years={years} current={ subPath } basePath='/news' />}
+      </nav>
       <section className="news-list grid-list">
         {hasItems && <><div className="columns">
           {items.map((item: NodeEntity) => <figure key={item.uuid} className='node'>

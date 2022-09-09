@@ -1,4 +1,4 @@
-import contentTypes from "./content-types";
+import contentTypes, { toBundlePlural } from "./content-types";
 import { sanitize, shortDate, toMimeType } from "./converters";
 import {
   Dims2D,
@@ -12,6 +12,7 @@ import {
   isArrayOfObjectsWith,
   isNumeric,
   isObjectWith,
+  keyToTitle,
   notEmptyString,
   smartCastInt,
   toFullUri,
@@ -734,6 +735,21 @@ export class PageDataSet {
 
   get showListingNav() {
     return this.mayLoadMore || this.mayLoadPrevious;
+  }
+
+  get contextTitle(): string {
+    const { path } = this.meta;
+    if (typeof path === "string") {
+      const parts = this.meta.path.substring(1).split("/");
+      const endPath = parts.pop()!;
+      if (parts.length > 1) {
+        return keyToTitle(endPath);
+      } else {
+        return toBundlePlural(endPath);
+      }
+    } else {
+      return "";
+    }
   }
 
   mayLoad(maxScrollPages = 5) {
