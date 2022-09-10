@@ -4,12 +4,15 @@ import { BaseEntity, KeyStringValue, YearNum } from "../lib/interfaces";
 import { NodeEntity, SearchPageDataSet } from "../lib/entity-data";
 import Head from "next/head";
 import SeoHead from "./layout/head";
-import { Container } from "@nextui-org/react";
+import { Container, Input } from "@nextui-org/react";
 import { containerProps } from "../lib/styles";
 import FigureResultPreview from "./widgets/figure-result-preview";
 import TextResultPreview from "./widgets/text-result-preview";
 import { setEmtyFigureHeight } from "../lib/dom";
 import LoadMoreNav from "./widgets/load-more-nav";
+import labels from "../lib/labels";
+import { useRouter } from "next/router";
+import { notEmptyString } from "../lib/utils";
 
 const showItemAsFigure = (bundle: string) => {
   return ['artwork'].includes(bundle);
@@ -32,20 +35,60 @@ const sectionClassNames = (section: KeyStringValue) => {
 
 const SearchResults: NextPage<BaseEntity> = (data) => {  
   const [hasItems, setHasItems] = useState(false);
+  const [searchString, setSearchString] = useState('');
+  const router = useRouter();
+  
   const pageData = new SearchPageDataSet(data);
   const { containers, meta, total, perPage } = pageData;
   const [showPaginator, setShowPaginator] = useState(false);
   const emptyFigStyles = { width: 0, display: 'none' };
+  
+  const submitSearch = () => {
+    if (notEmptyString(searchString, 1)) {
+      const path = ['/search', encodeURIComponent(searchString.toLowerCase())].join('/');
+      router.push(path);
+    }
+  }
+
+  const submitOnEnter = (e: any) => {
+    if (e instanceof Object) {
+      if (e.keyCode) {
+        if (e.keyCode === 13) {
+          submitSearch();
+        }
+      }
+    }
+  }
+
+ const updateSearch = (e: any) => {
+    if (e instanceof Object) {
+      const { target } = e;
+      if (target instanceof Object) {
+        setSearchString(target.value);
+      }
+    }
+  }
+
   useEffect(() => {
     setHasItems(containers.size > 0);
     setShowPaginator(total > 0 && total > perPage);
     setEmtyFigureHeight(document);
-  }, [containers, perPage, total, hasItems, setHasItems,showPaginator, setShowPaginator])
+
+    const path = router.asPath;
+    const termSlug = typeof path === 'string' && path.includes('/') ? path.split('/').pop()! : '';
+    const searchTerms = termSlug.replace(/-/, ' ');
+    setSearchString(searchTerms)
+  }, [containers, perPage, total, hasItems, setHasItems, showPaginator, router]);
+  const inputStyles = { width: '32em', maxWidth: '75%' };
   return <>
     <Head>
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps} className='search-results'>
+      <fieldset className='row search-bar'>
+        <Input placeholder={labels.search} value={searchString} name='search_long' onChange={updateSearch} onKeyDown={e => (submitOnEnter(e))} className='long-text' id='search-results-long-search-field' aria-labelledby={labels.search} fullWidth={true} width='100%' shadow={false} />
+        <i className='icon icon-search'></i>
+      </fieldset>
       {hasItems && <>
         <section className="search-sections">
         {pageData.bundleSet.map((section: KeyStringValue, index) => <div className={sectionClassNames(section)} key={['section', section.key, index].join('-')}>

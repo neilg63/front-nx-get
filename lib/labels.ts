@@ -12,6 +12,7 @@ const labels = {
   load_older: "Older",
   load_newer: "Newer",
   related_videos: "Related videos",
+  search: "Search",
 };
 
 export default labels;

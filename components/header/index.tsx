@@ -6,6 +6,7 @@ import { PageDataSet, SimpleMenuItem } from '../../lib/entity-data';
 import { useRouter } from 'next/router';
 import { notEmptyString } from '../../lib/utils';
 import { TopContext } from '../../pages/_app';
+import labels from '../../lib/labels';
 
 const renderClassNames = (item: SimpleMenuItem, subAlias = ''): string => {
   const alias = toAlias(item.path);
@@ -120,7 +121,7 @@ const Header = (pageData: PageDataSet) => {
             </li>
           })}
           <li className="search-link prominent">
-            <Input name='search' value={search} onChange={updateSearch} className='search-field' size='sm' onKeyDown={e => (submitOnEnter(e))} />
+            <Input name='search' value={search} onChange={updateSearch} className='search-field' size='sm' onKeyDown={e => (submitOnEnter(e))} id='nav-short-search-field' aria-labelledby={ labels.search}/>
             <i className='icon icon-search' title='Search' onClick={submitSearch}></i>
           </li>
         </ul>}

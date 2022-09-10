@@ -64,6 +64,37 @@ a {
   top: -1000em;
 }
 
+fieldset {
+  &.search-bar {
+    border: none;
+    width: 100%;
+    max-width: 32em;
+    position: relative;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    padding-block-start: 0;
+    padding-inline-start: 0;
+    padding-inline-end: 0;
+    padding-block-end: 0;
+    .nextui-input-main-container--with-value {
+      label {
+        border-radius: 0.125em;
+      }
+    }
+  
+    .long-text {
+      width: 100%;
+    }
+
+    .icon-search {
+      position: absolute;
+      top: 0.625em;
+      right: 0.5em;
+      pointer-events: none;
+    }
+  }
+}
+
 #nextui-tooltip,
 article,
 nav,
