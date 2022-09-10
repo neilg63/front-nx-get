@@ -1,3 +1,5 @@
+import { FilterOption } from "./interfaces";
+
 export const isString = (str: any = null) =>
   typeof str === "string" || str instanceof String;
 
@@ -236,4 +238,36 @@ export const extractYearUriFromParams = (
     second = y.toString();
   }
   return [first, second].join("/");
+};
+
+export const mapFilterOption = (
+  row: FilterOption,
+  ri: number,
+  selectedKey = ""
+): FilterOption => {
+  const itemKey: string = ["filter-opt", row.key, ri].join("-");
+  const selected = row.key === selectedKey;
+  const className = selected ? "active" : "inactive";
+  return { ...row, itemKey, selected, className };
+};
+
+export const filterNavClassName = (mode: string): string => {
+  return ["filter-nav", ["show-by", mode].join("-")].join(" ");
+};
+
+export const matchFilterMode = (subPath = ""): string => {
+  let fm = "all";
+  if (notEmptyString(subPath)) {
+    if (
+      isNumeric(subPath) &&
+      subPath.length === 4 &&
+      parseInt(subPath, 10) > 1950 &&
+      parseInt(subPath, 10) < 2100
+    ) {
+      fm = "year";
+    } else {
+      fm = subPath.startsWith("tag--") ? "tag" : "type";
+    }
+  }
+  return fm;
 };

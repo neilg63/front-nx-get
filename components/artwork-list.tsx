@@ -2,9 +2,8 @@ import { NextPage } from "next";
 import { useState, useEffect, useMemo, useContext, useCallback } from "react";
 import { BaseEntity, FilterOption, SlugNameNum, YearNum } from "../lib/interfaces";
 import { NodeEntity, PageDataSet } from "../lib/entity-data";
-import { isNumeric, notEmptyString, subNavClassName } from "../lib/utils";
+import { filterNavClassName, isNumeric, mapFilterOption, matchFilterMode, notEmptyString, subNavClassName } from "../lib/utils";
 import TypeLink from "./widgets/type-link";
-import YearLink from "./widgets/year-link";
 import Head from "next/head";
 import { Container } from "@nextui-org/react";
 import SeoHead from "./layout/head";
@@ -51,10 +50,6 @@ const extractTypeFromList = (slug = '', items: SlugNameNum[]) => {
     tagName = tg.name;
   }
   return tagName;
-}
-
-const navClassName = (mode: string): string => {
-  return ['filter-nav', ['show-by', mode].join('-')].join(' ');
 }
 
 const ArtworkTypeNav = ({ types, current }: { types: SlugNameNum[], current: string }) => {
@@ -137,7 +132,9 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
     const { items } = pageData;
     const yearRefs = pageData.sets.has('years') ? pageData.sets.get('years') : [];
     if (yearRefs instanceof Array && yearRefs.length > 0) {
-      setYears(yearRefs as YearNum[]);
+      const yearRows = yearRefs as YearNum[];
+      yearRows.sort((a, b) => b.year - a.year);
+      setYears(yearRows);
       setHasYears(true);
     }
     const typeRefs = pageData.sets.has('types') ? pageData.sets.get('types') : [];
@@ -151,14 +148,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       setSubPath(currentPathParts[1]);
     }
     
-    let fm = 'all';
-    if (notEmptyString(subPath)) {
-      if (isNumeric(subPath) && subPath.length === 4 && parseInt(subPath, 10) > 1950 && parseInt(subPath, 10) < 2100) {
-        fm = 'year';
-      } else {
-        fm = subPath.startsWith('tag--') ? 'tag' : 'type';
-      } 
-    }
+    const fm = matchFilterMode(subPath);
     if (fm !== 'all') {
       const titleParts = ['Artworks'];
       switch (fm) {
@@ -175,12 +165,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       setContextualTitle(titleParts.join(' | '));
     }
     setFilterMode(fm);
-    setFilterOptions(filterOpts.map((row, ri) => {
-      const itemKey: string = ['filter-opt', row.key, ri].join('-');
-      const selected = row.key === fm;
-      const className = selected ? 'active' : 'inactive';
-      return { ...row, itemKey, selected, className }
-    }));
+    setFilterOptions(filterOpts.map((row: FilterOption, ri: number) => mapFilterOption(row, ri, fm)));
     setEmtyFigureHeight(document);
 
     const fetchMoreItems = () => {
@@ -245,7 +230,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       <SeoHead meta={pageData.meta} />
     </Head>
     <Container {...containerProps} className={ wrapperClasses(showDetail) }>
-      <nav className={navClassName(filterMode)}>
+      <nav className={filterNavClassName(filterMode)}>
         <h1>{ contextualTitle }</h1>
         <ul 
           className='row filter-options'

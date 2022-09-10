@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import Link from 'next/link';
-import { BaseEntity, YearNum } from "../lib/interfaces";
+import { BaseEntity, FilterOption, YearNum } from "../lib/interfaces";
 import { NodeEntity, PageDataSet } from "../lib/entity-data";
 import Head from "next/head";
 import SeoHead from "./layout/head";
@@ -11,13 +11,17 @@ import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import { isMinLargeSize, numScrollBatches } from "../lib/settings";
 import { TopContext } from "../pages/_app";
-import { setTempLocalBool, tempLocalBool } from "../lib/localstore";
 import { loadMore } from "../lib/load-more";
 import { getScrollTop } from "../lib/dom";
 import labels from "../lib/labels";
-import contentTypes from "../lib/content-types";
 import BreadcrumbTitle from "./widgets/breadcrumb-title";
 import YearNav from "./widgets/year-nav";
+import { filterNavClassName, isNumeric, mapFilterOption, matchFilterMode, notEmptyString } from "../lib/utils";
+
+const filterOpts = [
+  { key: 'all', name: 'All' },
+  { key: 'year', name: 'Year' }
+];
 
 const ExhibitionList: NextPage<BaseEntity> = (data) => {  
   const pageData = useMemo(() => new PageDataSet(data), [data]);
@@ -27,12 +31,15 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
   const isLarge = isMinLargeSize(context);
   const maxScrollPages = isLarge ? numScrollBatches.large : numScrollBatches.standard;
   const [scrollLoadPos, setScrollLoadPos] = useState(0);
+  const [filterOptions, setFilterOptions] = useState<FilterOption[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [filterMode, setFilterMode] = useState('all');
+  const [subPath, setSubPath] = useState('');
   const router = useRouter();
   const { items, meta, sets } = pageData;
   const years = sets.has('years') ? sets.get('years') as YearNum[]: [];
   const hasYears = years instanceof Array && years.length > 0;
-
+  
   const loadNextPrev = useCallback((forward = true) => {
     const currPath = router.asPath.split('?').shift();
     const nextPage = forward ? pageData.nextPageOffset : pageData.prevPageOffset(maxScrollPages);
@@ -46,7 +53,11 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
       const nextPageNum = nextPage + 1;
       router.push(currPath + '?page=' + nextPageNum);
     }
-  }, [pageData, maxScrollPages, router])
+  }, [pageData, maxScrollPages, router]);
+
+  const changeFilterMode = useCallback((mode: string) => {
+    setFilterMode(mode);
+  }, [])
 
   useEffect(() => {
     const fetchMoreItems = () => {
@@ -84,6 +95,15 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
         window.removeEventListener('scroll', onScroll);
       }
     };
+    const currentPath = router.asPath.split('?').shift()!;
+    const currentPathParts = currentPath?.substring(1).split('/');
+    if (currentPathParts.length > 1) {
+      setSubPath(currentPathParts[1] )
+    }
+
+    const fm = matchFilterMode(subPath);
+    setFilterMode(fm);
+    setFilterOptions(filterOpts.map((row: FilterOption, ri: number) => mapFilterOption(row, ri, fm)));
 
     window.addEventListener('scroll', onScroll);
     if (pageData.loadedPages < 2 && pageData.numPages > 1) {
@@ -96,16 +116,18 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
     setTimeout(() => {
        resizeAllGridItems(document, window);
     }, 250);
-    
-  }, [pageData, loading,maxScrollPages, router,context, scrollLoadPos, scrollPage])
+  }, [pageData, loading, maxScrollPages, router,context, scrollLoadPos, scrollPage, subPath])
   return  <>
     <Head>
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps}>
       <section className="exhibition-list grid-list">
-        <nav className='filter-nav show-by-year'>
-        <h1><BreadcrumbTitle path={pageData.meta.path} title={ pageData.contextTitle } /></h1>
+        <nav className={filterNavClassName(filterMode)}>
+          <h1><BreadcrumbTitle path={pageData.meta.path} title={pageData.contextTitle} /></h1>
+          <ul className='row filter-options'>
+          {filterOptions.map(opt => <li onClick={() => changeFilterMode(opt.key)} key={opt.itemKey} className={opt.className}>{opt.name}</li>)}
+      </ul>
         {hasYears && <YearNav years={years} current={ meta.endPath } basePath='/exhibitions' />}
       </nav>
         {hasItems && <><div className="columns">
