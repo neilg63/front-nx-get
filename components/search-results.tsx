@@ -1,6 +1,6 @@
 import { NextPage } from "next";
-import { useEffect, useState } from 'react'
-import { BaseEntity, KeyStringValue, YearNum } from "../lib/interfaces";
+import { useCallback, useEffect, useState } from 'react'
+import { BaseEntity, KeyStringValue, SearchItem, YearNum } from "../lib/interfaces";
 import { NodeEntity, SearchPageDataSet } from "../lib/entity-data";
 import Head from "next/head";
 import SeoHead from "./layout/head";
@@ -13,6 +13,8 @@ import LoadMoreNav from "./widgets/load-more-nav";
 import labels from "../lib/labels";
 import { useRouter } from "next/router";
 import { notEmptyString } from "../lib/utils";
+import SearchSuggestions from "./widgets/search-suggestions";
+import { toLocal } from "../lib/localstore";
 
 const showItemAsFigure = (bundle: string) => {
   return ['artwork'].includes(bundle);
@@ -36,6 +38,7 @@ const sectionClassNames = (section: KeyStringValue) => {
 const SearchResults: NextPage<BaseEntity> = (data) => {  
   const [hasItems, setHasItems] = useState(false);
   const [searchString, setSearchString] = useState('');
+  const [searchFocus, setSearchFocus] = useState(false);
   const router = useRouter();
   
   const pageData = new SearchPageDataSet(data);
@@ -49,6 +52,13 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
       router.push(path);
     }
   }
+
+  const setSearhcStringFromPath = useCallback(() => {
+    const path = router.asPath;
+    const termSlug = typeof path === 'string' && path.includes('/') ? path.split('/').pop()! : '';
+    const searchTerms = termSlug.replace(/-/, ' ');
+    setSearchString(searchTerms);
+  }, [router]);
 
   const submitOnEnter = (e: any) => {
     if (e instanceof Object) {
@@ -67,27 +77,30 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
         setSearchString(target.value);
       }
     }
+ }
+  
+  const onSelect = (row: SearchItem) => {
+    router.push(row.path);
   }
 
   useEffect(() => {
+    toLocal('current_search_string', searchString);
     setHasItems(containers.size > 0);
     setShowPaginator(total > 0 && total > perPage);
     setEmtyFigureHeight(document);
-
-    const path = router.asPath;
-    const termSlug = typeof path === 'string' && path.includes('/') ? path.split('/').pop()! : '';
-    const searchTerms = termSlug.replace(/-/, ' ');
-    setSearchString(searchTerms)
-  }, [containers, perPage, total, hasItems, setHasItems, showPaginator, router]);
-  const inputStyles = { width: '32em', maxWidth: '75%' };
+    if (searchString.length < 1) {
+      setSearhcStringFromPath();
+    }
+  }, [containers, perPage, total, hasItems, setHasItems, showPaginator, router, setSearhcStringFromPath, searchString]);
   return <>
     <Head>
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps} className='search-results'>
       <fieldset className='row search-bar'>
-        <Input placeholder={labels.search} value={searchString} name='search_long' onChange={updateSearch} onKeyDown={e => (submitOnEnter(e))} className='long-text' id='search-results-long-search-field' aria-labelledby={labels.search} fullWidth={true} width='100%' shadow={false} />
+        <Input placeholder={labels.search} value={searchString} name='search_long' onChange={updateSearch} onKeyDown={e => (submitOnEnter(e))} className='long-text' id='search-results-long-search-field' aria-labelledby={labels.search} fullWidth={true} width='100%' shadow={false} rounded={false} onFocus={() => setSearchFocus(true)} onBlur={() => setSearchFocus(false)} />
         <i className='icon icon-search'></i>
+        <SearchSuggestions search={searchString} onSelect={(row: SearchItem) => onSelect(row) }  focus={searchFocus }/>
       </fieldset>
       {hasItems && <>
         <section className="search-sections">

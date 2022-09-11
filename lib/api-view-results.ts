@@ -1,4 +1,4 @@
-import { BaseEntity } from "./interfaces";
+import { BaseEntity, SearchItem } from "./interfaces";
 import {
   isObjectWithArray,
   isObjectWithObject,
@@ -38,24 +38,22 @@ export const fetchFullNode = async (path: string): Promise<BaseEntity> => {
 
 export const getSearchResults = async (
   q: string,
-  bundles = [],
-  bodyMode = 1,
-  num = 25
-): Promise<BaseEntity> => {
+  bundles = []
+): Promise<SearchItem[]> => {
   if (notEmptyString(q)) {
     const ct = bundles.length > 0 ? bundles.join(",").toLowerCase() : "all";
     const uri =
       [process.env.NEXT_PUBLIC_DRUPAL_BASE_URL, "jsonuuid", "search"].join(
         "/"
-      ) + paramsToQueryString({ q, b: bodyMode, n: num, ct });
+      ) + paramsToQueryString({ q, ct });
     const res = await fetch(uri);
-    const result =
+    const results =
       res.status >= 200 && res.status < 300 ? await res.json() : {};
-    if (isObjectWithArray(result, "items")) {
-      return result;
+    if (results instanceof Array) {
+      return results;
     }
   }
-  return { valid: false, total: 0, num: 0, items: [] };
+  return [];
 };
 
 export const fetchSearchResultsPage = async (

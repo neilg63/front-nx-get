@@ -57,3 +57,9 @@ export interface ImgAttrs {
 export interface StringMap {
   [key: string]: string;
 }
+
+export interface SearchItem {
+  title: string;
+  path: string;
+  bundle?: string;
+}

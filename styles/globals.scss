@@ -69,6 +69,7 @@ fieldset {
     border: none;
     width: 100%;
     max-width: 32em;
+    align-self: flex-start;
     position: relative;
     margin-inline-start: 0;
     margin-inline-end: 0;
@@ -91,6 +92,32 @@ fieldset {
       top: 0.625em;
       right: 0.5em;
       pointer-events: none;
+    }
+    .search-suggestions {
+      position: absolute;
+      user-select: none;
+      top: 2em;
+      opacity: 0;
+      pointer-events: none;
+      padding: 0.25em 0;
+      border: solid 1px $light-grey;
+      background-color: white;
+      transition: opacity 0.25s ease-in-out;
+      li {
+        padding: 0.125em 0.375em;
+        cursor: pointer;
+        &:hover {
+          color: $primary;
+        }
+      }
+    }
+    .search-suggestions.focus,
+    &:hover .search-suggestions {
+      opacity: 1;
+      z-index: 30;
+      li {
+        pointer-events: all;
+      }
     }
   }
 }
@@ -453,6 +480,7 @@ img {
     margin: 0 auto 2em 0;
     min-width: 100%;
   }
+
   @media (max-width: $mid-screen-width) {
     header {
       width: 100%;
@@ -473,7 +501,7 @@ img {
     > main {
       grid-area: main;
       width: auto;
-      min-width: calc(95% - $sidebar-width);
+      min-width: calc(95vw - $sidebar-width);
       padding-top: $top-padding-standard;
       padding-left: 0;
       @media (min-height: $tall-screen-height) {
@@ -1745,7 +1773,7 @@ main > article > header {
   align-items: center;
   justify-content: flex-start;
 
-  >h1 {
+  > h1 {
     margin-block-start: 0;
     margin-block-end: 0;
   }
@@ -1768,6 +1796,10 @@ main > article > header {
     }
   }
 
+}
+
+.search-sections {
+  width: 100%;
 }
 
 .related {
