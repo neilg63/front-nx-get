@@ -8,6 +8,14 @@ const toSuggestionKey = (item: SearchItem, index: number): string => {
   return ['suggestion', path.split('-').join('--'), index].join('-')
 }
 
+const buildSuggestionsWrapperClasses = (focus = false): string => {
+  const cls = ["search-suggestions"];
+  if (focus) {
+    cls.push('focus');
+  }
+  return cls.join(' ');
+}
+
 const SearchSuggestions = ({ search, onSelect, focus }: { search: string, onSelect: Function, focus: boolean }) => {
   const [items, setItems] = useState<SearchItem[]>([]);
   const [loaddng, setLoading] = useState(true);
@@ -18,11 +26,7 @@ const SearchSuggestions = ({ search, onSelect, focus }: { search: string, onSele
       setItems([]);
     }
   }
-  const cls = ["search-suggestions"];
-  if (focus) {
-    cls.push('focus');
-  }
-  const wrapperClasses = cls.join(' ');
+  const wrapperClasses = buildSuggestionsWrapperClasses(focus);
   useEffect(() => {
     let stored = fromLocal('current_search_string');
     const currentSearch = stored.valid ? stored.data : '';
