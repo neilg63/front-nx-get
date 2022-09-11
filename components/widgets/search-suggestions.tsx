@@ -38,12 +38,12 @@ const SearchSuggestions = ({ search, onSelect, focus }: { search: string, onSele
         }
         setTimeout(() => {
           setLoading(false);
-        }, 375);
+        }, 125);
       });
 
       setTimeout(() => {
         setLoading(false);
-      }, 2000);
+      }, 1000);
     }
     setTimeout(() => {
       if (items.length < 1) {
