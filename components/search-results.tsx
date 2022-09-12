@@ -92,8 +92,8 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
     setHasItems(containers.size > 0);
     setShowPaginator(total > 0 && total > perPage);
     setEmtyFigureHeight(document);
-    const currSearchString = extractTermsFromRouter(router);
-    if (searchString.length < 1 || searchString !== currSearchString) {
+    //const currSearchString = extractTermsFromRouter(router);
+    if (searchString.length < 1) {
       setSearchStringFromPath();
     }
   }, [containers, perPage, total, hasItems, setHasItems, showPaginator, router, setSearchStringFromPath, searchString]);
