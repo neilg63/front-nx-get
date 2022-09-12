@@ -334,7 +334,9 @@ header.header {
         }
         &.search-link {
           padding-bottom: 8em;
-          cursor: pointer;
+          i.icon {
+            cursor: pointer;
+          }
         }
       }
     }
@@ -369,6 +371,7 @@ header.header {
           overflow: hidden;
           transition: all 0.333s ease-in-out;
         }
+        &.expanded > div:first-child,
         &:hover > div:first-child {
           max-width: 12.5em;
           margin-right: 0.25em;

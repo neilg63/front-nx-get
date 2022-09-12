@@ -1,6 +1,5 @@
 import { BaseEntity, SearchItem } from "./interfaces";
 import {
-  isObjectWithArray,
   isObjectWithObject,
   notEmptyString,
   paramsToQueryString,

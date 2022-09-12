@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { notEmptyString } from '../../lib/utils';
 import { TopContext } from '../../pages/_app';
 import labels from '../../lib/labels';
+import { toLocal } from '../../lib/localstore';
 
 const renderClassNames = (item: SimpleMenuItem, subAlias = ''): string => {
   const alias = toAlias(item.path);
@@ -54,12 +55,14 @@ const Header = (pageData: PageDataSet) => {
   const [subAlias, setSubAlias] = useState('/');
   const [search, setSearch] = useState('');
   const [expanded, setExpanded] = useState(false);
+  const [searchClassNames, setSearchClassNames] = useState('search-link prominent');
   const [classNames, setClassNames] = useState('header');
   const router = useRouter();
 
   const submitSearch = () => {
     if (notEmptyString(search, 1)) {
       const path = ['/search', encodeURIComponent(search.toLowerCase())].join('/');
+      toLocal('current_search_string', search);
       router.push(path);
     }
   }
@@ -87,6 +90,17 @@ const Header = (pageData: PageDataSet) => {
     setExpanded(!expanded);
   }, [expanded]);
 
+  const updateSearchClassNames = useCallback((searchStr = '') => {
+    const cls = ['search-link prominent'];
+    if (searchStr.length > 1) {
+      cls.push('expanded');
+    }
+    const newCln = cls.join(' ');
+    if (newCln !== searchClassNames) {
+      setSearchClassNames(newCln);
+    }
+  }, [searchClassNames])
+
   useEffect(() => {
     const items = site instanceof Object && site.menus instanceof Object ? site.menus.main : [];
     const path = router.asPath;
@@ -108,7 +122,8 @@ const Header = (pageData: PageDataSet) => {
     setSubAlias(sub);
     setMainItems(items);
     setHasMenuItems(items instanceof Array && items.length > 0);
-  }, [site, setSubAlias, router, expanded, context])
+    updateSearchClassNames(search);
+  }, [site, setSubAlias, router, expanded, context, search, updateSearchClassNames])
 
   return (
     <header className={classNames}>
@@ -120,7 +135,7 @@ const Header = (pageData: PageDataSet) => {
               <Link href={item.path}><a target={ renderTarget(item) }>{isHomeLink(item) ? <i className='icon icon-home' title={ item.title }></i> : item.title }</a></Link>
             </li>
           })}
-          <li className="search-link prominent">
+          <li className={searchClassNames}>
             <Input name='search' value={search} onChange={updateSearch} className='search-field' size='sm' onKeyDown={e => (submitOnEnter(e))} id='nav-short-search-field' aria-labelledby={ labels.search}/>
             <i className='icon icon-search' title='Search' onClick={submitSearch}></i>
           </li>

@@ -11,7 +11,7 @@ import TextResultPreview from "./widgets/text-result-preview";
 import { setEmtyFigureHeight } from "../lib/dom";
 import LoadMoreNav from "./widgets/load-more-nav";
 import labels from "../lib/labels";
-import { useRouter } from "next/router";
+import { NextRouter, useRouter } from "next/router";
 import { notEmptyString } from "../lib/utils";
 import SearchSuggestions from "./widgets/search-suggestions";
 import { toLocal } from "../lib/localstore";
@@ -28,6 +28,12 @@ const sectionListClassNames = (section: KeyStringValue) => {
       break;
   }
   return cls.join(' ');
+}
+
+const extractTermsFromRouter = (router: NextRouter): string => {
+  const path = router.asPath;
+  const termSlug = typeof path === 'string' && path.includes('/') ? path.split('/').pop()! : '';
+  return termSlug.replace(/-/, ' ');
 }
 
 const sectionClassNames = (section: KeyStringValue) => {
@@ -53,10 +59,8 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
     }
   }
 
-  const setSearhcStringFromPath = useCallback(() => {
-    const path = router.asPath;
-    const termSlug = typeof path === 'string' && path.includes('/') ? path.split('/').pop()! : '';
-    const searchTerms = termSlug.replace(/-/, ' ');
+  const setSearchStringFromPath = useCallback(() => {
+    const searchTerms = extractTermsFromRouter(router);
     setSearchString(searchTerms);
   }, [router]);
 
@@ -88,10 +92,11 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
     setHasItems(containers.size > 0);
     setShowPaginator(total > 0 && total > perPage);
     setEmtyFigureHeight(document);
-    if (searchString.length < 1) {
-      setSearhcStringFromPath();
+    const currSearchString = extractTermsFromRouter(router);
+    if (searchString.length < 1 || searchString !== currSearchString) {
+      setSearchStringFromPath();
     }
-  }, [containers, perPage, total, hasItems, setHasItems, showPaginator, router, setSearhcStringFromPath, searchString]);
+  }, [containers, perPage, total, hasItems, setHasItems, showPaginator, router, setSearchStringFromPath, searchString]);
   return <>
     <Head>
       <SeoHead meta={meta} />

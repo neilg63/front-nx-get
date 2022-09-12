@@ -18,7 +18,7 @@ const buildSuggestionsWrapperClasses = (focus = false): string => {
 
 const SearchSuggestions = ({ search, onSelect, focus }: { search: string, onSelect: Function, focus: boolean }) => {
   const [items, setItems] = useState<SearchItem[]>([]);
-  const [loaddng, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const hasItems = items instanceof Array && items.length > 0;
   const selectRow = (row: SearchItem) => {
     if (onSelect instanceof Function) {
@@ -30,7 +30,7 @@ const SearchSuggestions = ({ search, onSelect, focus }: { search: string, onSele
   useEffect(() => {
     let stored = fromLocal('current_search_string');
     const currentSearch = stored.valid ? stored.data : '';
-    if (!loaddng && search !== currentSearch && search.length > 2) {
+    if (!loading && search !== currentSearch && search.length > 2) {
       setLoading(true);
       getSearchResults(search).then((results: SearchItem[]) => {
         if (results instanceof Array) {
@@ -50,7 +50,7 @@ const SearchSuggestions = ({ search, onSelect, focus }: { search: string, onSele
         setLoading(false);
       }
     }, 1000);
-  }, [items, search, loaddng])
+  }, [items, search, loading])
   return <>
       {hasItems && <ul className={wrapperClasses}>
       {items.map((item: SearchItem, index: number) => <li key={toSuggestionKey(item, index)} onClick={() => selectRow(item)}>{ item.title }</li>)}
