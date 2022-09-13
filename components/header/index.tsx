@@ -52,6 +52,7 @@ const Header = (pageData: PageDataSet) => {
   const context = useContext(TopContext);
   const [mainItems, setMainItems] = useState<SimpleMenuItem[]>([]);
   const [hasMenuItems, setHasMenuItems] = useState(false);
+  const [searchFieldOn, setSearchFieldOn] = useState(true);
   const [subAlias, setSubAlias] = useState('/');
   const [search, setSearch] = useState('');
   const [expanded, setExpanded] = useState(false);
@@ -104,7 +105,9 @@ const Header = (pageData: PageDataSet) => {
   useEffect(() => {
     const items = site instanceof Object && site.menus instanceof Object ? site.menus.main : [];
     const path = router.asPath;
-    
+    if (path.startsWith("/search")) {
+      setSearchFieldOn(false);
+    }
     router.events.on('routeChangeComplete', (e) => {
       setExpanded(false);
     });
@@ -123,7 +126,7 @@ const Header = (pageData: PageDataSet) => {
     setMainItems(items);
     setHasMenuItems(items instanceof Array && items.length > 0);
     updateSearchClassNames(search);
-  }, [site, setSubAlias, router, expanded, context, search, updateSearchClassNames])
+  }, [site, setSubAlias, router, expanded, context, search, updateSearchClassNames, searchFieldOn])
 
   return (
     <header className={classNames}>
@@ -136,7 +139,7 @@ const Header = (pageData: PageDataSet) => {
             </li>
           })}
           <li className={searchClassNames}>
-            <Input name='search' value={search} onChange={updateSearch} className='search-field' size='sm' onKeyDown={e => (submitOnEnter(e))} id='nav-short-search-field' aria-labelledby={ labels.search}/>
+            {searchFieldOn && <Input name='search' value={search} onChange={updateSearch} className='search-field' size='sm' onKeyDown={e => (submitOnEnter(e))} id='nav-short-search-field' aria-labelledby={labels.search} />}
             <i className='icon icon-search' title='Search' onClick={submitSearch}></i>
           </li>
         </ul>}
