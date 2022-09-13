@@ -429,6 +429,18 @@ h4 {
   margin-inline-end: 0;
 }
 
+.body {
+  p, h2, h3, h4 {
+    margin-bottom: 0.75em;
+  }
+}
+
+.text-details {
+  h3, h4, p {
+    margin-bottom: 0.75em;
+  }
+}
+
 img {
   max-width: 100%;
 }
