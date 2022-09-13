@@ -1010,64 +1010,66 @@ body .nprogress {
   width: 100vw;
 }
 
-.grid-rows-6,
 .grid {
   display: grid;
 }
 
-.flex-rows-6,
-.grid-rows-6,
+.fixed-height-rows,
 .grid {
   width: 100%;
   figure {
     position: relative;
     font-size: 0.8em;
-    
-    figcaption,
-    a.image-link {
-      position: absolute;
-    }
-    .image-link {
-      top: 0;
-      left: 0;
-      right: 2em;
-      bottom: 2em;
-    }
-    figcaption {
-
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      padding: 1em 10%; 
-      h3,
-      p,
-      ul, li {
-        font-size: 1em;
-        margin: 0;
-      }
-      h3,
-      p,
-      ul {
-        padding: 0 0 0.25em 0;
-      }
-      ul li {
-        padding: 0;
-      }
-      background-color: rgba($light, 0.5);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.5s ease-in-out;
-    }
    /*  &:hover figcaption {
       opacity: 1;
     } */
   }
 }
 
-.flex-rows-6 {
-  margin-right: -2em;
-  width: calc(100% + 2em);
+.grid,
+.fixed-height-rows.medium-height {
+  
+  a.image-link,
+  figcaption {
+      position: absolute;
+    }
+  
+  .image-link {
+    top: 0;
+    left: 0;
+    right: 2em;
+    bottom: 2em;
+  }
+  figcaption {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1em 10%;
+
+    h3,
+    p,
+    ul,
+    li {
+      font-size: 1em;
+      margin: 0;
+    }
+
+    h3,
+    p,
+    ul {
+      padding: 0 0 0.25em 0;
+    }
+
+    ul li {
+      padding: 0;
+    }
+
+    background-color: rgba($light, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out;
+  }
 }
 
 figure {
@@ -1079,20 +1081,15 @@ figure {
   }
 }
 
-.flex-rows-6 {
+.fixed-height-rows {
   display: flex;
   flex-flow: row wrap;
   align-items: stretch;
   justify-content: space-between;
+  margin-right: -2em;
+  width: calc(100% + 2em);
   > figure {
     width: 100%;
-    @media screen and (min-width: $mini-screen-width) {
-      height: 12.5rem;
-      width: auto;
-    }
-    @media screen and (min-width: $max-screen-width) {
-      height: 180px;
-    }
     position: relative;
     padding: 1vh;
     .image-link {
@@ -1100,6 +1097,63 @@ figure {
       max-height: 100%;
       span {
         max-height: 100%;
+      }
+    }
+  }
+
+  .frame {
+    height: 100%;
+    min-width: 12.5rem;
+    aspect-ratio: 1;
+    outline: dashed 0.125em $mid-grey;
+  }
+  &.medium-height {
+    > figure {
+  
+      @media screen and (min-width: $mini-screen-width) {
+        height: 12.5rem;
+        width: auto;
+      }
+  
+      @media screen and (min-width: $max-screen-width) {
+        height: 180px;
+      }
+    }
+  }
+  &.tall-height {
+
+    > figure {
+    flex-flow: column nowrap;
+    margin-bottom: 4rem;
+    figcaption {
+      height: 4rem;
+      text-align: center;
+    }
+    a > figcaption {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      h3 {
+        line-height: 1;
+      }
+    }
+      @media screen and (min-width: $mini-screen-width) {
+        height: 17.5rem;
+        width: auto;
+      }
+
+      @media screen and (min-width: $max-screen-width) {
+        height: 280px;
+      }
+    }
+    .frame {
+      @media screen and (min-width: $mini-screen-width) {
+        min-width: 17.5rem;
+      }
+    
+      @media screen and (min-width: $max-screen-width) {
+        min-width: 280px;
       }
     }
   }

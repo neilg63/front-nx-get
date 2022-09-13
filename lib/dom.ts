@@ -1,5 +1,5 @@
 export const setEmtyFigureHeight = (document: Document) => {
-  const container = document.querySelector(".flex-rows-6");
+  const container = document.querySelector(".fixed-height-rows");
   if (container instanceof HTMLElement) {
     const figs = container.querySelectorAll("figure.node");
     if (figs.length > 0) {

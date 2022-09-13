@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 import { isMinLargeSize, numScrollBatches } from "../lib/settings";
 import { TopContext } from "../pages/_app";
 import { loadMore } from "../lib/load-more";
-import { getScrollTop } from "../lib/dom";
+import { getScrollTop, setEmtyFigureHeight } from "../lib/dom";
 import labels from "../lib/labels";
 import BreadcrumbTitle from "./widgets/breadcrumb-title";
 import YearNav from "./widgets/year-nav";
@@ -39,6 +39,7 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
   const { items, meta, sets } = pageData;
   const years = sets.has('years') ? sets.get('years') as YearNum[]: [];
   const hasYears = years instanceof Array && years.length > 0;
+  const emptyFigStyles = { width: 0, display: 'none' };
   
   const loadNextPrev = useCallback((forward = true) => {
     const currPath = router.asPath.split('?').shift();
@@ -109,12 +110,11 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
     if (pageData.loadedPages < 2 && pageData.numPages > 1) {
       setTimeout(fetchMoreItems, 500);
     }
-    
     window.addEventListener("resize", () => {
-      resizeAllGridItems(document, window);
+      setEmtyFigureHeight(document);
     });
-    setTimeout(() => {
-       resizeAllGridItems(document, window);
+    setTimeout(() => { 
+      setEmtyFigureHeight(document);
     }, 250);
   }, [pageData, loading, maxScrollPages, router,context, scrollLoadPos, scrollPage, subPath])
   return  <>
@@ -124,23 +124,25 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
     <Container {...containerProps}>
       <section className="exhibition-list grid-list">
         <nav className={filterNavClassName(filterMode)}>
-          <h1><BreadcrumbTitle path={pageData.meta.path} title={pageData.contextTitle} /></h1>
-          <ul className='row filter-options'>
-          {filterOptions.map(opt => <li onClick={() => changeFilterMode(opt.key)} key={opt.itemKey} className={opt.className}>{opt.name}</li>)}
-      </ul>
-        {hasYears && <YearNav years={years} current={ meta.endPath } basePath='/exhibitions' />}
-      </nav>
-        {hasItems && <><div className="columns">
+            <h1><BreadcrumbTitle path={pageData.meta.path} title={pageData.contextTitle} /></h1>
+            <ul className='row filter-options'>
+            {filterOptions.map(opt => <li onClick={() => changeFilterMode(opt.key)} key={opt.itemKey} className={opt.className}>{opt.name}</li>)}
+        </ul>
+          {hasYears && <YearNav years={years} current={ meta.endPath } basePath='/exhibitions' />}
+        </nav>
+        {hasItems && <><div className="fixed-height-rows tall-height">
           {items.map((item: NodeEntity, index) => <figure key={[item.uuid, index].join('-')} className='node'>
-              <Link href={item.path} className="image-holder"><a className="image-link">
-                {item.hasImage && <Image src={item.firstImage.preview} alt={item.alt} width={'auto'} height={'100%'} objectFit='contain' style={item.firstImage.calcAspectStyle()} />}
-                </a></Link>
-              <figcaption>
-                <h3><Link href={item.path}><a>{item.title}</a></Link></h3>
+              <Link href={item.path} className="image-holder"><a className="image-link"  style={item.firstImage.calcAspectStyle()}>
+                {item.hasImage ? <Image src={item.firstImage.preview} alt={item.alt} width={'auto'} height={'100%'} objectFit='contain' style={item.firstImage.calcAspectStyle()} /> : <div className='frame'></div>}
+                <figcaption>
+                <h3>{item.title}</h3>
               {item.hasTextField('placename') && <p className="place-name">{ item.field_placename }</p>}
                 <p className="date-range"><DateRange item={item.field_date_range}  /></p>
-              </figcaption>
+              </figcaption>  
+              </a></Link>
+              
           </figure>)}
+             <figure className="empty-figure" style={ emptyFigStyles }></figure>
           </div>
           {pageData.showListingNav && <nav className='listing-nav row'>
             {pageData.mayLoadPrevious && <span className='nav-link prev' title={pageData.prevPageOffset(maxScrollPages).toString()} onClick={() => loadNextPrev(false)}><i className='icon icon-prev-arrow-narrow prev'></i>{ labels.load_newer}</span>}

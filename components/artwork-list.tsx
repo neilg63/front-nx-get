@@ -241,7 +241,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
         {hasTypes && <ArtworkTypeNav types={types} current={ subPath }/>}
       </nav>
       <section className="artwork-list">
-        {pageData.hasItems && <><div className="flex-rows-6">
+        {pageData.hasItems && <><div className="fixed-height-rows medium-height">
           {pageData.items.map((item, index) => item.duplicate ? <figure className='hidden' key={item.indexedKey(index)} style={displayNone}></figure> : <ArtworkFigure item={item} index={index} key={item.indexedKey(index)} />)}
           <figure className="empty-figure" style={ emptyFigStyles }></figure>
           </div>
