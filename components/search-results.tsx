@@ -24,7 +24,8 @@ const sectionListClassNames = (section: KeyStringValue) => {
   const cls = ['results'];
   switch (section.key) {
     case 'artwork':
-      cls.push('flex-rows-6');
+      cls.push('fixed-height-rows');
+      cls.push('medium-height');
       break;
   }
   return cls.join(' ');
@@ -45,6 +46,7 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
   const [hasItems, setHasItems] = useState(false);
   const [searchString, setSearchString] = useState('');
   const [searchFocus, setSearchFocus] = useState(false);
+  const [initialised, setInitialised] = useState(false);
   const router = useRouter();
   
   const pageData = new SearchPageDataSet(data);
@@ -93,10 +95,11 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
     setShowPaginator(total > 0 && total > perPage);
     setEmtyFigureHeight(document);
     //const currSearchString = extractTermsFromRouter(router);
-    if (searchString.length < 1) {
+    if (searchString.length < 1 && !initialised) {
       setSearchStringFromPath();
+      setInitialised(true);
     }
-  }, [containers, perPage, total, hasItems, setHasItems, showPaginator, router, setSearchStringFromPath, searchString]);
+  }, [containers, perPage, total, hasItems, setHasItems, showPaginator, router, setSearchStringFromPath, searchString, initialised]);
   return <>
     <Head>
       <SeoHead meta={meta} />

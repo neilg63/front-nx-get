@@ -4,8 +4,8 @@ import { SearchItem } from '../../lib/interfaces';
 import { fromLocal } from "../../lib/localstore";
 
 const toSuggestionKey = (item: SearchItem, index: number): string => {
-  const path = item.path.length > 1 ? item.path.substring(1) : '';
-  return ['suggestion', path.split('-').join('--'), index].join('-')
+  const alias = typeof item.path === 'string' && item.path.length > 1 ? item.path.substring(1) : '';
+  return ['suggestion', alias.split('-').join('--'), index].join('-')
 }
 
 const buildSuggestionsWrapperClasses = (focus = false): string => {
