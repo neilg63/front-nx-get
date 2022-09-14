@@ -1845,10 +1845,11 @@ main > article {
     p, h4 {
       margin: 0;
     }
-    margin: 1em 0;
+    margin: 0.5em 0 1em 0;
+    padding-bottom: 1em;
     border-bottom: dotted 1px $dark;
     &:first-child {
-      margin-top: 0;
+      margin-top: 1em;
     }
     &:last-child {
       border-bottom: none;
