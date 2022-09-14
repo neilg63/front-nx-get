@@ -32,7 +32,7 @@ const VideoPage: NextPage<BaseEntity> = (data ) => {
       <aside className='sidebar sidebar-right'>
         {entity.hasRelatedVideos && <div className='related-videos related'>
           <h3>{labels.related_videos}</h3>
-          <div className='columns'>
+          <div className='column'>
             {entity.field_related_videos.map((row: NodeEntity, index: number) => <VideoPreview key={relatedKey(row, index)} node={row}/>)}
           </div>
         </div>}

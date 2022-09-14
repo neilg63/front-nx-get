@@ -27,8 +27,8 @@ const EssayPage: NextPage<BaseEntity> = (data) => {
       </article>
       <div className='related-artworks related'>
         <h3>{ relatedItemsTitle("article") }</h3>
-        <div className='columns'>
-          {entity.hasRelatedEssays && entity.field_related_essays.map((row: NodeEntity, index: number) => <MiniRelatedItem key={relatedKey(row, index)} item={row} />)}
+        <div className='column'>
+          {entity.hasRelatedEssays && entity.field_related_essays.map((row: NodeEntity, index: number) => <MiniRelatedItem key={relatedKey(row, index)} item={row} mode='basic'/>)}
         </div>
       </div>
     </Container>

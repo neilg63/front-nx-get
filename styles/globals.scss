@@ -1831,6 +1831,22 @@ main > article {
   }
 }
 
+.column {
+  .related-mini {
+    p, h4 {
+      margin: 0;
+    }
+    margin: 1em 0;
+    border-bottom: dotted 1px $dark;
+    &:first-child {
+      margin-top: 0;
+    }
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
 main > header,
 main > article > header {
   margin: 0 auto 0.625em auto;

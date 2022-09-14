@@ -626,6 +626,10 @@ export class NodeEntity {
       this.field_related_videos.length > 0
     );
   }
+
+  get hasAuthor() {
+    return notEmptyString(this.field_author, 1);
+  }
 }
 
 export class PageDataSet {
