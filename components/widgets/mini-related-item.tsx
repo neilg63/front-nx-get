@@ -7,8 +7,7 @@ const MiniRelatedItem = ({ item, mode }: { item: NodeEntity, mode: string }) => 
     <Link href={item.path}>
       <a className='text-details'>
         <h4><span className='text'>{item.title}</span></h4>
-        <p className='short-date'>{item.shortDate}</p>
-        {item.hasAuthor && <p className='author'>{item.field_author}</p>}
+        <p><span className='short-date'>{item.shortDate}</span> {item.hasAuthor && <span className='author'>{item.field_author}</span>}</p>
         {showSummary && <p>{item.summary}</p>}
       </a>
     </Link>
