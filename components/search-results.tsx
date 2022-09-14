@@ -86,7 +86,9 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
  }
   
   const onSelect = (row: SearchItem) => {
-    router.push(row.path);
+    if (row instanceof Object) {
+      router.push(row.path);
+    }
   }
 
   useEffect(() => {
