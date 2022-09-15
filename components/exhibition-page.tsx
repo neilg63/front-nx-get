@@ -22,8 +22,8 @@ const ExhibitionPage: NextPage<BaseEntity> = (data ) => {
     <Head>
       <SeoHead meta={meta} />
     </Head>
-    <Container {...containerProps} className='exhibition-container'>
-      <article className="exhibition grid-2-header">
+    <Container {...containerProps} className='exhibition-container left-align'>
+      <article className="exhibition grid-half-header body-section">
         <h1><BreadcrumbTitle path={meta.path} title={entity.title} /></h1>
         <div className='left-container'>{entity.hasImages && <Carousel items={entity.images} />}</div>
         <div className='text-details'>
@@ -33,13 +33,13 @@ const ExhibitionPage: NextPage<BaseEntity> = (data ) => {
         </div>
       </article>
 
-    {entity.hasRelatedArtworks && <div className='related-artworks related'>
+    {entity.hasRelatedArtworks && <div className='related-artworks related body-section'>
       <h3>{contentTypes.artwork}</h3>
       <div className='flex-grid-2'>
         {entity.related_artworks.map((row: NodeEntity, index: number) => <RelatedItem key={relatedKey(row, index)} item={row} />)}
       </div>
     </div>}
-    {entity.hasRelatedPress && <div className='related-press related'>
+    {entity.hasRelatedPress && <div className='related-press related body-section'>
       <h3>{relatedItemsTitle('press')}</h3>
       <div className='flex-grid-2'>
         {entity.field_related_press.map((row: NodeEntity, index: number) => <RelatedItem key={relatedKey(row, index)} item={row} />)}

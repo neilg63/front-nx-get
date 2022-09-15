@@ -832,10 +832,9 @@ img {
 }
 
 .grid-2-header,
+.grid-half-header,
 .grid-2 {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 5%;
   align-items: stretch;
   margin-bottom: 2em;
   figure,
@@ -848,6 +847,12 @@ img {
     width: 100%;
     text-align: center;
   }
+}
+
+.grid-2-header,
+.grid-2 {
+  grid-template-columns: 1fr 1fr;
+  column-gap: 5%;
 }
 
 .grid-2-header {
@@ -866,6 +871,23 @@ img {
     >.text-details {
       grid-area: right;
     }
+  }
+}
+
+.left-align {
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.grid-half-header {
+  width: 100%;
+  @media screen and (min-width: $mid-screen-width) {
+    justify-content:flex-start;
+    max-width: 50em;
+  }
+
+  @media screen and (min-width: $large-screen-width) {
+    max-width: 50%;
   }
 }
 

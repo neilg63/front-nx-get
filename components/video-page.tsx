@@ -7,11 +7,12 @@ import { containerProps } from "../lib/styles";
 import { Container } from "@nextui-org/react";
 import Head from "next/head";
 import SeoHead from "./layout/head";
-import Carousel from "./widgets/carousel";
 import { mediumDate } from "../lib/converters";
 import labels from "../lib/labels";
 import VideoPreview from "./widgets/video-preview";
 import { relatedKey } from "../lib/ui-entity";
+import { relatedItemsTitle } from "../lib/content-types";
+import MiniRelatedItem from "./widgets/mini-related-item";
 
 const VideoPage: NextPage<BaseEntity> = (data ) => {  
   const pageData = new PageDataSet(data);
@@ -30,13 +31,32 @@ const VideoPage: NextPage<BaseEntity> = (data ) => {
         
       </article>
       <aside className='sidebar sidebar-right'>
-        {entity.hasRelatedVideos && <div className='related-videos related'>
-          <h3>{labels.related_videos}</h3>
+        {entity.hasRelatedExhibitions && <div className='related-exhibitions related'>
+          <h3>{relatedItemsTitle('exhibition')}</h3>
           <div className='column'>
-            {entity.field_related_videos.map((row: NodeEntity, index: number) => <VideoPreview key={relatedKey(row, index)} node={row}/>)}
+            {entity.field_related_exhibitions.map((row: NodeEntity, index: number) => <MiniRelatedItem key={relatedKey(row, index)} item={row} mode='basic' />)}
+          </div>
+        </div>}
+        {entity.hasRelatedVideos && <div className='related-press related'>
+          <h3>{relatedItemsTitle('press')}</h3>
+          <div className='column'>
+            {entity.field_related_press.map((row: NodeEntity, index: number) => <MiniRelatedItem key={relatedKey(row, index)} item={row} mode='basic' />)}
+          </div>
+        </div>}
+        {entity.hasRelatedVideos && <div className='related-press related'>
+          <h3>{relatedItemsTitle('article')}</h3>
+          <div className='column'>
+            {entity.field_related_essays.map((row: NodeEntity, index: number) => <MiniRelatedItem key={relatedKey(row, index)} item={row} mode='basic' />)}
           </div>
         </div>}
       </aside>
+
+      {entity.hasRelatedVideos && <div className='related-videos related grid-list'>
+        <h3>{labels.related_videos}</h3>
+        <div className='columns'>
+          {entity.field_related_videos.map((row: NodeEntity, index: number) => <VideoPreview key={relatedKey(row, index)} node={row}/>)}
+        </div>
+      </div>}
     </Container>
     </>
 }
