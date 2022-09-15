@@ -13,6 +13,7 @@ import { relatedKey } from "../lib/ui-entity";
 import contentTypes, { relatedItemsTitle } from "../lib/content-types";
 import DateRange from "./widgets/date-range";
 import BreadcrumbTitle from "./widgets/breadcrumb-title";
+import ArtworkFigure from "./widgets/artwork-figure";
 
 
 const ExhibitionPage: NextPage<BaseEntity> = (data ) => {  
@@ -23,7 +24,7 @@ const ExhibitionPage: NextPage<BaseEntity> = (data ) => {
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps} className='exhibition-container left-align'>
-      <article className="exhibition grid-half-header body-section">
+      <article className="exhibition grid-2-header body-section">
         <h1><BreadcrumbTitle path={meta.path} title={entity.title} /></h1>
         <div className='left-container'>{entity.hasImages && <Carousel items={entity.images} />}</div>
         <div className='text-details'>
@@ -35,8 +36,8 @@ const ExhibitionPage: NextPage<BaseEntity> = (data ) => {
 
     {entity.hasRelatedArtworks && <div className='related-artworks related body-section'>
       <h3>{contentTypes.artwork}</h3>
-      <div className='flex-grid-2'>
-        {entity.related_artworks.map((row: NodeEntity, index: number) => <RelatedItem key={relatedKey(row, index)} item={row} />)}
+      <div className='fixed-height-rows medium-height'>
+        {entity.related_artworks.map((row: NodeEntity, index: number) => <ArtworkFigure key={relatedKey(row, index)} item={row} index={index} />)}
       </div>
     </div>}
     {entity.hasRelatedPress && <div className='related-press related body-section'>

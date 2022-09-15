@@ -1,4 +1,5 @@
 $max-screen-width: 1800px;
+$xlarge-screen-width: 1600px;
 $large-screen-width: 1350px;
 $mlarge-screen-width: 1125px;
 $mid-screen-width: 900px;
@@ -11,6 +12,7 @@ $top-padding-standard: 6rem;
 $top-logo-margin-bottom-standard: 3rem;
 $top-padding-tall: 7rem;
 $top-logo-margin-bottom-tall: 4rem;
+$text-max-width: 50em;
 
 $dark: #333333;
 $mid-grey: #999999;
@@ -879,17 +881,19 @@ img {
   align-items: flex-start;
 }
 
+.text-max-width,
 .grid-half-header {
   width: 100%;
   @media screen and (min-width: $mid-screen-width) {
     justify-content:flex-start;
-    max-width: 50em;
-  }
-
-  @media screen and (min-width: $large-screen-width) {
-    max-width: 50%;
+    max-width: $text-max-width;
   }
 }
+/*  .grid-half-header {
+  @media screen and (min-width: $xlarge-screen-width) {
+    max-width: 50%;
+  }
+} */
 
 .flex-grid-4 {
   display: grid;
@@ -1149,7 +1153,6 @@ figure {
   }
   &.medium-height {
     > figure {
-  
       @media screen and (min-width: $mini-screen-width) {
         height: 12.5rem;
         width: auto;
