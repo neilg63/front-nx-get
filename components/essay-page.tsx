@@ -27,6 +27,12 @@ const EssayPage: NextPage<BaseEntity> = (data) => {
         {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
       </article>
       <div className='related-artworks related'>
+        <h3>{ relatedItemsTitle("artwork") }</h3>
+        <div className='column'>
+          {entity.hasRelatedArtworks && entity.related_artworks.map((row: NodeEntity, index: number) => <MiniRelatedItem key={relatedKey(row, index)} item={row} mode='basic'/>)}
+        </div>
+      </div>
+      <div className='related-artworks related'>
         <h3>{ relatedItemsTitle("article") }</h3>
         <div className='column'>
           {entity.hasRelatedEssays && entity.field_related_essays.map((row: NodeEntity, index: number) => <MiniRelatedItem key={relatedKey(row, index)} item={row} mode='basic'/>)}

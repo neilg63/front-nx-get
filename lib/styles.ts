@@ -46,6 +46,15 @@ export const tooltipStyles = {
   color: "white",
 };
 
+export const tooltipSummaryStyles = {
+  borderRadius: 0,
+  backgroundColor: "white",
+  border: "solid 1px #999999",
+  minWidth: "20em",
+  maxWidth: "30em",
+  marginLeft: "7.5em",
+};
+
 export function resizeGridItem(
   grid: HTMLElement,
   rowGap = 16,

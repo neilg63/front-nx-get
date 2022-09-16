@@ -1062,6 +1062,36 @@ body .nprogress {
   }
 }
 
+.essay-list-items {
+  li {
+    margin: 0 0.25em;
+    span, em, strong {
+      display: inline-block;
+      padding-right: 0.75rem;
+      &:first-child {
+        margin-left: 0;
+      }
+      &:last-child {
+        padding-right: 0;
+        &:after {
+          content: "";
+          margin-right: 0;
+        }
+      }
+      &::after {
+        display: inline-block;
+        font-family: "icomoon";
+        font-size: 0.75em;
+        content: "\e905";
+        margin: 0 0.25em 0 0.75rem;
+      }
+    }
+    h3 {
+      margin: 0;
+    }
+  }
+}
+
 .grid,
 .fixed-height-rows.medium-height {
   
