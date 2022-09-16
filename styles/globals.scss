@@ -821,6 +821,17 @@ img {
   }
 }
 
+.grid-sidebar {
+  > article {
+    > h1 {
+      margin-top: 0.625rem;
+    }
+  }
+  >.related-content {
+    padding-top: 0;
+  }
+}
+
 .timeline-details {
   width: 100%;
   @media screen and (min-width: $mini-screen-width) {
