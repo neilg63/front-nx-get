@@ -11,6 +11,7 @@ import SeoHead from "./layout/head";
 import Head from "next/head";
 import { containerProps } from "../lib/styles";
 import MiniRelatedItem from "./widgets/mini-related-item";
+import RelatedItem from "./widgets/related-item";
 
 const EssayPage: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
@@ -26,18 +27,21 @@ const EssayPage: NextPage<BaseEntity> = (data) => {
         {entity.hasImage && <MediaFigure item={entity.field_media} size='large' width='100%' height='auto' objectFit='contain' />}    
         {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
       </article>
-      <div className='related-artworks related'>
-        <h3>{ relatedItemsTitle("artwork") }</h3>
-        <div className='column'>
-          {entity.hasRelatedArtworks && entity.related_artworks.map((row: NodeEntity, index: number) => <MiniRelatedItem key={relatedKey(row, index)} item={row} mode='basic'/>)}
-        </div>
+      <div className='related-content related'>
+        {entity.hasRelatedArtworks && <div className='related-artworks related'>
+          <h3>{ relatedItemsTitle("artwork") }</h3>
+          <div className='column'>
+            {entity.related_artworks.map((row: NodeEntity, index: number) => <RelatedItem key={relatedKey(row, index)} item={row} className='column' />)}
+            </div>
+        </div>}
+        {entity.hasRelatedEssays && <div className='related-artworks related'>
+          <h3>{relatedItemsTitle("article")}</h3>
+          <div className='column'>
+            {entity.field_related_essays.map((row: NodeEntity, index: number) => <MiniRelatedItem key={relatedKey(row, index)} item={row} mode='basic' />)}
+          </div>
+        </div>}
       </div>
-      <div className='related-artworks related'>
-        <h3>{ relatedItemsTitle("article") }</h3>
-        <div className='column'>
-          {entity.hasRelatedEssays && entity.field_related_essays.map((row: NodeEntity, index: number) => <MiniRelatedItem key={relatedKey(row, index)} item={row} mode='basic'/>)}
-        </div>
-      </div>
+      
     </Container>
   </>
 }
