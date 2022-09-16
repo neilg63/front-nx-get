@@ -13,6 +13,7 @@ $top-logo-margin-bottom-standard: 3rem;
 $top-padding-tall: 7rem;
 $top-logo-margin-bottom-tall: 4rem;
 $text-max-width: 50em;
+$fixed-height-horizontal-gap: 3vmin;
 
 $dark: #333333;
 $mid-grey: #999999;
@@ -1091,9 +1092,7 @@ body .nprogress {
       }
       &::after {
         display: inline-block;
-        font-family: "icomoon";
-        font-size: 0.75em;
-        content: "\e905";
+        content: "—";
         margin: 0 0.25em 0 0.75rem;
       }
     }
@@ -1170,13 +1169,17 @@ figure {
   display: flex;
   flex-flow: row wrap;
   align-items: stretch;
-  justify-content: space-between;
-  margin-right: -2em;
-  width: calc(100% + 2em);
+  /* justify-content: space-evenly; */
+  /* justify-content: space-between; */
+  justify-content: flex-start;
+  overflow-x: hidden;
+  position: relative;
+  left: -1em;
+  width: calc(100% + 1em);
   > figure {
     width: 100%;
     position: relative;
-    padding: 1vh;
+    padding: 1vmin $fixed-height-horizontal-gap;
     .image-link {
       display: block;
       max-height: 100%;
@@ -1208,18 +1211,31 @@ figure {
 
     > figure {
     flex-flow: column nowrap;
-    margin-bottom: 4rem;
+    margin-bottom: 5rem;
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: -4rem;
+      left: 0;
+      width: 150%;
+      height: 1px;
+      background-color: white;
+      border-bottom: dotted 1px $dark;
+    }
     figcaption {
       height: 4rem;
-      text-align: center;
     }
     a > figcaption {
       position: absolute;
       top: 100%;
-      left: 0;
-      right: 0;
-      h3 {
-        line-height: 1;
+      left: $fixed-height-horizontal-gap;
+      right: $fixed-height-horizontal-gap;
+      text-align: left;
+      h3, p {
+        line-height: 1.125;
+        margin-bottom: 0.125em;
+        white-space: nowrap;
+        overflow: hidden;
       }
     }
       @media screen and (min-width: $mini-screen-width) {

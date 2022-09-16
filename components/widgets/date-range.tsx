@@ -7,7 +7,7 @@ const DateRange = ({ item }: { item: any }) => {
   let hasEnd = false;
   let startDate = '';
   let endDate = '';
-  const separator = " to ";
+  const separator = " - ";
   if (item instanceof Object) {
     const keys = Object.keys(item);
     const parts = [];

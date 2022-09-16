@@ -25,7 +25,7 @@ const PressList: NextPage<BaseEntity> = (data) => {
       <AboutNav current='/about/press' />
       <section className="press-list about-listing">
       {hasItems && <>
-        <div className='press-releases  flex-grid-2'>
+        <div className='press-releases text-max-width'>
         {items.map((item: NodeEntity) => <div className='related-mini' key={item.uuid}>
           <time>{ mediumDate(item.field_date) }</time>
             <h3><Link href={item.path}><a>{item.title}</a></Link></h3>

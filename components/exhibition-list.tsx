@@ -136,7 +136,7 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
                 {item.hasImage ? <Image src={item.firstImage.preview} alt={item.alt} width={'auto'} height={'100%'} objectFit='contain' style={item.firstImage.calcAspectStyle()} /> : <div className='frame'></div>}
                 <figcaption>
                 <h3>{item.title}</h3>
-              {item.hasTextField('placename') && <p className="place-name">{ item.field_placename }</p>}
+              {item.hasPlacename && <p className="placename">{ item.field_placename }</p>}
                 <p className="date-range"><DateRange item={item.field_date_range}  /></p>
               </figcaption>  
               </a></Link>

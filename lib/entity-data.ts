@@ -630,6 +630,10 @@ export class NodeEntity {
   get hasAuthor() {
     return notEmptyString(this.field_author, 1);
   }
+
+  get hasPlacename() {
+    return notEmptyString(this.field_placename, 1);
+  }
 }
 
 export class PageDataSet {
