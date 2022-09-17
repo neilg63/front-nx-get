@@ -839,12 +839,6 @@ export class PageWidget {
       this.content = content;
     }
   }
-
-  get nodes(): NodeEntity[] {
-    return this.content instanceof Array
-      ? this.content.filter((item: any) => new NodeEntity(item))
-      : [];
-  }
 }
 
 export class CompoundPageDataSet extends PageDataSet {
