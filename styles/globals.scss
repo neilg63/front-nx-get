@@ -507,6 +507,9 @@ img {
     padding: 0 2.5%;
     margin: 0 auto 2em 0;
     min-width: 100%;
+    a:hover {
+      color: $primary;
+    }
   }
 
   @media (max-width: $mid-screen-width) {
@@ -2021,11 +2024,9 @@ article > .related {
 
   .press-items {
     li {
+      padding: 0.125em 0 0.625em 0;
       span, time, a {
         display: inline-block;
-        
-      }
-      span {
         
       }
     }
@@ -2049,6 +2050,9 @@ article > .related {
     flex-flow: row nowrap;
     align-items: center;
     justify-content: flex-start;
+    text-transform: uppercase;
+    border-top: dotted 1px $dark;
+    padding: 0.25em 0;
     i, span {
       display: inline-block;
     }
