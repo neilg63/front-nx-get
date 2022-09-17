@@ -2012,3 +2012,50 @@ article > .related {
     margin: 0 auto 0.25em auto;
   }
 }
+
+.sublist {
+  margin: 0 0 5rem 0;
+  > h3 {
+    text-transform: uppercase;
+  }
+
+  .press-items {
+    li {
+      span, time, a {
+        display: inline-block;
+        
+      }
+      span {
+        
+      }
+    }
+  }
+
+    &.date-inline .press-items p {
+      display: inline-block;
+    }
+
+  &.date-inline .press-items time,
+  .press-items span {
+  &::after {
+      display: inline-block;
+      content: "—";
+      margin: 0 0.25em 0 0.75rem;
+    }
+  }
+
+  .more-link {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    i, span {
+      display: inline-block;
+    }
+    i.icon {
+      margin-left: 0.5em;
+      font-size: 0.8em;
+    }
+  }
+
+}

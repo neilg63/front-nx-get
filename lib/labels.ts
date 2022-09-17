@@ -13,6 +13,9 @@ const labels = {
   load_newer: "Newer",
   related_videos: "Related videos",
   search: "Search",
+  view_all: "View all",
+  press_releases: "Press Releases",
+  press_articles: "Press Articles",
 };
 
 export default labels;
