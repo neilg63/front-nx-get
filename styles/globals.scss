@@ -1078,8 +1078,13 @@ body .nprogress {
 }
 
 .essay-list-items {
+  width: 100%;
   li {
     margin: 0 0.25em;
+    max-width: 100%;
+    @media (min-width: $mlarge-screen-width) {
+      width: 50em;
+    }
     span, em, strong {
       display: inline-block;
       padding-right: 0.75rem;
