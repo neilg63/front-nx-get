@@ -2032,6 +2032,8 @@ main > article > header {
   }
 
   h4 {
+    user-select: none;
+    cursor: pointer;
     i,
     span {
       display: inline-block;
@@ -2047,6 +2049,7 @@ main > article > header {
     opacity: 0;
     
     button {
+      margin-right: 0.5em;
       svg {
         margin-top: 0.25em;
       }
