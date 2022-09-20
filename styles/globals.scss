@@ -17,7 +17,8 @@ $top-logo-margin-bottom-tall: 4rem;
 $text-max-width: 50em;
 $fixed-height-horizontal-gap: 3vmin;
 
-$dark: #333333;
+/* $dark: #333333; */
+$dark: black;
 $mid-grey: #999999;
 $light-grey: #cccccc;
 $light: white;
@@ -526,6 +527,10 @@ img {
     a:hover {
       color: $primary;
     }
+    a:active {
+      font-weight: bold;
+    }
+    
   }
 
   @media (max-width: $mid-screen-width) {
@@ -1884,6 +1889,23 @@ main > .related {
         width: 100%;
       }
     }
+
+    article {
+      h3 {
+        span {
+          display: inline-block;
+        }
+        span.placename {
+          margin-left: 0.4em;
+          display: inline-block;
+          &::before {
+            content: "+";
+            margin-right: 0.6em;
+          }
+        }
+      }
+    }
+
   }
   .news-previews {
     grid-area: right;
@@ -2022,6 +2044,9 @@ main > article > header {
   height: 2em;
   h4 {
     margin-right: 1em;
+    span {
+      text-transform: lowercase;
+    }
   }
   h4,
   .share-icons {
@@ -2049,9 +2074,14 @@ main > article > header {
     opacity: 0;
     
     button {
-      margin-right: 0.5em;
-      svg {
-        margin-top: 0.25em;
+      margin-right: 0.75em;
+      i.icon {
+        font-size: 1.25rem;
+      }
+      &:hover {
+        i.icon {
+          color: $primary;
+        }
       }
     }
   }

@@ -3,6 +3,8 @@ import {
   FacebookIcon,
   TwitterShareButton,
   TwitterIcon,
+  PinterestShareButton,
+  EmailShareButton,
 } from 'next-share';
 import { MetaDataSet } from '../../lib/ui-entity';
 import { basePath } from '../../lib/settings';
@@ -12,6 +14,7 @@ export const ShareWidget = ({ meta }: { meta: MetaDataSet }) => {
   const url = `${basePath}${meta.path}`;
   const title = meta.title;
   const size = 20;
+  const bgStyles = { fill: 'black' };
   return <nav className='share-widget row'>
     <h4><span className='text-label'>{labels.share}</span><i className='icon icon-next-arrow-narrow'></i></h4>
     <div className='share-icons'>
@@ -19,13 +22,28 @@ export const ShareWidget = ({ meta }: { meta: MetaDataSet }) => {
       url={url}
       quote={meta.title}
       hashtag={'#gavinturk'}
-      ><FacebookIcon size={size} round /></FacebookShareButton>
+      >
+        <i className='icon icon-facebook-f'></i>
+      </FacebookShareButton>
       <TwitterShareButton
         url={url}
         title={title}
       >
-        <TwitterIcon size={size} round />
+        <i className='icon icon-twitter'></i>
       </TwitterShareButton>
+       <EmailShareButton
+        url={url}
+        subject={title}
+        body={ meta.description }>
+          <i className='icon icon-email'></i>
+      </EmailShareButton>
+      <PinterestShareButton
+        url={url}
+        media={meta.image}
+      >
+        <i className='icon icon-pinterest'></i>
+      </PinterestShareButton>
+     
     </div>
   </nav>
 
