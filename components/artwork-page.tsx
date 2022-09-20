@@ -17,7 +17,7 @@ const ArtworkPage: NextPage<BaseEntity> = (data: BaseEntity) => {
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps} className='grid-sidebar'>
-      <ArtworkInsert entity={entity} basePath={basePath} />
+      <ArtworkInsert entity={entity} basePath={basePath} meta={meta} />
     </Container>
   </>
 }

@@ -1,15 +1,12 @@
 import type { GetServerSideProps } from 'next'
-import { fetchApiViewResults } from '../../lib/api-view-results';
-import NewsList from '../../components/news-list';
-import { extractPageIndexFromContext } from '../../lib/utils';
+import Home from '../../components/home'
+import {  fetchFullNode } from '../../lib/api-view-results'
 
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const page = extractPageIndexFromContext(context);
-  const pageData = await fetchApiViewResults('news', { page });
+export const getServerSideProps: GetServerSideProps = async () => {
+  const pageData = await fetchFullNode('home');
   return {
     props: pageData,
   }
 }
 
-export default NewsList;
+export default Home

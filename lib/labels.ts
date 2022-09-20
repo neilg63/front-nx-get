@@ -16,6 +16,7 @@ const labels = {
   view_all: "View all",
   press_releases: "Press Releases",
   press_articles: "Press Articles",
+  share: "Share",
 };
 
 export default labels;

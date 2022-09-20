@@ -8,6 +8,8 @@ $small-screen-width: 450px;
 $tall-screen-height: 750px;
 $sidebar-width: 15em;
 $text-size: 14px; // standard text size, as opposed to the basis for rems;
+$text-line-height: 1.214285; // 17px
+$heading-line-height: 1.42857143; // 20px
 $top-padding-standard: 6rem;
 $top-logo-margin-bottom-standard: 3rem;
 $top-padding-tall: 7rem;
@@ -176,6 +178,19 @@ section {
       font-weight: normal;
     }
 
+    h4,
+    h5,
+    p,
+    li {
+      line-height: $text-line-height;
+    }
+
+    h1,
+    h2,
+    h3 {
+      line-height: $heading-line-height;
+    }
+
   >h1,
   header>h1,
   >h2,
@@ -299,7 +314,7 @@ header.header {
         &.prominent {
           position: absolute;
           pointer-events: all;
-    
+          line-height: 1.5;
           &.search-link {
             right: 2.75rem;
             top: 0;
@@ -350,6 +365,7 @@ header.header {
       flex-flow: row nowrap;
       align-items: center;
       user-select: none;
+      line-height: 1.5;
       &.active {
         a {
           font-weight: bold;
@@ -532,7 +548,7 @@ img {
     > main {
       grid-area: main;
       width: auto;
-      min-width: calc(95vw - $sidebar-width);
+      min-width: calc(95vw - $sidebar-width - 12.5%);
       padding-top: $top-padding-standard;
       padding-left: 0;
       @media (min-height: $tall-screen-height) {
@@ -542,15 +558,17 @@ img {
     }
     > footer {
       grid-area: footer;
+      min-width: calc(95vw - 2.5%);
       @media (min-width: $max-screen-width) {
-        min-width: calc(1800px - 6.25%);
+        min-width: calc($max-screen-width - 6.25%);
       }
     }
   }
 
     @media screen and (min-width: $max-screen-width) {
       >main {
-        min-width: calc($max-screen-width - $sidebar-width - 11.25%);
+        /* min-width: calc($max-screen-width - $sidebar-width - 11.25%); */
+        min-width: calc($max-screen-width - $sidebar-width - 25%);
       }
     }
 
@@ -1996,6 +2014,55 @@ main > article > header {
   width: 100%;
 }
 
+.share-widget {
+  margin: 1em 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 2em;
+  h4 {
+    margin-right: 1em;
+  }
+  h4,
+  .share-icons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 2em;
+  }
+
+  h4 {
+    i,
+    span {
+      display: inline-block;
+    }
+    i.icon {
+      margin: 0 0.5em;
+      font-size: 0.8em;
+    }
+  }
+
+  .share-icons {
+    pointer-events: none;
+    opacity: 0;
+    
+    button {
+      svg {
+        margin-top: 0.25em;
+      }
+    }
+  }
+  &:hover {
+    .share-icons {
+      pointer-events: all;
+      opacity: 1;
+    }
+    h4 {
+      color: $primary;
+    }
+  }
+}
+
 .related {
   margin: 0 0 2em 0;
   > h3 {
@@ -2025,6 +2092,8 @@ article > .related {
   margin: 0 0 5rem 0;
   > h3 {
     text-transform: uppercase;
+    padding: 0.25em 0;
+    margin: 0.25em 0 0.75em 0;
   }
 
   .press-items {

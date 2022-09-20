@@ -3,6 +3,8 @@
   nor environmental (.env.local), but are best grouped in one place
 */
 export const appVersion = 0.1;
+
+export const basePath = "https://gtfront.platform-3.co.uk";
 /*
  * Min. height at which longer continuous listings kick in
  */

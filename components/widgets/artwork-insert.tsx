@@ -1,18 +1,18 @@
 import contentTypes, { relatedItemsTitle } from "../../lib/content-types"
 import parse from "html-react-parser";
 import { NodeEntity } from "../../lib/entity-data"
-import { relatedKey } from "../../lib/ui-entity"
+import { MetaDataSet, relatedKey } from "../../lib/ui-entity"
 import Carousel from "./carousel"
 import MiniRelatedItem from "./mini-related-item"
-import RelatedItem from "./related-item"
 import TypeLink from "./type-link"
 import YearLink from "./year-link"
 import TagList from "./tag-list";
 import BreadcrumbTitle from "./breadcrumb-title";
 import ArtworkFigure from "./artwork-figure";
+import { ShareWidget } from "./share-widget";
 
-const ArtworkInsert = ({ entity, basePath }: { entity: NodeEntity, basePath: string }) => { 
-
+const ArtworkInsert = ({ entity, basePath, meta }: { entity: NodeEntity, basePath: string, meta?: MetaDataSet }) => { 
+  const hasMeta = meta instanceof MetaDataSet;
   return <>
     <article className="artwork">
         <header>
@@ -23,7 +23,8 @@ const ArtworkInsert = ({ entity, basePath }: { entity: NodeEntity, basePath: str
         <div className="info">
           <p className="year-type links-2"><TypeLink value={entity.field_type} basePath={basePath} /> <YearLink value={entity.field_year} basePath={basePath} /></p>
           {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
-          <TagList terms={entity.field_tags} base={basePath} prefix="tag" />
+        <TagList terms={entity.field_tags} base={basePath} prefix="tag" />
+        {hasMeta && <ShareWidget meta={meta} />}
         </div>
       </article>
       <aside className='sidebar sidebar-right'>
@@ -55,5 +56,10 @@ const ArtworkInsert = ({ entity, basePath }: { entity: NodeEntity, basePath: str
   </>
 
 }
+
+ArtworkInsert.defaultProps = {
+  meta: null
+};
+
 
 export default ArtworkInsert;
