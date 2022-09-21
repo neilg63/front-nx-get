@@ -1,11 +1,11 @@
 import { NextPage } from "next";
 import { useCallback, useEffect, useState } from 'react'
-import { BaseEntity, KeyStringValue, SearchItem, YearNum } from "../lib/interfaces";
+import { BaseEntity, KeyStringValue, SearchItem } from "../lib/interfaces";
 import { NodeEntity, SearchPageDataSet } from "../lib/entity-data";
 import Head from "next/head";
 import SeoHead from "./layout/head";
 import { Container, Input } from "@nextui-org/react";
-import { containerProps } from "../lib/styles";
+import { addEndClasses, containerProps } from "../lib/styles";
 import FigureResultPreview from "./widgets/figure-result-preview";
 import TextResultPreview from "./widgets/text-result-preview";
 import LoadMoreNav from "./widgets/load-more-nav";
@@ -24,8 +24,7 @@ const sectionListClassNames = (section: KeyStringValue) => {
   switch (section.key) {
     case 'artwork':
       cls.push('fixed-height-rows');
-      cls.push('medium-height');
-      cls.push('captions-below');
+      cls.push('tall-height');
       break;
   }
   return cls.join(' ');
@@ -98,6 +97,10 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
       setSearchStringFromPath();
       setInitialised(true);
     }
+    setTimeout(() => {
+      addEndClasses(document)
+    }, 200);
+    addEndClasses(document)
   }, [containers, perPage, total, hasItems, setHasItems, showPaginator, router, setSearchStringFromPath, searchString, initialised]);
   return <>
     <Head>
