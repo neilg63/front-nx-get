@@ -86,7 +86,6 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
   //const [showPaginator, setShowPaginator] = useState(false);
   const [contextualTitle, setContextualTitle] = useState('Artworks');
   const [filterMode, setFilterMode] = useState('all');
-  const emptyFigStyles = { width: 0, display: 'none' };
   const [hasYears, setHasYears] = useState(false)
   const [hasTypes, setHasTypes] = useState(false)
   const [years, setYears] = useState<YearNum[]>([]);

@@ -1,9 +1,7 @@
-import { Tooltip } from "@nextui-org/react";
-import Image from "next/image"
+import { Image, Tooltip } from "@nextui-org/react";
 import Link from "next/link";
 import { NodeEntity } from "../../lib/entity-data"
 import { tooltipStyles } from "../../lib/styles";
-import { defaultImageLoader } from "../../lib/utils"
 
 const itemId = (id = '') => ['ap', id].join('-');
 
@@ -17,8 +15,8 @@ const TooltipContents = ({item}: {item: NodeEntity}) => {
 
 const ArtworkFigure = ({ item, index }: { item: NodeEntity, index: number }) => {
   return <Tooltip id={itemId(item.uuid)} data-index={index} style={item.firstImage.calcAspectStyle()} className='node' content={<TooltipContents item={item} />} as='figure' rounded={false} shadow={false} placement='bottom' css={tooltipStyles} hideArrow={true}  offset={-24}>
-  <Link href={item.path} className="image-holder"><a className="image-link">
-      {item.hasImage && <Image loader={defaultImageLoader} src={item.firstImage.preview} alt={item.alt} width={item.firstImage.calcWidth('preview')} height={item.firstImage.calcHeight('preview')} objectFit='contain' layout='intrinsic' />}
+  <Link href={item.path} className="image-holder"><a className="image-link" style={item.firstImage.calcAspectStyle()}>
+      {item.hasImage && <Image src={item.firstImage.preview} alt={item.alt}  width={'auto'} height={'100%'} objectFit='contain' style={item.firstImage.calcAspectStyle()} />}
       </a></Link>
     <figcaption>
       <TooltipContents item={item} />

@@ -168,8 +168,7 @@ section {
     }
   }
 
-    >h1,
-    header>h1,
+    h1,
     h2,
     h3,
     h4,
@@ -376,7 +375,7 @@ header.header {
       &.search-link,
       &.section--home {
         .icon {
-          font-size: 1.5rem;
+          font-size: 1rem;
           cursor: pointer;
           &:hover {
             color: $primary;
@@ -384,9 +383,6 @@ header.header {
         }
       }
       &.search-link {
-        .icon {
-          font-size: 1.5rem;
-        }
         > div:first-child {
           width: auto;
           max-width: 0;
@@ -416,6 +412,7 @@ header.header {
   h2,
   li {
     text-transform: uppercase;
+    font-size: $text-size;
   }
 }
 
@@ -1136,15 +1133,8 @@ body .nprogress {
 
 .grid,
 .fixed-height-rows.medium-height {
-  
-  a.image-link,
-  
-  .image-link {
-    top: 0;
-    left: 0;
-    right: 2em;
-    bottom: 2em;
-  }
+  left: -2vmin;
+
   figcaption {
     position: absolute;
     h3,
@@ -1172,6 +1162,16 @@ body .nprogress {
     figure {
       margin-bottom: 4rem;
     }
+  }
+}
+
+.grid {
+  a.image-link,
+  .image-link {
+    top: 0;
+    left: 0;
+    right: 2em;
+    bottom: 2em;
   }
 }
 
@@ -1217,7 +1217,9 @@ figure {
   position: relative;
   &.medium-height {
     figure {
+      display: flex;
       padding: 1vmin $fixed-height-horizontal-gap-medium;
+      flex-flow: column nowrap;
     }
   }
   &.tall-height {
@@ -1234,6 +1236,7 @@ figure {
     .image-link {
       display: block;
       max-height: 100%;
+      height: 100%;
       span {
         max-height: 100%;
       }
@@ -1597,24 +1600,20 @@ main > .related {
   width: 100%;
   margin-bottom: 1em;
   h1 {
-    font-size: 1em;
     margin: 0 0 0.5em 0;
     padding: 0 0 0.5em 0;
     border-bottom: dotted 1px $dark;
   }
   .filter-options {
-    
+    border-bottom: dotted 1px $dark;
+    padding: 0.125em 0 0.5em 0;
     li {
-      margin: 0 0.5em;
-      padding: 0.5em;
+      margin: 0 0.5em 0 0;
       position: relative;
       &::after {
-        content: " ";
-        position: absolute;
-        top: 0.875em;
-        bottom: 0.875em;
-        right: 0;
-        border-right: solid 1px $dark;
+        content: "|";
+        display: inline-block;
+        margin-left: 0.5em;
       }
       cursor: pointer;
       &:first-child {
@@ -1623,7 +1622,7 @@ main > .related {
       }
       &:last-child {
         &:after {
-          border-right: none;
+          content: "";
         }
       }
       &:hover {
@@ -1631,6 +1630,9 @@ main > .related {
       }
       &.active {
         font-weight: bold;
+        &::after {
+          font-weight: normal;
+        }
       }
     }
   }
@@ -1641,19 +1643,20 @@ main > .related {
     overflow: hidden;
     opacity: 0;
     justify-content: flex-start;
-    left: -0.625em;
+    margin-top: 0.5em;
+    left: -0.25em;
     li {
       position: relative;
-      padding: 0.125em 0.625em;
+      padding: 0.125em 0.5em;
       user-select: none;
-      &::after {
+     /*  &::after {
         content: "";
         position: absolute;
         top: 0.5em;
         bottom: 0.5em;
         right: 0;
         border-right: solid 1px $dark;
-      }
+      } */
   
       &:last-child {
         &::after {
@@ -1674,12 +1677,14 @@ main > .related {
     .years-nav {
       max-height: 5em;
       opacity: 1;
+      margin-bottom: 3em;
     }
   }
   &.show-by-type {
     .types-nav {
       max-height: 5em;
       opacity: 1;
+      margin-bottom: 3em;
     }
   }
 }
