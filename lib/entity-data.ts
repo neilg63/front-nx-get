@@ -578,6 +578,16 @@ export class NodeEntity {
     }
   }
 
+  get hasArtType() {
+    return (
+      this.field_type instanceof Object && notEmptyString(this.field_type.name)
+    );
+  }
+
+  get artType() {
+    return this.hasArtType ? this.field_type.name : "";
+  }
+
   get key() {
     return notEmptyString(this.uuid)
       ? this.uuid

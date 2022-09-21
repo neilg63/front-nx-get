@@ -16,6 +16,7 @@ $top-padding-tall: 7rem;
 $top-logo-margin-bottom-tall: 4rem;
 $text-max-width: 50em;
 $fixed-height-horizontal-gap: 3vmin;
+$fixed-height-horizontal-gap-medium: 2vmin;
 
 /* $dark: #333333; */
 $dark: black;
@@ -1137,9 +1138,6 @@ body .nprogress {
 .fixed-height-rows.medium-height {
   
   a.image-link,
-  figcaption {
-      position: absolute;
-    }
   
   .image-link {
     top: 0;
@@ -1148,12 +1146,7 @@ body .nprogress {
     bottom: 2em;
   }
   figcaption {
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 1em 10%;
-
+    position: absolute;
     h3,
     p,
     ul,
@@ -1173,9 +1166,26 @@ body .nprogress {
     }
 
     background-color: rgba($light, 0.5);
-    opacity: 0;
-    pointer-events: none;
     transition: opacity 0.5s ease-in-out;
+  }
+  &.captions-below {
+    figure {
+      margin-bottom: 4rem;
+    }
+  }
+}
+
+.fixed-height-rows.inner-captions {
+  figure {
+    figcaption {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 1em 10%;
+      opacity: 0;
+      pointer-events: none;
+    }
   }
 }
 
@@ -1205,7 +1215,17 @@ figure {
   justify-content: flex-start;
   overflow-x: hidden;
   position: relative;
-  left: -1em;
+  &.medium-height {
+    figure {
+      padding: 1vmin $fixed-height-horizontal-gap-medium;
+    }
+  }
+  &.tall-height {
+    left: -3vmin;
+    figure {
+      padding: 1vmin $fixed-height-horizontal-gap;
+    }
+  }
   width: calc(100% + 1em);
   > figure {
     width: 100%;
@@ -1247,11 +1267,16 @@ figure {
       content: "";
       position: absolute;
       bottom: -4rem;
-      left: 0;
-      width: 150%;
+      left: $fixed-height-horizontal-gap;
+      width: 100%;
       height: 1px;
       background-color: white;
       border-bottom: dotted 1px $dark;
+    }
+    &.row-end {
+      &:after {
+        width: calc(100% - $fixed-height-horizontal-gap - $fixed-height-horizontal-gap);
+      }
     }
     figcaption {
       height: 4rem;

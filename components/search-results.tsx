@@ -8,7 +8,6 @@ import { Container, Input } from "@nextui-org/react";
 import { containerProps } from "../lib/styles";
 import FigureResultPreview from "./widgets/figure-result-preview";
 import TextResultPreview from "./widgets/text-result-preview";
-import { setEmtyFigureHeight } from "../lib/dom";
 import LoadMoreNav from "./widgets/load-more-nav";
 import labels from "../lib/labels";
 import { NextRouter, useRouter } from "next/router";
@@ -26,6 +25,7 @@ const sectionListClassNames = (section: KeyStringValue) => {
     case 'artwork':
       cls.push('fixed-height-rows');
       cls.push('medium-height');
+      cls.push('captions-below');
       break;
   }
   return cls.join(' ');
@@ -52,7 +52,6 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
   const pageData = new SearchPageDataSet(data);
   const { containers, meta, total, perPage } = pageData;
   const [showPaginator, setShowPaginator] = useState(false);
-  const emptyFigStyles = { width: 0, display: 'none' };
   
   const submitSearch = () => {
     if (notEmptyString(searchString, 1)) {
@@ -95,8 +94,6 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
     toLocal('current_search_string', searchString);
     setHasItems(containers.size > 0);
     setShowPaginator(total > 0 && total > perPage);
-    setEmtyFigureHeight(document);
-    //const currSearchString = extractTermsFromRouter(router);
     if (searchString.length < 1 && !initialised) {
       setSearchStringFromPath();
       setInitialised(true);
@@ -120,7 +117,6 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
             {pageData.results(section.key).map((item: NodeEntity, subIndex) => 
                 showItemAsFigure(item.bundle) ? <FigureResultPreview item={item} index={subIndex} key={item.key} /> : <TextResultPreview item={item} index={subIndex} key={item.key} />
             )}
-            { showItemAsFigure(section.key) && <figure className="empty-figure" style={ emptyFigStyles }></figure>}
           </div>
             </div>)} 
         </section>

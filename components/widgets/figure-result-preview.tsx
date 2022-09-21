@@ -14,7 +14,7 @@ const FigureResultPreview = ({ item, index }: { item: NodeEntity, index: number 
         {item.hasImage && <Image loader={defaultImageLoader} src={item.firstImage.preview} alt={item.alt} width={item.firstImage.calcWidth('preview')} height={item.firstImage.calcHeight('preview')} />}
         <figcaption>
           <h3>{item.title}</h3>
-          <p>{item.tagList}</p>
+          {item.hasArtType && <p>{item.artType}</p>}
           <p>{item.typeYearLabel}</p>
         </figcaption>
       </a></Link>

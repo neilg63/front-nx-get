@@ -8,7 +8,7 @@ import Head from "next/head";
 import { Container } from "@nextui-org/react";
 import SeoHead from "./layout/head";
 import { containerProps, displayNone } from "../lib/styles";
-import { getScrollTop, setEmtyFigureHeight } from "../lib/dom";
+import { getScrollTop } from "../lib/dom";
 import { useRouter } from "next/router";
 import { TopContext } from "../pages/_app";
 import { setTempLocalBool, tempLocalBool } from "../lib/localstore";
@@ -166,7 +166,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
     }
     setFilterMode(fm);
     setFilterOptions(filterOpts.map((row: FilterOption, ri: number) => mapFilterOption(row, ri, fm)));
-    setEmtyFigureHeight(document);
+    
 
     const fetchMoreItems = () => {
       setLoading(true);
@@ -210,10 +210,10 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
         window.location.hash = '';
       }
     }
-    //loadMax();
+    /* //loadMax();
     setTimeout(() => {
      setEmtyFigureHeight(document);
-    }, 500);
+    }, 500); */
     setTimeout(() => {
      setTempLocalBool('loading', false);
     }, 3000);
@@ -241,9 +241,8 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
         {hasTypes && <ArtworkTypeNav types={types} current={ subPath }/>}
       </nav>
       <section className="artwork-list">
-        {pageData.hasItems && <><div className="fixed-height-rows medium-height">
+        {pageData.hasItems && <><div className="fixed-height-rows medium-height inner-captions">
           {pageData.items.map((item, index) => item.duplicate ? <figure className='hidden' key={item.indexedKey(index)} style={displayNone}></figure> : <ArtworkFigure item={item} index={index} key={item.indexedKey(index)} />)}
-          <figure className="empty-figure" style={ emptyFigStyles }></figure>
           </div>
           {pageData.showListingNav && <nav className='listing-nav row'>
             {pageData.mayLoadPrevious && <span className='nav-link prev' title={pageData.prevPageOffset(maxScrollPages).toString()} onClick={() => loadNextPrev(false)}><i className='icon icon-prev-arrow-narrow prev'></i>{ labels.load_newer}</span>}

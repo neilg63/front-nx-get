@@ -5,7 +5,7 @@ import { NodeEntity, PageDataSet } from "../lib/entity-data";
 import Head from "next/head";
 import SeoHead from "./layout/head";
 import { Container, Image } from "@nextui-org/react";
-import { containerProps, resizeAllGridItems } from "../lib/styles";
+import { addEndClasses, containerProps, resizeAllGridItems } from "../lib/styles";
 import DateRange from "./widgets/date-range";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
@@ -39,7 +39,7 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
   const { items, meta, sets } = pageData;
   const years = sets.has('years') ? sets.get('years') as YearNum[]: [];
   const hasYears = years instanceof Array && years.length > 0;
-  const emptyFigStyles = { width: 0, display: 'none' };
+  //const emptyFigStyles = { width: 0, display: 'none' };
   
   const loadNextPrev = useCallback((forward = true) => {
     const currPath = router.asPath.split('?').shift();
@@ -110,12 +110,10 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
     if (pageData.loadedPages < 2 && pageData.numPages > 1) {
       setTimeout(fetchMoreItems, 500);
     }
-    window.addEventListener("resize", () => {
-      setEmtyFigureHeight(document);
-    });
-    setTimeout(() => { 
-      setEmtyFigureHeight(document);
-    }, 250);
+    setTimeout(() => {
+      addEndClasses(document)
+    }, 200);
+    addEndClasses(document)
   }, [pageData, loading, maxScrollPages, router,context, scrollLoadPos, scrollPage, subPath])
   return  <>
     <Head>
@@ -142,7 +140,6 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
               </a></Link>
               
           </figure>)}
-             <figure className="empty-figure" style={ emptyFigStyles }></figure>
           </div>
           {pageData.showListingNav && <nav className='listing-nav row'>
             {pageData.mayLoadPrevious && <span className='nav-link prev' title={pageData.prevPageOffset(maxScrollPages).toString()} onClick={() => loadNextPrev(false)}><i className='icon icon-prev-arrow-narrow prev'></i>{ labels.load_newer}</span>}

@@ -128,3 +128,27 @@ export const calcCarouselContainerStyles = (
   }
   return defaultContainerStyles;
 }; */
+
+export const addEndClasses = (document: Document) => {
+  const outer = document.querySelector(".tall-height");
+  if (outer instanceof HTMLElement) {
+    const bs = outer.getBoundingClientRect();
+    const figs = outer.querySelectorAll("figure.node");
+    const numFigs = figs.length;
+    if (numFigs > 0) {
+      const contLeft = bs.left;
+      const lastIndex = numFigs - 1;
+      for (let i = 0; i < numFigs; i++) {
+        const rect = figs[i].getBoundingClientRect();
+        if (figs[i].classList.contains("row-end")) {
+          figs[i].classList.remove("row-end");
+        }
+        if (i === lastIndex) {
+          figs[i].classList.add("row-end");
+        } else if (i > 0 && rect.left === contLeft) {
+          figs[i - 1].classList.add("row-end");
+        }
+      }
+    }
+  }
+};
