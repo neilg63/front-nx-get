@@ -1,8 +1,6 @@
 import {
   FacebookShareButton,
-  FacebookIcon,
   TwitterShareButton,
-  TwitterIcon,
   PinterestShareButton,
   EmailShareButton,
 } from 'next-share';
@@ -12,15 +10,13 @@ import labels from '../../lib/labels';
 
 export const ShareWidget = ({ meta }: { meta: MetaDataSet }) => { 
   const url = `${basePath}${meta.path}`;
-  const title = meta.title;
-  const size = 20;
-  const bgStyles = { fill: 'black' };
+  const { title, image, description } = meta;
   return <nav className='share-widget row'>
     <h4><span className='text-label'>{labels.share}</span><i className='icon icon-next-arrow-narrow'></i></h4>
     <div className='share-icons'>
       <FacebookShareButton
       url={url}
-      quote={meta.title}
+      quote={title}
       hashtag={'#gavinturk'}
       >
         <i className='icon icon-facebook-f'></i>
@@ -34,12 +30,12 @@ export const ShareWidget = ({ meta }: { meta: MetaDataSet }) => {
        <EmailShareButton
         url={url}
         subject={title}
-        body={ meta.description }>
+        body={ description }>
           <i className='icon icon-email'></i>
       </EmailShareButton>
       <PinterestShareButton
         url={url}
-        media={meta.image}
+        media={image}
       >
         <i className='icon icon-pinterest'></i>
       </PinterestShareButton>
