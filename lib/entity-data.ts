@@ -7,6 +7,7 @@ import {
   StartEnd,
   YearNum,
 } from "./interfaces";
+import labels from "./labels";
 import { MetaDataSet } from "./ui-entity";
 import {
   isArrayOfObjectsWith,
@@ -86,21 +87,29 @@ export class SiteInfo {
   info: SiteInfoCore = new SiteInfoCore();
   menus: SiteMenus = new SiteMenus();
   credits = "";
+  labels: Map<string, string> = new Map();
   [key: string]: any;
 
   constructor(inData: any = null) {
     if (inData instanceof Object) {
       Object.entries(inData).forEach(([key, value]: [string, any]) => {
-        if (key === "info" && value instanceof Object) {
-          this.info = new SiteInfoCore(value);
-        } else if (key === "menus" && value instanceof Object) {
-          this.menus = new SiteMenus(value);
+        if (value instanceof Object) {
+          if (key === "info") {
+            this.info = new SiteInfoCore(value);
+          } else if (key === "menus") {
+            this.menus = new SiteMenus(value);
+          } else if (key === "labels") {
+            this.labels = new Map(Object.entries(value));
+          }
         } else if (key === "credits" && typeof value === "string") {
           this.credits = value;
         } else {
           this[key] = value;
         }
       });
+    }
+    if (this.labels.size < 3) {
+      this.labels = new Map(Object.entries(labels));
     }
   }
 }
@@ -768,6 +777,10 @@ export class PageDataSet {
     } else {
       return "";
     }
+  }
+
+  get labels() {
+    return this.site.labels;
   }
 
   mayLoad(maxScrollPages = 5) {

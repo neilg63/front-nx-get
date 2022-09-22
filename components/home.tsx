@@ -11,7 +11,6 @@ import { clearLocal, fromLocal, hasLocal, toLocal } from "../lib/localstore";
 import NewsItemPreview from "./widgets/news-item-preview";
 import VideoPreview from "./widgets/video-preview";
 import ExhibitionPreview from "./widgets/exhibition-preview";
-import labels from "../lib/labels";
 import { buildConditionalClassNames } from "../lib/utils";
 import { TopContext } from "../pages/_app";
 import { useRouter } from "next/router";
@@ -35,7 +34,7 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
   const context = useContext(TopContext);
   const router: any = useRouter();
 
-  const { meta } = pageData;
+  const { meta, labels } = pageData;
   const [splashClasses, setSplashClasses] = useState('splash-overlay');
   const [enableOverlay, setEnableOverlay] = useState(false);
   const splashItems = pageData.getMediaItems('splash');
@@ -84,32 +83,31 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
       </Head>
       <Container {...containerProps} className="home-container">
         <header className="home-header section-header"><i className='icon icon-home'></i></header>
-        {hasCurrExhib && <section className='current-exhibition'><ExhibitionPreview node={ currentExhibition } /></section>}
+        {hasCurrExhib && <section className='current-exhibition'><ExhibitionPreview node={currentExhibition} label={ labels.get('current_exhibition') } /></section>}
         <section className='news-previews column'>
-          <h3>{labels.latest_news}</h3>
+          <h3>{labels.get('latest_news')}</h3>
           {hasNews && <div className='news-items'>
             {newsItems.map((item: NodeEntity) => <NewsItemPreview key={['news', item.uuid].join('-')} node={item} />)}
           </div>}
           <h3 className='more-link'><Link href='/news'><a>More</a></Link></h3>
           <div className='artwork-links'>
-            <h3 className='subtitle'>{labels.artworks}</h3>
-            <h4 className='subtitle-link'><Link href='/tags'><a>{labels.related_artworks}</a></Link></h4>
-            <h4 className='subtitle-link'><Link href='/artworks'><a>{ labels.all_artworks }</a></Link></h4>
+            <h3 className='subtitle'>{labels.get('artworks')}</h3>
+            <h4 className='subtitle-link'><Link href='/tags'><a>{labels.get('related_artworks')}</a></Link></h4>
+            <h4 className='subtitle-link'><Link href='/artworks'><a>{ labels.get('all_artworks') }</a></Link></h4>
           </div>
         </section>
         {hasVideos && <section className='video-previews column'>
-          <h3 className='section-header'>{ labels.latest_videos }</h3>
+          <h3 className='section-header'>{ labels.get('latest_videos') }</h3>
           <div className='items'>
             {videos.map((item: NodeEntity) => <VideoPreview key={['video', item.uuid].join('-')} node={item} />)}
           </div>
-
         </section>}
         <p className="show-splash-link" onClick={() => showSplash()}>Show splash</p>
       </Container>
       {hasSplash && <aside className={splashClasses}>
         <figure className='main' onClick={() => hideSplash()}>
           <Image src={splash.large} alt={splash.alt} width={'auto'} height={'100%'} objectFit='contain' />
-          <figcaption><span className='text-label upper'>{ labels.enter_site }</span><i className='icon icon-next-arrow-narrow'></i></figcaption>
+          <figcaption><span className='text-label upper'>{ labels.get('enter_site') }</span><i className='icon icon-next-arrow-narrow'></i></figcaption>
         </figure>
       </aside>}
     </>
