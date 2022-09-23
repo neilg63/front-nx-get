@@ -5,18 +5,18 @@ import { NodeEntity, PageDataSet } from "../lib/entity-data";
 import Head from "next/head";
 import SeoHead from "./layout/head";
 import { Container, Image } from "@nextui-org/react";
-import { addEndClasses, containerProps, resizeAllGridItems } from "../lib/styles";
+import { addEndClasses, containerProps } from "../lib/styles";
 import DateRange from "./widgets/date-range";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import { isMinLargeSize, numScrollBatches } from "../lib/settings";
 import { TopContext } from "../pages/_app";
 import { loadMore } from "../lib/load-more";
-import { getScrollTop, setEmtyFigureHeight } from "../lib/dom";
+import { getScrollTop } from "../lib/dom";
 import labels from "../lib/labels";
 import BreadcrumbTitle from "./widgets/breadcrumb-title";
 import YearNav from "./widgets/year-nav";
-import { filterNavClassName, isNumeric, mapFilterOption, matchFilterMode, notEmptyString } from "../lib/utils";
+import { filterNavClassName, mapFilterOption, matchFilterMode } from "../lib/utils";
 
 const filterOpts = [
   { key: 'all', name: 'All' },

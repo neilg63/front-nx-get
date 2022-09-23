@@ -3,6 +3,7 @@ import { sanitize, shortDate, toMimeType } from "./converters";
 import {
   Dims2D,
   KeyStringValue,
+  SimpleLink,
   SlugNameNum,
   StartEnd,
   YearNum,
@@ -88,12 +89,20 @@ export class SiteInfo {
   menus: SiteMenus = new SiteMenus();
   credits = "";
   labels: Map<string, string> = new Map();
+
+  galleries: SimpleLink[] = [];
   [key: string]: any;
 
   constructor(inData: any = null) {
     if (inData instanceof Object) {
       Object.entries(inData).forEach(([key, value]: [string, any]) => {
-        if (value instanceof Object) {
+        if (value instanceof Array && key === "galleries") {
+          this.galleries = value.map((row, ri) => {
+            const { url, title } = row;
+            const itemKey = ["gallery", ri].join("-");
+            return { title, path: url, itemKey };
+          });
+        } else if (value instanceof Object) {
           if (key === "info") {
             this.info = new SiteInfoCore(value);
           } else if (key === "menus") {
@@ -111,6 +120,14 @@ export class SiteInfo {
     if (this.labels.size < 3) {
       this.labels = new Map(Object.entries(labels));
     }
+  }
+
+  label(key = "", defaultString = ""): string {
+    return this.labels.has(key) ? this.labels.get(key)! : defaultString;
+  }
+
+  get hasGalleries() {
+    return this.galleries instanceof Array && this.galleries.length > 0;
   }
 }
 
@@ -783,8 +800,8 @@ export class PageDataSet {
     return this.site.labels;
   }
 
-  label(key = ""): string {
-    return this.labels.has(key) ? this.labels.get(key)! : "";
+  label(key = "", defaultString = "") {
+    return this.site.label(key, defaultString);
   }
 
   mayLoad(maxScrollPages = 5) {

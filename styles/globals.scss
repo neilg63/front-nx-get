@@ -1340,7 +1340,9 @@ figure {
         position: relative;
       }
       figcaption {
-        text-align: center;
+        text-align: left;
+        width: 100%;
+        margin: 0.5em 0 1em 0;
       }
     }
     &.video-list {
@@ -2199,4 +2201,89 @@ article > .related {
     }
   }
 
+}
+
+.contact-form {
+  max-width: 40em;
+  padding: 1em;
+  margin: 1em 0;
+  .nextui-input-main-container {
+    margin: 0;
+    .nextui-input-container {
+      label {
+        background: none;
+      }
+      margin-bottom: 0.5em;
+    }
+    input,
+    textarea {
+      border: solid 1px $dark;
+      padding: 0.375em;
+      &::placeholder {
+        color: $dark;
+      }
+    }
+    .nextui-input-container--textarea {
+      margin-left: -1px;
+      margin-right: -1px;
+    }
+  }
+}
+
+.contact-overlay {
+  &.with-contact-form {
+    max-width: 40em;
+    margin: 0 auto;
+    form {
+      width: 100%;
+    }
+  }
+}
+
+.contact-container {
+  max-width: 40em;
+  border-radius: 0;
+  a:hover {
+    color: $primary;
+  }
+  > form {
+    margin-bottom: 2em;
+    button {
+      background: none;
+      color: $dark;
+      border: solid 1px $dark;
+      width: 7em;
+      border-radius: 0;
+      align-items: flex-start;
+      justify-content: flex-start;
+      margin-left: calc(1em - 1px);
+      text-transform: uppercase;
+      &:hover {
+        color: $primary;
+      }
+    }
+  }
+  > ul {
+    margin-bottom: 2em;
+  }
+}
+
+#nextui-modal {
+  background: none;
+  p, li {
+    font-size: $text-size;
+  }
+  .nextui-modal-wrapper-enter {
+    border-radius: 0;
+  }
+}
+
+ul.galleries {
+  li {
+    padding: 0.5em 0;
+    border-bottom: dotted 1px $dark;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
 }

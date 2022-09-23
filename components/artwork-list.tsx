@@ -209,10 +209,6 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
         window.location.hash = '';
       }
     }
-    /* //loadMax();
-    setTimeout(() => {
-     setEmtyFigureHeight(document);
-    }, 500); */
     setTimeout(() => {
      setTempLocalBool('loading', false);
     }, 3000);

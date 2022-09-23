@@ -2,6 +2,9 @@ import Link from "next/link";
 import { SimpleMenuItem, SiteInfo } from "../../lib/entity-data";
 import parse from "html-react-parser";
 import ContactForm from '../widgets/contact-form';
+import { Modal, useModal } from "@nextui-org/react";
+import { notEmptyString } from "../../lib/utils";
+import { useEffect, useState } from "react";
 
 const iconClassName = (uri = '') => {
   const cls = ['icon'];
@@ -16,6 +19,9 @@ const iconClassName = (uri = '') => {
 }
 
 const Footer = ({ site }: { site: SiteInfo }) => {
+  const { setVisible, bindings } = useModal();
+  const [contactOn, setContactOn] = useState(false);
+  const [modalOverlayClasses, setModalOverlayClasses] = useState('contact-overlay');
   const siteObj = site instanceof Object ? site : { menus: {footer: [], social: []}, credits: '' };
   const { menus, credits } = siteObj;
   const hasMenus = menus instanceof Object;
@@ -23,14 +29,46 @@ const Footer = ({ site }: { site: SiteInfo }) => {
   const sociaItems = hasMenus && menus.social instanceof Array ? menus.social : [];
   
   const hasMenuItems = menuItems.length > 0;
-  return (
+  const siteInfo = new SiteInfo(site);
+
+    const closeModal = () => {
+    setVisible(false);
+    setContactOn(false);
+  }
+
+  const handleLink = (e: any) => {
+    if (e instanceof Object) {
+      const { target } = e;
+      if (target && notEmptyString(target.href)) {
+        const relPath = target.href.split('/').pop();
+        e.preventDefault();
+        switch (relPath) {
+          case 'contact':
+            setVisible(true);
+            setContactOn(true)
+            break;
+        }
+        
+      }
+    }
+  }
+
+  useEffect(() => {
+    const cls = ['contact-overlay'];
+    if (contactOn) {
+      cls.push('with-contact-form');
+    }
+    setModalOverlayClasses(cls.join(' '));
+  }, [contactOn, modalOverlayClasses])
+
+  return (<>
     <footer className='container footer'>
       <div className='menus row left-right'>
           <nav className='footer-nav'>
           {hasMenuItems && <ul className='menu footer-menu column left'>
             {menuItems.map((item: SimpleMenuItem) => {
               return <li key={item.path}>
-                <Link href={item.path}><a>{item.title}</a></Link>
+                <a href={item.path} onClick={e => handleLink(e)}>{item.title}</a>
               </li>
             })}
           </ul>}
@@ -48,8 +86,21 @@ const Footer = ({ site }: { site: SiteInfo }) => {
       <div className='credits'>
         {parse(credits)}
       </div>
-      <ContactForm />
+      
     </footer>
+    <Modal
+      scroll={ false }
+        width="100%"
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      fullScreen={false}
+      {...bindings}
+      className={modalOverlayClasses}
+    >
+      <div className='control icon-prev-arrow-wide prev' onClick={e => closeModal()}></div>
+        {contactOn && <ContactForm site={siteInfo} />}
+      </Modal>
+  </>  
   )
 }
 

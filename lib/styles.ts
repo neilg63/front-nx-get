@@ -81,7 +81,7 @@ export function resizeGridItem(
   return height;
 }
 
-export function resizeAllGridItems(document: Document, window: Window) {
+/* export function resizeAllGridItems(document: Document, window: Window) {
   const grid = document.querySelector(".grid-list .columns");
   if (grid instanceof HTMLElement) {
     const gap = window.getComputedStyle(grid).getPropertyValue("grid-row-gap");
@@ -102,7 +102,7 @@ export function resizeAllGridItems(document: Document, window: Window) {
       }
     }
   }
-}
+} */
 
 /* export const defaultContainerStyles = { height: "auto" };
 

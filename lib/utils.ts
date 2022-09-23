@@ -78,6 +78,12 @@ export const validDateString = (dt: any) => {
   return typeof dt === "string" && /^\d\d\d\d-\d\d-\d\d/.test(dt);
 };
 
+export const validEmail = (email: string) => {
+  const rgx =
+    /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+  return email.length > 5 && rgx.test(email);
+};
+
 export const capitalize = (str: string): string => {
   if (notEmptyString(str)) {
     const trimmed = str.trim();

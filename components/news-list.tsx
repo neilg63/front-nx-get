@@ -2,9 +2,9 @@ import { NextPage } from "next";
 import Link from 'next/link';
 import { BaseEntity, YearNum } from "../lib/interfaces";
 import { NodeEntity, PageDataSet } from "../lib/entity-data";
-import { mediumDate } from "../lib/converters";
+import { shortDate } from "../lib/converters";
 import { Container, Image } from "@nextui-org/react";
-import { containerProps, resizeAllGridItems } from "../lib/styles";
+import { addEndClasses, containerProps } from "../lib/styles";
 import Head from "next/head";
 import SeoHead from "./layout/head";
 import { useEffect, useMemo } from "react";
@@ -21,12 +21,10 @@ const NewsList: NextPage<BaseEntity> = (data) => {
   const showPaginator = total > 0 && total > perPage;
   const subPath = meta.endPath;
   useEffect(() => {
-     window.addEventListener("resize", () => {
-      resizeAllGridItems(document, window);
-    });
     setTimeout(() => {
-      resizeAllGridItems(document, window);
-    }, 500);
+      addEndClasses(document)
+    }, 200);
+    addEndClasses(document)
   });
   return <>
     <Head>
@@ -41,15 +39,15 @@ const NewsList: NextPage<BaseEntity> = (data) => {
         {hasYears && <YearNav years={years} current={ subPath } basePath='/news' />}
       </nav>
       <section className="news-list grid-list">
-        {hasItems && <><div className="columns">
+        {hasItems && <><div className="fixed-height-rows tall-height">
           {items.map((item: NodeEntity) => <figure key={item.uuid} className='node'>
-            <time>{ mediumDate(item.field_date) }</time>
+            
               <Link href={item.path} className="image-holder"><a className="image-link">
               {item.hasImage && <Image src={item.firstImage.preview} alt={item.alt} width={'auto'} height={'100%'} objectFit='contain' style={item.firstImage.calcAspectStyle()} />}
               </a></Link>
             <figcaption>
+              <time>{ shortDate(item.field_date) }</time>
               <h3><Link href={item.path}><a>{item.title}</a></Link></h3>
-            {item.hasTextField('placename') && <p className="place-name">{ item.field_placename }</p>}
             </figcaption>
             </figure>)}
           </div>
