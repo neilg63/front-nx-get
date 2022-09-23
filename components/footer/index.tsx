@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SimpleMenuItem, SiteInfo } from "../../lib/entity-data";
 import parse from "html-react-parser";
+import ContactForm from '../widgets/contact-form';
 
 const iconClassName = (uri = '') => {
   const cls = ['icon'];
@@ -47,6 +48,7 @@ const Footer = ({ site }: { site: SiteInfo }) => {
       <div className='credits'>
         {parse(credits)}
       </div>
+      <ContactForm />
     </footer>
   )
 }

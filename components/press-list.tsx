@@ -4,7 +4,6 @@ import { BaseEntity } from "../lib/interfaces";
 import { NodeEntity, PageDataSet } from "../lib/entity-data";
 import { mediumDate } from "../lib/converters";
 import DownloadLink from "./widgets/download-link";
-import labels from "../lib/labels";
 import Head from "next/head";
 import SeoHead from "./layout/head";
 import { Container } from "@nextui-org/react";
@@ -14,9 +13,10 @@ import LoadMoreNav from "./widgets/load-more-nav";
 
 const PressList: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
-  const { items, meta, total, perPage } = pageData;
+  const { items, meta, total, perPage, labels } = pageData;
   const hasItems = items.length > 0;
   const showPaginator = total > 0 && total > perPage;
+  const download_label = pageData.label('download_pdf');
   return <>
     <Head>
       <SeoHead meta={meta} />
@@ -30,7 +30,7 @@ const PressList: NextPage<BaseEntity> = (data) => {
           <time>{ mediumDate(item.field_date) }</time>
             <h3><Link href={item.path}><a>{item.title}</a></Link></h3>
             <p>{item.field_source}</p>
-          {item.hasDocument && <DownloadLink item={item.field_document!} label={ labels.download_pdf} />}
+          {item.hasDocument && <DownloadLink item={item.field_document!} label={ download_label } />}
           </div>)} 
         </div>
         {showPaginator && <LoadMoreNav data={pageData} />}

@@ -783,6 +783,10 @@ export class PageDataSet {
     return this.site.labels;
   }
 
+  label(key = ""): string {
+    return this.labels.has(key) ? this.labels.get(key)! : "";
+  }
+
   mayLoad(maxScrollPages = 5) {
     const offset = maxScrollPages < 6 ? -1 : 0;
     return (
