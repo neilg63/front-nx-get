@@ -41,14 +41,13 @@ const NewsList: NextPage<BaseEntity> = (data) => {
       <section className="news-list grid-list">
         {hasItems && <><div className="fixed-height-rows tall-height">
           {items.map((item: NodeEntity) => <figure key={item.uuid} className='node'>
-            
               <Link href={item.path} className="image-holder"><a className="image-link">
-              {item.hasImage && <Image src={item.firstImage.preview} alt={item.alt} width={'auto'} height={'100%'} objectFit='contain' style={item.firstImage.calcAspectStyle()} />}
+              {item.hasImage ? <Image src={item.firstImage.preview} alt={item.alt} width={'auto'} height={'100%'} objectFit='contain' style={item.firstImage.calcAspectStyle()} /> : <div className='frame'></div>}
+              <figcaption>
+                <time>{ shortDate(item.field_date) }</time>
+                <h3>{item.title}</h3>
+                </figcaption>
               </a></Link>
-            <figcaption>
-              <time>{ shortDate(item.field_date) }</time>
-              <h3><Link href={item.path}><a>{item.title}</a></Link></h3>
-            </figcaption>
             </figure>)}
           </div>
           {showPaginator && <LoadMoreNav data={ pageData } />}
