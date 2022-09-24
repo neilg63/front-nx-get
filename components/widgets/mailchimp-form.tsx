@@ -1,8 +1,6 @@
-import { Button, Input, Textarea } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { Button, Input } from "@nextui-org/react";
+import { useState } from "react";
 import { SiteInfo } from "../../lib/entity-data";
-import { SimpleLink } from "../../lib/interfaces";
-import { clearLocal, fromLocal, toLocal } from "../../lib/localstore";
 import { mailchimp } from "../../lib/settings";
 import { notEmptyString, validEmail } from "../../lib/utils";
 
@@ -31,6 +29,8 @@ const MailchimpForm = ({ site }: { site: SiteInfo }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [showThanks, setShowThanks] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMsgs, setErrorMsgs] = useState<string[]>([]);
   const nameLabel = site.label('name', 'Name');
   const emailLabel = site.label('email', 'Email');
   const submitName = site.label('submit', 'Submit');
@@ -52,13 +52,18 @@ const MailchimpForm = ({ site }: { site: SiteInfo }) => {
   }
 
   const submit = async () => {
-    let valid = false;
-    if (validEmail(email)) {
-      valid = notEmptyString(name);
+
+    let errorMsgs: string[] = [];
+    setErrorMsgs([]);
+    setError(false);
+    if (!validEmail(email)) {
+      errorMsgs.push('Please enter an email address');
     }
-    if (valid) {
+    if (!notEmptyString(name)) {
+      errorMsgs.push('Please enter your name');
+    }
+    if (errorMsgs.length < 1) {
       const { url, data, headers } = getMCRequestParams(email, name);
-      console.log(url, data, headers);
       try {
         const response = await fetch(
           url,
@@ -77,19 +82,27 @@ const MailchimpForm = ({ site }: { site: SiteInfo }) => {
           }
         }
       } catch (e: any) {
-        valid = false;
+        if (e instanceof Object) {
+          setError(true);
+          setErrorMsgs(['Something went wrong']);
+        }
       }
+    } else {
+      setErrorMsgs(errorMsgs);
     }
   }
 
-  const thanksMessage = site.contactMessage;
+  const thanksMessage = site.label('subscribe_thankyou', 'Thanks for your subscription');
   return (
     <div className="mailchimp-container">
       {showThanks ? <div className="body">{ thanksMessage }</div> : 
       <form className="overlay-form mailchimp-form inner column">
         <Input name='name' type='text' placeholder={ nameLabel }  size='lg' id='mailchimp-form-name' rounded={false} value={name }  onChange={e => update(e)} aria-labelledby={nameLabel}  />
-        <Input name='email' type='email' placeholder={ emailLabel } size='lg' id='mailchimp-form-email' rounded={false} value={email} aria-labelledby={emailLabel} onChange={e => update(e)} />
-          <Button id='mailchimp-form-submit' rounded={false} onPress={e => submit()}>{submitName}</Button>
+          <Input name='email' type='email' placeholder={emailLabel} size='lg' id='mailchimp-form-email' rounded={false} value={email} aria-labelledby={emailLabel} onChange={e => update(e)} />
+          {error && <ul>{
+            errorMsgs.map((msg: string, mi: number) => <li key={ ['mailchim-error', mi].join('-') }>{ msg}</li>)
+          }</ul>}
+        <Button id='mailchimp-form-submit' rounded={false} onPress={e => submit()}>{submitName}</Button>
       </form>}
     </div>
   );

@@ -1,6 +1,6 @@
 import { Button, Input, Textarea } from "@nextui-org/react";
-import { useEffect, useState } from "react";
-import { PageDataSet, SiteInfo } from "../../lib/entity-data";
+import { useState } from "react";
+import { SiteInfo } from "../../lib/entity-data";
 import { SimpleLink } from "../../lib/interfaces";
 import { clearLocal, fromLocal, toLocal } from "../../lib/localstore";
 import { notEmptyString, validEmail } from "../../lib/utils";
@@ -102,11 +102,7 @@ const ContactForm = ({ site }: { site: SiteInfo }) => {
     toLocal('contact_form', data);
   }
 
-  const thanksMessage = 'Thank you';
-
-  useEffect(() => {
-
-  }, [name, email, message])
+  const thanksMessage = site.contactMessage;
   return (
     <div className="contact-container">
       {showThanks ? <div className="body">{ thanksMessage }</div> : 
