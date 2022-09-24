@@ -22,3 +22,8 @@ export const isMinLargeSize = (contextRef: any = null) => {
 };
 
 export const globalPagePaths = ["/", "/_app"];
+
+export const mailchimp = {
+  apiKey: "ugewfhfweofhfh-europe",
+  listId: "mailing",
+};

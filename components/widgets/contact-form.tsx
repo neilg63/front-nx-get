@@ -110,7 +110,7 @@ const ContactForm = ({ site }: { site: SiteInfo }) => {
   return (
     <div className="contact-container">
       {showThanks ? <div className="body">{ thanksMessage }</div> : 
-      <form className="contact-form column">
+      <form className="overlay-form contact-form column">
         <Input name='name' type='text' placeholder={ nameLabel }  size='lg' id='contact-form-name' rounded={false} value={name }  onChange={e => update(e)} aria-labelledby={nameLabel}  />
         <Input name='email' type='email' placeholder={ emailLabel } size='lg' id='contact-form-email' rounded={false} value={email} aria-labelledby={emailLabel} onChange={e => update(e)} />
         <Textarea name='message' size='lg'  placeholder={ messageLabel } id='contact-form-message' value={message} aria-labelledby={messageLabel} onChange={e => update(e)} />

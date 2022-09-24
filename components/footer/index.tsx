@@ -5,6 +5,8 @@ import ContactForm from '../widgets/contact-form';
 import { Modal, useModal } from "@nextui-org/react";
 import { notEmptyString } from "../../lib/utils";
 import { useEffect, useState } from "react";
+import PressInfo from "../widgets/press-info";
+import MailchimpForm from "../widgets/mailchimp-form";
 
 const iconClassName = (uri = '') => {
   const cls = ['icon'];
@@ -21,6 +23,8 @@ const iconClassName = (uri = '') => {
 const Footer = ({ site }: { site: SiteInfo }) => {
   const { setVisible, bindings } = useModal();
   const [contactOn, setContactOn] = useState(false);
+  const [pressOn, setPressOn] = useState(false);
+  const [mailingOn, setMailingOn] = useState(false);
   const [modalOverlayClasses, setModalOverlayClasses] = useState('contact-overlay');
   const siteObj = site instanceof Object ? site : { menus: {footer: [], social: []}, credits: '' };
   const { menus, credits } = siteObj;
@@ -33,7 +37,9 @@ const Footer = ({ site }: { site: SiteInfo }) => {
 
     const closeModal = () => {
     setVisible(false);
-    setContactOn(false);
+      setContactOn(false);
+      setPressOn(false);
+      setMailingOn(false);
   }
 
   const handleLink = (e: any) => {
@@ -45,10 +51,23 @@ const Footer = ({ site }: { site: SiteInfo }) => {
         switch (relPath) {
           case 'contact':
             setVisible(true);
-            setContactOn(true)
+            setPressOn(false);
+            setMailingOn(false);
+            setContactOn(true);
+            break;
+          case 'press':
+            setVisible(true);
+            setContactOn(false);
+            setMailingOn(false);
+            setPressOn(true);
+            break;
+          case 'subscribe':
+            setVisible(true);
+            setContactOn(false);
+            setPressOn(false);
+            setMailingOn(true);
             break;
         }
-        
       }
     }
   }
@@ -97,9 +116,11 @@ const Footer = ({ site }: { site: SiteInfo }) => {
       {...bindings}
       className={modalOverlayClasses}
     >
-      <div className='control icon-prev-arrow-wide prev' onClick={e => closeModal()}></div>
-        {contactOn && <ContactForm site={siteInfo} />}
-      </Modal>
+      {contactOn && <ContactForm site={siteInfo} />}
+      {mailingOn && <MailchimpForm site={siteInfo} />}
+      {pressOn && <PressInfo site={siteInfo} />}
+     {bindings.open && <div className='control close-modal icon-prev-arrow-wide prev' onClick={e => closeModal()}></div>} 
+    </Modal>
   </>  
   )
 }

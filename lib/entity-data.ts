@@ -84,12 +84,18 @@ export class SiteMenus {
   }
 }
 
+export interface ContactData {
+  message: string;
+  recipients: string;
+}
+
 export class SiteInfo {
   info: SiteInfoCore = new SiteInfoCore();
   menus: SiteMenus = new SiteMenus();
   credits = "";
   labels: Map<string, string> = new Map();
-
+  contact: ContactData = { message: "", recipients: "" };
+  press = "";
   galleries: SimpleLink[] = [];
   [key: string]: any;
 
@@ -109,9 +115,13 @@ export class SiteInfo {
             this.menus = new SiteMenus(value);
           } else if (key === "labels") {
             this.labels = new Map(Object.entries(value));
+          } else if (key === "contact") {
+            this.contact = value;
           }
         } else if (key === "credits" && typeof value === "string") {
           this.credits = value;
+        } else if (key === "press") {
+          this.press = value;
         } else {
           this[key] = value;
         }
@@ -128,6 +138,16 @@ export class SiteInfo {
 
   get hasGalleries() {
     return this.galleries instanceof Array && this.galleries.length > 0;
+  }
+
+  get contactMessage() {
+    return notEmptyString(this.contact.message)
+      ? this.contact.message
+      : "Thank you for contacting us";
+  }
+
+  pressInfo() {
+    return Buffer.from(this.press, "base64");
   }
 }
 

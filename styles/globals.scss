@@ -1422,21 +1422,33 @@ main > .related {
   opacity: 0;
 }
 
+.control.close-modal {
+  z-index: 50;
+}
+
 #nextui-modal {
+
   .control {
     position: absolute;
     bottom: 5vh;
     left: 2.5vw;
     font-size: 2.5vw;
     cursor: pointer;
+
+    &.close-modal {
+      bottom: 0;
+      left: 0;
+      transform: scale(0.75);
+    }
+
     @media (min-width: $max-screen-width) {
       font-size: 45px;
     }
+
     &:hover {
       color: $primary;
     }
   }
-
   figure {
     position: relative;
     height: 100%;
@@ -2203,10 +2215,25 @@ article > .related {
 
 }
 
-.contact-form {
+.overlay-form {
   max-width: 40em;
   padding: 1em;
-  margin: 1em 0;
+  margin: 1em 0 2em 0;
+  button {
+    background: none;
+    color: $dark;
+    border: solid 1px $dark;
+    width: 7em;
+    border-radius: 0;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-left: calc(1em - 1px);
+    text-transform: uppercase;
+
+    &:hover {
+      color: $primary;
+    }
+  }
   .nextui-input-main-container {
     margin: 0;
     .nextui-input-container {
@@ -2231,37 +2258,25 @@ article > .related {
 }
 
 .contact-overlay {
-  &.with-contact-form {
+  max-width: 40em;
+  margin: 0 auto;
+  
+  form,
+  > .inner {
     max-width: 40em;
-    margin: 0 auto;
-    form {
-      width: 100%;
-    }
+    width: 100%;
+  }
+  > .inner {
+    padding: 1em;
   }
 }
 
 .contact-container {
   max-width: 40em;
+  min-height: 8em;
   border-radius: 0;
   a:hover {
     color: $primary;
-  }
-  > form {
-    margin-bottom: 2em;
-    button {
-      background: none;
-      color: $dark;
-      border: solid 1px $dark;
-      width: 7em;
-      border-radius: 0;
-      align-items: flex-start;
-      justify-content: flex-start;
-      margin-left: calc(1em - 1px);
-      text-transform: uppercase;
-      &:hover {
-        color: $primary;
-      }
-    }
   }
   > ul {
     margin-bottom: 2em;
