@@ -119,7 +119,8 @@ const Footer = ({ site }: { site: SiteInfo }) => {
       {contactOn && <ContactForm site={siteInfo} />}
       {mailingOn && <MailchimpForm site={siteInfo} />}
       {pressOn && <PressInfo site={siteInfo} />}
-     {bindings.open && <div className='control close-modal icon-prev-arrow-wide prev' onClick={e => closeModal()}></div>} 
+      {bindings.open && <div className='control bottom-left close-modal icon-prev-arrow-wide' onClick={e => closeModal()}></div>} 
+      {bindings.open && <div className='control top-right close-modal icon-close' onClick={e => closeModal()}></div>} 
     </Modal>
   </>  
   )

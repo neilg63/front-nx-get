@@ -24,6 +24,7 @@ $mid-grey: #999999;
 $light-grey: #cccccc;
 $light: white;
 $primary: #ff6600;
+$danger: #cc0000;
 
 @keyframes fadeoutentry {
   0% {
@@ -1422,23 +1423,33 @@ main > .related {
   opacity: 0;
 }
 
-.control.close-modal {
-  z-index: 50;
-}
-
 #nextui-modal {
 
   .control {
     position: absolute;
-    bottom: 5vh;
-    left: 2.5vw;
+    user-select: none;
+    &.bottom-left {
+      bottom: 5vh;
+      left: 2.5vw;
+      &.close-modal {
+        bottom: 0.375em;
+        left: 0.375em;
+        opacity: 0;
+        transition: opacity 0.25s ease-in-out;
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+    &.top-right {
+      top: 1em;
+      right: 0.75em;
+    }
     font-size: 2.5vw;
     cursor: pointer;
 
     &.close-modal {
-      bottom: 0;
-      left: 0;
-      transform: scale(0.75);
+      font-size: 1em;
     }
 
     @media (min-width: $max-screen-width) {
@@ -2215,10 +2226,33 @@ article > .related {
 
 }
 
+.contact-overlay > .inner,
 .overlay-form {
   max-width: 40em;
-  padding: 1em;
+  padding: 0 1em 1em 1em;
   margin: 1em 0 2em 0;
+
+  > h3 {
+    text-transform: uppercase;
+    text-align: left;
+    padding: 0 0 1em 0;
+    margin: 0 0.75em 1.5em 0.75em;
+    border-bottom: dotted 1px $dark;
+  }
+  > .body {
+    text-align: left;
+    margin: 0 0.75em;
+    p {
+      margin: 0 0 0.125em 0;
+    }
+  }
+  a:hover {
+    color: $primary;
+  }
+}
+
+.overlay-form {
+
   button {
     background: none;
     color: $dark;
@@ -2234,6 +2268,13 @@ article > .related {
       color: $primary;
     }
   }
+
+  &.mailchimp-form {
+    button {
+      margin-left: 0.75em;
+    }
+  }
+
   .nextui-input-main-container {
     margin: 0;
     .nextui-input-container {
@@ -2256,8 +2297,9 @@ article > .related {
     }
   }
   ul.error {
-    width: 100%;
-    margin: 0.25em 0 0.5em 0;
+    margin: 0 1em 0.75em 1em;
+    color: $danger;
+    text-align: left;
   }
 }
 
@@ -2269,9 +2311,6 @@ article > .related {
   > .inner {
     max-width: 40em;
     width: 100%;
-  }
-  > .inner {
-    padding: 1em;
   }
 }
 

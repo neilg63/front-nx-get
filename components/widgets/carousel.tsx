@@ -182,7 +182,7 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
               fullScreen={true}
         {...bindings}
     >
-      <div className='control icon-prev-arrow-wide prev' onClick={e => closeModal()}></div>
+      <div className='control bottom-left icon-prev-arrow-wide' onClick={e => closeModal()}></div>
       <ModalFigure item={ selectedItem() } />
       </Modal>
   </>

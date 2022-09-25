@@ -35,6 +35,20 @@ const MailchimpForm = ({ site }: { site: SiteInfo }) => {
   const emailLabel = site.label('email', 'Email');
   const submitName = site.label('submit', 'Submit');
 
+  const validate = () => {
+    let errorMsgs: string[] = [];
+    if (!validEmail(email)) {
+      errorMsgs.push('Please enter an email address');
+    }
+    if (!notEmptyString(name)) {
+      errorMsgs.push('Please enter your name');
+    }
+    const valid = errorMsgs.length < 1;
+    setErrorMsgs(errorMsgs);
+    setError(!valid);
+    return valid;
+  }
+
   const update = (e: any) => {
     if (e instanceof Object) {
       const { target } = e;
@@ -48,21 +62,17 @@ const MailchimpForm = ({ site }: { site: SiteInfo }) => {
             break;
         }
       }
+      if (notEmptyString(target.value)) {
+        validate();
+      }
     }
   }
 
   const submit = async () => {
-
-    let errorMsgs: string[] = [];
     setErrorMsgs([]);
     setError(false);
-    if (!validEmail(email)) {
-      errorMsgs.push('Please enter an email address');
-    }
-    if (!notEmptyString(name)) {
-      errorMsgs.push('Please enter your name');
-    }
-    if (errorMsgs.length < 1) {
+    const valid = validate();
+    if (valid) {
       const { url, data, headers } = getMCRequestParams(email, name);
       try {
         const response = await fetch(
@@ -87,24 +97,23 @@ const MailchimpForm = ({ site }: { site: SiteInfo }) => {
           setErrorMsgs(['Something went wrong']);
         }
       }
-    } else {
-      setErrorMsgs(errorMsgs);
     }
   }
 
   const thanksMessage = site.label('subscribe_thankyou', 'Thanks for your subscription');
   return (
     <div className="mailchimp-container">
-      {showThanks ? <div className="body">{ thanksMessage }</div> : 
         <form className="overlay-form mailchimp-form inner column">
-          <h3>{ site.label('subscribe_title', 'Subscribe to mailing list') }</h3>
-        <Input name='name' type='text' placeholder={ nameLabel }  size='lg' id='mailchimp-form-name' rounded={false} value={name }  onChange={e => update(e)} aria-labelledby={nameLabel}  />
+        <h3>{site.label('subscribe_title', 'Subscribe to mailing list')}</h3>
+        {showThanks ? <div className="body inner">{thanksMessage}</div> : <>
+          <Input name='name' type='text' placeholder={nameLabel} size='lg' id='mailchimp-form-name' rounded={false} value={name} onChange={e => update(e)} aria-labelledby={nameLabel} />
           <Input name='email' type='email' placeholder={emailLabel} size='lg' id='mailchimp-form-email' rounded={false} value={email} aria-labelledby={emailLabel} onChange={e => update(e)} />
           {error && <ul className='error error-list'>{
-            errorMsgs.map((msg: string, mi: number) => <li key={ ['mailchim-error', mi].join('-') }>{ msg}</li>)
+            errorMsgs.map((msg: string, mi: number) => <li key={['mailchim-error', mi].join('-')}>{msg}</li>)
           }</ul>}
-        <Button id='mailchimp-form-submit' rounded={false} onPress={e => submit()}>{submitName}</Button>
-      </form>}
+          <Button id='mailchimp-form-submit' rounded={false} onPress={e => submit()}>{submitName}</Button>
+        </>}
+      </form>
     </div>
   );
 };
