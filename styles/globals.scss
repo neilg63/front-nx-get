@@ -2312,6 +2312,11 @@ article > .related {
     max-width: 40em;
     width: 100%;
   }
+
+  ul,
+  li {
+    text-align: left;
+  }
 }
 
 .contact-container {
@@ -2322,7 +2327,7 @@ article > .related {
     color: $primary;
   }
   > ul {
-    margin-bottom: 2em;
+    margin: 0.5em 2em 2em 2em;
   }
 }
 
@@ -2338,7 +2343,7 @@ article > .related {
 
 ul.galleries {
   li {
-    padding: 0.5em 0;
+    padding: 0.75em 0;
     border-bottom: dotted 1px $dark;
     &:last-child {
       border-bottom: none;
