@@ -26,6 +26,30 @@ $light: white;
 $primary: #ff6600;
 $danger: #cc0000;
 
+@mixin custom-dots {
+  border-image-source: url(/assets/border-square.svg);
+  border-image-slice: 100% 0%;
+  border-image-repeat: round;
+}
+
+@mixin square-dots {
+  @include custom-dots();
+  border-bottom: dotted 2px $dark;
+}
+
+@mixin square-dots-top {
+  @include custom-dots();
+  border-top: dotted 2px $dark;
+}
+
+@mixin square-dots-top-bottom {
+  @include custom-dots();
+  border-top: dotted 2px $dark;
+  border-bottom: dotted 2px $dark;
+}
+
+
+
 @keyframes fadeoutentry {
   0% {
     opacity: 0.6667;
@@ -293,7 +317,7 @@ header.header {
     overflow: hidden;
     margin-bottom: 1em;
     padding-bottom: 0.5em;
-    border-bottom: dotted 1px $dark;
+    @include square-dots();
   }
   > ul {
     display: flex;
@@ -475,7 +499,7 @@ img {
 }
 
 .section-header {
-  border-bottom: dotted 1px $dark;
+  @include square-dots();
   font-weight: normal;
   font-size: 1em;
   margin-bottom: 1em;
@@ -585,8 +609,7 @@ img {
     .menus {
       width: 100%;
       position: relative;
-      border-top: dotted 1px $dark;
-      border-bottom: dotted 1px $dark;
+      @include square-dots-top-bottom();
       padding: 0.5em 0;
       margin: 0 0 1em 0;
       user-select: none;
@@ -719,7 +742,7 @@ img {
   li {
     padding: 1em 0;
     margin-bottom: 1em;
-    border-bottom: dotted 1px $dark;
+    @include square-dots();
     &:last-child {
       border-bottom: none;
     }
@@ -1070,7 +1093,7 @@ ul, ol {
 .about-article {
   > h2,
   .body > h3 {
-    border-bottom: dotted 1px $dark;
+    @include square-dots();
     text-transform: uppercase;
   }
 
@@ -1204,7 +1227,7 @@ figure {
   > h2 {
     text-transform: uppercase;
     padding: 0.5em 0;
-    border-bottom: dotted 1px $dark;
+    @include square-dots();
   }
 }
 
@@ -1276,7 +1299,7 @@ figure {
       width: 100%;
       height: 1px;
       background-color: white;
-      border-bottom: dotted 1px $dark;
+      @include square-dots();
     }
     &.row-end {
       &:after {
@@ -1387,7 +1410,7 @@ figure {
         }
         margin-bottom: 1em;
         padding-bottom: 1em;
-        border-bottom: dotted 1px $dark;
+                @include square-dots();
       }
     }
   }
@@ -1632,10 +1655,10 @@ main > .related {
   h1 {
     margin: 0 0 0.5em 0;
     padding: 0 0 0.5em 0;
-    border-bottom: dotted 1px $dark;
+    @include square-dots();
   }
   .filter-options {
-    border-bottom: dotted 1px $dark;
+    @include square-dots();
     padding: 0.125em 0 0.5em 0;
     li {
       margin: 0 0.5em 0 0;
@@ -1738,7 +1761,7 @@ main > .related {
   }
   ul {
     padding: 0.5em 0;
-    border-bottom: dotted 1px $dark;
+    @include square-dots();
     margin: 0 0 1.5em 0;
     li {
       position: relative;
@@ -1977,7 +2000,6 @@ main > .related {
 
     .news-items {
       article {
-        border-bottom: dotted 1px $dark;
         margin: 0 0 0.25em 0;
         padding: 0 0 0.25em 0;
       }
@@ -1986,18 +2008,16 @@ main > .related {
 
     .artwork-links {
       margin-top: 2em;
-      h3 {
-        border-bottom: dotted 1px $dark;
-      }
     }
 
     > .more-link {
       position: relative;
       margin: 1.5em 0 3em 0;
     }
-
+    .news-items  article,
+    .artwork-links h3,
     .subtitle {
-      border-bottom: dotted 1px $dark;
+      @include square-dots();
     }
   }
 
@@ -2028,7 +2048,7 @@ main > article {
     margin: 1em 0 2em 0;
   }
   > h1 {
-    border-bottom: dotted 1px $dark;
+    @include square-dots();
     padding-bottom: 0.125em;
   }
 }
@@ -2047,7 +2067,7 @@ main > article {
     }
     margin: 0.5em 0 1em 0;
     padding-bottom: 1em;
-    border-bottom: dotted 1px $dark;
+    @include square-dots();
     &:first-child {
       margin-top: 1em;
     }
@@ -2060,8 +2080,7 @@ main > article {
 main > header,
 main > article > header {
   margin: 0 auto 0.625em auto;
-  /* border-top: dotted 1px $dark; */
-  border-bottom: dotted 1px $dark;
+  @include square-dots();
   padding: 0.25em 0;
   display: flex;
   flex-flow: row nowrap;
@@ -2162,7 +2181,7 @@ main > article > header {
   > h3 {
     padding: 0.5em 0;
     margin-top: 0.5rem;
-    border-bottom: dotted 1px $dark;
+    @include square-dots();
     text-transform: uppercase;
   }
   > div {
@@ -2173,7 +2192,7 @@ main > article > header {
 article > .related {
   > h3 {
     margin: 0.625em auto 0.25em auto;
-    border-top: dotted 1px $dark;
+    @include square-dots();
   }
 }
 
@@ -2214,7 +2233,7 @@ article > .related {
     align-items: center;
     justify-content: flex-start;
     text-transform: uppercase;
-    border-top: dotted 1px $dark;
+    @include square-dots-top();
     padding: 0.25em 0;
     i, span {
       display: inline-block;
@@ -2238,7 +2257,7 @@ article > .related {
     text-align: left;
     padding: 0 0 1em 0;
     margin: 0 0.75em 1.5em 0.75em;
-    border-bottom: dotted 1px $dark;
+    @include square-dots();
   }
   > .body {
     text-align: left;
@@ -2345,7 +2364,7 @@ article > .related {
 ul.galleries {
   li {
     padding: 0.75em 0;
-    border-bottom: dotted 1px $dark;
+    @include square-dots();
     &:last-child {
       border-bottom: none;
     }
