@@ -60,6 +60,8 @@ const Header = (pageData: PageDataSet) => {
   const [classNames, setClassNames] = useState('header');
   const router = useRouter();
 
+  const isTagsMaze = router.asPath === '/tags';
+
   const submitSearch = () => {
     if (notEmptyString(search, 1)) {
       const path = ['/search', encodeURIComponent(search.toLowerCase())].join('/');
@@ -90,6 +92,13 @@ const Header = (pageData: PageDataSet) => {
   const toggleExpanded = useCallback(() => {
     setExpanded(!expanded);
   }, [expanded]);
+
+  const handleTopLink = useCallback((e: any) => {
+    if (e instanceof Object) {
+      e.preventDefault();
+      router.back();
+    }
+  }, [router])
 
   const updateSearchClassNames = useCallback((searchStr = '') => {
     const cls = ['search-link prominent'];
@@ -126,11 +135,11 @@ const Header = (pageData: PageDataSet) => {
     setMainItems(items);
     setHasMenuItems(items instanceof Array && items.length > 0);
     updateSearchClassNames(search);
-  }, [site, setSubAlias, router, expanded, context, search, updateSearchClassNames, searchFieldOn])
+  }, [site, router, expanded, context, search, updateSearchClassNames, searchFieldOn])
 
   return (
     <header className={classNames}>
-      <Link href={'/tags'}><a className='logo'></a></Link>
+      {isTagsMaze ? <a className='logo' onClick={(e) => handleTopLink(e)}></a> : <Link href='/tags'><a className='logo'></a></Link>} 
       <nav className='top-nav'>
         {hasMenuItems && <ul>
           {mainItems.map(item => {

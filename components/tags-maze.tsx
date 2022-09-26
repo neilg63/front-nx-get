@@ -1,4 +1,4 @@
-import { Container, Tooltip } from "@nextui-org/react"
+import { Container } from "@nextui-org/react"
 import { NextPage } from "next";
 import Link from "next/link";
 import Head from "next/head";
@@ -7,6 +7,9 @@ import { BaseEntity } from "../lib/interfaces";
 import labels from "../lib/labels";
 import SeoHead from "./layout/head";
 import { containerProps } from "../lib/styles";
+import { useContext, useEffect } from "react";
+import { TopContext } from "../pages/_app";
+import { useRouter } from "next/router";
 
 const numRelatedLabel = (numRelated = 0) => {
   const pl = numRelated === 1 ? '' : 's';
@@ -20,6 +23,15 @@ const toKey = (prefix = '', slug = '', index = 0) => {
 
 const TagsMaze: NextPage<BaseEntity> = (data: BaseEntity) => {
   const pageData = new PageDataSet(data);
+  const context = useContext(TopContext);
+  const router = useRouter();
+  useEffect(() => {
+     if (context) {
+      if (context.escaped) {
+        router.back();
+      }
+    }
+  }, [context, router])
   return <>
     <Head>
         <SeoHead meta={pageData.meta} />
