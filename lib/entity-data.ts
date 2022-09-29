@@ -408,9 +408,9 @@ export class MediaItem {
     const dims = this.calcTargetDims(size, true);
     return `${dims.width}x${dims.height}`;
   }
-  calcAspectStyle() {
+  calcAspectStyle(width = "auto") {
     const ar = this.width! / this.height!;
-    return { aspectRatio: ar.toString() };
+    return { aspectRatio: ar.toString(), width };
   }
 }
 
@@ -535,9 +535,9 @@ export class NodeEntity {
   hasTextField(fn = "") {
     const kNames = [fn];
     if (fn.startsWith("field_") === false) {
-      kNames.unshift(["field_", fn].join("_"));
+      kNames.unshift(["field", fn].join("_"));
     }
-    const key = Object.keys(this).find((k) => kNames.includes(fn));
+    const key = Object.keys(this).find((k) => kNames.includes(k));
     if (key) {
       return notEmptyString(this[key]);
     } else {

@@ -9,15 +9,14 @@ import ArtworkInsert from "./widgets/artwork-insert";
 
 const ArtworkPage: NextPage<BaseEntity> = (data: BaseEntity) => {  
   const pageData = new PageDataSet(data);
-  const { entity, meta } = pageData;
-  const nextAlias = '/artworks';
+  const { entity, site, meta } = pageData;
   const basePath = '/artworks';
   return <>
     <Head>
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps} className='grid-sidebar'>
-      <ArtworkInsert entity={entity} basePath={basePath} meta={meta} />
+      <ArtworkInsert entity={entity} basePath={basePath} meta={meta} site={site} />
     </Container>
   </>
 }

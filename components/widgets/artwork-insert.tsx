@@ -1,6 +1,6 @@
 import contentTypes, { relatedItemsTitle } from "../../lib/content-types"
 import parse from "html-react-parser";
-import { NodeEntity } from "../../lib/entity-data"
+import { NodeEntity, SiteInfo } from "../../lib/entity-data"
 import { MetaDataSet, relatedKey } from "../../lib/ui-entity"
 import Carousel from "./carousel"
 import MiniRelatedItem from "./mini-related-item"
@@ -10,9 +10,12 @@ import TagList from "./tag-list";
 import BreadcrumbTitle from "./breadcrumb-title";
 import ArtworkFigure from "./artwork-figure";
 import { ShareWidget } from "./share-widget";
+import { notEmptyString } from "../../lib/utils";
 
-const ArtworkInsert = ({ entity, basePath, meta }: { entity: NodeEntity, basePath: string, meta?: MetaDataSet }) => { 
+const ArtworkInsert = ({ entity, basePath, site, meta }: { entity: NodeEntity, basePath: string, site: SiteInfo, meta: MetaDataSet}) => { 
   const hasMeta = meta instanceof MetaDataSet;
+  const materialLabel = site.label('material_label', 'Material');
+  const dimensionsLabel = site.label('dimensions_label', 'Dimensions');
   return <>
     <article className="artwork">
         <header>
@@ -24,6 +27,8 @@ const ArtworkInsert = ({ entity, basePath, meta }: { entity: NodeEntity, basePat
           <p className="year-type links-2"><TypeLink value={entity.field_type} basePath={basePath} /> <YearLink value={entity.field_year} basePath={basePath} /></p>
           {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
         <TagList terms={entity.field_tags} base={basePath} prefix="tag" />
+        {entity.hasTextField('material_text') && <p><strong className='text-label'>{ materialLabel}</strong><span className=''>{entity.field_material_text}</span></p>}
+        {entity.hasTextField('dimensions') &&  <p><strong className='text-label'>{ dimensionsLabel }</strong><span className=''>{entity.field_dimensions}</span></p>}
         {hasMeta && <ShareWidget meta={meta} />}
         </div>
       </article>
@@ -47,9 +52,9 @@ const ArtworkInsert = ({ entity, basePath, meta }: { entity: NodeEntity, basePat
           </div>
         </div>}
     </aside>
-    {entity.hasRelatedArtworks && <div className='related-artwokrs related artwork-list'>
+    {entity.hasRelatedArtworks && <div className='related-artworks related artwork-list'>
           <h3>{relatedItemsTitle('artwork')}</h3>
-        <div className='fixed-height-rows medium-height'>
+        <div className='fixed-height-rows medium-height inner-captions'>
         {entity.related_artworks.map((row: NodeEntity, index: number) => <ArtworkFigure key={relatedKey(row, index)} item={row} index={ index } />)}
         </div>
       </div>}

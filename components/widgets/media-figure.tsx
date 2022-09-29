@@ -11,10 +11,10 @@ const toMediaSrc = (item: MediaItem, size: string) => {
       return item.medium;
   }
 }
-
+const imgSyles = { width: '100%' };
 const MediaFigure = ({ item, size, width, height, objectFit}: { item: MediaItem, size: string, width: string | number, height: string | number, objectFit: ObjectFit }) => {
   const src = toMediaSrc(item, size);
-  return <figure className={size}><Image src={src} alt={item.alt} width={width} height={height} objectFit={objectFit} /></figure>
+  return <figure className={size}><Image src={src} alt={item.alt} width={width} height={height} objectFit={objectFit} css={imgSyles}  /></figure>
 }
 
 

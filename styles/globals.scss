@@ -584,10 +584,12 @@ img {
         padding-right: 0;
       }
     }
-    > footer {
+    > footer.footer {
       grid-area: footer;
+      max-width: calc(95vw - 2.5%);
       min-width: calc(95vw - 2.5%);
       @media (min-width: $max-screen-width) {
+        max-width: calc($max-screen-width - 6.25%);
         min-width: calc($max-screen-width - 6.25%);
       }
     }
@@ -2020,6 +2022,15 @@ main > .related {
     figure {
       aspect-ratio: 16 / 9;
     }
+    figure {
+      div {
+        width: 100%;
+      }
+      > a {
+        display: block;
+        width: 100%;
+      }
+    }
   }
 }
 
@@ -2027,6 +2038,21 @@ main > article {
   width: 100%;
   > .info {
     margin: 1em 0 2em 0;
+    .year-type {
+      margin-bottom: 0.75em;
+    }
+
+    p {
+      strong,
+      span,
+      em {
+        display: inline-block;
+      }
+  
+      strong {
+        margin-right: 0.5em;
+      }
+    }
   }
   > h1 {
     @include square-dots();
