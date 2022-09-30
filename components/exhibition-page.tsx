@@ -30,14 +30,14 @@ const ExhibitionPage: NextPage<BaseEntity> = (data ) => {
         <div className='text-details'>
           <h3><DateRange item={ entity.field_date_range } /></h3>
           {entity.hasSubtitle && <h4 className="subtitle">{parse(entity.field_subtitle)}</h4>}
-          {entity.hasPlacename && <p className="placename">{entity.field_placename}</p>}
+          {entity.hasPlacename && <h5 className="placename">{entity.field_placename}</h5>}
           <div className="body">{parse(entity.body)}</div>
         </div>
       </article>
 
     {entity.hasRelatedArtworks && <div className='related-artworks related body-section'>
       <h3>{contentTypes.artwork}</h3>
-      <div className='fixed-height-rows medium-height'>
+      <div className='fixed-height-rows medium-height inner-captions'>
         {entity.related_artworks.map((row: NodeEntity, index: number) => <ArtworkFigure key={relatedKey(row, index)} item={row} index={index} />)}
       </div>
     </div>}

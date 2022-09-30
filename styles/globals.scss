@@ -231,6 +231,11 @@ section {
   font-size: $text-size;
 }
 
+article > .info > .body,
+article > .body {
+  padding: 1em 0;
+}
+
 #nextui-tooltip {
   border-radius: 0;
 }
@@ -1614,13 +1619,14 @@ main > .related {
     display: flex;
     justify-content: center;
     button {
-      height: 0.75rem;
-      width: 0.75rem;
+      height: 0.5rem;
+      width: 0.5rem;
       background-color: $dark;
       opacity: 0.5;
       border: none;
-      margin: 0 0.5rem;
+      margin: 0 0.25rem;
       border-radius: 50%;
+      padding: 0;
       cursor: pointer;
       &:hover {
         background-color: $primary;

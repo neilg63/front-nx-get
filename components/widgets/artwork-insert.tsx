@@ -11,11 +11,13 @@ import BreadcrumbTitle from "./breadcrumb-title";
 import ArtworkFigure from "./artwork-figure";
 import { ShareWidget } from "./share-widget";
 import { notEmptyString } from "../../lib/utils";
+import PressPreview from "./press-preview";
 
 const ArtworkInsert = ({ entity, basePath, site, meta }: { entity: NodeEntity, basePath: string, site: SiteInfo, meta: MetaDataSet}) => { 
   const hasMeta = meta instanceof MetaDataSet;
   const materialLabel = site.label('material_label', 'Material');
   const dimensionsLabel = site.label('dimensions_label', 'Dimensions');
+  const download_label = site.label('download_pdf');
   return <>
     <article className="artwork">
         <header>
@@ -24,12 +26,14 @@ const ArtworkInsert = ({ entity, basePath, site, meta }: { entity: NodeEntity, b
         </header>
         {entity.hasImages && <Carousel items={entity.images} />}
         <div className="info">
-          <p className="year-type links-2"><TypeLink value={entity.field_type} basePath={basePath} /> <YearLink value={entity.field_year} basePath={basePath} /></p>
+            
+          {entity.hasTextField('material_text') && <p className='info-row material' title={materialLabel}>{entity.field_material_text}</p>}
+          {entity.hasTextField('dimensions') && <p className='info-row dimensions' title={dimensionsLabel}>{entity.field_dimensions}</p>}
+        {/* <p className="year-type links-2"><TypeLink value={entity.field_type} basePath={basePath} /> <YearLink value={entity.field_year} basePath={basePath} /></p> */}
+          <p className="year info-row"><YearLink value={entity.field_year} basePath={basePath} /></p>
           {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
-        <TagList terms={entity.field_tags} base={basePath} prefix="tag" />
-        {entity.hasTextField('material_text') && <p><strong className='text-label'>{ materialLabel}</strong><span className=''>{entity.field_material_text}</span></p>}
-        {entity.hasTextField('dimensions') &&  <p><strong className='text-label'>{ dimensionsLabel }</strong><span className=''>{entity.field_dimensions}</span></p>}
-        {hasMeta && <ShareWidget meta={meta} />}
+          <TagList terms={entity.field_tags} base={basePath} prefix="tag" />
+          {hasMeta && <ShareWidget meta={meta} />}
         </div>
       </article>
       <aside className='sidebar sidebar-right'>
@@ -48,7 +52,7 @@ const ArtworkInsert = ({ entity, basePath, site, meta }: { entity: NodeEntity, b
         {entity.hasRelatedPress && <div className='related-press related'>
           <h3>{contentTypes.press}</h3>
           <div className='column'>
-            {entity.field_related_press.map((row: NodeEntity, index: number) => <MiniRelatedItem key={relatedKey(row, index)} item={row} mode='basic' />)}
+          {entity.field_related_press.map((row: NodeEntity, index: number) => <PressPreview key={relatedKey(row, index)} item={row} label={ download_label } dateMode='none' />)}
           </div>
         </div>}
     </aside>
