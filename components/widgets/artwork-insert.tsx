@@ -57,11 +57,11 @@ const ArtworkInsert = ({ entity, basePath, site, meta }: { entity: NodeEntity, b
         </div>}
     </aside>
     {entity.hasRelatedArtworks && <div className='related-artworks related artwork-list'>
-          <h3>{relatedItemsTitle('artwork')}</h3>
-        <div className='fixed-height-rows medium-height inner-captions'>
-        {entity.related_artworks.map((row: NodeEntity, index: number) => <ArtworkFigure key={relatedKey(row, index)} item={row} index={ index } />)}
-        </div>
-      </div>}
+      <h3>{relatedItemsTitle('artwork')}</h3>
+      <div className='fixed-height-rows medium-height inner-captions'>
+      {entity.related_artworks.map((row: NodeEntity, index: number) => <ArtworkFigure key={relatedKey(row, index)} item={row} index={ index } />)}
+      </div>
+    </div>}
   </>
 
 }

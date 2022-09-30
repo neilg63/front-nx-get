@@ -1,4 +1,3 @@
-import Link from "next/link"
 import { mediumDate, shortDate } from "../../lib/converters"
 import { NodeEntity } from "../../lib/entity-data"
 import DownloadLink from "./download-link"
