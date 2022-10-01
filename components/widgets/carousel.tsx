@@ -140,12 +140,6 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
     }
   }, [embla, context, selectedIndex, setSelectedIndex, items])
 
-  /* if (context) {
-    if (context.move < 0 || context.move > 0) {
-      
-    }
-  } */
-
   const selectedItem = (): MediaItem => {
     const item = selectedIndex < items.length ? items[selectedIndex] : items.length > 0 ? items[0] : null;
     if (item instanceof MediaItem) {
@@ -177,7 +171,7 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
   return <>
     <div className={classNames} ref={emblaRef}>
       {hasSlides && <section className="media-items flex" style={sectionStyles}>
-            {items.map((item: MediaItem) => <figure key={item.uri} data-key={item.uri} data-dims={item.dims('medium')}>
+            {items.map((item: MediaItem) => <figure key={item.uri} data-dims={item.dims('medium')}>
               <Image srcSet={item.srcSet} src={item.medium} alt={item.alt} width='auto' height='100%' objectFit='contain' css={ item.calcAspectStyle() } />
               <figcaption>{item.field_credit}</figcaption>
             </figure>)}
