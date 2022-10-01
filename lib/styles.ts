@@ -104,30 +104,28 @@ export function resizeGridItem(
   }
 } */
 
-/* export const defaultContainerStyles = { height: "auto" };
+/* export const defaultContainerStyles = { height: "auto" }; */
 
-export const calcCarouselContainerStyles = (
+export const setCarouselImageMaxHeight = (
   container: HTMLElement,
   index = 0,
   window: Window
 ) => {
   const figs = container.querySelectorAll(".media-items figure");
-  if (figs.length > 0 && index < figs.length && index > 0) {
+
+  if (figs.length > 0 && index < figs.length) {
     const fig = figs[index];
     const img = fig.querySelector("img");
     if (img instanceof HTMLElement) {
-      const height = img.getBoundingClientRect().height;
-      const pBotton = window
-        .getComputedStyle(container)
-        .getPropertyPriority("paddingBottom");
-      const cHeight = height + pBotton;
-      return {
-        height: `${cHeight}px`,
-      };
+      const contRect = fig.getBoundingClientRect();
+      const { width, height } = contRect;
+      const as = img.naturalWidth / img.naturalHeight;
+      const tgHeight = width / as;
+      const cHeight = tgHeight > height ? height : tgHeight;
+      img.style.maxHeight = `${cHeight}px`;
     }
   }
-  return defaultContainerStyles;
-}; */
+};
 
 export const addEndClasses = (document: Document) => {
   const outer = document.querySelector(".tall-height");
