@@ -25,7 +25,7 @@ const VideoPage: NextPage<BaseEntity> = (data ) => {
     <Container {...containerProps} className='video-container grid-sidebar'>
     <article className="video">
         <h1><Link href={nextAlias}><a>{entity.title}</a></Link></h1>
-        {entity.hasVideo && <iframe className="video" src={entity.vimeoUrl} allow="allowfullscreen allowtransparency autoplay"></iframe>}
+        {entity.hasVideo && <iframe className="video" src={entity.videoUrl} allow={entity.videoAllowKeys}></iframe>}
         <p>{ mediumDate(entity.field_date) }</p>
         {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
         

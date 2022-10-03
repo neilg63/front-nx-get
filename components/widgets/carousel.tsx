@@ -152,9 +152,14 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
   useEffect(() => {
     const refEl = document.querySelector('.carousel-container');
     if (refEl instanceof HTMLElement && embla instanceof Object) {
+      const selIndex = embla.selectedScrollSnap();
+      setCarouselImageMaxHeight(refEl, selIndex, window);
       setTimeout(() => {
-        setCarouselImageMaxHeight(refEl, embla.selectedScrollSnap(), window);
-      }, 250);
+        setCarouselImageMaxHeight(refEl, selIndex, window);
+          setTimeout(() => {
+            setCarouselImageMaxHeight(refEl, selIndex, window);
+        }, 750);
+      }, 500);
     }
     if (!embla) return;
     onSelect();

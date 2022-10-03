@@ -7,8 +7,10 @@ const contentTypes: StringMap = {
   news: "News",
   gttv: "GTTV",
   article: "Essays",
-  press: "Press releases",
+  press: "Press Releases",
+  press_release: "Press Releases",
   press_article: "Press Articles",
+  press_printed: "Press Articles",
   publication: "Publications",
 };
 

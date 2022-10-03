@@ -116,13 +116,19 @@ export const setCarouselImageMaxHeight = (
   if (figs.length > 0 && index < figs.length) {
     const fig = figs[index];
     const img = fig.querySelector("img");
-    if (img instanceof HTMLElement) {
+    if (
+      img instanceof HTMLElement &&
+      img.classList.contains("adjusted") === false
+    ) {
       const contRect = fig.getBoundingClientRect();
       const { width, height } = contRect;
-      const as = img.naturalWidth / img.naturalHeight;
-      const tgHeight = width / as;
-      const cHeight = tgHeight > height ? height : tgHeight;
-      img.style.maxHeight = `${cHeight}px`;
+      if (img.naturalHeight > window.innerHeight / 4) {
+        const as = img.naturalWidth / img.naturalHeight;
+        const tgHeight = width / as;
+        const cHeight = tgHeight > height ? height : tgHeight;
+        img.style.maxHeight = `${cHeight}px`;
+        img.classList.add("adjusted");
+      }
     }
   }
 };

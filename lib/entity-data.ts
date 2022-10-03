@@ -9,6 +9,7 @@ import {
   YearNum,
 } from "./interfaces";
 import labels from "./labels";
+import { basePath } from "./settings";
 import { MetaDataSet } from "./ui-entity";
 import {
   isArrayOfObjectsWith,
@@ -565,11 +566,45 @@ export class NodeEntity {
     );
   }
 
-  get vimeoUrl() {
-    if (this.hasVideo && this.field_video.uri.includes("vimeo.")) {
-      const id = this.field_video.uri.replace(/^.*?\bvimeo\.[^\/]+?\//, "");
-      return `https://player.vimeo.com/video/${id}`;
+  get videoUrl() {
+    if (this.hasVideo) {
+      if (this.field_video.uri.includes("vimeo.")) {
+        const id = this.field_video.uri.replace(/^.*?\bvimeo\.[^\/]+?\//, "");
+        return `https://player.vimeo.com/video/${id}`;
+      }
+      if (
+        this.field_video.uri.includes("youtu.") ||
+        this.field_video.uri.includes("youtube.")
+      ) {
+        const host = encodeURIComponent(basePath + this.path);
+        const suffix = `?enablejsapi=1&cc_lang_pref=en&hl=en&widget_referrer=${host}&fs=1&controls=1&disablekb=0&iv_load_policy=1&mute=0&playsinline=1&autoplay=0`;
+        const patterns = [
+          "youtu.be/([^/& ]+)",
+          "www.youtube.com/watch\\?v=([^& ]+)",
+        ];
+        let objectId = "";
+        patterns
+          .map((p: string) => new RegExp(p))
+          .forEach((p) => {
+            const m = this.field_video.uri.match(p);
+            if (m) {
+              objectId = m[1];
+            }
+          });
+        return `https://www.youtube-nocookie.com/embed/${objectId}${suffix}`;
+      } else {
+        return this.field_video.uri;
+      }
     }
+    return "";
+  }
+
+  get videoAllowKeys() {
+    return this.hasVideo
+      ? this.field_video.uri.includes("vimeo.")
+        ? "allowfullscreen allowtransparency autoplay"
+        : "autoplay"
+      : "";
   }
 
   get hasImages() {
