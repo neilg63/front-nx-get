@@ -57,8 +57,8 @@ const MailingForm = ({ site }: { site: SiteInfo }) => {
     if (!validEmail(email)) {
       errorMsgs.push('Please enter an email address');
     }
-    if (!notEmptyString(name)) {
-      errorMsgs.push('Please enter your name');
+    if (!notEmptyString(firstname)) {
+      errorMsgs.push('Please enter your first name');
     }
     const valid = errorMsgs.length < 1;
     setErrorMsgs(errorMsgs);
@@ -95,6 +95,7 @@ const MailingForm = ({ site }: { site: SiteInfo }) => {
     if (valid) {
       const { uri, data, headers, apiKey } = getMailingRequestParams(email, firstname, lastname);
       const formData = new FormData();
+      formData.append('api_key', apiKey);
       Object.entries(data).forEach(([name, val]) => {
         formData.append(name, val);
       })
@@ -131,13 +132,13 @@ const MailingForm = ({ site }: { site: SiteInfo }) => {
         <form className="overlay-form mailing-form inner column">
         <h3>{site.label('subscribe_title', 'Subscribe to mailing list')}</h3>
         {showThanks ? <div className="body inner">{thanksMessage}</div> : <>
-          <Input name='firstname' type='text' placeholder={nameLabel} size='lg' id='mailchimp-form-name' rounded={false} value={firstname} onChange={e => update(e)} aria-labelledby={nameLabel} />
-          <Input name='lastname' type='text' placeholder={lastNameLabel} size='lg' id='mailchimp-form-name' rounded={false} value={lastname} onChange={e => update(e)} aria-labelledby={lastNameLabel} />
-          <Input name='email' type='email' placeholder={emailLabel} size='lg' id='mailchimp-form-email' rounded={false} value={email} aria-labelledby={emailLabel} onChange={e => update(e)} />
+          <Input name='firstname' type='text' placeholder={nameLabel} size='lg' id='mailing-form-name' rounded={false} value={firstname} onChange={e => update(e)} aria-labelledby={nameLabel} />
+          <Input name='lastname' type='text' placeholder={lastNameLabel} size='lg' id='mailing-form-name' rounded={false} value={lastname} onChange={e => update(e)} aria-labelledby={lastNameLabel} />
+          <Input name='email' type='email' placeholder={emailLabel} size='lg' id='mailing-form-email' rounded={false} value={email} aria-labelledby={emailLabel} onChange={e => update(e)} />
           {error && <ul className='error error-list'>{
-            errorMsgs.map((msg: string, mi: number) => <li key={['mailchim-error', mi].join('-')}>{msg}</li>)
+            errorMsgs.map((msg: string, mi: number) => <li key={['mailing-error', mi].join('-')}>{msg}</li>)
           }</ul>}
-          <Button id='mailchimp-form-submit' rounded={false} onPress={e => submit()}>{submitName}</Button>
+          <Button id='mailing-form-submit' rounded={false} onPress={e => submit()}>{submitName}</Button>
         </>}
       </form>
     </div>
