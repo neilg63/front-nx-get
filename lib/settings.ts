@@ -23,7 +23,12 @@ export const isMinLargeSize = (contextRef: any = null) => {
 
 export const globalPagePaths = ["/", "/_app"];
 
-export const mailchimp = {
+/* export const mailchimp = {
   apiKey: "ugewfhfweofhfh-europe",
   listId: "mailing",
+}; */
+
+export const artlogicMailing = {
+  uri: `https://app.artlogic.net/gavinturk/public/api/mailings/signup`,
+  apiKey: "ZmZlYjRkY2YwNTFjMTU0ODI0MTQwYzFlN2ExYmQ5OGQ=", // base64-encoded hash of reversed Api Key string
 };

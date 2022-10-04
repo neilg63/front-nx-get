@@ -6,7 +6,7 @@ import { Modal, useModal } from "@nextui-org/react";
 import { notEmptyString } from "../../lib/utils";
 import { useEffect, useState } from "react";
 import PressInfo from "../widgets/press-info";
-import MailchimpForm from "../widgets/mailchimp-form";
+import MailingForm from "../widgets/mailing-form";
 
 const iconClassName = (uri = '') => {
   const cls = ['icon'];
@@ -117,7 +117,7 @@ const Footer = ({ site }: { site: SiteInfo }) => {
       className={modalOverlayClasses}
     >
       {contactOn && <ContactForm site={siteInfo} />}
-      {mailingOn && <MailchimpForm site={siteInfo} />}
+      {mailingOn && <MailingForm site={siteInfo} />}
       {pressOn && <PressInfo site={siteInfo} />}
       {bindings.open && <div className='control bottom-left close-modal icon-prev-arrow-wide' onClick={e => closeModal()}></div>} 
       {bindings.open && <div className='control top-right close-modal icon-close' onClick={e => closeModal()}></div>} 

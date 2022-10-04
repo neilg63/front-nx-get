@@ -1,10 +1,10 @@
 import { Button, Input } from "@nextui-org/react";
 import { useState } from "react";
 import { SiteInfo } from "../../lib/entity-data";
-import { mailchimp } from "../../lib/settings";
-import { notEmptyString, validEmail } from "../../lib/utils";
+import { artlogicMailing } from "../../lib/settings";
+import { fromReverseBase64, notEmptyString, validEmail } from "../../lib/utils";
 
-const getMCRequestParams = (email: string, name: string) => {
+/* const getMCRequestParams = (email: string, name: string) => {
   const { apiKey, listId } = mailchimp;
 
   const dataCentre = typeof apiKey === 'string' && apiKey.includes("-") ? apiKey.split("-")[1] : '';
@@ -23,15 +23,32 @@ const getMCRequestParams = (email: string, name: string) => {
   };
 
   return { url, data, headers };
+}  */
+
+const getMailingRequestParams = (email: string, firstname: string, lastname: string) => {
+  const { uri, apiKey } = artlogicMailing;
+
+  const data = {
+    email,
+    firstname,
+    lastname,
+  };
+  const headers = {
+    "Content-Type": "application/x-www-form-urlencoded",
+  }
+  const decodedKey = fromReverseBase64(apiKey);
+  return { uri, data, apiKey: decodedKey, headers };
 } 
 
-const MailchimpForm = ({ site }: { site: SiteInfo }) => {
-  const [name, setName] = useState('');
+const MailingForm = ({ site }: { site: SiteInfo }) => {
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
   const [email, setEmail] = useState('');
   const [showThanks, setShowThanks] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsgs, setErrorMsgs] = useState<string[]>([]);
-  const nameLabel = site.label('name', 'Name');
+  const nameLabel = site.label('firstname', 'First name');
+  const lastNameLabel = site.label('lastname', 'Last name');
   const emailLabel = site.label('email', 'Email');
   const submitName = site.label('submit', 'Submit');
 
@@ -54,8 +71,11 @@ const MailchimpForm = ({ site }: { site: SiteInfo }) => {
       const { target } = e;
       if (target instanceof HTMLInputElement) {
         switch (target.name) {
-          case 'name':
-            setName(target.value);
+          case 'firstname':
+            setFirstname(target.value);
+            break;
+          case 'lastname':
+            setLastname(target.value);
             break;
           case 'email':
             setEmail(target.value);
@@ -73,12 +93,16 @@ const MailchimpForm = ({ site }: { site: SiteInfo }) => {
     setError(false);
     const valid = validate();
     if (valid) {
-      const { url, data, headers } = getMCRequestParams(email, name);
+      const { uri, data, headers, apiKey } = getMailingRequestParams(email, firstname, lastname);
+      const formData = new FormData();
+      Object.entries(data).forEach(([name, val]) => {
+        formData.append(name, val);
+      })
       try {
         const response = await fetch(
-          url,
+          uri,
           {
-            body: JSON.stringify(data),
+            body: formData,
             headers,
             method: 'POST'
           }
@@ -87,7 +111,8 @@ const MailchimpForm = ({ site }: { site: SiteInfo }) => {
           const result = await response.json();
           if (result instanceof Object) {
             setShowThanks(true);
-            setName('');
+            setFirstname('');
+            setLastname('');
             setEmail('');
           }
         }
@@ -102,11 +127,12 @@ const MailchimpForm = ({ site }: { site: SiteInfo }) => {
 
   const thanksMessage = site.label('subscribe_thankyou', 'Thanks for your subscription');
   return (
-    <div className="mailchimp-container">
-        <form className="overlay-form mailchimp-form inner column">
+    <div className="mailing-container">
+        <form className="overlay-form mailing-form inner column">
         <h3>{site.label('subscribe_title', 'Subscribe to mailing list')}</h3>
         {showThanks ? <div className="body inner">{thanksMessage}</div> : <>
-          <Input name='name' type='text' placeholder={nameLabel} size='lg' id='mailchimp-form-name' rounded={false} value={name} onChange={e => update(e)} aria-labelledby={nameLabel} />
+          <Input name='firstname' type='text' placeholder={nameLabel} size='lg' id='mailchimp-form-name' rounded={false} value={firstname} onChange={e => update(e)} aria-labelledby={nameLabel} />
+          <Input name='lastname' type='text' placeholder={lastNameLabel} size='lg' id='mailchimp-form-name' rounded={false} value={lastname} onChange={e => update(e)} aria-labelledby={lastNameLabel} />
           <Input name='email' type='email' placeholder={emailLabel} size='lg' id='mailchimp-form-email' rounded={false} value={email} aria-labelledby={emailLabel} onChange={e => update(e)} />
           {error && <ul className='error error-list'>{
             errorMsgs.map((msg: string, mi: number) => <li key={['mailchim-error', mi].join('-')}>{msg}</li>)
@@ -118,4 +144,4 @@ const MailchimpForm = ({ site }: { site: SiteInfo }) => {
   );
 };
 
-export default MailchimpForm;
+export default MailingForm;

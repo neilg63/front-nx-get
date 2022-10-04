@@ -277,3 +277,12 @@ export const matchFilterMode = (subPath = ""): string => {
   }
   return fm;
 };
+
+export const reverseString = (s: string): string =>
+  s.split("").reverse().join("");
+
+export const fromBase64 = (s: string): string =>
+  Buffer.from(s, "base64").toString("ascii");
+
+export const fromReverseBase64 = (s: string): string =>
+  reverseString(fromBase64(s));
