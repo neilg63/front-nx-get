@@ -1,7 +1,7 @@
 import { Button, Input } from "@nextui-org/react";
 import { useState } from "react";
 import { SiteInfo } from "../../lib/entity-data";
-import { artlogicMailing } from "../../lib/settings";
+import { artlogicMailing, basePath } from "../../lib/settings";
 import { fromReverseBase64, notEmptyString, validEmail } from "../../lib/utils";
 
 /* const getMCRequestParams = (email: string, name: string) => {
@@ -35,6 +35,7 @@ const getMailingRequestParams = (email: string, firstname: string, lastname: str
   };
   const headers = {
     "Content-Type": "application/x-www-form-urlencoded",
+    Origin: basePath
   }
   const decodedKey = fromReverseBase64(apiKey);
   return { uri, data, apiKey: decodedKey, headers };
