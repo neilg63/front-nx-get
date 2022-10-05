@@ -34,8 +34,7 @@ const getMailingRequestParams = (email: string, firstname: string, lastname: str
     lastname,
   };
   const headers = {
-    "Content-Type": "application/x-www-form-urlencoded",
-    Origin: basePath
+    Origin: basePath,
   }
   const decodedKey = fromReverseBase64(apiKey);
   return { uri, data, apiKey: decodedKey, headers };
@@ -105,9 +104,10 @@ const MailingForm = ({ site }: { site: SiteInfo }) => {
           uri,
           {
             body: formData,
+            credentials: "include",
+            mode: 'cors',
             headers,
             method: 'POST',
-            credentials: "include"
           }
         );
         if (response.status >= 200 && response.status < 300) {
