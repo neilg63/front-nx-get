@@ -35,8 +35,9 @@ const getMailingRequestParams = (email: string, firstname: string, lastname: str
   };
   const headers = {
     Origin: basePath,
+    'Accept': 'application/json',
   }
-  const decodedKey = fromReverseBase64(apiKey);
+  const decodedKey = notEmptyString(apiKey)? fromReverseBase64(apiKey) : '';
   return { uri, data, apiKey: decodedKey, headers };
 } 
 
@@ -95,7 +96,9 @@ const MailingForm = ({ site }: { site: SiteInfo }) => {
     if (valid) {
       const { uri, data, headers, apiKey } = getMailingRequestParams(email, firstname, lastname);
       const formData = new FormData();
-      formData.append('api_key', apiKey);
+      if (notEmptyString(apiKey)) {
+        formData.append('api_key', apiKey);
+      }
       Object.entries(data).forEach(([name, val]) => {
         formData.append(name, val);
       })
@@ -104,7 +107,6 @@ const MailingForm = ({ site }: { site: SiteInfo }) => {
           uri,
           {
             body: formData,
-            credentials: "same-origin",
             mode: 'cors',
             headers,
             method: 'POST',
@@ -113,10 +115,12 @@ const MailingForm = ({ site }: { site: SiteInfo }) => {
         if (response.status >= 200 && response.status < 300) {
           const result = await response.json();
           if (result instanceof Object) {
-            setShowThanks(true);
-            setFirstname('');
-            setLastname('');
-            setEmail('');
+            if (result.success) {
+              setShowThanks(true);
+              setFirstname('');
+              setLastname('');
+              setEmail('');
+            }
           }
         }
       } catch (e: any) {

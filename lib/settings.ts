@@ -29,6 +29,8 @@ export const globalPagePaths = ["/", "/_app"];
 }; */
 
 export const artlogicMailing = {
-  uri: `https://app.artlogic.net/gavinturk/public/api/mailings/signup`,
-  apiKey: "ZmZlYjRkY2YwNTFjMTU0ODI0MTQwYzFlN2ExYmQ5OGQ=", // base64-encoded hash of reversed Api Key string
+  //uri: `https://app.artlogic.net/gavinturk/public/api/mailings/signup`,
+  uri: "https://gtnew.platform-3.co.uk/jsonuuid/mailing",
+  //apiKey: "ZmZlYjRkY2YwNTFjMTU0ODI0MTQwYzFlN2ExYmQ5OGQ=", // base64-encoded hash of reversed Api Key string
+  apiKey: "",
 };
