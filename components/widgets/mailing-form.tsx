@@ -106,7 +106,8 @@ const MailingForm = ({ site }: { site: SiteInfo }) => {
           {
             body: formData,
             headers,
-            method: 'POST'
+            method: 'POST',
+            credentials: "include"
           }
         );
         if (response.status >= 200 && response.status < 300) {
