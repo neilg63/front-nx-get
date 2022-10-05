@@ -104,7 +104,7 @@ const MailingForm = ({ site }: { site: SiteInfo }) => {
           uri,
           {
             body: formData,
-            credentials: "include",
+            credentials: "same-origin",
             mode: 'cors',
             headers,
             method: 'POST',
