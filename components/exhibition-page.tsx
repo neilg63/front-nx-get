@@ -1,5 +1,4 @@
 import { NextPage } from "next";
-import Link from 'next/link';
 import parse from "html-react-parser";
 import { BaseEntity } from "../lib/interfaces";
 import { NodeEntity, PageDataSet } from "../lib/entity-data";

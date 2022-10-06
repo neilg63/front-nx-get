@@ -16,6 +16,10 @@ const navOptions: SimpleLink[] = [
     title: 'Press',
   },
   { 
+    path: '/about/publications',
+    title: 'Publications',
+  },
+  { 
     path: '/about/timeline',
     title: 'Timeline',
   }
