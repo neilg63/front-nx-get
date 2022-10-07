@@ -1,5 +1,4 @@
 import { NextPage } from "next";
-import Link from 'next/link';
 import { BaseEntity } from "../lib/interfaces";
 import { NodeEntity, PageDataSet } from "../lib/entity-data";
 import Head from "next/head";
@@ -11,9 +10,8 @@ import PublicationItem from "./widgets/publication-item";
 
 const PublicationList: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
-  const { items, meta, total, perPage, labels } = pageData;
+  const { items, meta } = pageData;
   const hasItems = items.length > 0;
-  const download_label = pageData.label('download_pdf');
   return <>
     <Head>
       <SeoHead meta={meta} />

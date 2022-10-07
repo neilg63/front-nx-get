@@ -29,7 +29,7 @@ const PublicationPage: NextPage<BaseEntity> = (data ) => {
         <div className='text-details'>
           <h3><DateRange item={entity.field_date_range} /></h3>
           <h4 className="year">{entity.fieldyear}</h4>
-          {entity.hasPublisher && <h4 className="publisher">{parse(entity.field_publisher)}</h4>}
+          {showPublisher && <h4 className="publisher">{parse(entity.field_publisher)}</h4>}
 
           {hasBody && <div className="body">{parse(entity.body)}</div>}
         </div>
