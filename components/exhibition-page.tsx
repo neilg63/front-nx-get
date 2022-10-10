@@ -7,17 +7,22 @@ import { Container } from "@nextui-org/react";
 import Head from "next/head";
 import SeoHead from "./layout/head";
 import Carousel from "./widgets/carousel";
-import RelatedItem from "./widgets/related-item";
 import { relatedKey } from "../lib/ui-entity";
-import contentTypes, { relatedItemsTitle } from "../lib/content-types";
+import contentTypes from "../lib/content-types";
 import DateRange from "./widgets/date-range";
 import BreadcrumbTitle from "./widgets/breadcrumb-title";
 import ArtworkFigure from "./widgets/artwork-figure";
+import PressPreview from "./widgets/press-preview";
 
 
 const ExhibitionPage: NextPage<BaseEntity> = (data ) => {  
   const pageData = new PageDataSet(data);
-  const { entity, meta } = pageData;
+  const { entity, meta, site } = pageData;
+  const download_label = site.label('download_pdf');
+  const relatedPressReleases = entity.hasRelatedPress ? entity.field_related_press.filter((p:NodeEntity) => p.field_press_type.startsWith('release')) : [];
+  const hasRelatedPressReleases = relatedPressReleases.length > 0;
+  const relatedPressPrinted = entity.hasRelatedPress ? entity.field_related_press.filter((p:NodeEntity) => p.field_press_type.startsWith('print')) : [];
+  const hasRelatedPressPrinted = relatedPressPrinted.length > 0;
   return  <>
     <Head>
       <SeoHead meta={meta} />
@@ -40,10 +45,16 @@ const ExhibitionPage: NextPage<BaseEntity> = (data ) => {
         {entity.related_artworks.map((row: NodeEntity, index: number) => <ArtworkFigure key={relatedKey(row, index)} item={row} index={index} />)}
       </div>
     </div>}
-    {entity.hasRelatedPress && <div className='related-press related body-section'>
-      <h3>{relatedItemsTitle('press')}</h3>
-      <div className='flex-grid-2'>
-        {entity.field_related_press.map((row: NodeEntity, index: number) => <RelatedItem key={relatedKey(row, index)} item={row} />)}
+    {hasRelatedPressReleases && <div className='related-press related'>
+      <h3>{contentTypes.press_release}</h3>
+      <div className='column'>
+      {relatedPressReleases.map((row: NodeEntity, index: number) => <PressPreview key={relatedKey(row, index)} item={row} label={ download_label } dateMode='none' />)}
+      </div>
+    </div>}
+      {hasRelatedPressPrinted && <div className='related-press related'>
+      <h3>{contentTypes.press_printed}</h3>
+      <div className='column'>
+      {relatedPressPrinted.map((row: NodeEntity, index: number) => <PressPreview key={relatedKey(row, index)} item={row} label={ download_label } dateMode='none' />)}
       </div>
     </div>}
     </Container>

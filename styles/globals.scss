@@ -1445,25 +1445,52 @@ main > .related {
 
 #nextui-modal {
 
+
+  .image-fullscreen {
+    .control {
+      opacity: 0.25;
+      transition: opacity 0.25s ease-in-out;
+      transform: scale(0.625);
+      &:hover {
+        opacity: 0.6667;
+      }
+    }
+  }
+
   .control {
     position: absolute;
     user-select: none;
-    &.bottom-left {
-      bottom: 5vh;
-      left: 2.5vw;
+    z-index: 100;
+    &.top-right {
+      top: 1em;
+      right: 0.75em;
+
+      &.icon-close {
+        top: 1.125vw;
+      }
+
       &.close-modal {
-        bottom: 0.375em;
-        left: 0.375em;
         opacity: 0;
+        top: 2.5vvw;
+        right: 2.5vw;
+        left: 0.375em;
+        bottom: 0.375em;
         transition: opacity 0.25s ease-in-out;
         &:hover {
           opacity: 1;
         }
       }
     }
-    &.top-right {
-      top: 1em;
-      right: 0.75em;
+    &.mid-right,
+    &.mid-left {
+      top: calc(50vh - 0.5em);
+    }
+
+    &.mid-right {
+      right: 2.5vw;
+    }
+    &.mid-left {
+      left: 2.5vw;
     }
     font-size: 2.5vw;
     cursor: pointer;
@@ -1571,12 +1598,6 @@ main > .related {
     z-index: 9;
   }
 
-  &:hover {
-    .enlarge-trigger::before {
-      opacity: 1;
-    }
-  }
-
   &.show-controls {
     .enlarge-trigger {
       bottom: 2.75rem;
@@ -1612,11 +1633,18 @@ main > .related {
       right: 0.25em;
       align-items: flex-end;
     }
-
+    opacity: 0;
     font-size: 4vw;
 
     @media screen and (min-width: $max-screen-width) {
       font-size: 72px;
+    }
+    &.prev,
+    &.next {
+      transition: all 0.75s ease-in-out;
+      &:hover {
+        opacity: 0.8;
+      }
     }
     &:hover {
       color: $primary;

@@ -13,6 +13,7 @@ import VideoPreview from "./widgets/video-preview";
 import { relatedKey } from "../lib/ui-entity";
 import { relatedItemsTitle } from "../lib/content-types";
 import MiniRelatedItem from "./widgets/mini-related-item";
+import BreadcrumbTitle from "./widgets/breadcrumb-title";
 
 const VideoPage: NextPage<BaseEntity> = (data ) => {  
   const pageData = new PageDataSet(data);
@@ -24,7 +25,7 @@ const VideoPage: NextPage<BaseEntity> = (data ) => {
     </Head>
     <Container {...containerProps} className='video-container grid-sidebar'>
     <article className="video">
-        <h1><Link href={nextAlias}><a>{entity.title}</a></Link></h1>
+        <h1><BreadcrumbTitle path={entity.path} title={ entity.title } /></h1>
         {entity.hasVideo && <iframe className="video" src={entity.videoUrl} allow={entity.videoAllowKeys}></iframe>}
         <p>{ mediumDate(entity.field_date) }</p>
         {entity.hasBody && <div className="body">{parse(entity.body)}</div>}

@@ -4,13 +4,11 @@ import { NodeEntity, SiteInfo } from "../../lib/entity-data"
 import { MetaDataSet, relatedKey } from "../../lib/ui-entity"
 import Carousel from "./carousel"
 import MiniRelatedItem from "./mini-related-item"
-import TypeLink from "./type-link"
 import YearLink from "./year-link"
 import TagList from "./tag-list";
 import BreadcrumbTitle from "./breadcrumb-title";
 import ArtworkFigure from "./artwork-figure";
 import { ShareWidget } from "./share-widget";
-import { notEmptyString } from "../../lib/utils";
 import PressPreview from "./press-preview";
 
 const ArtworkInsert = ({ entity, basePath, site, meta }: { entity: NodeEntity, basePath: string, site: SiteInfo, meta: MetaDataSet}) => { 

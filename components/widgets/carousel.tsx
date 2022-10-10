@@ -204,9 +204,12 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
         aria-labelledby="modal-title"
       aria-describedby="modal-description"
               fullScreen={true}
-        {...bindings}
+      {...bindings}
+      className="image-fullscreen"
     >
-      <div className='control bottom-left icon-prev-arrow-wide' onClick={e => closeModal()}></div>
+      {startCarousel && <div className='control mid-left icon-prev-arrow-wide' onClick={e => scrollPrev()}></div>}
+      {startCarousel && <div className='control mid-right icon-next-arrow-wide' onClick={e => scrollNext()}></div>}
+      <div className='control top-right icon-close' onClick={e => closeModal()}></div>
       <ModalFigure item={ selectedItem() } />
       </Modal>
   </>
