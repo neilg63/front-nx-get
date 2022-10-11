@@ -31,8 +31,6 @@ const NewsList: NextPage<BaseEntity> = (data) => {
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps}>
-        <header className="section-header">
-      </header>
       <nav className='filter-nav show-by-year'>
         <h1><BreadcrumbTitle path={pageData.meta.path} title={ pageData.contextTitle } /></h1>
 
