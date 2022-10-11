@@ -626,6 +626,18 @@ export class NodeEntity {
     }
   }
 
+  get isPressArticle() {
+    return this.hasTextField("field_press_type")
+      ? this.field_press_type.startsWith("printed")
+      : false;
+  }
+
+  get isPressRelease() {
+    return this.hasTextField("field_press_type")
+      ? this.field_press_type.startsWith("release")
+      : false;
+  }
+
   get numMedia() {
     return this.num_media > 0
       ? this.num_media

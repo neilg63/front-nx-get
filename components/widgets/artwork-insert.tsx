@@ -16,9 +16,9 @@ const ArtworkInsert = ({ entity, basePath, site, meta }: { entity: NodeEntity, b
   const materialLabel = site.label('material_label', 'Material');
   const dimensionsLabel = site.label('dimensions_label', 'Dimensions');
   const download_label = site.label('download_pdf');
-  const relatedPressReleases = entity.hasRelatedPress ? entity.field_related_press.filter((p:NodeEntity) => p.field_press_type.startsWith('release')) : [];
+  const relatedPressReleases = entity.hasRelatedPress ? entity.field_related_press.filter((p:NodeEntity) => p.isPressRelease) : [];
   const hasRelatedPressReleases = relatedPressReleases.length > 0;
-  const relatedPressPrinted = entity.hasRelatedPress ? entity.field_related_press.filter((p:NodeEntity) => p.field_press_type.startsWith('print')) : [];
+  const relatedPressPrinted = entity.hasRelatedPress ? entity.field_related_press.filter((p:NodeEntity) => p.isPressArticle) : [];
   const hasRelatedPressPrinted = relatedPressPrinted.length > 0;
   return <>
     <article className="artwork">
@@ -51,16 +51,16 @@ const ArtworkInsert = ({ entity, basePath, site, meta }: { entity: NodeEntity, b
             {entity.field_related_essays.map((row: NodeEntity, index: number) => <MiniRelatedItem key={relatedKey(row, index)} item={row} mode='basic' />)}
           </div>
         </div>}
-        {hasRelatedPressReleases && <div className='related-press related'>
-          <h3>{contentTypes.press_release}</h3>
-          <div className='column'>
-          {relatedPressReleases.map((row: NodeEntity, index: number) => <PressPreview key={relatedKey(row, index)} item={row} label={ download_label } dateMode='none' />)}
-          </div>
-        </div>}
          {hasRelatedPressPrinted && <div className='related-press related'>
           <h3>{contentTypes.press_printed}</h3>
           <div className='column'>
           {relatedPressPrinted.map((row: NodeEntity, index: number) => <PressPreview key={relatedKey(row, index)} item={row} label={ download_label } dateMode='none' />)}
+          </div>
+        </div>}
+        {hasRelatedPressReleases && <div className='related-press related'>
+          <h3>{contentTypes.press_release}</h3>
+          <div className='column'>
+          {relatedPressReleases.map((row: NodeEntity, index: number) => <PressPreview key={relatedKey(row, index)} item={row} label={ download_label } dateMode='none' />)}
           </div>
         </div>}
     </aside>
