@@ -11,14 +11,19 @@ import { mediumDate } from "../lib/converters";
 import labels from "../lib/labels";
 import VideoPreview from "./widgets/video-preview";
 import { relatedKey } from "../lib/ui-entity";
-import { relatedItemsTitle } from "../lib/content-types";
+import contentTypes, { relatedItemsTitle } from "../lib/content-types";
 import MiniRelatedItem from "./widgets/mini-related-item";
 import BreadcrumbTitle from "./widgets/breadcrumb-title";
+import PressPreview from "./widgets/press-preview";
 
 const VideoPage: NextPage<BaseEntity> = (data ) => {  
   const pageData = new PageDataSet(data);
-  const { entity, meta } = pageData;
-  const nextAlias = '/videos';
+  const { entity, meta, site} = pageData;
+  const download_label = site.label('download_pdf');
+  const relatedPressReleases = entity.hasRelatedPress ? entity.field_related_press.filter((p:NodeEntity) => p.isPressRelease) : [];
+  const hasRelatedPressReleases = relatedPressReleases.length > 0;
+  const relatedPressPrinted = entity.hasRelatedPress ? entity.field_related_press.filter((p:NodeEntity) => p.isPressArticle) : [];
+  const hasRelatedPressPrinted = relatedPressPrinted.length > 0;
   return  <>
     <Head>
       <SeoHead meta={meta} />
@@ -38,16 +43,22 @@ const VideoPage: NextPage<BaseEntity> = (data ) => {
             {entity.field_related_exhibitions.map((row: NodeEntity, index: number) => <MiniRelatedItem key={relatedKey(row, index)} item={row} mode='basic' />)}
           </div>
         </div>}
-        {entity.hasRelatedVideos && <div className='related-press related'>
-          <h3>{relatedItemsTitle('press')}</h3>
+        {entity.hasRelatedEssays && <div className='related-essays related body-section'>
+          <h3>{contentTypes.article}</h3>
+          <div className='fixed-height-rows medium-height inner-captions'>
+            {entity.field_related_essays.map((row: NodeEntity, index: number) => <MiniRelatedItem key={relatedKey(row, index)} item={row} mode='basic' />)}
+          </div>
+        </div>} 
+        {hasRelatedPressPrinted && <div className='related-press related'>
+          <h3>{contentTypes.press_article}</h3>
           <div className='column'>
-            {entity.field_related_press.map((row: NodeEntity, index: number) => <MiniRelatedItem key={relatedKey(row, index)} item={row} mode='basic' />)}
+            {relatedPressPrinted.map((row: NodeEntity, index: number) => <PressPreview key={relatedKey(row, index)} item={row} label={ download_label } dateMode='none' />)}
           </div>
         </div>}
-        {entity.hasRelatedVideos && <div className='related-press related'>
-          <h3>{relatedItemsTitle('article')}</h3>
+        {hasRelatedPressReleases && <div className='related-press related'>
+          <h3>{contentTypes.press_article}</h3>
           <div className='column'>
-            {entity.field_related_essays.map((row: NodeEntity, index: number) => <MiniRelatedItem key={relatedKey(row, index)} item={row} mode='basic' />)}
+            {relatedPressReleases.map((row: NodeEntity, index: number) => <PressPreview key={relatedKey(row, index)} item={row} label={ download_label } dateMode='none' />)}
           </div>
         </div>}
       </aside>

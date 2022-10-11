@@ -286,3 +286,31 @@ export const fromBase64 = (s: string): string =>
 
 export const fromReverseBase64 = (s: string): string =>
   reverseString(fromBase64(s));
+
+export const chomp = (str: string, max = 128) => {
+  const wl = str.length;
+  return wl > max ? str.substring(0, max) + "." : str;
+};
+
+export const truncateText = (str: string, max = 128, suffix = "...") => {
+  const parts = str.split(" ");
+  let end = 0;
+  const numWords = parts.length;
+  if (numWords > 1) {
+    const wordList = parts.map((word, index) => {
+      const extra = index > 0 ? 1 : 0;
+      end += word.length + extra;
+      return {
+        word,
+        end,
+      };
+    });
+    const lastIndex = wordList.findIndex((part) => part.end > max);
+    const ellipsis = str.length > max ? suffix : "";
+    return lastIndex > 0
+      ? parts.slice(0, lastIndex).join(" ") + ellipsis
+      : chomp(parts.join(" "), max) + ellipsis;
+  } else {
+    return chomp(str, max);
+  }
+};

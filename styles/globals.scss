@@ -1128,7 +1128,7 @@ body .nprogress {
     }
     span, em, strong {
       display: inline-block;
-      padding-right: 0.75rem;
+      padding-right: 0.5rem;
       &:first-child {
         margin-left: 0;
       }
@@ -1141,8 +1141,8 @@ body .nprogress {
       }
       &::after {
         display: inline-block;
-        content: "—";
-        margin: 0 0.25em 0 0.75rem;
+        content: ",";
+        margin: 0;
       }
     }
     h3 {

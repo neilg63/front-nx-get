@@ -19,6 +19,7 @@ import {
   notEmptyString,
   smartCastInt,
   toFullUri,
+  truncateText,
   validDateString,
 } from "./utils";
 
@@ -564,6 +565,10 @@ export class NodeEntity {
       this.field_video instanceof MediaItem &&
       notEmptyString(this.field_video.uri)
     );
+  }
+
+  get shortSummary() {
+    return truncateText(this.summary, 160);
   }
 
   get videoUrl() {
