@@ -626,8 +626,8 @@ export class NodeEntity {
   get shortDate() {
     if (validDateString(this.field_date)) {
       return shortDate(this.field_date);
-    } else {
-      return "";
+    } else if (this.field_date_range instanceof Object) {
+      return shortDate(this.field_date_range.value);
     }
   }
 

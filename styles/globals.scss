@@ -8,6 +8,7 @@ $small-screen-width: 450px;
 $tall-screen-height: 750px;
 $sidebar-width: 15em;
 $text-size: 14px; // standard text size, as opposed to the basis for rems;
+$letter-spacing-standard: 0;
 $text-line-height: 1.214285; // 17px
 $heading-line-height: 1.42857143; // 20px
 $top-padding-standard: 6rem;
@@ -202,6 +203,7 @@ section {
     li {
       font-size: $text-size;
       font-weight: normal;
+      letter-spacing: $letter-spacing-standard;
     }
 
     h4,
@@ -2144,12 +2146,15 @@ main > article {
     margin: 0.5em 0 1em 0;
     padding-bottom: 1em;
     @include square-dots();
-    &:first-child {
-      margin-top: 1em;
-    }
     &:last-child {
       border-bottom: none;
     }
+  }
+}
+
+.grid-sidebar .sidebar .related .column {
+  > div {
+    margin: 0 0 1em 0;
   }
 }
 
