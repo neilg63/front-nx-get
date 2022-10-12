@@ -25,6 +25,7 @@ const filterOpts = [
 
 const ExhibitionList: NextPage<BaseEntity> = (data) => {  
   const pageData = useMemo(() => new PageDataSet(data), [data]);
+  const { site } = pageData;
   const hasItems = pageData.items.length > 0;
   const context = useContext(TopContext);
   const [scrollPage, setScrollPage] = useState(pageData.page);
@@ -142,9 +143,9 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
           </figure>)}
           </div>
           {pageData.showListingNav && <nav className='listing-nav row'>
-            {pageData.mayLoadPrevious && <span className='nav-link prev' title={pageData.prevPageOffset(maxScrollPages).toString()} onClick={() => loadNextPrev(false)}><i className='icon icon-prev-arrow-narrow prev'></i>{ labels.load_newer}</span>}
+            {pageData.mayLoadPrevious && <span className='nav-link prev' title={pageData.prevPageOffset(maxScrollPages).toString()} onClick={() => loadNextPrev(false)}><i className='icon icon-prev-arrow-narrow prev'></i>{ site.label('load_newer')}</span>}
             <span className='text-label' onClick={() => loadNextPrev(pageData.mayLoadMore)}>{pageData.listingInfo} </span>
-            {pageData.mayLoadMore && <span className='nav-link next' title={pageData.nextPageOffset.toString()} onClick={() => loadNextPrev(true)}>{ labels.load_older}<i className='icon icon-next-arrow-narrow next'></i></span>}
+            {pageData.mayLoadMore && <span className='nav-link next' title={pageData.nextPageOffset.toString()} onClick={() => loadNextPrev(true)}>{ site.label('load_older')}<i className='icon icon-next-arrow-narrow next'></i></span>}
           </nav>}
         </>}
       </section>

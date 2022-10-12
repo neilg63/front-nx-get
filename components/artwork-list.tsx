@@ -73,7 +73,7 @@ const wrapperClasses = (showSelected = false) => {
 
 const ArtworkList: NextPage<BaseEntity> = (data) => {  
   const pageData = useMemo(() => new PageDataSet(data), [data]);
-  //const pageData = new PageDataSet(data);
+  const { site } = pageData;
   const context = useContext(TopContext);
   const [scrollPage, setScrollPage] = useState(pageData.page);
   const isLarge = isMinLargeSize(context);
@@ -240,9 +240,9 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
           {pageData.items.map((item, index) => item.duplicate ? <figure className='hidden' key={item.indexedKey(index)} style={displayNone}></figure> : <ArtworkFigure item={item} index={index} key={item.indexedKey(index)} />)}
           </div>
           {pageData.showListingNav && <nav className='listing-nav row'>
-            {pageData.mayLoadPrevious && <span className='nav-link prev' title={pageData.prevPageOffset(maxScrollPages).toString()} onClick={() => loadNextPrev(false)}><i className='icon icon-prev-arrow-narrow prev'></i>{ labels.load_newer}</span>}
+            {pageData.mayLoadPrevious && <span className='nav-link prev' title={pageData.prevPageOffset(maxScrollPages).toString()} onClick={() => loadNextPrev(false)}><i className='icon icon-prev-arrow-narrow prev'></i>{ site.label('load_newer', 'Back') }</span>}
             <span className='text-label' onClick={() => loadNextPrev(pageData.mayLoadMore)}>{pageData.listingInfo} </span>
-            {pageData.mayLoadMore && <span className='nav-link next' title={pageData.nextPageOffset.toString()} onClick={() => loadNextPrev(true)}>{ labels.load_older}<i className='icon icon-next-arrow-narrow next'></i></span>}
+            {pageData.mayLoadMore && <span className='nav-link next' title={pageData.nextPageOffset.toString()} onClick={() => loadNextPrev(true)}>{ site.label('load_older', 'Next')}<i className='icon icon-next-arrow-narrow next'></i></span>}
           </nav>}
         </>}
       </section>

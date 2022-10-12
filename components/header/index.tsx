@@ -114,9 +114,7 @@ const Header = (pageData: PageDataSet) => {
   useEffect(() => {
     const items = site instanceof Object && site.menus instanceof Object ? site.menus.main : [];
     const path = router.asPath;
-    if (path.startsWith("/search")) {
-      setSearchFieldOn(false);
-    }
+    setSearchFieldOn(path.startsWith("/search") === false);
     router.events.on('routeChangeComplete', (e) => {
       setExpanded(false);
     });
@@ -148,7 +146,7 @@ const Header = (pageData: PageDataSet) => {
             </li>
           })}
           <li className={searchClassNames}>
-            {searchFieldOn && <Input name='search' value={search} onChange={updateSearch} className='search-field' size='sm' onKeyDown={e => (submitOnEnter(e))} id='nav-short-search-field' aria-labelledby={labels.search} />}
+            {searchFieldOn && <Input name='search' value={search} onChange={updateSearch} className='search-field' size='sm' onKeyDown={e => (submitOnEnter(e))} id='nav-short-search-field' aria-labelledby={labels.search} rounded={false} shadow={false} animated={false} />}
             <i className='icon icon-search' title='Search' onClick={submitSearch}></i>
           </li>
         </ul>}

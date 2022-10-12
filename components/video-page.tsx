@@ -45,7 +45,7 @@ const VideoPage: NextPage<BaseEntity> = (data ) => {
         </div>}
         {entity.hasRelatedEssays && <div className='related-essays related body-section'>
           <h3>{contentTypes.article}</h3>
-          <div className='fixed-height-rows medium-height inner-captions'>
+          <div className='column'>
             {entity.field_related_essays.map((row: NodeEntity, index: number) => <MiniRelatedItem key={relatedKey(row, index)} item={row} mode='basic' />)}
           </div>
         </div>} 

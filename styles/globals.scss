@@ -426,6 +426,35 @@ header.header {
           max-width: 12.5em;
           margin-right: 0.25em;
         }
+        .nextui-input-main-container {
+          margin-left: 0;
+          padding-left: 0;
+          .nextui-input-helper-text-container {
+            display: none;
+          }
+          .search-field {
+            margin: 0.25em 0;
+            padding: 0;
+            align-items: flex-start;
+            border-radius: 0;
+            height: 2em;
+            label {
+              border-radius: 0;
+              margin: 0;
+              padding: 0 0.125em;
+              align-items: flex-start;
+              height: 2em;
+              background: none;
+              border: solid 1px $dark;
+              input {
+                margin: 0;
+                padding: 0.25em 0.125em;
+                background-color: white;
+                border: none;
+              }
+            }
+          }
+        }
       }
       &:hover {
         a {
@@ -560,6 +589,11 @@ img {
     }
     a:active {
       font-weight: bold;
+    }
+    .tag-list {
+      a:active {
+        font-weight: normal;
+      }
     }
     
   }
@@ -869,7 +903,8 @@ img {
   > article {
     > header > h1,
     > h1 {
-      margin-top: 0.25rem;
+      margin: 0.25rem 0 1.375em 0;
+      padding: 0.25em 0 0.875em 0;
     }
   }
   >.related-content {
@@ -1040,12 +1075,12 @@ ul, ol {
       margin: 0 0.375em 0 0;
     }
 
-    &:hover {
+   /*  &:hover {
       &::after {
         color: $mid-grey;
         transform: scaleY(1.8888) translateY(1.25%);
       }
-    }
+    } */
 
     &:last-child {
       &::after {
@@ -1060,10 +1095,10 @@ ul, ol {
       color: $dark;
       white-space: normal;
 
-      &:hover {
-        background-color: $mid-grey;
-        color: white;
-        line-height: 1;
+      /* &:hover {
+         background-color: $mid-grey;
+        color: white; 
+        line-height: 1; 
         outline: solid 0.125em $mid-grey;
         &::before {
           position: absolute;
@@ -1081,7 +1116,7 @@ ul, ol {
           border-left: solid 0.625em $mid-grey;
           z-index: 0;  
         }
-      }
+      } */
     }
   }
   margin-bottom: 3em;
@@ -1524,9 +1559,9 @@ main > .related {
       left: 5%;
       right: 5%;
       padding: 1em;
-      cursor: pointer;
       pointer-events: all;
-      background-color: rgba($light, 0.6667);
+      opacity: 0;
+      /* background-color: rgba($light, 0.6667);
       @media (min-width: $mid-screen-width) {
         left: 15%;
         right: 15%;
@@ -1535,11 +1570,11 @@ main > .related {
         left: 25%;
         right: 25%;
       }
-      opacity: 0;
+     cursor: pointer;
       transition: opacity 0.5s ease-in-out;
       &:hover {
         opacity: 1;
-      }
+      } */
     }
   }
 }
@@ -1797,6 +1832,7 @@ main > .related {
   iframe.video {
     width: 100%;
     aspect-ratio: 16 / 9;
+    border: none;
   }
 }
 
