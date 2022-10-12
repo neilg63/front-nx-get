@@ -13,8 +13,9 @@ import BreadcrumbTitle from "./widgets/breadcrumb-title";
 
 const NewsPage: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
-  const { entity, meta, items,labels } = pageData;
-  const hasItems = items instanceof Array && items.length > 0;
+  const { entity, meta, items, labels } = pageData;
+  const topItems = items instanceof Array ? items.filter(item => item.path !== entity.path) : [];
+  const hasItems = topItems.length > 0;
   return <>
     <Head>
       <SeoHead meta={meta} />
@@ -30,7 +31,7 @@ const NewsPage: NextPage<BaseEntity> = (data) => {
         <div className='related-artworks related'>
           <h3>{ labels.get('latest_news') }</h3>
           <div className='columns'>
-            {hasItems && items.map((row: NodeEntity, index: number) => <RelatedItem key={relatedKey(row, index)} item={row} />)}
+            {hasItems && topItems.map((row: NodeEntity, index: number) => <RelatedItem key={relatedKey(row, index)} item={row} />)}
           </div>
         </div>
       </aside>
