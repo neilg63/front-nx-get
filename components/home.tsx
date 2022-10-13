@@ -33,8 +33,7 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
   const pageData = new CompoundPageDataSet(data);
   const context = useContext(TopContext);
   const router: any = useRouter();
-
-  const { meta, labels } = pageData;
+  const { meta, labels, site } = pageData;
   const [splashClasses, setSplashClasses] = useState('splash-overlay');
   const [enableOverlay, setEnableOverlay] = useState(false);
   const splashItems = pageData.getMediaItems('splash');
@@ -82,14 +81,16 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
         <SeoHead meta={meta} />
       </Head>
       <Container {...containerProps} className="home-container">
-        <header className="home-header section-header"><i className='icon icon-home'></i></header>
-        {hasCurrExhib && <section className='current-exhibition'><ExhibitionPreview node={currentExhibition} label={ labels.get('current_exhibition') } /></section>}
+        <section className='current-exhibition'>
+          <header className="home-header section-header"><i className='icon icon-home'></i></header>
+          {hasCurrExhib && <ExhibitionPreview node={currentExhibition} label={labels.get('current_exhibition')} />}
+        </section>
         <section className='news-previews column'>
           <h3>{labels.get('latest_news')}</h3>
           {hasNews && <div className='news-items'>
             {newsItems.map((item: NodeEntity) => <NewsItemPreview key={['news', item.uuid].join('-')} node={item} />)}
           </div>}
-          <h3 className='more-link'><Link href='/news'><a>More</a></Link></h3>
+          <h3 className='more-link'><Link href='/news'><a>{ site.label('see_more', 'See More') }</a></Link></h3>
           <div className='artwork-links'>
             <h3 className='subtitle'>{labels.get('artworks')}</h3>
             <h4 className='subtitle-link'><Link href='/tags'><a>{labels.get('related_artworks')}</a></Link></h4>
