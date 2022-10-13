@@ -32,6 +32,7 @@ const VideoPage: NextPage<BaseEntity> = (data ) => {
     <article className="video">
         <h1><BreadcrumbTitle path={entity.path} title={ entity.title } /></h1>
         {entity.hasVideo && <iframe className="video" src={entity.videoUrl} allow={entity.videoAllowKeys}></iframe>}
+        <h2 className='title'>{entity.title}</h2>
         <p>{ mediumDate(entity.field_date) }</p>
         {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
         

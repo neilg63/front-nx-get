@@ -28,7 +28,7 @@ const ArtworkInsert = ({ entity, basePath, site, meta }: { entity: NodeEntity, b
         </header>
         {entity.hasImages && <Carousel items={entity.images} />}
         <div className="info">
-            
+          <h2 className='title'>{entity.title}</h2>
           {entity.hasTextField('material_text') && <p className='info-row material' title={materialLabel}>{entity.field_material_text}</p>}
           {entity.hasTextField('dimensions') && <p className='info-row dimensions' title={dimensionsLabel}>{entity.field_dimensions}</p>}
         {/* <p className="year-type links-2"><TypeLink value={entity.field_type} basePath={basePath} /> <YearLink value={entity.field_year} basePath={basePath} /></p> */}

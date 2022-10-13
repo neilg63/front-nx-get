@@ -27,6 +27,8 @@ $light: white;
 $primary: #ff6600;
 $danger: #cc0000;
 
+$dot-size: 2px;
+
 @mixin custom-dots {
   border-image-source: url(/assets/border-square.png);
   border-image-slice: 2 0;
@@ -35,18 +37,18 @@ $danger: #cc0000;
 
 @mixin square-dots {
   @include custom-dots();
-  border-bottom: dotted 2px $dark;
+  border-bottom: dotted $dot-size $dark;
 }
 
 @mixin square-dots-top {
   @include custom-dots();
-  border-top: dotted 2px $dark;
+  border-top: dotted $dot-size $dark;
 }
 
 @mixin square-dots-top-bottom {
   @include custom-dots();
-  border-top: dotted 2px $dark;
-  border-bottom: dotted 2px $dark;
+  border-top: dotted $dot-size $dark;
+  border-bottom: dotted $dot-size $dark;
 }
 
 
@@ -563,6 +565,10 @@ img {
   justify-content: flex-start;
   align-items: center;
 
+  h2.title {
+    font-weight: bold;
+  }
+
   .upper {
     text-transform: uppercase;
   }
@@ -903,8 +909,10 @@ img {
   > article {
     > header > h1,
     > h1 {
-      margin: 0.25rem 0 1.375em 0;
-      padding: 0.25em 0 0.875em 0;
+      /* margin: 0.25rem 0 1.375em 0;
+      padding: 0.25em 0 0.875em 0; */
+      margin: 0.25rem 0 0 0;
+        padding: 0.25em 0 0 0;
     }
   }
   >.related-content {
@@ -2071,6 +2079,7 @@ main > .related {
 
     article {
       h3 {
+        margin-top: 0.75em;
         span {
           display: inline-block;
         }
@@ -2155,6 +2164,10 @@ main > .related {
       > a {
         display: block;
         width: 100%;
+        
+      }
+      h4 {
+        padding-top: 0.75em;
       }
     }
   }

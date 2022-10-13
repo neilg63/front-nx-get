@@ -33,6 +33,7 @@ const hasRelatedPressPrinted = relatedPressPrinted.length > 0;
         <h1><BreadcrumbTitle path={meta.path} title={entity.title} /></h1>
         <div className='left-container'>{entity.hasImages && <Carousel items={entity.images} />}</div>
         <div className='text-details'>
+          <h2 className='title'>{entity.title}</h2>
           <h3><DateRange item={ entity.field_date_range } /></h3>
           {entity.hasSubtitle && <h4 className="subtitle">{parse(entity.field_subtitle)}</h4>}
           {entity.hasPlacename && <h5 className="placename">{entity.field_placename}</h5>}
