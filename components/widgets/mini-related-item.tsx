@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { NodeEntity } from "../../lib/entity-data";
 
-const MiniRelatedItem = ({ item, mode }: { item: NodeEntity, mode: string }) => {
+const MiniRelatedItem = ({ item, mode, showDate, dateMode }: { item: NodeEntity, mode: string, showDate: boolean, dateMode: string }) => {
   const showSummary = ['summary', 'full'].includes(mode);
+  const dateStr = dateMode === 'short' ? item.shortDate : item.year;
   return <div className='related-mini' >
     <Link href={item.path}>
       <a className='text-details'>
         <h4><span className='text'>{item.title}</span></h4>
-        <p><span className='short-date'>{item.shortDate}</span> {item.hasAuthor && <span className='author'>{item.field_author}</span>}</p>
+        <p>{showDate && <span className='short-date'>{dateStr}</span>}{item.hasAuthor && <span className='author'>{item.field_author}</span>}</p>
         {showSummary && <p>{item.summary}</p>}
       </a>
     </Link>
@@ -15,7 +16,9 @@ const MiniRelatedItem = ({ item, mode }: { item: NodeEntity, mode: string }) => 
 }
 
 MiniRelatedItem.defaultProps = {
-  mode: 'summary'
+  mode: 'summary',
+  dateMode: 'short',
+  showDate: true
 };
 
 export default MiniRelatedItem;

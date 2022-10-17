@@ -83,7 +83,6 @@ const Timeline: NextPage<BaseEntity> = (data: any = null) => {
     <Container {...containerProps} className='timeline-main'>
       <AboutNav current='/about/timeline' />
       <section className="timeline-item-container full-width">
-        <h2 className='section-header'>Timeline</h2>
         <div className='timeline-items'>
           <section className='timeline-holder row' style={ calcTimelineStyles(items.length, offset) }>
             {hasItems && items.map((item: NodeEntity, index: number) => <TimelineItem node={item} selected={ node.nid }  key={ ['item.uuid', index].join('-') }  />)}
@@ -99,8 +98,8 @@ const Timeline: NextPage<BaseEntity> = (data: any = null) => {
           
         <MediaFigure item={node.firstImage} size='large' width='100%' height='auto' objectFit='contain' />
         <div className='text-details'>
-          <h3>{node?.title}</h3>
-          <p>{shortDate(node.field_date)}</p>
+          <h3 className='timeline-title'>{node?.title}</h3>
+          <p className='date'>{shortDate(node.field_date)}</p>
           <div className='body'>{parse(node.body)}</div>
           {node.hasRelatedContent && <ul className='related-content'>
             {node.field_related_content.map((item: NodeEntity) => <li key={['related', node.nid, item.nid].join('-') }>

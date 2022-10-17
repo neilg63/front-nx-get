@@ -1,5 +1,5 @@
 import contentTypes, { toBundlePlural } from "./content-types";
-import { sanitize, shortDate, toMimeType } from "./converters";
+import { longYear, sanitize, shortDate, toMimeType } from "./converters";
 import {
   Dims2D,
   KeyStringValue,
@@ -623,11 +623,25 @@ export class NodeEntity {
     return this.hasImages ? this.field_images : [];
   }
 
-  get shortDate() {
+  get shortDate(): string {
     if (validDateString(this.field_date)) {
       return shortDate(this.field_date);
     } else if (this.field_date_range instanceof Object) {
       return shortDate(this.field_date_range.value);
+    } else {
+      return "";
+    }
+  }
+
+  get year(): string {
+    if (validDateString(this.field_date)) {
+      return longYear(this.field_date);
+    } else if (this.field_date_range instanceof Object) {
+      return longYear(this.field_date_range.value);
+    } else if (this.field_year) {
+      return this.field_year.toString();
+    } else {
+      return "";
     }
   }
 

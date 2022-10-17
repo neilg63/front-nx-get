@@ -7,14 +7,14 @@ import { containerProps } from "../lib/styles";
 import Head from "next/head";
 import SeoHead from "./layout/head";
 import Carousel from "./widgets/carousel";
-import RelatedItem from "./widgets/related-item";
+import NewsItemPreview from "./widgets/news-item-preview";
 import { relatedKey } from "../lib/ui-entity";
 import BreadcrumbTitle from "./widgets/breadcrumb-title";
-import { mediumDate } from "../lib/converters";
+import { shortDate } from "../lib/converters";
 
 const NewsPage: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
-  const { entity, meta, items, labels } = pageData;
+  const { entity, meta, items, site } = pageData;
   const topItems = items instanceof Array ? items.filter(item => item.path !== entity.path) : [];
   if (topItems.length > 3) {
     topItems.pop();
@@ -30,16 +30,18 @@ const NewsPage: NextPage<BaseEntity> = (data) => {
           <h1><BreadcrumbTitle path={pageData.meta.path} title={ entity.title } /></h1>
         </header>
         {entity.hasImages && <Carousel items={entity.images} />}
-        <h2 className='title'>{entity.title}</h2>
-        <h4 className='date'>{ mediumDate(entity.field_date) }</h4>
-        {entity.hasSubtitle && <h3 className="subtitle">{parse(entity.field_subtitle)}</h3>}
-        {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
+        <div className="text-details">
+          <h4 className='date'>{ shortDate(entity.field_date) }</h4>
+          <h2 className='title'>{entity.title}</h2>
+          {entity.hasSubtitle && <h3 className="subtitle">{parse(entity.field_subtitle)}</h3>}
+          {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
+        </div>
       </article>
       <aside className='sidebar sidebar-right'>
-        <div className='related-artworks related'>
-          <h3>{ labels.get('latest_news') }</h3>
+        <div className='related-news related'>
+          <h3>{ site.label('other_news', 'Other news') }</h3>
           <div className='columns'>
-            {hasItems && topItems.map((row: NodeEntity, index: number) => <RelatedItem key={relatedKey(row, index)} item={row} />)}
+            {hasItems && topItems.map((row: NodeEntity, index: number) => <NewsItemPreview key={relatedKey(row, index)} node={row} />)}
           </div>
         </div>
       </aside>

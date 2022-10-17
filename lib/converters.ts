@@ -26,6 +26,10 @@ export const shortDate = (dtRef: string | Date): string => {
   return customDate(dtRef, "dd.MM.yyyy");
 };
 
+export const longYear = (dtRef: string | Date): string => {
+  return customDate(dtRef, "yyyy");
+};
+
 export const mediumDate = (dtRef: string | Date): string => {
   return customDate(dtRef, "d LLL yy");
 };

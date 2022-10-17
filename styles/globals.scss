@@ -772,11 +772,11 @@ img {
   .related-mini,
   li {
     padding: 1em 0;
-    margin-bottom: 1em;
-    @include square-dots();
+    margin-bottom: 0.25em;
+/*     @include square-dots();
     &:last-child {
       border-bottom: none;
-    }
+    } */
   }
 }
 
@@ -849,7 +849,7 @@ img {
           &::after {
             top: 0;
             left: 50%;
-            height: 3rem;
+            height: 2rem;
             border-right: solid 1px $dark;
           }
         }
@@ -866,8 +866,8 @@ img {
     z-index: 40;
     i.icon {
       position: absolute;
-      font-size: 1.5rem;
-      top: 0.3125rem;
+      font-size: 1.25rem;
+      top: 0.375rem;
       opacity: 0;
       &:hover {
         color: $primary;
@@ -922,6 +922,7 @@ img {
 
 .timeline-details {
   width: 100%;
+  margin-top: 6rem;
   @media screen and (min-width: $mini-screen-width) {
     width: 90%;
   }
@@ -930,6 +931,11 @@ img {
     max-width: 80em;
   }
   margin-bottom: 4em;
+  .text-details {
+    h3.timeline-title {
+      margin-bottom: 0;
+    }
+  }
 }
 
 .grid-2-header,
@@ -1306,12 +1312,15 @@ figure {
         max-height: 100%;
       }
     }
+    &.aspect-4-3 a {
+      aspect-ratio: 4/3;
+    }
   }
 
   .frame {
-    height: 100%;
-    min-width: 12.5rem;
-    aspect-ratio: 1;
+    width: 100%;
+    min-height: 6rem;
+    aspect-ratio: 4/3;
     outline: dashed 0.125em $mid-grey;
   }
   &.medium-height {
@@ -1438,6 +1447,9 @@ figure {
     .related > h3 {
       padding: 0 0 0.875em 0;
       margin-bottom: 1.375em;
+      &:first-child {
+        padding-top: 0.5rem;
+      }
     }
     &.video-container {
       .related > h3 {
@@ -2211,18 +2223,18 @@ main > article {
     p, h4 {
       margin: 0;
     }
-    margin: 0.5em 0 1em 0;
-    padding-bottom: 1em;
-    @include square-dots();
+    margin: 0.5em 0 0.25em 0;
+    padding-bottom: 0.25em;
+    /* @include square-dots();
     &:last-child {
       border-bottom: none;
-    }
+    } */
   }
 }
 
 .grid-sidebar .sidebar .related .column {
   > div {
-    margin: 0 0 1em 0;
+    margin: 0 0 0.25em 0;
   }
 }
 
@@ -2264,6 +2276,15 @@ main > article > header {
 
 .search-sections {
   width: 100%;
+}
+
+article.news {
+  .text-details {
+    margin-top: 2rem;
+  }
+  > h2 {
+    text-transform:none;
+  }
 }
 
 .share-widget {
@@ -2517,6 +2538,17 @@ ul.galleries {
     @include square-dots();
     &:last-child {
       border-bottom: none;
+    }
+  }
+}
+
+.sidebar {
+  .related {
+    .columns {
+      .node-preview {
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+      }
     }
   }
 }
