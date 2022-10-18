@@ -42,7 +42,7 @@ const ArtworkInsert = ({ entity, basePath, site, meta }: { entity: NodeEntity, b
         {entity.hasRelatedExhibitions && <div className='related-exhibitions related'>
           <h3>{contentTypes.exhibition}</h3>
           <div className='column'>
-            {entity.field_related_exhibitions.map((row: NodeEntity, index: number) => <MiniRelatedItem key={relatedKey(row, index)} item={row} mode='basic' dateMode='year' />)}
+          {entity.field_related_exhibitions.map((row: NodeEntity, index: number) => <MiniRelatedItem key={relatedKey(row, index)} item={row} mode='basic' dateMode='year' showLocation={true} />)}
           </div>
         </div>}
         {entity.hasRelatedEssays && <div className='related-essays related'>

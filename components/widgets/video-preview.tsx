@@ -6,7 +6,7 @@ import MediaFigure from "./media-figure";
 
 const VideoPreview = ({node}: {node: NodeEntity}) => {
 
-  return <figure className='node-preview'>
+  return <div className='node-preview'>
     <Link href={node.path}>
       <a>
         <MediaFigure item={ node.firstImage } size='preview' width='auto' height='100%' objectFit='cover' />
@@ -14,7 +14,7 @@ const VideoPreview = ({node}: {node: NodeEntity}) => {
         <p>{shortDate(node.field_date)}</p>
       </a>
     </Link>
-  </figure>
+  </div>
 
 }
 

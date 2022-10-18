@@ -10,6 +10,7 @@ import Carousel from "./widgets/carousel";
 import DateRange from "./widgets/date-range";
 import BreadcrumbTitle from "./widgets/breadcrumb-title";
 import { notEmptyString } from "../lib/utils";
+import { ShareWidget } from "./widgets/share-widget";
 
 
 const PublicationPage: NextPage<BaseEntity> = (data ) => {  
@@ -32,6 +33,7 @@ const PublicationPage: NextPage<BaseEntity> = (data ) => {
           {showPublisher && <h4 className="publisher">{parse(entity.field_publisher)}</h4>}
 
           {hasBody && <div className="body">{parse(entity.body)}</div>}
+          <ShareWidget meta={meta} />
         </div>
       </article>
     </Container>

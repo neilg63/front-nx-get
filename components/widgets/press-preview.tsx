@@ -8,8 +8,7 @@ const PressPreview = ({ item, label, dateMode }: { item: NodeEntity; label: stri
   const dateStr = showDate ? dateMode == 'medium' ? mediumDate(item.field_date) : shortDate(item.field_date) : '';
   return <div className='related-mini' key={item.uuid}>
     {showDate && <time>{dateStr}</time>}
-      <h3>{item.title}</h3>
-      <p>{item.field_source}</p>
+      <h3><em className='text'>{item.title}</em> <span className='source'>{item.field_source}</span></h3>
     {item.hasDocument && <DownloadLink item={item.field_document!} label={ label } />}
   </div>
 }

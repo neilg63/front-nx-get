@@ -15,6 +15,7 @@ import contentTypes, { relatedItemsTitle } from "../lib/content-types";
 import MiniRelatedItem from "./widgets/mini-related-item";
 import BreadcrumbTitle from "./widgets/breadcrumb-title";
 import PressPreview from "./widgets/press-preview";
+import { ShareWidget } from "./widgets/share-widget";
 
 const VideoPage: NextPage<BaseEntity> = (data ) => {  
   const pageData = new PageDataSet(data);
@@ -34,10 +35,12 @@ const VideoPage: NextPage<BaseEntity> = (data ) => {
           <h1><BreadcrumbTitle path={entity.path} title={ entity.title } /></h1>
         </header>
         {entity.hasVideo && <iframe className="video" src={entity.videoUrl} allow={entity.videoAllowKeys}></iframe>}
-        <h2 className='title'>{entity.title}</h2>
-        <p>{ mediumDate(entity.field_date) }</p>
-        {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
-        
+        <div className="text-details">
+          <h2 className='title'>{entity.title}</h2>
+          <p>{ mediumDate(entity.field_date) }</p>
+          {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
+        </div>
+        <ShareWidget meta={meta} />
       </article>
       <aside className='sidebar sidebar-right'>
         {entity.hasRelatedExhibitions && <div className='related-exhibitions related'>

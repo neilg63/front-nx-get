@@ -11,6 +11,7 @@ import NewsItemPreview from "./widgets/news-item-preview";
 import { relatedKey } from "../lib/ui-entity";
 import BreadcrumbTitle from "./widgets/breadcrumb-title";
 import { shortDate } from "../lib/converters";
+import { ShareWidget } from "./widgets/share-widget";
 
 const NewsPage: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
@@ -36,6 +37,7 @@ const NewsPage: NextPage<BaseEntity> = (data) => {
           {entity.hasSubtitle && <h3 className="subtitle">{parse(entity.field_subtitle)}</h3>}
           {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
         </div>
+        <ShareWidget meta={meta} />
       </article>
       <aside className='sidebar sidebar-right'>
         <div className='related-news related'>

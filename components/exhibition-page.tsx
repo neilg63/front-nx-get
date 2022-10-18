@@ -14,11 +14,13 @@ import BreadcrumbTitle from "./widgets/breadcrumb-title";
 import ArtworkFigure from "./widgets/artwork-figure";
 import PressPreview from "./widgets/press-preview";
 import MiniRelatedItem from "./widgets/mini-related-item";
+import { ShareWidget } from "./widgets/share-widget";
 
 
 const ExhibitionPage: NextPage<BaseEntity> = (data ) => {  
   const pageData = new PageDataSet(data);
   const { entity, meta, site } = pageData;
+  const hasMeta = meta instanceof Object;
   const download_label = site.label('download_pdf');
 const relatedPressReleases = entity.hasRelatedPress ? entity.field_related_press.filter((p:NodeEntity) => p.isPressRelease) : [];
 const hasRelatedPressReleases = relatedPressReleases.length > 0;
@@ -40,7 +42,7 @@ const hasRelatedPressPrinted = relatedPressPrinted.length > 0;
           <div className="body">{parse(entity.body)}</div>
         </div>
       </article>
-
+      {hasMeta && <ShareWidget meta={meta} />}
     {entity.hasRelatedArtworks && <div className='related-artworks related body-section'>
       <h3>{contentTypes.artwork}</h3>
       <div className='fixed-height-rows medium-height inner-captions'>

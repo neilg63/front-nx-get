@@ -51,6 +51,8 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
   const pageData = new SearchPageDataSet(data);
   const { containers, meta, total, perPage } = pageData;
   const [showPaginator, setShowPaginator] = useState(false);
+
+  const downloadLabel = pageData.site.label('download_pdf');
   
   const submitSearch = () => {
     if (notEmptyString(searchString, 1)) {
@@ -118,7 +120,7 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
           <h2>{section.value}</h2>
           <div className={sectionListClassNames(section)}>
             {pageData.results(section.key).map((item: NodeEntity, subIndex) => 
-                showItemAsFigure(item.bundle) ? <FigureResultPreview item={item} index={subIndex} key={item.key} /> : <TextResultPreview item={item} index={subIndex} key={item.key} />
+              showItemAsFigure(item.bundle) ? <FigureResultPreview item={item} index={subIndex} key={item.key} /> : <TextResultPreview item={item} index={subIndex} key={item.key} downloadLabel={ downloadLabel } />
             )}
           </div>
             </div>)} 

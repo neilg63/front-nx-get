@@ -12,6 +12,7 @@ import Head from "next/head";
 import { containerProps } from "../lib/styles";
 import MiniRelatedItem from "./widgets/mini-related-item";
 import RelatedItem from "./widgets/related-item";
+import { ShareWidget } from "./widgets/share-widget";
 
 const EssayPage: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
@@ -26,6 +27,7 @@ const EssayPage: NextPage<BaseEntity> = (data) => {
         <h4 className='subtitle'><span className='medium-date'>{entity.mediumDate} </span> {entity.hasAuthor && <span className='author'>{entity.field_author}</span>}</h4>
         {entity.hasImage && <MediaFigure item={entity.field_media} size='large' width='100%' height='auto' objectFit='contain' />}    
         {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
+        <ShareWidget meta={meta} />
       </article>
       <div className='related-content related'>
         {entity.hasRelatedArtworks && <div className='related-artworks related'>
