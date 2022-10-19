@@ -32,7 +32,7 @@ const hasRelatedPressPrinted = relatedPressPrinted.length > 0;
     </Head>
     <Container {...containerProps} className='exhibition-container left-align'>
       <article className="exhibition grid-2-header body-section">
-        <h1><BreadcrumbTitle path={meta.path} title={entity.title} /></h1>
+        <h1 className='breadcrumb-title'><BreadcrumbTitle path={meta.path} title={entity.title} /></h1>
         <div className='left-container'>{entity.hasImages && <Carousel items={entity.images} />}</div>
         <div className='text-details'>
           <h2 className='title'>{entity.title}</h2>

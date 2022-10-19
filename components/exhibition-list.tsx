@@ -13,7 +13,6 @@ import { isMinLargeSize, numScrollBatches } from "../lib/settings";
 import { TopContext } from "../pages/_app";
 import { loadMore } from "../lib/load-more";
 import { getScrollTop } from "../lib/dom";
-import labels from "../lib/labels";
 import BreadcrumbTitle from "./widgets/breadcrumb-title";
 import YearNav from "./widgets/year-nav";
 import { filterNavClassName, mapFilterOption, matchFilterMode } from "../lib/utils";
@@ -123,7 +122,7 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
     <Container {...containerProps}>
       <section className="exhibition-list grid-list">
         <nav className={filterNavClassName(filterMode)}>
-            <h1><BreadcrumbTitle path={pageData.meta.path} title={pageData.contextTitle} /></h1>
+            <h1 className='breadcrumb-title'><BreadcrumbTitle path={pageData.meta.path} title={pageData.contextTitle} /></h1>
             <ul className='row filter-options'>
             {filterOptions.map(opt => <li onClick={() => changeFilterMode(opt.key)} key={opt.itemKey} className={opt.className}>{opt.name}</li>)}
         </ul>

@@ -31,7 +31,7 @@ const VideoPage: NextPage<BaseEntity> = (data ) => {
     </Head>
     <Container {...containerProps} className='video-container grid-sidebar'>
     <article className="video">
-        <header>
+        <header className='breadcrumb-header'>
           <h1><BreadcrumbTitle path={entity.path} title={ entity.title } /></h1>
         </header>
         {entity.hasVideo && <iframe className="video" src={entity.videoUrl} allow={entity.videoAllowKeys}></iframe>}

@@ -22,8 +22,8 @@ const ArtworkInsert = ({ entity, basePath, site, meta }: { entity: NodeEntity, b
   const hasRelatedPressPrinted = relatedPressPrinted.length > 0;
   return <>
     <article className="artwork">
-        <header>
-        <h1><BreadcrumbTitle path={entity.path} title={ entity.title } /></h1>
+        <header className='breadcrumb-header'>
+          <h1><BreadcrumbTitle path={entity.path} title={ entity.title } /></h1>
           {entity.hasSubtitle && <h3 className="subitlte">{parse(entity.field_subtitle)}</h3>}
         </header>
         {entity.hasImages && <Carousel items={entity.images} />}

@@ -13,7 +13,7 @@ $text-line-height: 1.214285; // 17px
 $heading-line-height: 1.42857143; // 20px
 $top-padding-standard: 6rem;
 $top-logo-margin-bottom-standard: 3rem;
-$top-padding-tall: 7rem;
+$top-padding-tall: 6.75rem;
 $top-logo-margin-bottom-tall: 4rem;
 $text-max-width: 50em;
 $fixed-height-horizontal-gap: 3vmin;
@@ -569,6 +569,14 @@ img {
 
   h2.title {
     font-weight: bold;
+  }
+  article > header {
+    max-width: 100%;
+  }
+  .breadcrumb-header {
+    position: relative;
+    white-space: nowrap;
+    max-width: 100%;
   }
 
   .upper {
@@ -2369,7 +2377,7 @@ main > article > header {
   .share-icons {
     pointer-events: none;
     opacity: 0;
-    
+    transition: opacity 0.5s ease-in-out;
     button {
       margin-right: 0.75em;
       i.icon {

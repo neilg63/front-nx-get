@@ -32,8 +32,7 @@ const NewsList: NextPage<BaseEntity> = (data) => {
     </Head>
     <Container {...containerProps}>
       <nav className='filter-nav show-by-year'>
-        <h1><BreadcrumbTitle path={pageData.meta.path} title={ pageData.contextTitle } /></h1>
-
+        <h1 className='breadcrumb-title'><BreadcrumbTitle path={pageData.meta.path} title={ pageData.contextTitle } /></h1>
         {hasYears && <YearNav years={years} current={ subPath } basePath='/news' />}
       </nav>
       <section className="news-list grid-list">

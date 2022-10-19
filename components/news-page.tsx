@@ -27,7 +27,7 @@ const NewsPage: NextPage<BaseEntity> = (data) => {
     </Head>
     <Container {...containerProps} className='grid-sidebar'>
       <article className="news">
-        <header>
+        <header className='breadcrumb-header'>
           <h1><BreadcrumbTitle path={pageData.meta.path} title={ entity.title } /></h1>
         </header>
         {entity.hasImages && <Carousel items={entity.images} />}

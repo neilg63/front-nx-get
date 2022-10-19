@@ -23,7 +23,9 @@ const EssayPage: NextPage<BaseEntity> = (data) => {
     </Head>
     <Container {...containerProps} className='essay-conatiner grid-sidebar'>
       <article className="essay text-max-width">
-        <h1><BreadcrumbTitle path={meta.path} title={entity.title} /></h1>
+        <header  className='breadcrumb-header'>
+          <h1><BreadcrumbTitle path={meta.path} title={entity.title} /></h1>
+        </header>
         <h4 className='subtitle'><span className='medium-date'>{entity.mediumDate} </span> {entity.hasAuthor && <span className='author'>{entity.field_author}</span>}</h4>
         {entity.hasImage && <MediaFigure item={entity.field_media} size='large' width='100%' height='auto' objectFit='contain' />}    
         {entity.hasBody && <div className="body">{parse(entity.body)}</div>}

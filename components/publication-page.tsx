@@ -25,7 +25,9 @@ const PublicationPage: NextPage<BaseEntity> = (data ) => {
     </Head>
     <Container {...containerProps} className='exhibition-container left-align'>
       <article className="exhibition grid-2-header body-section">
+        <header className='breadcrumb-header'>
         <h1><BreadcrumbTitle path={meta.path} title={entity.title} /></h1>
+        </header>
         <div className='left-container'>{entity.hasImages && <Carousel items={entity.images} />}</div>
         <div className='text-details'>
           <h3><DateRange item={entity.field_date_range} /></h3>
