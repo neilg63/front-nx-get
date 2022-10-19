@@ -64,7 +64,7 @@ const ArtworkTypeNav = ({ types, current }: { types: SlugNameNum[], current: str
 }
 
 const wrapperClasses = (showSelected = false) => {
-  const cls = ['artworks-container'];
+  const cls = ['artworks-container listing-main'];
   if (showSelected) {
     cls.push('show-detailed');
   }

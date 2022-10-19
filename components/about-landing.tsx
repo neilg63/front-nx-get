@@ -24,7 +24,7 @@ const AboutLanding: NextPage<BaseEntity> = (data) => {
     <Head>
       <SeoHead meta={meta} />
     </Head>
-    <Container {...containerProps} className='about-landing left-align'>
+    <Container {...containerProps} className='about-landing left-align listing-main'>
       <AboutNav current={currentPath} />
       <article className='about-article grid-half-header'>
           <h2>{entity.title}</h2>

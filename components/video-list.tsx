@@ -19,7 +19,7 @@ const VideoList: NextPage<BaseEntity> = (data) => {
     <Head>
       <SeoHead meta={meta} />
     </Head>
-    <Container {...containerProps}>
+    <Container {...containerProps} className='listing-main'>
       <header className="section-header">
             <h1>{contentTypes.gttv}</h1>
         </header>

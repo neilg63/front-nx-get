@@ -80,7 +80,7 @@ const Timeline: NextPage<BaseEntity> = (data: any = null) => {
     <Head>
       <SeoHead meta={meta} />
     </Head>
-    <Container {...containerProps} className='timeline-main'>
+    <Container {...containerProps} className='timeline-main listing-main'>
       <AboutNav current='/about/timeline' />
       <section className="timeline-item-container full-width">
         <div className='timeline-items'>

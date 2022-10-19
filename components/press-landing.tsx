@@ -22,29 +22,29 @@ const PressIntroList = ({ items, type, title, label, viewAll }: { items: NodeEnt
         {items.map((item: NodeEntity) => <li key={item.uuid}>
           {showTitle && <span className='title'>{ item.title }</span>}
           <span className='publisher'>{item.field_source}</span>
-          <time>{ longDate(item.field_date) }</time>
-        {item.hasDocument && <DownloadLink item={item.field_document!} label={ label } />}
-      </li>)} 
+          <time className='date'>{ longDate(item.field_date) }</time>
+         {item.hasDocument && <DownloadLink item={item.field_document!} label={ label } />}
+        </li>)} 
         </ul>
-        <div className='more-link'><Link href={viewAllLink}><a><span className='text-label'>{viewAll}</span><i className='icon icon-next-arrow-narrow'></i></a></Link></div>
+        <div className='more-link'><Link href={viewAllLink}><a>{viewAll}</a></Link></div>
   </div>}
   </>
 }
 
 const PressLanding: NextPage<BaseEntity> = (data) => {  
   const pageData = new CompoundPageDataSet(data);
-  const { items, meta, labels } = pageData;
+  const { items, meta } = pageData;
   const pressArticles = pageData.getEntities('press_articles');
 
   const pressArticleTitle = pageData.label('press_articles');
   const downloadLabel = pageData.label('download_pdf');
-  const pressReleaseTitel = pageData.label('labels.press_releases');
-  const viewAllLabel = pageData.label('view_all');
+  const pressReleaseTitel = pageData.label('press_releases');
+  const viewAllLabel = pageData.label('more_link', 'more');
   return <>
     <Head>
       <SeoHead meta={meta} />
     </Head>
-    <Container {...containerProps} className='about-listing-container left-align'>
+    <Container {...containerProps} className='about-listing-container left-align listing-main'>
       <AboutNav current='/about/press' />
       <section className="press-landing about-listing text-max-width">
         <PressIntroList items={pressArticles} type='printed' title={pressArticleTitle} label={downloadLabel} viewAll={ viewAllLabel } />
