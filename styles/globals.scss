@@ -6,6 +6,8 @@ $mid-screen-width: 900px;
 $mini-screen-width: 675px;
 $small-screen-width: 450px;
 $tall-screen-height: 750px;
+$sidebar-width-narrow: 10em;
+$sidebar-width-mid: 12em;
 $sidebar-width: 15em;
 $text-size: 14px; // standard text size, as opposed to the basis for rems;
 $letter-spacing-standard: 0;
@@ -288,7 +290,7 @@ header.header {
   @media screen and (min-width: $mid-screen-width) {
     position: sticky;
     top: 2em;
-    width: $sidebar-width;
+    width: $sidebar-width-narrow;
     .expand-nav {
       display: none;
     }
@@ -299,6 +301,15 @@ header.header {
       }
     }
   }
+
+  @media screen and (min-width: $mlarge-screen-width) {
+    width: $sidebar-width-mid;
+  }
+
+  @media screen and (min-width: $large-screen-width) {
+    width: $sidebar-width;
+  }
+
 }
 @media (max-width: $mid-screen-width) {
 
@@ -575,8 +586,13 @@ img {
   }
   .breadcrumb-header {
     position: relative;
-    white-space: nowrap;
     max-width: 100%;
+    overflow: hidden;
+    @media (min-width: $mid-screen-width) {
+      h1 {
+        white-space: nowrap;
+      }
+    }
   }
 
   .upper {
@@ -622,7 +638,7 @@ img {
 
   @media screen and (min-width: $mid-screen-width) {
     display: grid;
-    grid-template-columns: $sidebar-width auto;
+    grid-template-columns: $sidebar-width-narrow auto;
     column-gap: 2.5%;
     align-items: flex-start;
     justify-items: stretch;
@@ -634,7 +650,7 @@ img {
     > main {
       grid-area: main;
       width: auto;
-      min-width: calc(95vw - $sidebar-width - 12.5%);
+      min-width: calc(95vw - $sidebar-width-narrow - 12.5%);
       padding-top: $top-padding-standard;
       padding-left: 0;
       @media (min-height: $tall-screen-height) {
@@ -652,6 +668,21 @@ img {
       }
     }
   }
+
+    @media screen and (min-width: $mlarge-screen-width) {
+
+      grid-template-columns: $sidebar-width-mid auto;
+      > main {
+        min-width: calc(95vw - $sidebar-width-mid - 12.5%);
+      }
+    }
+
+    @media screen and (min-width: $large-screen-width) {
+      grid-template-columns: $sidebar-width auto;
+      > main {
+        min-width: calc(95vw - $sidebar-width - 12.5%);
+      }
+    }
 
     @media screen and (min-width: $max-screen-width) {
       >main {
@@ -1455,7 +1486,7 @@ aside.sidebar {
   position: relative;
   @media screen and (min-width: $mid-screen-width) {
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 70% 25%;
     justify-content: flex-start;
     column-gap: 5%;
     align-items: flex-start;
@@ -1488,6 +1519,9 @@ aside.sidebar {
       }
     }
   }
+    @media screen and (min-width: $xlarge-screen-width) {
+      grid-template-columns: 75% 20%;
+    }
 }
 
 main > .related {
