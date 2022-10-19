@@ -238,6 +238,7 @@ section {
   font-size: $text-size;
 }
 
+article > .text-details >.body,
 article > .info > .body,
 article > .body {
   padding: 1em 0;
