@@ -25,6 +25,7 @@ const sectionListClassNames = (section: KeyStringValue) => {
     case 'artwork':
       cls.push('fixed-height-rows');
       cls.push('tall-height');
+      cls.push('extra-spacing');
       break;
   }
   return cls.join(' ');

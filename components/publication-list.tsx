@@ -22,7 +22,7 @@ const PublicationList: NextPage<BaseEntity> = (data) => {
         <>
         {hasItems && 
           <div className='fixed-height-rows tall-height'>
-              {items.map((item: NodeEntity, index: number) => <PublicationItem key={['publication-item', item.id].join('-')} item={item} index={index } />)}
+              {items.map((item: NodeEntity, index: number) => <PublicationItem key={['publication-item', item.uuid].join('-')} item={item} index={index } />)}
           </div>} 
           
         </>

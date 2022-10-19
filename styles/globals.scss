@@ -588,6 +588,7 @@ img {
   .breadcrumb-header {
     position: relative;
     max-width: 100%;
+    width: 100%;
     overflow: hidden;
     @media (min-width: $mid-screen-width) {
       h1 {
@@ -702,8 +703,8 @@ img {
       width: 100%;
       position: relative;
       @include square-dots-top-bottom();
-      padding: 0.5em 0;
-      margin: 0 0 1em 0;
+      padding: 0.5em 0 0.4375em 0;
+      margin: 0 0 2rem 0;
       user-select: none;
     }
     .social-nav {
@@ -724,15 +725,21 @@ img {
       }
     }
     .footer-nav {
+      margin-top: 0.1875em;
       li {
         margin: 0;
         font-size: 0.875rem;
-        line-height: 1.375em;
+        line-height: 1.25em;
       }
     }
-    .credits * {
-      font-size: 0.75rem;
-      user-select: none;
+    .credits {
+      * {
+          font-size: 0.75rem;
+          user-select: none;
+        }
+      p {
+        line-height: 1.25;
+      }
     }
   }
 
@@ -815,10 +822,9 @@ img {
   li {
     padding: 1em 0;
     margin-bottom: 0.25em;
-/*     @include square-dots();
-    &:last-child {
-      border-bottom: none;
-    } */
+    &.essay-preview {
+      @include square-dots();
+    }
   }
 }
 
@@ -1185,6 +1191,13 @@ ul, ol {
     text-transform: uppercase;
   }
 
+  > h2 {
+    margin-bottom: 0;
+  }
+  > .body {
+    padding-top: 0.875em;
+  }
+
   .body > h3 {
     margin-top: 4em;
   }
@@ -1312,6 +1325,7 @@ figure {
 }
 
 .result-section {
+  margin-bottom: 6rem;
   > h2 {
     text-transform: uppercase;
     padding: 0.5em 0;
@@ -1380,39 +1394,39 @@ figure {
   &.tall-height {
 
     > figure {
-    flex-flow: column nowrap;
-    margin-bottom: 5rem;
-    &:after {
-      content: "";
-      position: absolute;
-      bottom: -4rem;
-      left: $fixed-height-horizontal-gap;
-      width: 100%;
-      height: 1px;
-      background-color: white;
-      @include square-dots();
-    }
-    &.row-end {
+      flex-flow: column nowrap;
+      margin-bottom: 5rem;
       &:after {
-        width: calc(100% - $fixed-height-horizontal-gap - $fixed-height-horizontal-gap);
+        content: "";
+        position: absolute;
+        bottom: -4rem;
+        left: $fixed-height-horizontal-gap;
+        width: 100%;
+        height: 1px;
+        background-color: white;
+        @include square-dots();
       }
-    }
-    figcaption {
-      height: 4rem;
-    }
-    a > figcaption {
-      position: absolute;
-      top: 100%;
-      left: $fixed-height-horizontal-gap;
-      right: $fixed-height-horizontal-gap;
-      text-align: left;
-      h3, p {
-        line-height: 1.125;
-        margin-bottom: 0.125em;
-        white-space: nowrap;
-        overflow: hidden;
+      &.row-end {
+        &:after {
+          width: calc(100% - $fixed-height-horizontal-gap - $fixed-height-horizontal-gap);
+        }
       }
-    }
+      figcaption {
+        height: 4rem;
+      }
+      a > figcaption {
+        position: absolute;
+        top: 100%;
+        left: $fixed-height-horizontal-gap;
+        right: $fixed-height-horizontal-gap;
+        text-align: left;
+        h3, p {
+          line-height: 1.125;
+          margin-bottom: 0.125em;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+      }
       @media screen and (min-width: $mini-screen-width) {
         height: 17.5rem;
         width: auto;
@@ -1420,6 +1434,16 @@ figure {
 
       @media screen and (min-width: $max-screen-width) {
         height: 280px;
+      }
+    }
+
+    &.extra-spacing {
+      figure {
+        margin-bottom: 5.5rem;
+
+        &:after {
+          bottom: -4.5rem;
+        }
       }
     }
     .frame {
@@ -1763,10 +1787,13 @@ main > .related {
       align-items: flex-end;
     }
     opacity: 0;
-    font-size: 4vw;
+    font-size: 2vw;
 
     @media screen and (min-width: $max-screen-width) {
-      font-size: 72px;
+      font-size: 36px;
+    }
+    @media screen and (max-width: $mini-screen-width) {
+      font-size: 1em;
     }
     &.prev,
     &.next {
