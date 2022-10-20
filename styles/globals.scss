@@ -254,6 +254,10 @@ nav {
 }
 
 header.header {
+  position: relative;
+  @media (max-width: $mid-screen-width) {
+    padding: 0 2.5%;
+  }
   .logo {
     position: absolute;
     top: 0.5rem;
@@ -277,8 +281,8 @@ header.header {
   .expand-nav {
     display: block;
     position: absolute;
-    top: 0.5rem;
-    right: 5%;
+    top: 0.75rem;
+    right: 2.5%;
     @media (max-width: $mid-screen-width) {
       z-index: 60;
       cursor: pointer;
@@ -365,7 +369,7 @@ header.header {
           pointer-events: all;
           line-height: 1.5;
           &.search-link {
-            right: 2.75rem;
+            right: 1.5rem;
             top: 0;
           }
           &.section--home {
@@ -998,9 +1002,11 @@ img {
 .grid-2-header,
 .grid-half-header,
 .grid-2 {
-  display: grid;
-  align-items: stretch;
-  margin-bottom: 2em;
+  @media (min-width: $mini-screen-width) {
+    display: grid;
+    align-items: stretch;
+    margin-bottom: 2em;
+  }
   figure,
   .text-details {
     justify-content: flex-start;
@@ -1011,12 +1017,26 @@ img {
     width: 100%;
     text-align: center;
   }
+  @media (max-width: $mini-screen-width) {
+    .left-container {
+      width: 100%;
+      margin-bottom: 1.5rem;
+      .nextui-image-container {
+        min-width: 100%;
+        img {
+          min-width: 100%;
+        }
+      }
+    }
+  }
 }
 
 .grid-2-header,
 .grid-2 {
-  grid-template-columns: 1fr 1fr;
-  column-gap: 5%;
+  @media (min-width: $mini-screen-width) {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 5%;
+  }
 }
 
 .grid-2-header {
@@ -2154,7 +2174,7 @@ main > .related {
 
 .home-container {
 
-  @media (min-width: $mid-screen-width) {
+  @media (min-width: $mini-screen-width) {
      display: grid;
     justify-content: flex-start;
     align-items: flex-start;
@@ -2169,7 +2189,7 @@ main > .related {
         width: 58.75%;
         margin-right: 42.5%; */
 
-    @media (max-width: $mid-screen-width) {
+    @media (max-width: $mini-screen-width) {
       width: 100%;
     }
     padding: 0.5em 0;
@@ -2180,10 +2200,10 @@ main > .related {
   }
 
   .current-exhibition {
-    @media (min-width: $mid-screen-width) {
+    @media (min-width: $mini-screen-width) {
       grid-area: main;
     }
-    @media (max-width: $mid-screen-width) {
+    @media (max-width: $mini-screen-width) {
       width: 100%;
     }
     figure {
@@ -2213,7 +2233,12 @@ main > .related {
 
   }
   .news-previews {
-    grid-area: right;
+    @media (min-width: $mini-screen-width) {
+      grid-area: right;
+    }
+    @media (max-width: $mini-screen-width) {
+      width: 100%;
+    }
     > h3 {
       &:first-child {
         @include square-dots();
