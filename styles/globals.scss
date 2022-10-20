@@ -373,10 +373,10 @@ header.header {
             top: 0;
           }
           &.section--home {
-            right: 3rem;
             top: 4rem;
             left: 0;
             max-width: 4em;
+            padding-left: 0;
           }
         }
         &.inner {
@@ -707,6 +707,9 @@ img {
   footer.footer {
     width: 100%;
     position: relative;
+    @media (max-width: $mid-screen-width) {
+      padding: 0 2.5%;
+    }
     a:hover {
       color: $primary;
     }
@@ -1538,7 +1541,7 @@ aside.sidebar {
 
 .grid-sidebar {
   position: relative;
-  @media screen and (min-width: $mid-screen-width) {
+  @media screen and (min-width: $mini-screen-width) {
     display: grid;
     grid-template-columns: 70% 25%;
     justify-content: flex-start;
@@ -1574,9 +1577,14 @@ aside.sidebar {
       }
     }
   }
-    @media screen and (min-width: $xlarge-screen-width) {
-      grid-template-columns: 75% 20%;
+  @media screen and (min-width: $xlarge-screen-width) {
+    grid-template-columns: 75% 20%;
+  }
+  @media screen and (max-width: $mini-screen-width) {
+    .sidebar {
+      width: 100%;
     }
+  }
 }
 
 main > .related {
@@ -2313,6 +2321,7 @@ main > .related {
       h4 {
         padding-top: 0.75em;
       }
+      margin-bottom: 0.75rem;
     }
     .node-preview {
       @media (max-width: $mini-screen-width) {
