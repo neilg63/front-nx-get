@@ -1758,6 +1758,15 @@ main > .related {
       @media (min-width: $large-screen-width) {
         max-height: calc(100vh - 15em);
       }
+      @media (max-width: $mini-screen-width) {
+        max-height: calc(100vh - 3em);  
+      }
+      @media (max-width: $mini-screen-width) and (orientation: portrait) {
+        min-height: 50vw;
+      }
+      @media (max-width: $mini-screen-width) and (orientation: landscape) {
+        min-height: 60vh;
+      }
       > div > img {
         max-height: 100vh;
       }
