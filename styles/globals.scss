@@ -1987,7 +1987,7 @@ main > .related {
     }
   }
 
-  &.show-by-year, .years-nav,
+  &.show-by-year .years-nav,
   &.show-by-type .types-nav {
     opacity: 1;
     @media (max-width: $mini-screen-width) {
