@@ -103,7 +103,7 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
             {videos.map((item: NodeEntity) => <VideoPreview key={['video', item.uuid].join('-')} node={item} />)}
           </div>
         </section>}
-        <p className="show-splash-link" onClick={() => showSplash()}>Show splash</p>
+        <p className="show-splash-link" onClick={() => showSplash()}>💦</p>
       </Container>
       {hasSplash && <aside className={splashClasses}>
         <figure className='main' onClick={() => hideSplash()}>

@@ -2154,12 +2154,18 @@ main > .related {
 .gt-outer body>div#__next>div {
   
   .show-splash-link {
-    cursor: pointer;
     opacity: 0;
+    position: absolute;
     padding: 2em 0;
-    font-weight: bold;
-    &:hover {
-      opacity: 1;
+    left: 0;
+    bottom: 0;
+    pointer-events: none;
+    @media (min-width: $mlarge-screen-width) {
+      cursor: pointer;
+      pointer-events: all;
+      &:hover {
+        opacity: 0.6667;
+      }
     }
   }
 
@@ -2292,6 +2298,10 @@ main > .related {
   .video-previews {
     grid-area: footer;
     padding: 2em 0;
+    margin-bottom: 1em;
+    @media (min-width: $mlarge-screen-width) {
+      margin-bottom: 2em;
+    }
     h3 {
       margin: 0.5em 0 1em 0;
       padding: 0.25em 0;
