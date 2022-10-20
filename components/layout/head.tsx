@@ -3,6 +3,7 @@ import { MetaDataSet } from "../../lib/ui-entity";
 const SeoHead = ({ meta }: { meta: MetaDataSet }) => {
   return (
     <>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
       <title>{meta.title}</title>
       <link rel="shortcut icon" href="/assets/favicon.ico?v=6" type="image/x-icon"></link>
       <meta property="og:type" content="article" />

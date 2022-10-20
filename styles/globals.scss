@@ -32,9 +32,11 @@ $danger: #cc0000;
 $dot-size: 2px;
 
 @mixin custom-dots {
-  border-image-source: url(/assets/border-square.png);
-  border-image-slice: 2 0;
-  border-image-repeat: round;
+  @media (min-width: $mid-screen-width) {
+    border-image-source: url(/assets/border-square.png);
+    border-image-slice: 2 0;
+    border-image-repeat: space;
+  }
 }
 
 @mixin square-dots {
@@ -515,6 +517,10 @@ figure {
   &.hidden {
     display: none;
   }
+}
+
+.section--search header .search-link {
+  display: none;
 }
 
 .listing-main {
@@ -1366,9 +1372,11 @@ figure {
 }
 
 .fixed-height-rows {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: stretch;
+  @media (min-width: $mini-screen-width) {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: stretch;
+  }
   /* justify-content: space-evenly; */
   /* justify-content: space-between; */
   justify-content: flex-start;
@@ -1402,6 +1410,16 @@ figure {
     }
     &.aspect-4-3 a {
       aspect-ratio: 4/3;
+    }
+  }
+
+  @media (max-width: $mini-screen-width) {
+    figure {
+      .nextui-image-container,
+      img {
+        min-width: 100%;
+        max-width: 100%;
+      }
     }
   }
 
