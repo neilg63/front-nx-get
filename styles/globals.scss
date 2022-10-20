@@ -1987,17 +1987,15 @@ main > .related {
     }
   }
 
-  &.show-by-year {
-    .years-nav {
-      max-height: 5em;
-      opacity: 1;
-      margin-bottom: 3em;
+  &.show-by-year, .years-nav,
+  &.show-by-type .types-nav {
+    opacity: 1;
+    @media (max-width: $mini-screen-width) {
+      max-width: 7.5em;
+      margin-bottom: 1.5em;
     }
-  }
-  &.show-by-type {
-    .types-nav {
+    @media (min-width: $mini-screen-width) {
       max-height: 5em;
-      opacity: 1;
       margin-bottom: 3em;
     }
   }
