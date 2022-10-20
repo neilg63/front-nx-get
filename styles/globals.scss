@@ -1991,11 +1991,11 @@ main > .related {
   &.show-by-type .types-nav {
     opacity: 1;
     @media (max-width: $mini-screen-width) {
-      max-width: 7.5em;
+      max-width: none;
       margin-bottom: 1.5em;
     }
     @media (min-width: $mini-screen-width) {
-      max-height: 5em;
+      max-height: 6em;
       margin-bottom: 3em;
     }
   }
