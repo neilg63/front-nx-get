@@ -109,12 +109,7 @@ const Header = (pageData: PageDataSet) => {
     if (newCln !== searchClassNames) {
       setSearchClassNames(newCln);
     }
-  }, [searchClassNames])
-
-/*   const applySearchFieldOn = useCallback(() => {
-    
-    console.log(path)
-  }, [router]) */
+  }, [searchClassNames]);
 
   useEffect(() => {
     const items = site instanceof Object && site.menus instanceof Object ? site.menus.main : [];
