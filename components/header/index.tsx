@@ -52,7 +52,7 @@ const Header = (pageData: PageDataSet) => {
   const context = useContext(TopContext);
   const [mainItems, setMainItems] = useState<SimpleMenuItem[]>([]);
   const [hasMenuItems, setHasMenuItems] = useState(false);
-  const [searchFieldOn, setSearchFieldOn] = useState(true);
+  /* const [searchFieldOn, setSearchFieldOn] = useState(true); */
   const [subAlias, setSubAlias] = useState('/');
   const [search, setSearch] = useState('');
   const [expanded, setExpanded] = useState(false);
@@ -111,10 +111,15 @@ const Header = (pageData: PageDataSet) => {
     }
   }, [searchClassNames])
 
+/*   const applySearchFieldOn = useCallback(() => {
+    
+    console.log(path)
+  }, [router]) */
+
   useEffect(() => {
     const items = site instanceof Object && site.menus instanceof Object ? site.menus.main : [];
     const path = router.asPath;
-    setSearchFieldOn(path.startsWith("/search") === false);
+    /* setSearchFieldOn(path.startsWith("/search") === false); */
     router.events.on('routeChangeComplete', (e) => {
       setExpanded(false);
     });
@@ -122,6 +127,12 @@ const Header = (pageData: PageDataSet) => {
     const cls = ['header'];
     if (expanded) {
       cls.push('show-menu');
+    }
+    if (path.startsWith('/search')) {
+      cls.push('hide-search-link');
+    }
+    if (search.length > 1) {
+      cls.push('search-mode');
     }
     setClassNames(cls.join(' '));
     if (context) {
@@ -133,7 +144,7 @@ const Header = (pageData: PageDataSet) => {
     setMainItems(items);
     setHasMenuItems(items instanceof Array && items.length > 0);
     updateSearchClassNames(search);
-  }, [site, router, expanded, context, search, updateSearchClassNames, searchFieldOn])
+  }, [site, router, expanded, context, search, updateSearchClassNames])
 
   return (
     <header className={classNames}>
@@ -146,7 +157,7 @@ const Header = (pageData: PageDataSet) => {
             </li>
           })}
           <li className={searchClassNames}>
-            {searchFieldOn && <Input name='search' value={search} onChange={updateSearch} className='search-field' size='sm' onKeyDown={e => (submitOnEnter(e))} id='nav-short-search-field' aria-labelledby={labels.search} rounded={false} shadow={false} animated={false} />}
+            <Input name='search' value={search} onChange={updateSearch} className='search-field' size='sm' onKeyDown={e => (submitOnEnter(e))} id='nav-short-search-field' aria-labelledby={labels.search} rounded={false} shadow={false} animated={false} />
             <i className='icon icon-search' title='Search' onClick={submitSearch}></i>
           </li>
         </ul>}

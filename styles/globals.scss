@@ -374,6 +374,30 @@ header.header {
           &.search-link {
             right: 1.5rem;
             top: 0;
+            justify-content: flex-end;
+            &.expanded,
+            &:hover {
+              background-color: white;
+              
+              width: calc(100% - 0.5625rem);
+              
+              >div.nextui-input-main-container,
+              input {
+                width: 100%;
+              }
+              > div.nextui-input-main-container {
+                align-self: flex-start;
+                &::before {
+                  position: absolute;
+                  content: " ";
+                  left: 0;
+                  right: 0;
+                  top: 0;
+                  min-height: 3.75rem;
+                  background-color: white;
+                }
+              }
+            }
           }
           &.section--home {
             top: 4rem;
@@ -492,6 +516,18 @@ header.header {
   }
 }
 
+@media (max-width: $mid-screen-width) {
+  .top-nav:hover,
+  .search-mode {
+    .logo {
+      opacity: 0;
+    }
+    .top-nav {
+      z-index: 60;
+    }
+  }
+}
+
 .top-nav,
 .about-nav,
 .footer-nav,
@@ -524,8 +560,13 @@ figure {
   }
 }
 
-.section--search header .search-link {
-  display: none;
+header.hide-search-link .search-link {
+  > div {
+    display: none;
+  }
+  @media (max-width: $mid-screen-width) {
+    display: none;
+  }
 }
 
 .listing-main {
