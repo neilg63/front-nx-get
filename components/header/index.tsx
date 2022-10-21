@@ -52,7 +52,7 @@ const Header = (pageData: PageDataSet) => {
   const context = useContext(TopContext);
   const [mainItems, setMainItems] = useState<SimpleMenuItem[]>([]);
   const [hasMenuItems, setHasMenuItems] = useState(false);
-  /* const [searchFieldOn, setSearchFieldOn] = useState(true); */
+  const [searchFieldOn, setSearchFieldOn] = useState(false);
   const [subAlias, setSubAlias] = useState('/');
   const [search, setSearch] = useState('');
   const [expanded, setExpanded] = useState(false);
@@ -102,14 +102,14 @@ const Header = (pageData: PageDataSet) => {
 
   const updateSearchClassNames = useCallback((searchStr = '') => {
     const cls = ['search-link prominent'];
-    if (searchStr.length > 1) {
+    if (searchStr.length > 1 || searchFieldOn) {
       cls.push('expanded');
     }
     const newCln = cls.join(' ');
     if (newCln !== searchClassNames) {
       setSearchClassNames(newCln);
     }
-  }, [searchClassNames]);
+  }, [searchClassNames, searchFieldOn]);
 
   useEffect(() => {
     const items = site instanceof Object && site.menus instanceof Object ? site.menus.main : [];
@@ -125,8 +125,9 @@ const Header = (pageData: PageDataSet) => {
     }
     if (path.startsWith('/search')) {
       cls.push('hide-search-link');
+      setSearch('');
     }
-    if (search.length > 1) {
+    if (search.length > 1 || searchFieldOn) {
       cls.push('search-mode');
     }
     setClassNames(cls.join(' '));
@@ -139,7 +140,7 @@ const Header = (pageData: PageDataSet) => {
     setMainItems(items);
     setHasMenuItems(items instanceof Array && items.length > 0);
     updateSearchClassNames(search);
-  }, [site, router, expanded, context, search, updateSearchClassNames])
+  }, [site, router, expanded, context, search, updateSearchClassNames, searchFieldOn])
 
   return (
     <header className={classNames}>
@@ -151,7 +152,7 @@ const Header = (pageData: PageDataSet) => {
               <Link href={item.path}><a target={ renderTarget(item) }>{isHomeLink(item) ? <i className='icon icon-home' title={ item.title }></i> : item.title }</a></Link>
             </li>
           })}
-          <li className={searchClassNames}>
+          <li className={searchClassNames} onMouseEnter={() => setSearchFieldOn(true)} onMouseLeave={() => setSearchFieldOn(false)}>
             <Input name='search' value={search} onChange={updateSearch} className='search-field' size='sm' onKeyDown={e => (submitOnEnter(e))} id='nav-short-search-field' aria-labelledby={labels.search} rounded={false} shadow={false} animated={false} />
             <i className='icon icon-search' title='Search' onClick={submitSearch}></i>
           </li>
