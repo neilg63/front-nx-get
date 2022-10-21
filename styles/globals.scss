@@ -24,6 +24,7 @@ $fixed-height-horizontal-gap-medium: 2vmin;
 /* $dark: #333333; */
 $dark: black;
 $mid-grey: #999999;
+$solid-grey: #666666;
 $light-grey: #cccccc;
 $light: white;
 $primary: #ff6600;
@@ -31,26 +32,26 @@ $danger: #cc0000;
 
 $dot-size: 2px;
 
-@mixin custom-dots {
+/* @mixin custom-dots {
   @media (min-width: $mid-screen-width) {
     border-image-source: url(/assets/border-square.png);
     border-image-slice: 2 0;
     border-image-repeat: space;
   }
-}
+} */
 
 @mixin square-dots {
-  @include custom-dots();
-  border-bottom: dotted $dot-size $dark;
+  /* @include custom-dots(); */
+  border-bottom: dotted $dot-size $solid-grey;
 }
 
 @mixin square-dots-top {
-  @include custom-dots();
-  border-top: dotted $dot-size $dark;
+  /* @include custom-dots(); */
+  border-top: dotted $dot-size $solid-grey;
 }
 
 @mixin square-dots-top-bottom {
-  @include custom-dots();
+  /* @include custom-dots(); */
   border-top: dotted $dot-size $dark;
   border-bottom: dotted $dot-size $dark;
 }
@@ -445,9 +446,13 @@ header.header {
         }
         &.expanded > div:first-child,
         &:hover > div:first-child {
-          max-width: 12.5em;
+          max-width: 100%;
           margin-right: 0.25em;
         }
+       /*  &.expanded,
+        &:hover {
+          width: 90%;
+        } */
         .nextui-input-main-container {
           margin-left: 0;
           padding-left: 0;
@@ -1476,6 +1481,9 @@ figure {
           white-space: nowrap;
           overflow: hidden;
         }
+      }
+      @media screen and (max-width: $mini-screen-width) {
+        height: 100%;
       }
       @media screen and (min-width: $mini-screen-width) {
         height: 17.5rem;
