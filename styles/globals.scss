@@ -537,6 +537,13 @@ header.header {
       z-index: 60;
     }
   }
+
+  .search-results {
+    div.nextui-input-main-container input,
+    div.nextui-input-main-container {
+      font-size: 1.5rem;
+    }
+  }
 }
 
 .top-nav,
