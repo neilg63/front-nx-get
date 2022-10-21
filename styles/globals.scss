@@ -375,11 +375,22 @@ header.header {
             right: 1.5rem;
             top: 0;
             justify-content: flex-end;
+            >div.nextui-input-main-container,
+            >div.nextui-input-main-container input {
+              font-size: 1.5rem;
+              
+            }
+            align-items: flex-start;
+            > i {
+              top: 0.75rem;
+              position: relative;
+            }
             &.expanded,
             &:hover {
               background-color: white;
               
-              width: calc(100% - 0.5625rem);
+              width: calc(100% - 0.75rem);
+              margin-right: 0.25rem;
               
               >div.nextui-input-main-container,
               input {
