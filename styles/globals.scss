@@ -1433,6 +1433,11 @@ figure {
     padding: 0.5em 0;
     @include square-dots();
   }
+  @media (max-width: $mini-screen-width) {
+    figure {
+      display: block;
+    }
+  }
 }
 
 .fixed-height-rows {
