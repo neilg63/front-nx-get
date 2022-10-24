@@ -1433,10 +1433,13 @@ figure {
     padding: 0.5em 0;
     @include square-dots();
   }
-  @media (max-width: $mini-screen-width) {
-    figure {
-      display: block;
-    }
+}
+
+@media (max-width: $mini-screen-width) {
+  .artwork-list figure,
+  .fixed-height-rows figure,
+  .result-section figure {
+    display: block;
   }
 }
 
