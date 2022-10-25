@@ -1559,7 +1559,7 @@ figure {
         }
       }
       @media screen and (max-width: $mini-screen-width) {
-        height: 100%;
+        height:  auto;
       }
       @media screen and (min-width: $mini-screen-width) {
         height: 17.5rem;
