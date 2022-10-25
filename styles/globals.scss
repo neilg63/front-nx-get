@@ -1441,10 +1441,14 @@ figure {
 }
 
 @media (max-width: $mini-screen-width) {
+  .video-previews figure,
   .artwork-list figure,
   .fixed-height-rows figure,
   .result-section figure {
     display: block;
+  }
+  .video-previews {
+    width: 100%;
   }
 }
 
