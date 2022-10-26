@@ -102,7 +102,7 @@ const Header = (pageData: PageDataSet) => {
 
   const updateSearchClassNames = useCallback((searchStr = '') => {
     const cls = ['search-link prominent'];
-    if (searchStr.length > 1 || searchFieldOn) {
+    if (searchStr.length > 0 || searchFieldOn) {
       cls.push('expanded');
     }
     const newCln = cls.join(' ');
@@ -127,7 +127,7 @@ const Header = (pageData: PageDataSet) => {
       cls.push('hide-search-link');
       setSearch('');
     }
-    if (search.length > 1 || searchFieldOn) {
+    if (search.length > 0 || searchFieldOn) {
       cls.push('search-mode');
     }
     setClassNames(cls.join(' '));
