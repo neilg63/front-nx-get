@@ -1,27 +1,27 @@
 import { NextPage } from "next";
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import parse from "html-react-parser";
 import { BaseEntity } from "../lib/interfaces";
 import { CompoundPageDataSet, NodeEntity } from "../lib/entity-data";
-import { mediumDate, shortDate } from "../lib/converters";
-import labels from "../lib/labels";
+import { shortDate } from "../lib/converters";
 import Head from "next/head";
 import SeoHead from "./layout/head";
 import { Container } from "@nextui-org/react";
-import { containerProps, timelineItemWidth } from "../lib/styles";
+import { calcTimelineItemWidth, containerProps, timelineItemWidth } from "../lib/styles";
 import AboutNav from "./widgets/about-nav";
 import TimelineItem from "./widgets/timeline-item";
 import { notEmptyString, validDateString } from "../lib/utils";
 import MediaFigure from "./widgets/media-figure";
 import Link from "next/link";
 import { bundleName } from "../lib/content-types";
+import { TopContext } from "../pages/_app";
 
 const defaultTimeHolderStyles = { width: '10000%', left: 0 };
 
-const calcTimelineStyles = (num: number, offset: number) => {
+const calcTimelineStyles = (num: number, offset: number, itemWidth = 320) => {
   if (num > 3) {
-    const totalPx = timelineItemWidth * num;
-    const leftPx = 0 - (timelineItemWidth * offset);
+    const totalPx = itemWidth * num;
+    const leftPx = 0 - (itemWidth * offset);
     return { width: `${totalPx}px`, left: `${leftPx}px`  }
   } else {
     return defaultTimeHolderStyles;
@@ -30,8 +30,10 @@ const calcTimelineStyles = (num: number, offset: number) => {
 
 const Timeline: NextPage<BaseEntity> = (data: any = null) => { 
   const pageData = useMemo(() => new CompoundPageDataSet(data), [data]);
+  const context = useContext(TopContext);
   const [hasSelectedItem, setHasSelectedItem] = useState(false);
   const [offset, setOffset] = useState(0);
+  const [itemWidth, setItemWidth] = useState(timelineItemWidth);
   const [navClasses, setNavClasses] = useState('timeline-dir-nav');
   const [node, setNode] = useState(new NodeEntity(null));
   const { items, meta } = pageData;
@@ -74,8 +76,11 @@ const Timeline: NextPage<BaseEntity> = (data: any = null) => {
     }
     setHasSelectedItem(matchedNode instanceof NodeEntity && matchedNode.nid > 0);
     setNavClasses(buildNavClasses());
-    
-  }, [hasSelectedItem, node, hasItems, selectedRef, items, navClasses, offset]);
+    if (context) {
+      const itemW = calcTimelineItemWidth(context?.width);
+      setItemWidth(itemW)
+    }
+  }, [hasSelectedItem, node, hasItems, selectedRef, items, navClasses, offset, context, itemWidth]);
   return <>
     <Head>
       <SeoHead meta={meta} />
@@ -84,7 +89,7 @@ const Timeline: NextPage<BaseEntity> = (data: any = null) => {
       <AboutNav current='/about/timeline' />
       <section className="timeline-item-container full-width">
         <div className='timeline-items'>
-          <section className='timeline-holder row' style={ calcTimelineStyles(items.length, offset) }>
+          <section className='timeline-holder row' style={ calcTimelineStyles(items.length, offset, itemWidth) }>
             {hasItems && items.map((item: NodeEntity, index: number) => <TimelineItem node={item} selected={ node.nid }  key={ ['item.uuid', index].join('-') }  />)}
           </section>
           <nav className={navClasses}>

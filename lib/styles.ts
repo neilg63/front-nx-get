@@ -38,6 +38,15 @@ export const remPx = 16;
 
 export const timelineItemWidth = remPx * 20;
 
+export const miniScreenWidth = 675;
+
+export const calcTimelineItemWidth = (windowWidth = 0) => {
+  const ww = typeof windowWidth === "number" ? windowWidth : -1;
+  return ww > 0 && windowWidth < miniScreenWidth
+    ? windowWidth * 0.9
+    : timelineItemWidth;
+};
+
 export const videoPreviewStyles = { aspectRatio: 16 / 9 };
 
 export const tooltipStyles = {
