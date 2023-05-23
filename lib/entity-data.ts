@@ -206,7 +206,8 @@ const toImageStyles = (
         if (notEmptyString(lastEl)) {
           const width = lastEl?.split("x").shift();
           if (isNumeric(width)) {
-            const size = width + "w";
+            const minWidth = Math.ceil(smartCastInt(width) / 2);
+            const size = `${minWidth}w`;
             const uri = typeof value === "string" ? value : "";
             if (uri.length > 4) {
               styles.push({
