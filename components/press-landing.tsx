@@ -42,6 +42,7 @@ const PressLanding: NextPage<BaseEntity> = (data) => {
   const viewAllLabel = pageData.label('more_link', 'more');
   return <>
     <Head>
+      <title>{meta.title}</title>
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps} className='about-listing-container left-align listing-main'>

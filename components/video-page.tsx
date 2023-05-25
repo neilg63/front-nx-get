@@ -27,6 +27,7 @@ const VideoPage: NextPage<BaseEntity> = (data ) => {
   const hasRelatedPressPrinted = relatedPressPrinted.length > 0;
   return  <>
     <Head>
+      <title>{meta.title}</title>
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps} className='video-container grid-sidebar'>

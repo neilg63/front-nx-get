@@ -78,6 +78,7 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
   return (
     <>
       <Head>
+        <title>{meta.title}</title>
         <SeoHead meta={meta} />
       </Head>
       <Container {...containerProps} className="home-container">

@@ -21,6 +21,7 @@ const EssayList: NextPage<BaseEntity> = (data) => {
   const showPaginator = total > 0 && total > perPage;
   return <>
     <Head>
+      <title>{meta.title}</title>
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps} className='about-listing-container left-align'>

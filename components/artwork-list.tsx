@@ -222,6 +222,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
   }, [pageData, contextualTitle, subPath, router, types, context, scrollPage, scrollLoadPos, loading, maxScrollPages, selected]);
   return <>
     <Head>
+      <title>{pageData.meta.title}</title>
       <SeoHead meta={pageData.meta} />
     </Head>
     <Container {...containerProps} className={ wrapperClasses(showDetail) }>

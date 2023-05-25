@@ -12,7 +12,7 @@ const correctLocalPath = (path = "") => {
 };
 
 export class MetaDataSet {
-  title = "";
+  title = "Gavin Turk";
   description = "";
   image = "";
   keywords?: string[] = [];
@@ -26,7 +26,9 @@ export class MetaDataSet {
             case "title":
             case "description":
             case "image":
-              this[key] = value;
+              if (notEmptyString(value)) {
+                this[key] = value;
+              }
               break;
             case "path":
               this[key] = correctLocalPath(value);

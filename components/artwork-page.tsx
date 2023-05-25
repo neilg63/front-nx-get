@@ -13,6 +13,7 @@ const ArtworkPage: NextPage<BaseEntity> = (data: BaseEntity) => {
   const basePath = '/artworks';
   return <>
     <Head>
+      <title>{meta.title}</title>
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps} className='grid-sidebar'>

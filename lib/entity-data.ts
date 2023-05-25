@@ -782,6 +782,13 @@ export class PageDataSet {
         this.site = new SiteInfo(inData.site);
       }
       if (keys.includes("meta") && isObjectWith(inData.meta, "title")) {
+        if (typeof inData.meta.title === "string") {
+          if (/:\s*$/.test(inData.meta.title)) {
+            if (keys.includes("entity") && inData.entity.title) {
+              inData.meta.title += inData.entity.title;
+            }
+          }
+        }
         this.meta = new MetaDataSet(inData.meta);
       }
       if (keys.includes("page") && typeof inData.page === "number") {

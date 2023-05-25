@@ -107,6 +107,7 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
   }, [containers, perPage, total, hasItems, setHasItems, showPaginator, router, setSearchStringFromPath, searchString, initialised]);
   return <>
     <Head>
+      <title>{meta.title}</title>
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps} className='search-results'>

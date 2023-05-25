@@ -20,7 +20,7 @@ class AppDocument extends Document {
     const { meta } = pageData;
     return (
       <Html lang="en">
-        <Head title={ meta.title }>
+        <Head title={meta.title}>
           {CssBaseline.flush()}
         </Head>
         <body>

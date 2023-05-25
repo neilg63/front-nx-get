@@ -11,6 +11,7 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import { customTheme } from '../lib/styles';
 import { clearLocalCacheOnNewVersion } from '../lib/localstore';
+import { notEmptyString } from '../lib/utils';
 
 NProgress.configure({ showSpinner: false })
 
@@ -68,6 +69,19 @@ export default function App({ Component, pageProps }: AppProps) {
     }, 250);
   }
 
+ /*  const handleLocationChange = () => {
+    setTimeout(() => {
+      const titleEl = document.querySelector("title")
+      if (titleEl instanceof HTMLElement) {
+        if (notEmptyString(document.head.title)) {
+          if (titleEl.innerText.length < 3) {
+            titleEl.innerText = document.head.title;
+          }
+        }
+      }
+    }, 1000)
+  } */
+
   useEffect(() => {
     setHeight(window.outerHeight);
     setWidth(window.outerWidth);
@@ -86,7 +100,7 @@ export default function App({ Component, pageProps }: AppProps) {
       }
     }
     window.addEventListener("keydown", handleKeyDown);
-
+   // handleLocationChange();
   }, [])
   const { site } = pageProps;
   const queryClientRef = React.useRef<QueryClient>()

@@ -20,6 +20,7 @@ const PressList: NextPage<BaseEntity> = (data) => {
   const download_label = pageData.label('download_pdf');
   return <>
     <Head>
+      <title>{meta.title}</title>
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps} className='about-listing-container listing-main'>
