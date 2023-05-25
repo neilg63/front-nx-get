@@ -117,6 +117,7 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
   }, [pageData, loading, maxScrollPages, router,context, scrollLoadPos, scrollPage, subPath])
   return  <>
     <Head>
+      <title>{meta.title}</title>
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps}>

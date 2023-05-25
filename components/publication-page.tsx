@@ -21,6 +21,7 @@ const PublicationPage: NextPage<BaseEntity> = (data ) => {
   const hasBody = notEmptyString(entity.body, 4);
   return  <>
     <Head>
+      <title>{meta.title}</title>
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps} className='exhibition-container left-align'>

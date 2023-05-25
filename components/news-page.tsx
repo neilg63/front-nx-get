@@ -23,6 +23,7 @@ const NewsPage: NextPage<BaseEntity> = (data) => {
   const hasItems = topItems.length > 0;
   return <>
     <Head>
+      <title>{meta.title}</title>
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps} className='grid-sidebar'>

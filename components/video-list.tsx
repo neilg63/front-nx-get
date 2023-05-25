@@ -17,6 +17,7 @@ const VideoList: NextPage<BaseEntity> = (data) => {
   const showPaginator = total > perPage;
   return  <>
     <Head>
+      <title>{meta.title}</title>
       <SeoHead meta={meta} />
     </Head>
     <Container {...containerProps} className='listing-main'>

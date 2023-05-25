@@ -34,6 +34,7 @@ const TagsMaze: NextPage<BaseEntity> = (data: BaseEntity) => {
   }, [context, router])
   return <>
     <Head>
+      <title>{pageData.meta.title}</title>
         <SeoHead meta={pageData.meta} />
       </Head>
     <Container {...containerProps} className='tags-container'>
