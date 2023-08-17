@@ -985,7 +985,7 @@ img {
           position: relative;
           width: 90vw;
           @media (min-width: $mini-screen-width) {
-            width: 20em;
+            width: 12.5em;
           }
           padding: 3rem 1rem 1rem 1em;
           @media (min-width: $mini-screen-width) {
@@ -1251,7 +1251,8 @@ ul, ol {
     display: inline;
     position: relative;
     white-space: normal;
-
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 100;
     font-size: 1rem;
     @media (min-width: $small-screen-width) {
       font-size: 1.3333rem;
@@ -1775,23 +1776,23 @@ main > .related {
     &.top-right {
       top: 1em;
       right: 0.75em;
-
-      &.icon-close {
-        top: 1.125vw;
-      }
-
       &.close-modal {
         opacity: 0;
-        top: 2.5vvw;
-        right: 2.5vw;
-        left: 0.375em;
-        bottom: 0.375em;
+        top: 0.625em;
+        right: 0.625em;
         transition: opacity 0.25s ease-in-out;
         &:hover {
           opacity: 1;
         }
       }
     }
+
+
+    &.bottom-left {
+      bottom: 0.5em;
+      left: 0.5em;
+    }
+
     &.mid-right,
     &.mid-left {
       top: calc(50vh - 0.5em);
@@ -1816,6 +1817,13 @@ main > .related {
 
     &:hover {
       color: $primary;
+    }
+  }
+
+  
+  .nextui-modal:hover {
+    .close-modal {
+      opacity: 1;
     }
   }
   figure {
