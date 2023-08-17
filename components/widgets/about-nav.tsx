@@ -4,12 +4,12 @@ import labels from '../../lib/labels';
 
 const navOptions: SimpleLink[] = [
   { 
-    path: '/about/essays',
-    title: 'Essays',
-  },
-  { 
     path: '/about/bio',
     title: 'Bio',
+  },
+  { 
+    path: '/about/essays',
+    title: 'Essays',
   },
   { 
     path: '/about/press',
