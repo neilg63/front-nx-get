@@ -9,19 +9,27 @@ import SeoHead from "./layout/head";
 import { Container } from "@nextui-org/react";
 import { containerProps } from "../lib/styles";
 import AboutNav from "./widgets/about-nav";
+import { notEmptyString } from "../lib/utils";
 
 const PressIntroList = ({ items, type, title, label, viewAll }: { items: NodeEntity[]; type: string; title: string; label: string, viewAll: string }) => {
   const viewAllLink = ['/about/press', type].join("/");
   const hasItems = items.length > 0;
+  
   const showTitle = type === 'release';
+  const renderPublisher = (item: NodeEntity): boolean => {
+    return notEmptyString(item.field_source) ;
+  }
+  const renderTitle = (item: NodeEntity): boolean => {
+    return showTitle || !renderPublisher(item);
+  }
   const className = ['sublist', type].join(' ');
   return <>
     {hasItems && <div className={className}>
       <h3>{title}</h3>
       <ul className='press-items'>
         {items.map((item: NodeEntity) => <li key={item.uuid}>
-          {showTitle && <span className='title'>{ item.title }</span>}
-          <span className='publisher'>{item.field_source}</span>
+          {renderTitle(item) && <span className='title'>{ item.title }</span>}
+          {renderPublisher(item) && <span className='publisher'>{item.field_source}</span>}
           <time className='date'>{ longDate(item.field_date) }</time>
          {item.hasDocument && <DownloadLink item={item.field_document!} label={ label } />}
         </li>)} 
