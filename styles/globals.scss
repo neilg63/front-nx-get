@@ -846,6 +846,15 @@ img {
   
 }
 
+
+footer .credits > p:last-child {
+  opacity: 0;
+}
+
+.section--home-theme footer .credits > p:last-child {
+  opacity: 1;
+}
+
 .section--tags-theme.gt-outer body>div#__next>div {
   position: relative;
   @media screen and (min-width: $mid-screen-width) {

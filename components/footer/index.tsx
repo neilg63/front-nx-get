@@ -4,7 +4,8 @@ import parse from "html-react-parser";
 import ContactForm from '../widgets/contact-form';
 import { Modal, useModal } from "@nextui-org/react";
 import { notEmptyString } from "../../lib/utils";
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
+import { useRouter } from "next/router";
 import PressInfo from "../widgets/press-info";
 import MailingForm from "../widgets/mailing-form";
 
@@ -31,6 +32,9 @@ const Footer = ({ site }: { site: SiteInfo }) => {
   const hasMenus = menus instanceof Object;
   const menuItems = hasMenus && menus.footer instanceof Array ? menus.footer : [];
   const sociaItems = hasMenus && menus.social instanceof Array ? menus.social : [];
+  const router = useRouter();
+  const basePath = router.asPath.split('?').shift() as string;
+  const isHome = basePath.startsWith('/home') || basePath.length < 3;
   
   const hasMenuItems = menuItems.length > 0;
   const siteInfo = new SiteInfo(site);

@@ -272,7 +272,15 @@ export const matchFilterMode = (subPath = ""): string => {
     ) {
       fm = "year";
     } else {
-      fm = subPath.startsWith("tag--") ? "tag" : "type";
+      switch (subPath) {
+        case 'solo':
+        case 'group':
+          fm = subPath;
+          break;
+        default:
+          fm = subPath.startsWith("tag--") ? "tag" : "type";
+          break;
+      }
     }
   }
   return fm;

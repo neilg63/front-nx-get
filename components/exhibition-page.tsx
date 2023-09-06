@@ -26,7 +26,6 @@ const relatedPressReleases = entity.hasRelatedPress ? entity.field_related_press
 const hasRelatedPressReleases = relatedPressReleases.length > 0;
 const relatedPressPrinted = entity.hasRelatedPress ? entity.field_related_press.filter((p:NodeEntity) => p.isPressArticle) : [];
   const hasRelatedPressPrinted = relatedPressPrinted.length > 0;
-  console.log(meta)
   return  <>
     <Head>
       <title>{meta.title}</title>

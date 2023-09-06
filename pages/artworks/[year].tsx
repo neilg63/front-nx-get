@@ -1,5 +1,4 @@
 import type { GetServerSideProps } from 'next'
-import { useRouter } from 'next/router';
 import { fetchApiViewResults } from '../../lib/api-view-results';
 import ArtworkList from '../../components/artwork-list';
 import { extractPageIndexFromContext, isNumeric, notEmptyString } from '../../lib/utils';

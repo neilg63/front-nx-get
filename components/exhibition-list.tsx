@@ -19,7 +19,9 @@ import { filterNavClassName, mapFilterOption, matchFilterMode } from "../lib/uti
 
 const filterOpts = [
   { key: 'all', name: 'All' },
-  { key: 'year', name: 'Year' }
+  { key: 'year', name: 'Year' },
+  { key: 'solo', name: 'Solo' },
+  { key: 'group', name: 'Group' }
 ];
 
 const ExhibitionList: NextPage<BaseEntity> = (data) => {  
@@ -57,6 +59,18 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
   }, [pageData, maxScrollPages, router]);
 
   const changeFilterMode = useCallback((mode: string) => {
+    const currPath = router.asPath.split('?').shift();
+    switch (mode) {
+      case 'solo':
+      case 'group':
+        router.push(['/exhibitions', mode].join('/'));
+        break;
+      case 'all':
+        if (currPath?.endsWith('exhibitions') === false) {
+          router.push('/exhibitions');
+        }
+        break;
+    }
     setFilterMode(mode);
   }, [])
 
