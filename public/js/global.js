@@ -65,10 +65,10 @@
                   blocks: []
               }
           }
-      },
+      }/* ,
       onAccept: function(cookie){
           setTimeout(triggerNewsletter, 3000);
-      },
+      }, */
       });
     }
   }
@@ -82,7 +82,7 @@
   window.dataLayer = window.dataLayer || [];
   
   const gtEl = document.getElementById("google-tag-script");
-  
+
   if (gtEl instanceof HTMLElement) {
     const gtId = gtEl.getAttribute("data-id");
     if (gtId) {

@@ -15,6 +15,7 @@ const SeoHead = ({ meta }: { meta: MetaDataSet }) => {
       <meta property="og:image" content={meta.image} key="og-image" />
       <meta property="twitter:card" content="summary_large_image" key="twitter-card" />
       <meta name="twitter:image" content={meta.image} key="twitter-image" />
+      {/* <script async src="/js/row-grid.js"></script> */}
     </>
   );
 };

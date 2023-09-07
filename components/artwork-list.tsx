@@ -12,14 +12,12 @@ import { getScrollTop } from "../lib/dom";
 import { useRouter } from "next/router";
 import { TopContext } from "../pages/_app";
 import { setTempLocalBool, tempLocalBool } from "../lib/localstore";
-import labels from "../lib/labels";
 import { isMinLargeSize, numScrollBatches } from "../lib/settings";
 import ArtworkFigure from "./widgets/artwork-figure";
 import { loadMore } from "../lib/load-more";
 import YearNav from "./widgets/year-nav";
 /* import { fetchFullNode } from "../lib/api-view-results";
 import ArtworkInsert from "./widgets/artwork-insert"; */
-
 
 const filterOpts = [
   { key: 'all', name: 'All' },
@@ -92,6 +90,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
   const [types, setTypes] = useState<SlugNameNum[]>([]);
   const [filterOptions, setFilterOptions] = useState<FilterOption[]>([]);
   const [subPath, setSubPath] = useState('');
+  const [currWW, setCurrWW] = useState(0);
   const router = useRouter();
   const changeFilterMode = (mode: string) => {
     setFilterMode(mode);
@@ -129,6 +128,9 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
 
   useEffect(() => {
     const { items } = pageData;
+    if (currWW < 20 && context?.width) {
+      setCurrWW(context?.width as number);
+    }
     const yearRefs = pageData.sets.has('years') ? pageData.sets.get('years') : [];
     if (yearRefs instanceof Array && yearRefs.length > 0) {
       const yearRows = yearRefs as YearNum[];
@@ -209,17 +211,94 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
         window.location.hash = '';
       }
     }
+    const normaliseGrid = () => {
+        const container = document.getElementById('artwork-list-container');
+      // if (container instanceof HTMLElement && window.rowGrid instanceof Function) {
+      if (container instanceof HTMLElement) {
+        const containerBR = container.getBoundingClientRect();
+        const containerLeft = containerBR.left;
+        const containerWidth = containerBR.width;
+        let row = 0;
+        let rowWidth = 0;
+        container.querySelectorAll('figure').forEach((el, i) => {
+          if (el instanceof HTMLElement) {
+            // el.style.height = `${el.clientHeight}px`
+            const img = el.querySelector('img');
+            if (img instanceof HTMLElement) {
+              const figBR = el.getBoundingClientRect();
+              const currLeft = figBR.left - containerLeft;
+              
+              if (i > 0 && currLeft < 10) {
+                const porWidth = containerWidth / rowWidth;
+                if (porWidth > 0.95 && porWidth < 1.667) {
+                  container.querySelectorAll(`.row-${row}`).forEach(el => {
+                    if (el instanceof HTMLElement) {
+                      if (el.classList.contains('resized') === false) {
+                        const nh = Math.round(el.clientHeight * porWidth);
+                        el.style.height = `${nh}px`;
+                        el.classList.add('resized')
+                      }
+                    }
+                  });
+                }
+                row++;
+                rowWidth = 0;
+              }
+              if (el.classList.contains('has-row') === false) {
+                el.classList.add(`row-${row}`, 'has-row');
+              }
+              const pdL = parseInt(window.getComputedStyle(el).paddingRight, 10);
+              rowWidth = figBR.right - containerLeft + pdL;
+            }
+          }
+        })
+        if (container.classList.contains('resizing')) {
+          container.classList.remove('resizing');
+        }
+      }
+    }
+
+    const onResize = () => {
+      
+      const cw = context?.width as number;
+      const diff = cw > 20 ? Math.abs(cw - currWW) : 0;
+      if (diff > 50) {
+        setCurrWW(cw);
+        const container = document.querySelector('#artwork-list-container');
+        if (container instanceof HTMLElement) {
+          if (container.classList.contains('resizing') === false) {
+            container.classList.add('resizing');
+            container.querySelectorAll('figure.resized').forEach((el) => {
+              if (el instanceof HTMLElement) {
+                for (let i = el.classList.length - 1; i >= 0; i--) {
+                  const cln = el.classList[i];
+                  if (cln.startsWith('row-') || ['resized', 'has-row'].includes(cln)) {
+                      el.classList.remove(cln);
+                      el.removeAttribute("style");
+                  }
+                }
+              }
+            })
+            setTimeout(normaliseGrid, 100);
+          }
+        }
+      }
+    }
+    setTimeout(normaliseGrid, 100);
     setTimeout(() => {
      setTempLocalBool('loading', false);
     }, 3000);
     window.addEventListener('scroll', onScroll);
+    window.addEventListener('resize', onResize);
     if (pageData.loadedPages < 2 && pageData.numPages > 1) {
       setTimeout(fetchMoreItems, 500);
     }
     return () => {
       window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onResize);
     };
   }, [pageData, contextualTitle, subPath, router, types, context, scrollPage, scrollLoadPos, loading, maxScrollPages, selected]);
+ 
   return <>
     <Head>
       <title>{pageData.meta.title}</title>
@@ -237,7 +316,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
         {hasTypes && <ArtworkTypeNav types={types} current={ subPath }/>}
       </nav>
       <section className="artwork-list">
-        {pageData.hasItems && <><div className="fixed-height-rows medium-height inner-captions">
+        {pageData.hasItems && <><div className="fixed-height-rows medium-height inner-captions"  id="artwork-list-container">
           {pageData.items.map((item, index) => item.duplicate ? <figure className='hidden' key={item.indexedKey(index)} style={displayNone}></figure> : <ArtworkFigure item={item} index={index} key={item.indexedKey(index)} />)}
           </div>
           {pageData.showListingNav && <nav className='listing-nav row'>

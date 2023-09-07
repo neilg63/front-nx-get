@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Router, { useRouter } from 'next/router';
 import { createTheme, NextUIProvider } from '@nextui-org/react';
-import 'react-grid-layout/css/styles.css';
-import '/react-resizable/css/styles.css';
 import '../styles/globals.scss';
 import type { AppProps } from 'next/app'
 import { QueryClient, QueryClientProvider, Hydrate } from "@tanstack/react-query";
@@ -13,6 +11,10 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import { customTheme } from '../lib/styles';
 import { clearLocalCacheOnNewVersion } from '../lib/localstore';
+
+declare global {
+  interface Window { rowGrid: any; }
+}
 
 NProgress.configure({ showSpinner: false })
 
@@ -55,7 +57,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const [width, setWidth] = useState(1200);
   const [escaped, setEscaped] = useState(false);
   const [move, setMove] = useState(0);
-
+  
   const handleEscape = () => {
     setEscaped(true);
     setTimeout(() => {

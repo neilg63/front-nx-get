@@ -30,6 +30,8 @@ class AppDocument extends Document {
           <NextScript />
           <script src="/js/global.js" defer={true} />
           <script async src={googleTagUri} id="google-tag-script" data-id={googleTagId}></script>
+
+          
         </body>
       </Html>
     );
