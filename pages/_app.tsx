@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Router, { useRouter } from 'next/router';
 import { createTheme, NextUIProvider } from '@nextui-org/react';
+import 'react-grid-layout/css/styles.css';
+import '/react-resizable/css/styles.css';
 import '../styles/globals.scss';
 import type { AppProps } from 'next/app'
 import { QueryClient, QueryClientProvider, Hydrate } from "@tanstack/react-query";
@@ -11,7 +13,6 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import { customTheme } from '../lib/styles';
 import { clearLocalCacheOnNewVersion } from '../lib/localstore';
-import { notEmptyString } from '../lib/utils';
 
 NProgress.configure({ showSpinner: false })
 
