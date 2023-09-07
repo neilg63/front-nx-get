@@ -89,6 +89,12 @@ body {
   background-color: $light;
 }
 
+body {
+  p, li, td span, h1, h2, h3, h4, h5, h6, div {
+    font-family: Helvetica, Arial, sans-serif;
+  }
+}
+
 a {
   color: inherit;
   text-decoration: none;

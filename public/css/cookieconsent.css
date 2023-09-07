@@ -1,6 +1,6 @@
 :root {
     --cc-bg: #fff;
-    --cc-text: #808080;
+    --cc-text: black;
     --cc-btn-primary-bg: var(--cc-text);
     --cc-btn-primary-text: var(--cc-bg);
     --cc-btn-primary-hover-bg: black;
@@ -23,8 +23,8 @@
 }
 
 .c_darkmode {
-    --cc-bg: #181b1d;
-    --cc-text: #d8e5ea;
+    --cc-bg: black;
+    --cc-text: white;
     --cc-btn-primary-bg: #a6c4dd;
     --cc-btn-primary-text: black;
     --cc-btn-primary-hover-bg: white;
@@ -186,8 +186,8 @@
     width: 100%;
     bottom: 1.25em;
     right: 1.25em;
-    box-shadow: 0 .625em 1.875em #000;
-    box-shadow: 0 .625em 1.875em rgba(2, 2, 3, .28);
+    box-shadow: 0 .3125em .625em #000;
+    box-shadow: 0 .3125em .625em rgba(0, 0, 0, .28);
     opacity: 0;
     visibility: hidden;
     transform: scale(.95);
