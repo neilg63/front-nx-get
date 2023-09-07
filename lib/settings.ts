@@ -34,3 +34,5 @@ export const artlogicMailing = {
   //apiKey: "ZmZlYjRkY2YwNTFjMTU0ODI0MTQwYzFlN2ExYmQ5OGQ=", // base64-encoded hash of reversed Api Key string
   apiKey: "",
 };
+
+export const googleTagId = 'G-PJTQ945ZGX';
