@@ -297,7 +297,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onResize);
     };
-  }, [pageData, contextualTitle, subPath, router, types, context, scrollPage, scrollLoadPos, loading, maxScrollPages, selected]);
+  }, [pageData, contextualTitle, subPath, router, types, context, scrollPage, scrollLoadPos, loading, maxScrollPages, selected, currWW]);
  
   return <>
     <Head>
