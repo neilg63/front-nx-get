@@ -279,12 +279,12 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
                 }
               }
             })
-            setTimeout(normaliseGrid, 100);
+            setTimeout(normaliseGrid, 60);
           }
         }
       }
     }
-    setTimeout(normaliseGrid, 100);
+    setTimeout(normaliseGrid, 80);
     setTimeout(() => {
      setTempLocalBool('loading', false);
     }, 3000);
