@@ -13,7 +13,7 @@
         const el2 = document.createElement('link');
         el2.rel = 'stylesheet';
         el2.media = 'screen';
-        el2.href = '/css/cookieconsent.css';
+        el2.href = '/css/cookieconsent.css?v=7';
         el2.id = id2;
         document.body.appendChild(el2);
     }
