@@ -234,7 +234,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
                   container.querySelectorAll(`.row-${row}`).forEach(el => {
                     if (el instanceof HTMLElement) {
                       if (el.classList.contains('resized') === false) {
-                        const nh = Math.round(el.clientHeight * porWidth);
+                        const nh = el.clientHeight * porWidth;
                         el.style.height = `${nh}px`;
                         el.classList.add('resized')
                       }
