@@ -218,8 +218,10 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
         const containerBR = container.getBoundingClientRect();
         const containerLeft = containerBR.left;
         const containerWidth = containerBR.width;
+        const contRight = containerBR.right;
         let row = 0;
         let rowWidth = 0;
+        let pdL = 0;
         container.querySelectorAll('figure').forEach((el, i) => {
           if (el instanceof HTMLElement) {
             // el.style.height = `${el.clientHeight}px`
@@ -231,12 +233,28 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
               if (i > 0 && currLeft < 10) {
                 const porWidth = containerWidth / rowWidth;
                 if (porWidth > 0.95 && porWidth < 1.667) {
-                  container.querySelectorAll(`.row-${row}`).forEach(el => {
+                  const els = container.querySelectorAll(`.row-${row}`);
+                  const numEls = els.length;
+                  const lastIndex = numEls - 1;
+                  
+                  els.forEach((el, index) => {
                     if (el instanceof HTMLElement) {
                       if (el.classList.contains('resized') === false) {
                         const nh = el.clientHeight * porWidth;
                         el.style.height = `${nh}px`;
                         el.classList.add('resized')
+                        if (index === lastIndex) {
+                          const img = el.querySelector('img');
+                          if (img instanceof HTMLElement) {
+                            const rightEndDiff = (contRight - pdL - img.getBoundingClientRect().right - (pdL / 2)) / lastIndex;
+                            for (let i = 1; i < numEls; i++) {
+                              const innerEl = els[i];
+                              if (innerEl instanceof HTMLElement) {
+                                innerEl.style.marginLeft = `${rightEndDiff}px`;
+                              }
+                            }
+                          }
+                        }
                       }
                     }
                   });
@@ -247,7 +265,9 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
               if (el.classList.contains('has-row') === false) {
                 el.classList.add(`row-${row}`, 'has-row');
               }
-              const pdL = parseInt(window.getComputedStyle(el).paddingRight, 10);
+              if (pdL < 1) {
+                pdL = parseInt(window.getComputedStyle(el).paddingRight, 10);
+              }
               rowWidth = figBR.right - containerLeft + pdL;
             }
           }
