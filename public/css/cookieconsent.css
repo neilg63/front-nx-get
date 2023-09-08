@@ -1,8 +1,8 @@
 :root {
     --cc-bg: #fff;
     --cc-text: black;
-    --cc-btn-primary-bg: var(--cc-text);
-    --cc-btn-primary-text: var(--cc-bg);
+    --cc-btn-primary-bg: #fff;
+    --cc-btn-primary-text: black;
     --cc-btn-primary-hover-bg: black;
     --cc-btn-secondary-bg: #999999;
     --cc-btn-secondary-text: white;
@@ -188,6 +188,7 @@
     right: 1.25em;
     box-shadow: 0 .3125em .625em #000;
     box-shadow: 0 .3125em .625em rgba(0, 0, 0, .28);
+    outline: solid 1px black;
     opacity: 0;
     visibility: hidden;
     transform: scale(.95);
@@ -201,6 +202,11 @@
 #c-ttl {
     margin-bottom: .7em;
     font-size: 1.05em
+}
+
+#c-ttl,
+#c-p-bn {
+    text-transform: uppercase;
 }
 
 .cloud #c-ttl {
@@ -290,44 +296,18 @@
     border-color: transparent
 }
 
-#c-bns button:first-child {
-    color: #fff;
+#c-bns button {
+    color: black;
     color: var(--cc-btn-primary-text);
-    background: #253b48;
-    background: var(--cc-btn-primary-bg)
+    background: var(--cc-btn-primary-bg);
+    outline: solid 1px var(--cc-btn-primary-text);
 }
 
-#c-bns.swap button:first-child {
-    color: #40505a;
-    color: var(--cc-btn-secondary-text);
-    background: #e5ebef;
-    background: var(--cc-btn-secondary-bg)
-}
-
-#c-bns.swap button:last-child {
-    color: #fff;
-    color: var(--cc-btn-primary-text);
-    background: #253b48;
-    background: var(--cc-btn-primary-bg)
-}
-
-.cc_div .b-tg .c-tgl:checked~.c-tg {
-    background: #253b48;
-    background: var(--cc-toggle-bg-on)
-}
-
-#c-bns button:first-child:active,
-#c-bns button:first-child:hover,
-#c-bns.swap button:last-child:active,
-#c-bns.swap button:last-child:hover {
-    background: #1d2e38;
-    background: var(--cc-btn-primary-hover-bg)
-}
-
-#c-bns.swap button:first-child:active,
-#c-bns.swap button:first-child:hover {
-    background: #d8e0e6;
-    background: var(--cc-btn-secondary-hover-bg)
+#c-bns button:hover {
+    color: white;
+    color: var(--cc-btn-primary-bg);
+    background: var(--cc-btn-primary-text);
+    outline: solid 1px var(--cc-btn-primary-bg);
 }
 
 #s-c-bn {

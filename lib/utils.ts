@@ -275,6 +275,7 @@ export const matchFilterMode = (subPath = ""): string => {
       switch (subPath) {
         case 'solo':
         case 'group':
+        case 'year':
           fm = subPath;
           break;
         default:

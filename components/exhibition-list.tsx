@@ -15,7 +15,7 @@ import { loadMore } from "../lib/load-more";
 import { getScrollTop } from "../lib/dom";
 import BreadcrumbTitle from "./widgets/breadcrumb-title";
 import YearNav from "./widgets/year-nav";
-import { filterNavClassName, mapFilterOption, matchFilterMode } from "../lib/utils";
+import { filterNavClassName, mapFilterOption, matchFilterMode, notEmptyString } from "../lib/utils";
 
 const filterOpts = [
   { key: 'all', name: 'All' },
@@ -59,20 +59,25 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
   }, [pageData, maxScrollPages, router]);
 
   const changeFilterMode = useCallback((mode: string) => {
-    const currPath = router.asPath.split('?').shift();
+    const currPath = router.asPath.split('?').shift() as string;
     switch (mode) {
       case 'solo':
       case 'group':
         router.push(['/exhibitions', mode].join('/'));
         break;
       case 'all':
-        if (currPath?.endsWith('exhibitions') === false) {
-          router.push('/exhibitions');
+      case 'year':
+        if (/(exhibitions|\d\d\d\d)$/.test(currPath) === false) {
+          const qStr = mode === 'year'? '?mode=year' : '';
+          router.push('/exhibitions' + qStr);
         }
         break;
     }
     setFilterMode(mode);
-  }, [])
+    setTimeout(() => {
+      setFilterOptions(filterOpts.map((row: FilterOption, ri: number) => mapFilterOption(row, ri, mode)));
+    }, 50);
+  }, [router, setFilterMode, setFilterOptions]);
 
   useEffect(() => {
     const fetchMoreItems = () => {
@@ -111,11 +116,12 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
       }
     };
     const currentPath = router.asPath.split('?').shift()!;
+    
     const currentPathParts = currentPath?.substring(1).split('/');
-    if (currentPathParts.length > 1) {
-      setSubPath(currentPathParts[1] )
+    const sp = notEmptyString(router.query.mode, 3) ? router.query.mode as string : currentPathParts.length > 1 ? currentPathParts[1] : '';
+    if (sp.length > 1) {
+      setSubPath(sp);
     }
-
     const fm = matchFilterMode(subPath);
     setFilterMode(fm);
     setFilterOptions(filterOpts.map((row: FilterOption, ri: number) => mapFilterOption(row, ri, fm)));
@@ -137,10 +143,10 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
     <Container {...containerProps}>
       <section className="exhibition-list grid-list">
         <nav className={filterNavClassName(filterMode)}>
-            <h1 className='breadcrumb-title'><BreadcrumbTitle path={pageData.meta.path} title={pageData.contextTitle} /></h1>
-            <ul className='row filter-options'>
+          <h1 className='breadcrumb-title'><BreadcrumbTitle path={pageData.meta.path} title={pageData.contextTitle} /></h1>
+          <ul className='row filter-options'>
             {filterOptions.map(opt => <li onClick={() => changeFilterMode(opt.key)} key={opt.itemKey} className={opt.className}>{opt.name}</li>)}
-        </ul>
+          </ul>
           {hasYears && <YearNav years={years} current={ meta.endPath } basePath='/exhibitions' />}
         </nav>
         {hasItems && <><div className="fixed-height-rows tall-height">

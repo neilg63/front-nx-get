@@ -1415,7 +1415,7 @@ body .nprogress {
 .grid,
 .fixed-height-rows-grid.medium-height,
 .fixed-height-rows.medium-height {
-  left: -2vmin;
+  left: -1vmin;
 
   figcaption {
     position: absolute;
@@ -1768,7 +1768,7 @@ main > .related {
 .artwork-list {
   width: 100%;
   max-width: 100%;
-  padding-right: 2.5%;
+  padding-right: 0;
   figure.hidden {
     display: none;
   }
