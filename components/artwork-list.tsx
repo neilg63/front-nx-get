@@ -222,7 +222,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       const diff = cw > 20 ? Math.abs(cw - currWW) : 0;
       if (diff > 50) {
         setCurrWW(cw);
-        resetJustifiedRows(document, "artwork-list-container", normaliseGrid);
+        resetJustifiedRows("artwork-list-container", normaliseGrid);
       }
     }
     setTimeout(normaliseGrid, 80);
