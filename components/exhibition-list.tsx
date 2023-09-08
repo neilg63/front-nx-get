@@ -41,7 +41,6 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
   const { items, meta, sets } = pageData;
   const years = sets.has('years') ? sets.get('years') as YearNum[]: [];
   const hasYears = years instanceof Array && years.length > 0;
-  //const emptyFigStyles = { width: 0, display: 'none' };
   
   const loadNextPrev = useCallback((forward = true) => {
     const currPath = router.asPath.split('?').shift();
