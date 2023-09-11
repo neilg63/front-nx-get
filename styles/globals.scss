@@ -1536,7 +1536,7 @@ figure {
       padding: 1vmin $fixed-height-horizontal-gap;
     }
   }
-  width: calc(100% + 1em);
+  width: calc(100% + 1em + 3vmin);
   > figure {
     width: 100%;
     position: relative;

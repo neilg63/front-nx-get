@@ -38,7 +38,7 @@ const PublicationPage: NextPage<BaseEntity> = (data ) => {
           {showPublisher && <h4 className="publisher">{parse(entity.field_publisher)}</h4>}
 
           {hasBody && <div className="body">{parse(entity.body)}</div>}
-          {hasLink && <div className="button"><a href={entity.field_link.uri}>{entity.field_link.title}</a></div>}
+          {hasLink && <div className="button"><a href={entity.field_link.uri} target="_blank" rel="noreferrer" className="shop-link">{entity.field_link.title}</a></div>}
           <ShareWidget meta={meta} />
         </div>
       </article>
