@@ -8,7 +8,7 @@ import { Container, Image } from "@nextui-org/react";
 import { addEndClasses, containerProps } from "../lib/styles";
 import DateRange from "./widgets/date-range";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
 import { isMinLargeSize, numScrollBatches } from "../lib/settings";
 import { TopContext } from "../pages/_app";
 import { loadMore } from "../lib/load-more";
@@ -16,6 +16,7 @@ import { getScrollTop } from "../lib/dom";
 import BreadcrumbTitle from "./widgets/breadcrumb-title";
 import YearNav from "./widgets/year-nav";
 import { filterNavClassName, mapFilterOption, matchFilterMode, notEmptyString } from "../lib/utils";
+import { justifyRows, resetJustifiedRows } from "../lib/row-justify";
 
 const filterOpts = [
   { key: 'all', name: 'All' },
@@ -37,6 +38,7 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [filterMode, setFilterMode] = useState('all');
   const [subPath, setSubPath] = useState('');
+  const [currWW, setCurrWW] = useState(0);
   const router = useRouter();
   const { items, meta, sets } = pageData;
   const years = sets.has('years') ? sets.get('years') as YearNum[]: [];
@@ -108,7 +110,7 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
             fetchMoreItems();
          } else if (st < scrollLoadPos) {
            setScrollLoadPos(st); 
-          }
+         }
        }
        return () => {
         window.removeEventListener('scroll', onScroll);
@@ -129,11 +131,33 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
     if (pageData.loadedPages < 2 && pageData.numPages > 1) {
       setTimeout(fetchMoreItems, 500);
     }
+    const normaliseGrid = () => {
+      justifyRows('exhibition-list-container')
+    }
+    setTimeout(normaliseGrid, 80);
+    const onResize = () => {
+      
+      const cw = context?.width as number;
+      const diff = cw > 20 ? Math.abs(cw - currWW) : 0;
+      if (diff > 50) {
+        setCurrWW(cw);
+        resetJustifiedRows("exhibition-list-container", normaliseGrid);
+      }
+    }
+    const adjustGridRows = () => {
+      setTimeout(normaliseGrid, 100);
+    }
+    window.addEventListener('resize', onResize);
+    Router.events.on('routeChangeComplete', adjustGridRows);
     setTimeout(() => {
       addEndClasses(document)
     }, 200);
     addEndClasses(document)
-  }, [pageData, loading, maxScrollPages, router,context, scrollLoadPos, scrollPage, subPath])
+    return () => {
+      window.removeEventListener('resize', onResize);
+      Router.events.off('routeChangeComplete', adjustGridRows);
+    }
+  }, [pageData, loading, maxScrollPages, router,context, scrollLoadPos, scrollPage, subPath, currWW, setCurrWW])
   return  <>
     <Head>
       <title>{meta.title}</title>
@@ -148,7 +172,7 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
           </ul>
           {hasYears && <YearNav years={years} current={ meta.endPath } basePath='/exhibitions' />}
         </nav>
-        {hasItems && <><div className="fixed-height-rows tall-height">
+        {hasItems && <><div className="fixed-height-rows tall-height" id="exhibition-list-container">
           {items.map((item: NodeEntity, index) => <figure key={[item.uuid, index].join('-')} className='node'>
               <Link href={item.path} className="image-holder"><a className="image-link"  style={item.firstImage.calcAspectStyle()}>
                 {item.hasImage ? <Image src={item.firstImage.preview} alt={item.alt} width={'auto'} height={'100%'} objectFit='contain' style={item.firstImage.calcAspectStyle()} /> : <div className='frame'></div>}

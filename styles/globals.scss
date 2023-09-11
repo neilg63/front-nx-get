@@ -2471,7 +2471,7 @@ main > .related {
 
     > .more-link {
       position: relative;
-      margin: 1.5em 0 3em 0;
+      margin: 0 0 3em 0;
     }
     .news-items  article,
     .artwork-links h3,
@@ -2940,6 +2940,26 @@ ul.galleries {
     .node-preview {
       figure {
         margin-bottom: 1rem;
+      }
+    }
+  }
+}
+
+.gt-outer body > div#__next > div > main article {
+  .button {
+    display: inline-block;
+    margin: 0.5em 0;
+    border: solid 1px $dark;
+    > a {
+      display: block;
+      padding: 0.25em 0.5em;
+      user-select: none;
+    }
+    &:hover {
+      background-color: $dark;
+      color: $light;
+      a {
+        color: $light;
       }
     }
   }

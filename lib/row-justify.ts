@@ -1,3 +1,5 @@
+const imgPath = '.image-link';
+
 export const justifyRows = (containerId: string) => {
   const container = document.getElementById(containerId);
     if (container instanceof HTMLElement) {
@@ -10,14 +12,14 @@ export const justifyRows = (containerId: string) => {
       let pdL = 0;
       container.querySelectorAll('figure').forEach((el, i) => {
         if (el instanceof HTMLElement) {
-          const img = el.querySelector('img');
+          const img = el.querySelector(imgPath);
           if (img instanceof HTMLElement) {
             const figBR = el.getBoundingClientRect();
             const currLeft = figBR.left - containerLeft;
             
             if (i > 0 && currLeft < 10) {
               const porWidth = containerWidth / rowWidth;
-              if (porWidth > 0.95 && porWidth < 1.667) {
+              if (porWidth > 0.95 && porWidth < 1.8) {
                 const els = container.querySelectorAll(`.row-${row}`);
                 const numEls = els.length;
                 const lastIndex = numEls - 1;
@@ -33,9 +35,13 @@ export const justifyRows = (containerId: string) => {
                           if (img instanceof HTMLElement) {
                             const rightEndDiff = (contRight - pdL - img.getBoundingClientRect().right - (pdL / 2)) / lastIndex;
                             for (let i = 1; i < numEls; i++) {
-                              const innerEl = els[i];
+                              const innerEl = els[i].querySelector(imgPath);
                               if (innerEl instanceof HTMLElement) {
                                 innerEl.style.marginLeft = `${rightEndDiff}px`;
+                              }
+                              const fcEl = els[i].querySelector('figcaption');
+                              if (fcEl instanceof HTMLElement) {
+                                fcEl.style.marginLeft = `${rightEndDiff}px`;
                               }
                             }
                           }
@@ -75,8 +81,16 @@ export const resetJustifiedRows = (containerId: string, justifyFunc: Function): 
             for (let i = el.classList.length - 1; i >= 0; i--) {
               const cln = el.classList[i];
               if (cln.startsWith('row-') || ['resized', 'has-row'].includes(cln)) {
-                  el.classList.remove(cln);
-                  el.removeAttribute("style");
+                el.classList.remove(cln);
+                el.removeAttribute("style");
+                const innerEl = el.querySelector(imgPath);
+                if (innerEl instanceof HTMLElement) {
+                  innerEl.removeAttribute('style');
+                }
+                const fcEl = el.querySelector('figcaption');
+                if (fcEl instanceof HTMLElement) {
+                  fcEl.removeAttribute('style');
+                }
               }
             }
           }
