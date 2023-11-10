@@ -20,7 +20,6 @@ const PublicationPage: NextPage<BaseEntity> = (data ) => {
   const showPublisher = hasPublisher && entity.field_publisher !== entity.title;
   const hasBody = notEmptyString(entity.body, 4);
   const hasLink =  isObjectWith(entity.field_link, 'uri');
-  console.log(entity.field_link)
   return  <>
     <Head>
       <title>{meta.title}</title>

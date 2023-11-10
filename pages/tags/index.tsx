@@ -13,7 +13,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
         return randVal;
       }
     });
-    console.log(pageData.items[0]);
   }
   return {
     props: pageData,
