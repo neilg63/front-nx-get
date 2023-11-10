@@ -32,6 +32,9 @@ const renderClassNames = (item: SimpleMenuItem, subAlias = ''): string => {
   if (aliasStart === subAlias) {
     cls.push('active');
   }
+  if (item.hasSubtitle) {
+    cls.push('has-sub');
+  }
   return cls.join(' ');
 }
 
@@ -45,6 +48,15 @@ const renderTarget = (item: SimpleMenuItem): string => {
 
 const isHomeLink = (item: SimpleMenuItem): boolean => {
   return toAlias(item.path) === 'home';
+}
+
+const mapMenuItems = (item: SimpleMenuItem) => {
+  if (item.title.includes('(') && item.title.includes(')')) {
+    const parts = item.title.split('(');
+    item.title = parts[0].trim();
+    item.subtitle = '(' + parts[1];
+  }
+  return new SimpleMenuItem(item);
 }
 
 const Header = (pageData: PageDataSet) => {
@@ -112,7 +124,7 @@ const Header = (pageData: PageDataSet) => {
   }, [searchClassNames, searchFieldOn]);
 
   useEffect(() => {
-    const items = site instanceof Object && site.menus instanceof Object ? site.menus.main : [];
+    const items = site instanceof Object && site.menus instanceof Object ? site.menus.main.map(mapMenuItems) : [];
     const path = router.asPath;
     /* setSearchFieldOn(path.startsWith("/search") === false); */
     router.events.on('routeChangeComplete', (e) => {
@@ -150,6 +162,7 @@ const Header = (pageData: PageDataSet) => {
           {mainItems.map(item => {
             return <li key={item.path} className={ renderClassNames(item, subAlias)  }>
               <Link href={item.path}><a target={ renderTarget(item) }>{isHomeLink(item) ? <i className='icon icon-home' title={ item.title }></i> : item.title }</a></Link>
+              {item.hasSubtitle && <small>{item.subtitle}</small>}
             </li>
           })}
           <li className={searchClassNames} onMouseEnter={() => setSearchFieldOn(true)} onMouseLeave={() => setSearchFieldOn(false)}>

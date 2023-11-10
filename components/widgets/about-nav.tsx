@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { SimpleLink } from '../../lib/interfaces';
 import labels from '../../lib/labels';
+import { enableTimeline } from '../../lib/settings';
 
 const navOptions: SimpleLink[] = [
   { 
@@ -19,11 +20,15 @@ const navOptions: SimpleLink[] = [
     path: '/about/publications',
     title: 'Publications',
   },
-  { 
-    path: '/about/timeline',
-    title: 'Timeline',
-  }
 ];
+if (enableTimeline) {
+  navOptions.push(
+    { 
+      path: '/about/timeline',
+      title: 'Timeline',
+    }
+  );
+}
 
 const AboutNav = ({ current }: { current: string }) => {
   const navLinks: SimpleLink[] = navOptions.map((link: SimpleLink, index: number) => {

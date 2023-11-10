@@ -28,6 +28,7 @@ export class SimpleMenuItem {
   title = "";
   hasChildren = false;
   children: SimpleMenuItem[] = [];
+  subtitle = "";
 
   constructor(inData: any = null) {
     if (inData instanceof Object) {
@@ -37,6 +38,9 @@ export class SimpleMenuItem {
       }
       if (notEmptyString(inData.title)) {
         this.title = inData.title;
+      }
+      if (notEmptyString(inData.subtitle)) {
+        this.subtitle = inData.subtitle;
       }
       if (keys.includes("has_children")) {
         this.hasChildren = inData.has_children;
@@ -51,6 +55,11 @@ export class SimpleMenuItem {
       this.hasChildren = this.children.length > 0;
     }
   }
+
+  get hasSubtitle() {
+    return notEmptyString(this.subtitle, 1);
+  }
+
 }
 
 export class SiteInfoCore {

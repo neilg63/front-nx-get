@@ -2,7 +2,7 @@ import { Container } from "@nextui-org/react"
 import { NextPage } from "next";
 import Link from "next/link";
 import Head from "next/head";
-import { PageDataSet, SimpleTerm } from "../lib/entity-data";
+import { NodeEntity, PageDataSet, SimpleTerm } from "../lib/entity-data";
 import { BaseEntity } from "../lib/interfaces";
 import labels from "../lib/labels";
 import SeoHead from "./layout/head";

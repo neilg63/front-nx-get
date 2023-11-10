@@ -20,7 +20,6 @@ export const fetchApiViewResults = async (
     queryStr;
   const res = await fetch(uri, { method: "GET" });
   const data = res.status >= 200 && res.status < 300 ? await res.json() : {};
-  const d = data instanceof Array ? data[0] : Object.keys(data);
   return data;
 };
 

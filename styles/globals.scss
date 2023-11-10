@@ -448,6 +448,18 @@ header.header {
         a {
           width: 100%;
         }
+        &.has-sub {
+          a {
+            width: auto;
+            margin-right: 0.25em;
+          }
+          small {
+            font-size: 80%;
+            display: inline-block;
+            position: relative;
+            top: -0.1875em;
+          }
+        }
         &.search-link {
           padding-bottom: 8em;
           i.icon {
@@ -729,7 +741,7 @@ img {
     .results,
     .tag-list {
       a:active {
-        font-weight: normal;
+        font-weight: 100;
       }
     }
     
