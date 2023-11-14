@@ -3,9 +3,11 @@ import { NodeEntity } from "../../lib/entity-data";
 import DateRange from "./date-range";
 import MediaFigure from "./media-figure";
 
-const ExhibitionPreview = ({ node, label }: { node: NodeEntity, label: string }) => {
-  
-  return <article>
+const ExhibitionPreview = ({ node, label, active }: { node: NodeEntity; label: string; active: boolean}) => {
+  const activeCl = active ? 'active' : 'inactive';
+  const cls = ['current-exhibition', activeCl];
+  const classNames = cls.join(' ');
+  return <article className={classNames}>
     <Link href={node.path}><a>
       <MediaFigure item={node.firstImage} size='medium' width='100%' height='auto' objectFit='contain' />
         <h3 className='upper'>{ label }</h3>

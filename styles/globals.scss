@@ -1271,8 +1271,9 @@ ul, ol {
 
   /* max-width: 80em;
   width: 80%; */
-  justify-content: flex-start;
-  align-items: center;
+  /* justify-content: flex-start;
+  align-items: center; */
+  text-align: center;
 
   > .tag {
     padding: 0;
@@ -2425,7 +2426,26 @@ main > .related {
       }
     }
 
+    > div.nodes {
+      position: relative;
+      min-height: 40vw;
+      @media (max-width: $mini-screen-width) {
+        min-height: 77.5vw;
+      }
+      @media (min-width: $xlarge-screen-width) {
+        min-height: 640px;
+      }
+    }
+
     article {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      &.inactive {
+        opacity: 0;
+      }
+      transition: opacity 0.5s ease-in-out, height 0.5s ease-in-out;
       h3 {
         margin-top: 0.75em;
         span {

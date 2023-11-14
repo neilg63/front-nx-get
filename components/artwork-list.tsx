@@ -23,7 +23,8 @@ import ArtworkInsert from "./widgets/artwork-insert"; */
 const filterOpts = [
   { key: 'all', name: 'All' },
   { key: 'year', name: 'Year' },
-  { key: 'type', name: 'Type' }
+  { key: 'type', name: 'Type' },
+  { key: 'tags', name: 'Tags' }
 ];
 
 const extractTagFromResults = (slugRef = '', items: NodeEntity[]) => {
@@ -100,6 +101,8 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       if (currPath !== '/artworks') {
         router.push('/artworks');
       }
+    } else if (mode === 'tags') {
+      router.push('/' + mode);
     }
   }
 /* const onSelect = useCallback(() => {

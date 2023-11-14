@@ -3,10 +3,10 @@ import { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { BaseEntity } from "../lib/interfaces";
-import { CompoundPageDataSet, MediaItem, NodeEntity, SimpleTerm } from "../lib/entity-data";
+import { CompoundPageDataSet, MediaItem, NodeEntity } from "../lib/entity-data";
 import { containerProps } from "../lib/styles";
 import SeoHead from "./layout/head";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { clearLocal, fromLocal, hasLocal, toLocal } from "../lib/localstore";
 import NewsItemPreview from "./widgets/news-item-preview";
 import VideoPreview from "./widgets/video-preview";
@@ -36,13 +36,18 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
   const { meta, labels, site } = pageData;
   const [splashClasses, setSplashClasses] = useState('splash-overlay');
   const [enableOverlay, setEnableOverlay] = useState(false);
+  const [activeExibitionIndex, setActiveExibitionIndex] = useState(0);
+  const [currentExhibStyles, setCurrentExhibStyles] = useState({ });
+  const currentExhibIntervalId = useRef(0); 
   const splashItems = pageData.getMediaItems('splash');
   const numItems = splashItems instanceof Array ? splashItems.length : 0;
   const randIndex = Math.floor(Math.random() * 0.999999 * numItems);
   const splash = numItems > 0 ? splashItems[randIndex] : new MediaItem();
   const hasSplash = enableOverlay && numItems > 0;
-  const hasCurrExhib = pageData.widgets.has('current_exhibition')
-  const currentExhibition = pageData.getEntity('current_exhibition');
+  let hasCurrExhibs = pageData.widgets.has('current_exhibitions')
+  const currentExhibitions = hasCurrExhibs ? pageData.getEntities('current_exhibitions') : [];
+  const numCurrentExhibitions = currentExhibitions.length;
+  hasCurrExhibs = currentExhibitions.length > 0;
   const newsItems = pageData.getEntities('latest_news');
   const hasNews = newsItems.length > 0;
   const videos = pageData.getEntities('latest_videos');
@@ -57,7 +62,6 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
     clearLocal('splash-viewed');
     setSplashClasses('splash-overlay active');
   }
-
   useEffect(() => {
     setSplashClasses(buildSplashClasses());
     if (splashClasses.includes('active') && enableOverlay) {
@@ -65,6 +69,24 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
     } else {
       removeBodyClass(document, 'show-fullscreen-overlay');
     }
+    const calcExhibitionStyles = () => {
+      const els = document.querySelectorAll('.current-exhibition > .nodes > article');
+      let height = 0;
+      for (const el of els) {
+        if (el instanceof HTMLElement) {
+          const rect = el.getBoundingClientRect();
+          if (rect.height) {
+            if (rect.height > height) {
+              height = rect.height;
+            }
+          }
+        }
+      }
+      if (height > 200) {
+        setCurrentExhibStyles({height: `${height}px`});
+      }
+    }
+
     if (context) {
       if (context.escaped) {
         hideSplash();
@@ -74,7 +96,16 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
       const hasReferrers = Object.keys(router.components).some(p => globalPagePaths.includes(p) === false);
       setEnableOverlay(!hasReferrers);
     }
-  }, [splashClasses, context, enableOverlay, router]);
+    
+    currentExhibIntervalId.current = window.setInterval(() => {
+      const nextIndex = (activeExibitionIndex + 1) % numCurrentExhibitions;
+      setActiveExibitionIndex(nextIndex)
+      calcExhibitionStyles();
+    }, 3000);
+    return () => {
+      clearInterval(currentExhibIntervalId.current);
+    }
+  }, [splashClasses, context, enableOverlay, router, activeExibitionIndex, setActiveExibitionIndex, numCurrentExhibitions,setCurrentExhibStyles, currentExhibIntervalId]);
   return (
     <>
       <Head>
@@ -84,7 +115,9 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
       <Container {...containerProps} className="home-container">
         <section className='current-exhibition'>
           <header className="home-header section-header"><i className='icon icon-home'></i></header>
-          {hasCurrExhib && <ExhibitionPreview node={currentExhibition} label={labels.get('current_exhibition')} />}
+          {hasCurrExhibs && <div className="nodes" style={currentExhibStyles}>
+            {currentExhibitions.map((exhib, ei) => <ExhibitionPreview node={exhib} label={labels.get('current_exhibition')} key={['current-exhibitions', ei].join('-')} active={ei === activeExibitionIndex}  />)}  
+          </div>}
         </section>
         <section className='news-previews column'>
           <h3>{labels.get('latest_news')}</h3>
