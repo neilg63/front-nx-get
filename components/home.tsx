@@ -141,7 +141,7 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
       </Container>
       {hasSplash && <aside className={splashClasses}>
         <figure className='main' onClick={() => hideSplash()}>
-          <Image src={splash.large} alt={splash.alt} width={'auto'} height={'100%'} objectFit='cover' />
+          <Image src={splash.best} alt={splash.alt} width={'auto'} height={'100%'} objectFit='cover' />
           <figcaption><span className='text-label upper'>{ labels.get('enter_site') }</span><i className='icon icon-next-arrow-narrow'></i></figcaption>
         </figure>
       </aside>}

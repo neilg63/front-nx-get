@@ -416,6 +416,19 @@ export class MediaItem {
     return this.size("max_650x650");
   }
 
+  get best() {
+    const mimeEnd = notEmptyString(this.filemime, 3) ? this.filemime.split('/').pop() : '';
+    switch (mimeEnd?.toLowerCase()) {
+      case 'gif':
+      case 'png':
+      case 'svg+xml':
+      case 'svg':
+        return this.src;
+      default:
+        return this.size("max_2600x2600");
+    }
+  }
+
   dims(size: string) {
     const dims = this.calcTargetDims(size, true);
     return `${dims.width}x${dims.height}`;
