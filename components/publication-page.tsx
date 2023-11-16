@@ -19,7 +19,8 @@ const PublicationPage: NextPage<BaseEntity> = (data ) => {
    const hasPublisher = entity.hasTextField('publisher');
   const showPublisher = hasPublisher && entity.field_publisher !== entity.title;
   const hasBody = notEmptyString(entity.body, 4);
-  const hasLink =  isObjectWith(entity.field_link, 'uri');
+  const hasLink =  isObjectWith(entity.field_link, 'uri') && notEmptyString(entity.field_link.uri, 4);
+  const showYear = isObjectWith(entity, 'field_year') && entity.field_year > 1000;
   return  <>
     <Head>
       <title>{meta.title}</title>
@@ -32,11 +33,9 @@ const PublicationPage: NextPage<BaseEntity> = (data ) => {
         </header>
         <div className='left-container'>{entity.hasImages && <Carousel items={entity.images} />}</div>
         <div className='text-details'>
-          <h3><DateRange item={entity.field_date_range} /></h3>
-          <h4 className="year">{entity.fieldyear}</h4>
-          {showPublisher && <h4 className="publisher">{parse(entity.field_publisher)}</h4>}
-
+          {showYear && <h4 className="year">{entity.field_year}</h4>}
           {hasBody && <div className="body">{parse(entity.body)}</div>}
+          {showPublisher && <h4 className="publisher">{parse(entity.field_publisher)}</h4>}
           {hasLink && <div className="button"><a href={entity.field_link.uri} target="_blank" rel="noreferrer" className="shop-link">{entity.field_link.title}</a></div>}
           <ShareWidget meta={meta} />
         </div>

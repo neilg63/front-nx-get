@@ -1179,7 +1179,7 @@ footer .credits > p:last-child {
   @media (min-width: $mid-screen-width) {
       grid-template-areas: "head head"
       "left right";
-    > h1 {
+    > h1, > header {
       grid-area: head;
       padding-bottom: 1em;
       margin-bottom: 1.375em;
