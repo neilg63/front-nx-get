@@ -49,6 +49,17 @@ export const justifyRows = (containerId: string) => {
                       }
                     }
                   });
+                  if (els.length > 2) {
+                    if (els[0] instanceof HTMLElement && els[1] instanceof HTMLElement) {
+                      const height1 = parseInt(els[0].style.height, 10);
+                      const height2 = parseInt(els[1].style.height, 10);
+                      const diff = Math.abs(height1 - height2);
+                      if (diff < 5) {
+                        els[0].style.height = els[1].style.height;
+                      }
+                    }
+                    
+                  }
                 }
               }
               row++;

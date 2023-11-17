@@ -169,9 +169,17 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
     if (context) {
       toNextPrev();
     }
-    setTimeout(() => {
-      embla.reInit();
-    }, 375);
+    for (let i = 0; i < 3; i++) {
+      const delay = 375 + (i * 625);
+      setTimeout(() => {
+        const del = document.querySelector('section.media-items.flex');
+        if (del instanceof HTMLElement) {
+          if (del.getBoundingClientRect().height < 100) {
+            embla.reInit();
+          }
+        }
+      }, delay);
+    }
   }, [embla, onSelect, context, toNextPrev, selectedIndex, items]);
   return <>
     <div className={classNames} ref={emblaRef}>
