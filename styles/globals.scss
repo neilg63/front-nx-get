@@ -19,6 +19,9 @@ $top-padding-tall: 6.75rem;
 $top-logo-margin-bottom-tall: 4rem;
 $text-max-width: 50em;
 $fixed-height-horizontal-gap: 3vmin;
+$fixed-height-horizontal-gap-neg: -3vmin;
+$fixed-height-horizontal-gap-max: 22.5px;
+$fixed-height-horizontal-gap-max-neg: -22.5px;
 $fixed-height-horizontal-gap-medium: 2vmin;
 
 /* $dark: #333333; */
@@ -579,6 +582,7 @@ header.header {
 body,
 div#__next {
   margin: 0 auto;
+  max-width: 100vw;
 }
 
 div#__next {
@@ -605,6 +609,8 @@ header.hide-search-link .search-link {
   }
 }
 
+.grid-list,
+.about-listing-container,
 .listing-main {
   nav,
   > header.section-header {
@@ -703,11 +709,11 @@ img {
     max-width: 100%;
     width: 100%;
     overflow: hidden;
-    @media (min-width: $mid-screen-width) {
+   /*  @media (min-width: $mid-screen-width) {
       h1 {
         white-space: nowrap;
       }
-    }
+    } */
   }
 
   .upper {
@@ -894,7 +900,7 @@ footer .credits > p:last-child {
 
       > main {
         width: 100%;
-        max-width: 100%;
+        max-width: 97.5%;
         pointer-events: none;
         .tag-list a {
           pointer-events: all;
@@ -1605,7 +1611,8 @@ figure {
         position: absolute;
         bottom: -4rem;
         left: $fixed-height-horizontal-gap;
-        width: 100%;
+        /* width: 100%; */
+        right: calc($fixed-height-horizontal-gap-neg - 2px);
         height: 1px;
         background-color: white;
         @include square-dots();
@@ -1663,6 +1670,13 @@ figure {
       }
     }
   }
+}
+
+/*
+* Override for news. Remove to reinstate dotted border bottom
+*/
+.news-list .fixed-height-rows.tall-height figure::after {
+  border-bottom: none;
 }
 
 .grid-list {

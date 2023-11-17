@@ -105,6 +105,7 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
     }, 200);
     addEndClasses(document)
   }, [containers, perPage, total, hasItems, setHasItems, showPaginator, router, setSearchStringFromPath, searchString, initialised]);
+  const searchStringDisplay = decodeURIComponent(searchString).replace(/%20/g, ' ');
   return <>
     <Head>
       <title>{meta.title}</title>
@@ -112,7 +113,7 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
     </Head>
     <Container {...containerProps} className='search-results'>
       <fieldset className='row search-bar'>
-        <Input placeholder={labels.search} value={searchString} name='search_long' onChange={updateSearch} onKeyDown={e => (submitOnEnter(e))} className='long-text' id='search-results-long-search-field' aria-labelledby={labels.search} fullWidth={true} width='100%' shadow={false} rounded={false} onFocus={() => setSearchFocus(true)} onBlur={() => setSearchFocus(false)} />
+        <Input placeholder={labels.search} value={searchStringDisplay} name='search_long' onChange={updateSearch} onKeyDown={e => (submitOnEnter(e))} className='long-text' id='search-results-long-search-field' aria-labelledby={labels.search} fullWidth={true} width='100%' shadow={false} rounded={false} onFocus={() => setSearchFocus(true)} onBlur={() => setSearchFocus(false)} />
         <i className='icon icon-search'></i>
         <SearchSuggestions search={searchString} onSelect={(row: SearchItem) => onSelect(row) }  focus={searchFocus }/>
       </fieldset>

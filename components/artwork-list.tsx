@@ -216,7 +216,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       }
     }
     const normaliseGrid = () => {
-      justifyRows('artwork-list-container')
+      justifyRows('artwork-list-container', true)
     }
 
     const onResize = () => {

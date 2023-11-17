@@ -8,9 +8,8 @@ const ExhibitionPreview = ({ node, label, active }: { node: NodeEntity; label: s
   const cls = ['current-exhibition', activeCl];
   const classNames = cls.join(' ');
   return <article className={classNames}>
-    <Link href={node.path}><a>
+    <Link href={node.path}><a title={ label }>
       <MediaFigure item={node.firstImage} size='medium' width='100%' height='auto' objectFit='contain' />
-        <h3 className='upper'>{ label }</h3>
         <h3><span className='upper'>{node.title}</span> {node.hasPlacename && <span className="placename">{node.field_placename}</span>}</h3>
         <p><DateRange item={node.field_date_range} format='short' /></p>
       </a>
