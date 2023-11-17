@@ -899,8 +899,9 @@ footer .credits > p:last-child {
       }
 
       > main {
+        
         width: 100%;
-        max-width: 97.5%;
+        max-width: 95vw;
         pointer-events: none;
         .tag-list a {
           pointer-events: all;
