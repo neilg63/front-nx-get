@@ -103,6 +103,12 @@ export const justifyRows = (containerId: string, allowAnyway = false) => {
     const contRight = containerBR.right;
     let row = 0;
     let pdL = 0;
+    if (container instanceof HTMLElement) {
+      if (container.classList.contains('width-fixed') == false) {
+        container.style.width = `${containerWidth}px`;
+        container.classList.add('width-fixed');
+      }
+    }
     container.querySelectorAll('figure').forEach((el, i) => {
       if (el instanceof HTMLElement) {
         const img = el.querySelector(imgPath);
@@ -127,7 +133,15 @@ export const justifyRows = (containerId: string, allowAnyway = false) => {
                   }
                 }
               });
-              console.log(elWidth, elHeight)
+              const porHeight = elHeight * (containerWidth/ elWidth);
+              els.forEach((el) => {
+                if (el instanceof HTMLElement) {
+                  if (el.classList.contains('resized') === false) {
+                    el.style.height = `${porHeight}px`;
+                    el.classList.add('resized');
+                  }
+                }
+              });
             }
             row++;
           }
@@ -150,6 +164,7 @@ export const justifyRows = (containerId: string, allowAnyway = false) => {
 export const resetJustifiedRows = (containerId: string, justifyFunc: Function): void => {
     const container = document.getElementById(containerId);
     if (container instanceof HTMLElement) {
+      container.classList.remove('width-fixed');
       if (container.classList.contains('resizing') === false) {
         container.classList.add('resizing');
         container.querySelectorAll('figure.resized').forEach((el) => {

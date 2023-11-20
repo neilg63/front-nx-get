@@ -966,9 +966,9 @@ footer .credits > p:last-child {
   }
 }
 
-.publication-list {
+/* .publication-list {
   width: 100%;
-}
+} */
 
 .timeline-item-container {
   position: relative;
@@ -1615,7 +1615,8 @@ figure {
         bottom: -4rem;
         left: $fixed-height-horizontal-gap;
         /* width: 100%; */
-        right: calc($fixed-height-horizontal-gap-neg - 2px);
+        //right: calc($fixed-height-horizontal-gap-neg + 5px);
+        right: $fixed-height-horizontal-gap-neg;
         height: 1px;
         background-color: white;
         @include square-dots();

@@ -36,7 +36,7 @@ const NewsList: NextPage<BaseEntity> = (data) => {
     }, 200);
     addEndClasses(document)
     const normaliseGrid = () => {
-      justifyRows('news-list-container')
+      justifyRows('news-list-container', true)
     }
     setTimeout(normaliseGrid, 80);
     const onResize = () => {

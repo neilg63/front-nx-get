@@ -132,7 +132,7 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
       setTimeout(fetchMoreItems, 500);
     }
     const normaliseGrid = () => {
-      justifyRows('exhibition-list-container')
+      justifyRows('exhibition-list-container', true)
     }
     setTimeout(normaliseGrid, 80);
     const onResize = () => {
