@@ -10,7 +10,7 @@ const isAppleSafari = () => {
   }
 }
 
-export const justifyRows = (containerId: string, allowAnyway = false) => {
+/* export const justifyRows = (containerId: string, allowAnyway = false) => {
   const container = document.getElementById(containerId);
   const allowOverride = allowAnyway || !isAppleSafari();
   if (container instanceof HTMLElement && allowOverride) {
@@ -84,6 +84,59 @@ export const justifyRows = (containerId: string, allowAnyway = false) => {
             pdL = parseInt(window.getComputedStyle(el).paddingRight, 10);
           }
           rowWidth = figBR.right - containerLeft + pdL;
+        }
+      }
+    })
+    if (container.classList.contains('resizing')) {
+      container.classList.remove('resizing');
+    }
+  }
+} */
+
+export const justifyRows = (containerId: string, allowAnyway = false) => {
+  const container = document.getElementById(containerId);
+  const allowOverride = allowAnyway || !isAppleSafari();
+  if (container instanceof HTMLElement && allowOverride) {
+    const containerBR = container.getBoundingClientRect();
+    const containerLeft = containerBR.left;
+    const containerWidth = containerBR.width;
+    const contRight = containerBR.right;
+    let row = 0;
+    let pdL = 0;
+    container.querySelectorAll('figure').forEach((el, i) => {
+      if (el instanceof HTMLElement) {
+        const img = el.querySelector(imgPath);
+        if (img instanceof HTMLElement) {
+          const figBR = el.getBoundingClientRect();
+          const currLeft = figBR.left - containerLeft;
+          
+          if (i > 0 && currLeft < 10) {
+            const els = container.querySelectorAll(`.row-${row}`);
+            const numEls = els.length;
+            const lastIndex = numEls - 1;
+            if (numEls > 0) {
+
+              let elHeight = 0;
+              let elWidth = 0;
+              els.forEach((el, index) => {
+                if (el instanceof HTMLElement) {
+                  const rect = el.getBoundingClientRect();
+                  elWidth += rect.width;
+                  if (elHeight < 10) {
+                    elHeight = rect.height;
+                  }
+                }
+              });
+              console.log(elWidth, elHeight)
+            }
+            row++;
+          }
+          if (el.classList.contains('has-row') === false) {
+            el.classList.add(`row-${row}`, 'has-row');
+          }
+          if (pdL < 1) {
+            pdL = parseInt(window.getComputedStyle(el).paddingRight, 10);
+          }
         }
       }
     })
