@@ -71,7 +71,7 @@ const NewsList: NextPage<BaseEntity> = (data) => {
       <section className="news-list grid-list">
         {hasItems && <><div className="fixed-height-rows tall-height" id="news-list-container">
           {items.map((item: NodeEntity) => <figure key={item.uuid} className='node'>
-              <Link href={item.path} className="image-holder"><a className="image-link">
+              <Link href={item.path} className="image-holder"><a className="image-link" style={item.firstImage.calcAspectStyle()}>
               {item.hasImage ? <Image src={item.firstImage.preview} alt={item.alt} width={'auto'} height={'100%'} objectFit='contain' /> : <div className='frame'></div>}
               <figcaption>
                 <time>{ shortDate(item.field_date) }</time>
