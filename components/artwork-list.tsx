@@ -7,7 +7,7 @@ import TypeLink from "./widgets/type-link";
 import Head from "next/head";
 import { Container } from "@nextui-org/react";
 import SeoHead from "./layout/head";
-import { containerProps, displayNone } from "../lib/styles";
+import { addEndClasses, containerProps, displayNone } from "../lib/styles";
 import { getScrollTop } from "../lib/dom";
 import { useRouter } from "next/router";
 import { TopContext } from "../pages/_app";
@@ -135,6 +135,9 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
     if (currWW < 20 && context?.width) {
       setCurrWW(context?.width as number);
     }
+    setTimeout(() => {
+      addEndClasses(document)
+    }, 200);
     const yearRefs = pageData.sets.has('years') ? pageData.sets.get('years') : [];
     if (yearRefs instanceof Array && yearRefs.length > 0) {
       const yearRows = yearRefs as YearNum[];
@@ -229,6 +232,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       }
     }
     setTimeout(normaliseGrid, 80);
+    addEndClasses(document);
     setTimeout(() => {
      setTempLocalBool('loading', false);
     }, 3000);
@@ -261,7 +265,8 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       </nav>
       <section className="artwork-list">
         {pageData.hasItems && <><div className="fixed-height-rows medium-height inner-captions"  id="artwork-list-container">
-          {pageData.items.map((item, index) => item.duplicate ? <figure className='hidden' key={item.indexedKey(index)} style={displayNone}></figure> : <ArtworkFigure item={item} index={index} key={item.indexedKey(index)} />)}
+            {pageData.items.map((item, index) => item.duplicate ? <figure className='hidden' key={item.indexedKey(index)} style={displayNone}></figure> : <ArtworkFigure item={item} index={index} key={item.indexedKey(index)} />)}
+            <figure className="last-item"></figure>
           </div>
           {pageData.showListingNav && <nav className='listing-nav row'>
             {pageData.mayLoadPrevious && <span className='nav-link prev' title={pageData.prevPageOffset(maxScrollPages).toString()} onClick={() => loadNextPrev(false)}><i className='icon icon-prev-arrow-narrow prev'></i>{ site.label('load_newer', 'Back') }</span>}

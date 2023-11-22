@@ -142,6 +142,14 @@ export const justifyRows = (containerId: string, allowAnyway = false) => {
                   }
                 }
               });
+              const lr = container.querySelector(`.last-item`);
+              if (lr instanceof HTMLElement) {
+                const rect = lr.getBoundingClientRect();
+                const leftPos = rect.left - containerLeft;
+                if (leftPos < 50) {
+                  lr.classList.add('new-row');
+                }
+              }
             }
             row++;
           }
@@ -191,4 +199,20 @@ export const resetJustifiedRows = (containerId: string, justifyFunc: Function): 
         }
       }
     }
+}
+
+export const resetLastItem = (containerId = '') => {
+  const container = document.getElementById(containerId);
+  if (container instanceof HTMLElement) {
+    const containerBR = container.getBoundingClientRect();
+    const containerLeft = containerBR.left;
+    const lr = container.querySelector(`.last-item`);
+    if (lr instanceof HTMLElement) {
+      const rect = lr.getBoundingClientRect();
+      const leftPos = rect.left - containerLeft;
+      if (leftPos < 50) {
+        lr.classList.add('new-row');
+      }
+    }
+  }
 }

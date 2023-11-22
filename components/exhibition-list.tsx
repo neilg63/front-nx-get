@@ -184,6 +184,7 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
               </a></Link>
               
           </figure>)}
+              <figure className="last-item"></figure>
           </div>
           {pageData.showListingNav && <nav className='listing-nav row'>
             {pageData.mayLoadPrevious && <span className='nav-link prev' title={pageData.prevPageOffset(maxScrollPages).toString()} onClick={() => loadNextPrev(false)}><i className='icon icon-prev-arrow-narrow prev'></i>{ site.label('load_newer')}</span>}

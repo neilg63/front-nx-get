@@ -1554,6 +1554,12 @@ figure {
   justify-content: space-between;
   overflow-x: hidden;
   position: relative;
+  > .last-item {
+    flex-grow: 1;
+    &.new-row {
+      display: none;
+    }
+  }
 }
 
 .fixed-height-rows-grid,
@@ -1693,7 +1699,7 @@ figure {
 /*
 * Override for news. Remove to reinstate dotted border bottom
 */
-.news-list .fixed-height-rows.tall-height figure::after {
+main .fixed-height-rows.tall-height figure::after {
   border-bottom: none;
 }
 
@@ -2504,7 +2510,7 @@ main.news-container > .filter-nav {
           margin-left: 0.4em;
           display: inline-block;
           &::before {
-            content: "+";
+            content: "|";
             margin-right: 0.6em;
           }
         }
@@ -2644,19 +2650,20 @@ main > article {
   }
 }
 
-.column {
+.grid-sidebar .sidebar .related .column {
   .related-mini {
     p, h4 {
       margin: 0;
     }
-    margin: 0.5em 0 0.125em 0;
+    margin: 0.5em 0 1rem 0;
+    padding-bottom: 1rem;
     padding-bottom: 0.125em;
     line-height: 1.125;
   }
 }
 
 .press-items li,
-.column .related-mini a, 
+.column .related-mini a,
 .column .related-mini h3 {
     > {
     span,

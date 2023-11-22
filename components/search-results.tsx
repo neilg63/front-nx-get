@@ -14,6 +14,7 @@ import { NextRouter, useRouter } from "next/router";
 import { notEmptyString } from "../lib/utils";
 import SearchSuggestions from "./widgets/search-suggestions";
 import { toLocal } from "../lib/localstore";
+import { resetLastItem } from "../lib/row-justify";
 
 const showItemAsFigure = (bundle: string) => {
   return ['artwork'].includes(bundle);
@@ -92,6 +93,10 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
     }
   }
 
+  const buildId = (sectionKey = '') => {
+    return [sectionKey,'results', 'container'].join('-');
+  }
+
   useEffect(() => {
     toLocal('current_search_string', searchString);
     setHasItems(containers.size > 0);
@@ -102,6 +107,7 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
     }
     setTimeout(() => {
       addEndClasses(document)
+      resetLastItem('artwork-results-container')
     }, 200);
     addEndClasses(document)
   }, [containers, perPage, total, hasItems, setHasItems, showPaginator, router, setSearchStringFromPath, searchString, initialised]);
@@ -119,12 +125,13 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
       </fieldset>
       {hasItems && <>
         <section className="search-sections">
-        {pageData.bundleSet.map((section: KeyStringValue, index) => <div className={sectionClassNames(section)} key={['section', section.key, index].join('-')}>
+          {pageData.bundleSet.map((section: KeyStringValue, index) => <div className={sectionClassNames(section)} key={['section', section.key, index].join('-')} id={buildId(section.key)}>
           <h2>{section.value}</h2>
           <div className={sectionListClassNames(section)}>
             {pageData.results(section.key).map((item: NodeEntity, subIndex) => 
               showItemAsFigure(item.bundle) ? <FigureResultPreview item={item} index={subIndex} key={item.key} /> : <TextResultPreview item={item} index={subIndex} key={item.key} downloadLabel={ downloadLabel } />
             )}
+            {showItemAsFigure(section.key) && <figure className="last-item"></figure>}
           </div>
             </div>)} 
         </section>

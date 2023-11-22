@@ -79,6 +79,7 @@ const NewsList: NextPage<BaseEntity> = (data) => {
                 </figcaption>
               </a></Link>
             </figure>)}
+            <figure className="last-item"></figure>
           </div>
           {showPaginator && <LoadMoreNav data={ pageData } />}
         </>}

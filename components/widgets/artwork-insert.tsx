@@ -33,7 +33,7 @@ const ArtworkInsert = ({ entity, basePath, site, meta }: { entity: NodeEntity, b
           {entity.hasTextField('dimensions') && <p className='info-row dimensions' title={dimensionsLabel}>{entity.field_dimensions}</p>}
         {/* <p className="year-type links-2"><TypeLink value={entity.field_type} basePath={basePath} /> <YearLink value={entity.field_year} basePath={basePath} /></p> */}
           <p className="year info-row"><YearLink value={entity.field_year} basePath={basePath} /></p>
-          {entity.hasBody && <div className="body">{parse(entity.body)}</div>}
+          <div className="body">{entity.hasBody && parse(entity.body)}</div>
           <TagList terms={entity.field_tags} base={basePath} prefix="tag" />
           {hasMeta && <ShareWidget meta={meta} />}
         </div>
