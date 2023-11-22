@@ -18,8 +18,8 @@ $top-logo-margin-bottom-standard: 3rem;
 $top-padding-tall: 6.75rem;
 $top-logo-margin-bottom-tall: 4rem;
 $text-max-width: 50em;
-$fixed-height-horizontal-gap: 3vmin;
-$fixed-height-horizontal-gap-neg: -3vmin;
+$fixed-height-horizontal-gap: 2em; // 3vmin
+$fixed-height-horizontal-gap-neg: -2em; // -3vmin
 $fixed-height-horizontal-gap-max: 22.5px;
 $fixed-height-horizontal-gap-max-neg: -22.5px;
 $fixed-height-horizontal-gap-medium: 2vmin;
@@ -1436,7 +1436,6 @@ body .nprogress {
 .grid,
 .fixed-height-rows-grid.medium-height,
 .fixed-height-rows.medium-height {
-  left: -1vmin;
 
   figcaption {
     position: absolute;
@@ -1466,6 +1465,20 @@ body .nprogress {
       margin-bottom: 4rem;
     }
   }
+}
+
+.news-list,
+.artwork-list {
+  position: relative;
+  
+}
+
+.artwork-list {
+  top: -0.5em;
+}
+
+.news-list {
+  top: -1em;
 }
 
 .grid {
@@ -1545,6 +1558,7 @@ figure {
 
 .fixed-height-rows-grid,
 .fixed-height-rows {
+  width: 100%;
   &.medium-height {
     figure {
       display: flex;
@@ -1553,12 +1567,13 @@ figure {
     }
   }
   &.tall-height {
-    left: -3vmin;
+    left: $fixed-height-horizontal-gap-neg;
+    width: calc(100% + $fixed-height-horizontal-gap + $fixed-height-horizontal-gap);
     figure {
       padding: 1vmin $fixed-height-horizontal-gap;
     }
   }
-  width: calc(100% + 1em + 3vmin);
+  
   > figure {
     width: 100%;
     position: relative;
@@ -1598,7 +1613,6 @@ figure {
         height: 12.5rem;
         width: auto;
       }
-  
       @media screen and (min-width: $max-screen-width) {
         height: 180px;
       }
@@ -2086,8 +2100,9 @@ main > .related {
 }
 
 .filter-nav {
-  width: 100%;
+  width: calc(100% - 1em);
   margin-bottom: 1em;
+  position: relative;
   h1 {
     margin: 0 0 0.5em 0;
     padding: 0 0 0.5em 0;
@@ -2185,6 +2200,21 @@ main > .related {
     }
   }
 }
+
+.artwork-container .filter-nav {
+  left: -0.25em;
+}
+
+.exhibition-list .filter-nav {
+  left: -0.5em;
+  max-width: calc(100% - $fixed-height-horizontal-gap - 1em);
+}
+
+main.news-container > .filter-nav {
+  left: $fixed-height-horizontal-gap-neg;
+  max-width: calc(100% - $fixed-height-horizontal-gap - 1em);
+}
+
 .video-container {
   iframe.video {
     width: 100%;

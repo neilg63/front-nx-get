@@ -24,7 +24,7 @@ const PublicationList: NextPage<BaseEntity> = (data) => {
     setTimeout(() => {
       addEndClasses(document)
     }, 200);
-
+    
     const normaliseGrid = () => {
       justifyRows('publication-list-container', true)
     }

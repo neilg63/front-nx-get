@@ -63,7 +63,7 @@ const NewsList: NextPage<BaseEntity> = (data) => {
       <title>{meta.title}</title>
       <SeoHead meta={meta} />
     </Head>
-    <Container {...containerProps} className='listing-main'>
+    <Container {...containerProps} className='news-container listing-main'>
       <nav className='filter-nav show-by-year'>
         <h1 className='breadcrumb-title'><BreadcrumbTitle path={pageData.meta.path} title={ pageData.contextTitle } /></h1>
         {hasYears && <YearNav years={years} current={ subPath } basePath='/news' />}
