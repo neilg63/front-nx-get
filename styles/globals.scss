@@ -775,7 +775,7 @@ img {
       grid-area: main;
       width: auto;
       max-width: 100%;
-      min-width: calc(95vw - $sidebar-width-narrow - 12.5%);
+      width: calc(95vw - $sidebar-width-narrow - 12.5%);
       padding-top: $top-padding-standard;
       padding-left: 0;
       @media (min-height: $tall-screen-height) {
@@ -798,14 +798,14 @@ img {
 
       grid-template-columns: $sidebar-width-mid auto;
       > main {
-        min-width: calc(95vw - $sidebar-width-mid - 12.5%);
+       width: calc(95vw - $sidebar-width-mid - 12.5%);
       }
     }
 
     @media screen and (min-width: $large-screen-width) {
       grid-template-columns: $sidebar-width auto;
       > main {
-        min-width: calc(95vw - $sidebar-width - 12.5%);
+        width: calc(95vw - $sidebar-width - 12.5%);
       }
     }
 
