@@ -812,7 +812,7 @@ img {
     @media screen and (min-width: $max-screen-width) {
       >main {
         /* min-width: calc($max-screen-width - $sidebar-width - 11.25%); */
-        min-width: calc($max-screen-width - $sidebar-width - 25%);
+        width: calc($max-screen-width - $sidebar-width - 25%);
       }
     }
 
