@@ -1745,6 +1745,9 @@ main .fixed-height-rows.tall-height figure::after {
 
 aside.sidebar {
   position: relative;
+  &.sidebar-right {
+    min-height: 25vh;
+  }
 }
 
 .video-container {
