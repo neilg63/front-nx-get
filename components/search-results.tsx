@@ -133,7 +133,7 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
             )}
             {showItemAsFigure(section.key) && <figure className="last-item"></figure>}
           </div>
-            </div>)} 
+            </div>)}
         </section>
         {showPaginator && <LoadMoreNav data={pageData} />}
       </>}
