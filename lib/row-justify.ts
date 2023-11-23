@@ -173,6 +173,7 @@ export const resetJustifiedRows = (containerId: string, justifyFunc: Function): 
     const container = document.getElementById(containerId);
     if (container instanceof HTMLElement) {
       container.classList.remove('width-fixed');
+      container.removeAttribute('style');
       if (container.classList.contains('resizing') === false) {
         container.classList.add('resizing');
         container.querySelectorAll('figure.resized').forEach((el) => {
@@ -195,7 +196,7 @@ export const resetJustifiedRows = (containerId: string, justifyFunc: Function): 
           }
         })
         if (justifyFunc instanceof Function) {
-          setTimeout(justifyFunc, 60);
+          setTimeout(justifyFunc, 30);
         }
       }
     }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Router, { useRouter } from 'next/router';
 import { createTheme, NextUIProvider } from '@nextui-org/react';
 import '../styles/globals.scss';
@@ -72,6 +72,11 @@ export default function App({ Component, pageProps }: AppProps) {
     }, 250);
   }
 
+  const handleWindowResize = useCallback(() => {
+    setWidth(window.outerWidth);
+    setHeight(window.outerHeight);
+}, [setWidth, setHeight]);
+
  /*  const handleLocationChange = () => {
     setTimeout(() => {
       const titleEl = document.querySelector("title")
@@ -103,8 +108,9 @@ export default function App({ Component, pageProps }: AppProps) {
       }
     }
     window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("resize",handleWindowResize);
    // handleLocationChange();
-  }, [])
+  }, [setWidth, setHeight, handleWindowResize]);
   const { site } = pageProps;
   const queryClientRef = React.useRef<QueryClient>()
   if (!queryClientRef.current) {
