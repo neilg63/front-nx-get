@@ -226,6 +226,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       
       const cw = context?.width as number;
       const diff = cw > 20 ? Math.abs(cw - currWW) : 0;
+      console.log(cw, currWW)
       if (diff > 50) {
         setCurrWW(cw);
         resetJustifiedRows("artwork-list-container", normaliseGrid);
