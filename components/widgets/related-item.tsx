@@ -9,7 +9,7 @@ const RelatedItem = ({ item, className }: { item: NodeEntity, className: string 
       <a className={ className }>
         {item.hasImage && <MediaFigure item={item.firstImage} size='preview' width='100%' height='auto' objectFit='contain' />}
           <div className='text-details'>
-          <h4><span className='text'>{item.title}</span> <em>{item.field_year}</em></h4>
+          <h4><em className='text'>{item.title}</em> <span className='year'>{item.field_year}</span></h4>
           <p>{item.summary}</p>
         </div>
       </a>

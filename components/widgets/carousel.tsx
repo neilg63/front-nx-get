@@ -25,7 +25,7 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
   const hasSlides = numSlides > 0;
   const startCarousel = numSlides > 1;
   const pc = numSlides > 1 ? numSlides * 100 : 100;
-  const sectionStyles = { width: `${pc}%` };
+  const [sectionStyles, setSectionStyles] = useState({ width: `${pc}%`, maxHeight: 'auto' });
 
   const cls = ["carousel-container"];
   if (startCarousel) {
@@ -162,10 +162,36 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
       }, 500);
     }
     if (!embla) return;
+    const calcSectionHeight = () => {
+      const miEl = document.querySelector('.media-items');
+      if (miEl instanceof HTMLElement) {
+        const figs = miEl.querySelectorAll('figure img');
+        let height = 0;
+        for (const fig of figs) {
+          if (fig instanceof HTMLElement) {
+            const rect = fig.getBoundingClientRect();
+            if (fig.style.maxHeight) {
+              const mH = window.getComputedStyle(fig, 'max-height');
+              if (typeof mH == 'string') {
+                height = parseFloat(mH);
+              }
+            } else  if (rect.height > height) {
+              height = rect.height;
+            }
+          }
+        }
+        if (height > 0) {
+          const pc = items.length * 100;
+          setSectionStyles({width: `${pc}%`, maxHeight: `${height}px`});
+        }
+      }
+    }
     onSelect();
+    calcSectionHeight();
+
     setScrollSnaps(embla.scrollSnapList());
     embla.on("select", onSelect);
-
+    setTimeout(calcSectionHeight, 125);
     if (context) {
       toNextPrev();
     }
@@ -180,7 +206,7 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
         }
       }, delay);
     }
-  }, [embla, onSelect, context, toNextPrev, selectedIndex, items]);
+  }, [embla, onSelect, context, toNextPrev, selectedIndex, items, setSectionStyles, sectionStyles]);
   return <>
     <div className={classNames} ref={emblaRef}>
       {hasSlides && <section className="media-items flex" style={sectionStyles}>

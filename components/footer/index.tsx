@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SimpleMenuItem, SiteInfo } from "../../lib/entity-data";
+import { CreditInfo, SimpleMenuItem, SiteInfo } from "../../lib/entity-data";
 import parse from "html-react-parser";
 import ContactForm from '../widgets/contact-form';
 import { Modal, useModal } from "@nextui-org/react";
@@ -27,15 +27,13 @@ const Footer = ({ site }: { site: SiteInfo }) => {
   const [pressOn, setPressOn] = useState(false);
   const [mailingOn, setMailingOn] = useState(false);
   const [modalOverlayClasses, setModalOverlayClasses] = useState('contact-overlay');
-  const siteObj = site instanceof Object ? site : { menus: {footer: [], social: []}, credits: '' };
+  const siteObj = site instanceof Object ? site : { menus: {footer: [], social: []}, credits: new CreditInfo() };
   const { menus, credits } = siteObj;
   const hasMenus = menus instanceof Object;
   const menuItems = hasMenus && menus.footer instanceof Array ? menus.footer : [];
   const sociaItems = hasMenus && menus.social instanceof Array ? menus.social : [];
   const router = useRouter();
-  const basePath = router.asPath.split('?').shift() as string;
-  const isHome = basePath.startsWith('/home') || basePath.length < 3;
-  
+  const privacyPath = '/info/privacy';
   const hasMenuItems = menuItems.length > 0;
   const siteInfo = new SiteInfo(site);
 
@@ -83,7 +81,6 @@ const Footer = ({ site }: { site: SiteInfo }) => {
     }
     setModalOverlayClasses(cls.join(' '));
   }, [contactOn, modalOverlayClasses])
-
   return (<>
     <footer className='container footer'>
       <div className='menus row left-right'>
@@ -106,8 +103,10 @@ const Footer = ({ site }: { site: SiteInfo }) => {
           </ul>}
         </nav>
       </div>
-      <div className='credits'>
-        {parse(credits)}
+      <div className='credits-container'>
+        <span className='credits'>{credits.copyright}</span>
+        <Link href={privacyPath}><a>{credits.privacy}</a></Link>
+        {parse(credits.designed)}
       </div>
       
     </footer>

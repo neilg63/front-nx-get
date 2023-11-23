@@ -654,12 +654,20 @@ h4 {
   h3, h4, p {
     margin-bottom: 0.75em;
   }
+
+  width:100%;
+  h4 {
+    margin-top: 0.5em;
+  }
   p, h4 {
-    span {
+    em {
       display: inline-block;
-      margin-right: 1em;
+      margin-right: 0.25em;
       &:last-child {
         margin-right: 0;
+      }
+      &::after {
+        content: ",";
       }
     }
   }
@@ -741,7 +749,7 @@ img {
     a:hover {
       color: $primary;
     }
-    a:active {
+    nav a:active {
       font-weight: bold;
     }
     .grid-list,
@@ -857,7 +865,7 @@ img {
         line-height: 1.25em;
       }
     }
-    .credits {
+    .credits-container {
       * {
           font-size: 0.75rem;
           user-select: none;
@@ -872,11 +880,11 @@ img {
 }
 
 
-footer .credits > p:last-child {
+footer .credits-container > p:last-child {
   opacity: 0;
 }
 
-.section--home-theme footer .credits > p:last-child {
+.section--home-theme footer .credits-container > p:last-child {
   opacity: 1;
 }
 
@@ -2652,6 +2660,11 @@ main > article {
   width: 100%;
   .related-mini {
     margin: 0 0 2em 0;
+  }
+  .press-releases {
+    .related-mini {
+      margin: 0;
+    }
   }
 }
 

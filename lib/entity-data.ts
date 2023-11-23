@@ -100,10 +100,28 @@ export interface ContactData {
   recipients: string;
 }
 
+export class CreditInfo {
+  copyright = '';
+  privacy = '';
+  designed = '';
+  constructor(inData: any = null) {
+    if (inData instanceof Object) {
+      const { copyright, privacy, designed } = inData
+      this.copyright = copyright;
+      this.privacy = privacy;
+      if (designed) {
+        this.designed = designed;
+      }
+    } else if (typeof inData === 'string') {
+      this.copyright = inData;
+    }
+  }
+}
+
 export class SiteInfo {
   info: SiteInfoCore = new SiteInfoCore();
   menus: SiteMenus = new SiteMenus();
-  credits = "";
+  credits: CreditInfo = new CreditInfo();
   labels: Map<string, string> = new Map();
   contact: ContactData = { message: "", recipients: "" };
   press = "";
@@ -129,8 +147,8 @@ export class SiteInfo {
           } else if (key === "contact") {
             this.contact = value;
           }
-        } else if (key === "credits" && typeof value === "string") {
-          this.credits = value;
+        } else if (key === "credits") {
+          this.credits = new CreditInfo(value);
         } else if (key === "press") {
           this.press = value;
         } else {
