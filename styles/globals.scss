@@ -762,7 +762,7 @@ img {
 
   @media screen and (min-width: $mid-screen-width) {
     display: grid;
-    grid-template-columns: $sidebar-width-narrow auto;
+    grid-template-columns: $sidebar-width-narrow calc(100% - $sidebar-width-narrow);
     column-gap: 2.5%;
     align-items: flex-start;
     justify-items: stretch;
@@ -795,15 +795,14 @@ img {
   }
 
     @media screen and (min-width: $mlarge-screen-width) {
-
-      grid-template-columns: $sidebar-width-mid auto;
+      grid-template-columns: $sidebar-width-mid calc(100% - $sidebar-width-mid);
       > main {
        width: calc(95vw - $sidebar-width-mid - 12.5%);
       }
     }
 
     @media screen and (min-width: $large-screen-width) {
-      grid-template-columns: $sidebar-width auto;
+      grid-template-columns: $sidebar-width calc(100% - $sidebar-width);
       > main {
         width: calc(95vw - $sidebar-width - 12.5%);
       }
