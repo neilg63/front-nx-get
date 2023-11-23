@@ -143,7 +143,7 @@ export const setCarouselImageMaxHeight = (
 };
 
 export const addEndClasses = (document: Document) => {
-  const outer = document.querySelector(".tall-height");
+  const outer = document.querySelector(".fixed-height-rows");
   if (outer instanceof HTMLElement) {
     const bs = outer.getBoundingClientRect();
     const figs = outer.querySelectorAll("figure.node");

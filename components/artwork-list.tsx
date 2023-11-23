@@ -105,10 +105,6 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       router.push('/' + mode);
     }
   }
-/* const onSelect = useCallback(() => {
-    if (!embla) return;
-    setSelectedIndex(embla.selectedScrollSnap());
-}, [embla, setSelectedIndex]); */
   
   const loadNextPrev = useCallback((forward = true) => {
     const currPath = router.asPath.split('?').shift();
@@ -137,7 +133,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
     }
     setTimeout(() => {
       addEndClasses(document)
-    }, 200);
+    }, 40);
     const yearRefs = pageData.sets.has('years') ? pageData.sets.get('years') : [];
     if (yearRefs instanceof Array && yearRefs.length > 0) {
       const yearRows = yearRefs as YearNum[];

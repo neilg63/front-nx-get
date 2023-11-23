@@ -124,16 +124,25 @@ export const justifyRows = (containerId: string, allowAnyway = false) => {
 
               let elHeight = 0;
               let elWidth = 0;
+              let elLeft = 0;
               els.forEach((el, index) => {
                 if (el instanceof HTMLElement) {
                   const rect = el.getBoundingClientRect();
                   elWidth += rect.width;
                   if (elHeight < 10) {
                     elHeight = rect.height;
+                    elLeft = rect.left - containerLeft;
                   }
                 }
               });
-              const porHeight = elHeight * (containerWidth/ elWidth);
+
+              let multiple = containerWidth / elWidth;
+              if (multiple > 1.333 && elLeft > 0) {
+                elWidth += elLeft;
+                multiple = containerWidth / elWidth;
+              } 
+              
+              const porHeight = elHeight * multiple;
               els.forEach((el) => {
                 if (el instanceof HTMLElement) {
                   if (el.classList.contains('resized') === false) {
@@ -147,7 +156,11 @@ export const justifyRows = (containerId: string, allowAnyway = false) => {
                 const rect = lr.getBoundingClientRect();
                 const leftPos = rect.left - containerLeft;
                 if (leftPos < 50) {
-                  lr.classList.add('new-row');
+                  if (lr.previousElementSibling instanceof HTMLElement) {
+                    if (lr.previousElementSibling.classList.contains('resized')) {
+                      lr.classList.add('new-row');
+                    }
+                  }
                 }
               }
             }
@@ -180,7 +193,7 @@ export const resetJustifiedRows = (containerId: string, justifyFunc: Function): 
           if (el instanceof HTMLElement) {
             for (let i = el.classList.length - 1; i >= 0; i--) {
               const cln = el.classList[i];
-              if (cln.startsWith('row-') || ['resized', 'has-row'].includes(cln)) {
+              if (cln.startsWith('row-') || ['resized', 'has-row','row-end'].includes(cln)) {
                 el.classList.remove(cln);
                 el.removeAttribute("style");
                 const innerEl = el.querySelector(imgPath);
