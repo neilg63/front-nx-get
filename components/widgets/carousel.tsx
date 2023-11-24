@@ -23,7 +23,7 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
   const hasSlides = numSlides > 0;
   const startCarousel = numSlides > 1;
   const pc = numSlides > 1 ? numSlides * 100 : 100;
-  const [sectionStyles, setSectionStyles] = useState({ width: `${pc}%`, maxHeight: 'auto', left: '0%'});
+  const [sectionStyles, setSectionStyles] = useState({ width: `${pc}%`, left: '0%'});
   const cls = ["carousel-container"];
   if (startCarousel) {
     cls.push("show-controls");
@@ -98,7 +98,7 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
   
 
   useEffect(() => {
-    const setCarouselHeight = () => {
+/*     const setCarouselHeight = () => {
       const refEl = document.querySelector('.carousel-container');
       if (refEl instanceof HTMLElement) {
         setCarouselImageMaxHeight(refEl, selectedIndex, window);
@@ -110,7 +110,7 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
         }, 500);
       }
     }
-    setCarouselHeight()
+    setCarouselHeight() */
     if (context) {
       if  (context.move !== 0) {
         toNextPrev(context.move > 0);
