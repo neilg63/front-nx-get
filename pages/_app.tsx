@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Router, { useRouter } from 'next/router';
-import { createTheme, NextUIProvider } from '@nextui-org/react';
+import { createTheme, getDocumentTheme, NextUIProvider } from '@nextui-org/react';
 import '../styles/globals.scss';
 import type { AppProps } from 'next/app'
 import { QueryClient, QueryClientProvider, Hydrate } from "@tanstack/react-query";
@@ -11,6 +11,7 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import { customTheme } from '../lib/styles';
 import { clearLocalCacheOnNewVersion } from '../lib/localstore';
+import { getThemeName } from '@nextui-org/react/types/theme/utils';
 
 declare global {
   interface Window { rowGrid: any; }
@@ -53,10 +54,12 @@ const buildOuterContextClasses = (asPath: string) => {
 export default function App({ Component, pageProps }: AppProps) {
   const { asPath } = useRouter();
   const className = buildOuterContextClasses(asPath);
+  
   const [height, setHeight] = useState(600);
   const [width, setWidth] = useState(1200);
   const [escaped, setEscaped] = useState(false);
   const [move, setMove] = useState(0);
+  const [cns, setCns] = useState('');
   
   const handleEscape = () => {
     setEscaped(true);
@@ -69,7 +72,7 @@ export default function App({ Component, pageProps }: AppProps) {
     setMove(dir);
     setTimeout(() => {
       setMove(0);
-    }, 250);
+    }, 50);
   }
 
   const handleWindowResize = useCallback(() => {
@@ -122,10 +125,12 @@ export default function App({ Component, pageProps }: AppProps) {
     width,
     escaped,
     move,
+    cns,
     setHeight,
     setWidth,
     setEscaped,
-    setMove
+    setMove,
+    setCns
   };
   return   <QueryClientProvider client={queryClientRef.current}>
     <Hydrate state={pageProps.dehydratedState}>
