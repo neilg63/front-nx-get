@@ -8,7 +8,6 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const { slug } = context?.params;
   const page = extractPageIndexFromContext(context);
   const pageData = await fetchSearchResultsPage(slug, page);
-  console.log({pageData})
   return {
     props: pageData,
   }
