@@ -102,7 +102,7 @@ const Timeline: NextPage<BaseEntity> = (data: any = null) => {
 
         {hasSelectedItem && node.nid > 0 && <article className='timeline-details grid-2'>
           
-        <MediaFigure item={node.firstImage} size='large' width='100%' height='auto' objectFit='contain' />
+        {node.hasImage && <MediaFigure item={node.firstImage} size='large' width='100%' height='auto' objectFit='contain' />}
         <div className='text-details'>
           <h3 className='timeline-title'>{node?.title}</h3>
           <p className='date'>{shortDate(node.field_date)}</p>

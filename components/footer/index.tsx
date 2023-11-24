@@ -104,8 +104,10 @@ const Footer = ({ site }: { site: SiteInfo }) => {
         </nav>
       </div>
       <div className='credits-container'>
-        <span className='credits'>{credits.copyright}</span>
-        <Link href={privacyPath}><a>{credits.privacy}</a></Link>
+        <p className='credits-info'>
+          <span className='copyright'>{credits.copyright}</span>
+          <Link href={privacyPath}><a>{credits.privacy}</a></Link>
+        </p>
         {parse(credits.designed)}
       </div>
       

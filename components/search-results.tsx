@@ -51,10 +51,13 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
   const router = useRouter();
   
   const pageData = new SearchPageDataSet(data);
+  
   const { containers, meta, total, perPage } = pageData;
   const [showPaginator, setShowPaginator] = useState(false);
 
   const downloadLabel = pageData.site.label('download_pdf');
+
+  const noSearchResultsText = pageData.label('search_no_results');
   
   const submitSearch = () => {
     if (notEmptyString(searchString, 1)) {
@@ -123,7 +126,7 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
         <i className='icon icon-search'></i>
         <SearchSuggestions search={searchString} onSelect={(row: SearchItem) => onSelect(row) }  focus={searchFocus }/>
       </fieldset>
-      {hasItems && <>
+      {hasItems ? <>
         <section className="search-sections">
           {pageData.bundleSet.map((section: KeyStringValue, index) => <div className={sectionClassNames(section)} key={['section', section.key, index].join('-')} id={buildId(section.key)}>
           <h2>{section.value}</h2>
@@ -136,6 +139,10 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
             </div>)}
         </section>
         {showPaginator && <LoadMoreNav data={pageData} />}
+      </> : <>
+        <section className="search-sections no-results">
+          <h3>{noSearchResultsText}</h3>
+        </section>
       </>}
     </Container>
   </>

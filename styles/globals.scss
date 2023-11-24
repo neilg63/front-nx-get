@@ -872,15 +872,18 @@ img {
         }
       p {
         line-height: 1.25;
-        span + a {
+        span, a {
           display: inline-block;
-          margin-left: 0.375em;
+          margin-right: 0.375em;
         }
       }
     }
   }
 }
 
+.no-results {
+  min-height: calc(75vh - 6em);
+}
 
 footer .credits-container > p:last-child {
   opacity: 0;
