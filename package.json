@@ -9,12 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@nextui-org/react": "^1.0.0-beta.9",
+    "@nextui-org/react": "^1.0.0-beta.12",
     "@tanstack/react-query": "^4.0.10",
     "date-fns": "^2.29.1",
-    "embla-carousel": "^7.0.2",
-    "embla-carousel-auto-height": "^7.0.2",
-    "embla-carousel-react": "^7.0.0",
+    "embla-carousel": "^7.1.0",
+    "embla-carousel-auto-height": "^7.1.0",
+    "embla-carousel-react": "^7.1.0",
     "html-react-parser": "^3.0.1",
     "next": "12.2.5",
     "next-share": "^0.18.1",

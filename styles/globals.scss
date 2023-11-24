@@ -875,8 +875,6 @@ img {
       }
     }
   }
-
-  
 }
 
 
@@ -1948,6 +1946,11 @@ main > .related {
   }
 }
 
+.media-items {
+  position: relative;
+  overflow: hidden;
+}
+
 .carousel-container {
   overflow: hidden;
   position: relative;
@@ -1961,9 +1964,9 @@ main > .related {
     > figure {
       /* flex: 0 0 100%; */
       flex: 1;
-      padding: 0;
       max-height: calc(100vh - 6em);
       position: relative;
+      
       @media (min-width: $mid-screen-width) {
         max-height: calc(100vh - 12em);
       }

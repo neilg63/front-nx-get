@@ -1,4 +1,4 @@
-import useEmblaCarousel from 'embla-carousel-react';
+// import useEmblaCarousel from 'embla-carousel-react';
 import { useState, useEffect, useCallback, useContext } from "react";
 import { MediaItem } from "../../lib/entity-data";
 import { Image, useModal, Modal } from '@nextui-org/react';
@@ -25,8 +25,7 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
   const hasSlides = numSlides > 0;
   const startCarousel = numSlides > 1;
   const pc = numSlides > 1 ? numSlides * 100 : 100;
-  const [sectionStyles, setSectionStyles] = useState({ width: `${pc}%`, maxHeight: 'auto' });
-
+  const [sectionStyles, setSectionStyles] = useState({ width: `${pc}%`, maxHeight: 'auto', left: '0%'});
   const cls = ["carousel-container"];
   if (startCarousel) {
     cls.push("show-controls");
@@ -34,7 +33,7 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
   const classNames = cls.join(" ");
   const options = { destroyHeight: 'auto' } // Autoheight Option
   const pluginOpts = items.length > 1 ? [AutoHeight(options)] : [];
-  const [emblaRef, embla] = useEmblaCarousel({
+  /* const [emblaRef, embla] = useEmblaCarousel({
     align: "start",
     // aligns the first slide to the start
     // of the viewport else will align it to the middle.
@@ -47,10 +46,10 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
     // Allow the carousel to skip scroll snaps if
     // it's dragged vigorously.
 
-    inViewThreshold: 0.7,
+    inViewThreshold: 0.8,
     // percentage of a slide that need's to be visible
     // inorder to be considered in view, 0.7 is 70%.
-  }, pluginOpts);
+  }, pluginOpts); */
   
   const [selectedIndex, setSelectedIndex] = useState(0);
   const emptyScrollSnaps: number[] = [];
@@ -60,12 +59,12 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
   // id correspond's to the id of the navigation dot when we
   // click on it.
 
-  const scrollTo = useCallback(
+  /* const scrollTo = useCallback(
     (index: number) => embla && embla.scrollTo(index),
     [embla]
-  );
+  ); */
 
-  const manageScroll = (embla: any, numItems = 0, next = true) => {
+  /* const manageScroll = (embla: any, numItems = 0, next = true) => {
     if (embla instanceof Object) {
       const ci = embla.selectedScrollSnap();
       const lastIndex = numItems - 1;
@@ -83,9 +82,9 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
         }
       }
     }
-  }
+  } */
 
-  const scrollPrev = useCallback(
+/*   const scrollPrev = useCallback(
     () => manageScroll(embla, items.length, false),
     [embla, items]
   );
@@ -93,16 +92,29 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
   const scrollNext = useCallback(
     () => manageScroll(embla, items.length, true),
     [embla, items]
+  ); */
+
+
+  const scrollTo = useCallback(
+    (index: number) => {
+      const ti = index % items.length;
+      const styles = { ...sectionStyles};
+      const pc = 0 - (ti * 100);
+      styles.left = `${pc}%`;
+      setSectionStyles(styles);
+    },
+    [items, sectionStyles, setSectionStyles]
   );
+
 
   // set the id of the current slide to active id
   // we need it to correctly highlight it's corresponding
   // navigation dot.
 
-  const onSelect = useCallback(() => {
+  /* const onSelect = useCallback(() => {
     if (!embla) return;
     setSelectedIndex(embla.selectedScrollSnap());
-  }, [embla, setSelectedIndex]);
+  }, [embla, setSelectedIndex]); */
 
   // make sure embla is mounted and return true operation's
   // can be only performed on it if it's successfully mounted.
@@ -117,7 +129,7 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
     setVisible(false);
   }
 
-  const toNextPrev = useCallback(() => {
+  const toNextPrev = useCallback((nextMode = true) => {
     if (context) {
       const diff = context.move < 0 ? -1 : context.move > 0 ? 1 : 0;
       if (diff !== 0) {
@@ -130,15 +142,19 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
           targetIndex = 0;
         }
         //setSelectedIndex(targetIndex); 
-        if (diff < 0) {
-          embla?.scrollPrev();
-        } else {
-          embla?.scrollNext();
-        }
+        
         setSelectedIndex(targetIndex);
+        const styles = {...sectionStyles};
+        const pc = 0 - (targetIndex * 100);
+        styles.left = `${pc}%`;
+        setSectionStyles(styles);
       }
     }
-  }, [embla, context, selectedIndex, setSelectedIndex, items])
+  }, [sectionStyles, setSectionStyles, context, selectedIndex, setSelectedIndex, items]);
+
+  const scrollPrev = () => toNextPrev(false)
+
+  const scrollNext = () => toNextPrev(true)
 
   const selectedItem = (): MediaItem => {
     const item = selectedIndex < items.length ? items[selectedIndex] : items.length > 0 ? items[0] : null;
@@ -148,8 +164,7 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
       return new MediaItem();
     }
   }
-
-  useEffect(() => {
+  /* const setCarouselHeight = (document: Document) => {
     const refEl = document.querySelector('.carousel-container');
     if (refEl instanceof HTMLElement && embla instanceof Object) {
       const selIndex = embla.selectedScrollSnap();
@@ -161,7 +176,11 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
         }, 750);
       }, 500);
     }
-    if (!embla) return;
+  } */
+
+  useEffect(() => {
+    // setCarouselHeight(document)
+   // if (!embla) return;
     const calcSectionHeight = () => {
       const miEl = document.querySelector('.media-items');
       if (miEl instanceof HTMLElement) {
@@ -182,20 +201,21 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
         }
         if (height > 0) {
           const pc = items.length * 100;
-          setSectionStyles({width: `${pc}%`, maxHeight: `${height}px`});
+          // setSectionStyles({width: `${pc}%`});
+          const styles = {...sectionStyles};
+          styles.width =  `${pc}%`,
+          styles.maxHeight = `${height}px`;
+          setSectionStyles(styles);
         }
       }
     }
-    onSelect();
+  ///  onSelect();
     calcSectionHeight();
-
-    setScrollSnaps(embla.scrollSnapList());
-    embla.on("select", onSelect);
     setTimeout(calcSectionHeight, 125);
     if (context) {
       toNextPrev();
     }
-    for (let i = 0; i < 3; i++) {
+/*     for (let i = 0; i < 3; i++) {
       const delay = 375 + (i * 625);
       setTimeout(() => {
         const del = document.querySelector('section.media-items.flex');
@@ -205,10 +225,10 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
           }
         }
       }, delay);
-    }
-  }, [embla, onSelect, context, toNextPrev, selectedIndex, items, setSectionStyles, sectionStyles]);
+    } */
+  }, [context, toNextPrev, selectedIndex, items, setSectionStyles, sectionStyles]);
   return <>
-    <div className={classNames} ref={emblaRef}>
+    <div className={classNames}>
       {hasSlides && <section className="media-items flex" style={sectionStyles}>
             {items.map((item: MediaItem) => <figure key={item.uri} data-dims={item.dims('medium')}>
               <Image srcSet={item.srcSet} src={item.medium} alt={item.alt} width='auto' height='100%' objectFit='contain' css={ item.calcAspectStyle() } />
