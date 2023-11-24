@@ -117,7 +117,7 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
       }
       
     }
-  }, [context, toNextPrev, selectedIndex]);
+  }, [context, toNextPrev]);
   return <>
     <div className={classNames}>
       {hasSlides && <section className="media-items flex" style={sectionStyles}>
