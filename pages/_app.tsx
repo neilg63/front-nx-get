@@ -72,26 +72,15 @@ export default function App({ Component, pageProps }: AppProps) {
     setMove(dir);
     setTimeout(() => {
       setMove(0);
-    }, 50);
+    }, 5);
   }
 
   const handleWindowResize = useCallback(() => {
     setWidth(window.outerWidth);
     setHeight(window.outerHeight);
-}, [setWidth, setHeight]);
+  }, [setWidth, setHeight]);
 
- /*  const handleLocationChange = () => {
-    setTimeout(() => {
-      const titleEl = document.querySelector("title")
-      if (titleEl instanceof HTMLElement) {
-        if (notEmptyString(document.head.title)) {
-          if (titleEl.innerText.length < 3) {
-            titleEl.innerText = document.head.title;
-          }
-        }
-      }
-    }, 1000)
-  } */
+
 
   useEffect(() => {
     setHeight(window.outerHeight);

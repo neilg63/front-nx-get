@@ -1587,6 +1587,7 @@ figure {
     }
   }
   @media (min-width: $max-screen-width) {
+    
     &.medium-height {
       figure {
         padding: 1vmin $fixed-height-horizontal-gap-medium-max;

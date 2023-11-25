@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useContext } from "react";
+import { useState, useEffect, useCallback, useContext, useRef } from "react";
 import { MediaItem } from "../../lib/entity-data";
 import { Image, useModal, Modal } from '@nextui-org/react';
 import { TopContext } from "../../pages/_app";
@@ -28,6 +28,7 @@ const indexToLeftOffset = (index = 0, numSlides = 0):string =>  {
 
 
 const Carousel = ({ items }: { items: MediaItem[] }) => {
+  const unmounted = useRef(false);
   const numSlides = items instanceof Array ? items.length : 0;
   const { setVisible, bindings } = useModal();
   const context = useContext(TopContext);
@@ -49,11 +50,12 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
     (index: number) => {
       if (index >= 0) {
         const numSlides = items.length;
-        const ti = index % numSlides
+        const ti = (index + numSlides) % numSlides;
         const styles = { ...sectionStyles};
         styles.width = numSlidesToContainerWidth(numSlides);
         styles.left = indexToLeftOffset(ti, numSlides);
         setSectionStyles(styles);
+        setSelectedIndex(ti);
       }
     },
     [items, sectionStyles, setSectionStyles]
@@ -74,12 +76,11 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
       const diff = nextMode ? 1 : - 1;
       const numSlides = items.length;
       const targetIndex = (selectedIndex + diff + numSlides) % numSlides;
-      setSelectedIndex(targetIndex);
       const styles = {...sectionStyles};
       styles.width = numSlidesToContainerWidth(numSlides);
       styles.left = indexToLeftOffset(targetIndex, numSlides);
-      console.log(targetIndex, styles);
       setSectionStyles(styles);
+      setSelectedIndex(targetIndex);
     }
   }, [sectionStyles, setSectionStyles, context, selectedIndex, setSelectedIndex, items]);
 
@@ -96,15 +97,25 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
     }
   }
   
-
   useEffect(() => {
+    return () => {
+      setTimeout(() => {
+        unmounted.current = true
+      }, 50)
+    }
+  }, []);
+  useEffect(() => {
+
+    if (!unmounted.current) {
+      scrollTo(0);
+    }
     if (context) {
       if  (context.move !== 0) {
         toNextPrev(context.move > 0);
       }
-      
     }
-  }, [context, toNextPrev]);
+  }, [context, toNextPrev, scrollTo]);
+
   return <>
     <div className={classNames}>
       {hasSlides && <section className="media-items flex" style={sectionStyles}>
