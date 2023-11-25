@@ -28,7 +28,7 @@ const indexToLeftOffset = (index = 0, numSlides = 0):string =>  {
 
 
 const Carousel = ({ items }: { items: MediaItem[] }) => {
-  const unmounted = useRef(false);
+  const initialised = useRef(false);
   const numSlides = items instanceof Array ? items.length : 0;
   const { setVisible, bindings } = useModal();
   const context = useContext(TopContext);
@@ -98,21 +98,16 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
   }
   
   useEffect(() => {
-    return () => {
-      setTimeout(() => {
-        unmounted.current = true
-      }, 50)
-    }
-  }, []);
-  useEffect(() => {
-
-    if (!unmounted.current) {
+    if (!initialised.current) {
       scrollTo(0);
     }
     if (context) {
       if  (context.move !== 0) {
         toNextPrev(context.move > 0);
       }
+    }
+    return () => {
+      initialised.current = true
     }
   }, [context, toNextPrev, scrollTo]);
 
