@@ -1,4 +1,5 @@
 $max-screen-width: 1800px;
+$max-screen-width-minus-gap: 1755px;
 $xlarge-screen-width: 1600px;
 $large-screen-width: 1350px;
 $mlarge-screen-width: 1125px;
@@ -23,7 +24,7 @@ $fixed-height-horizontal-gap-neg: -2em; // -3vmin
 $fixed-height-horizontal-gap-max: 22.5px;
 $fixed-height-horizontal-gap-max-neg: -22.5px;
 $fixed-height-horizontal-gap-medium: 2vmin;
-
+$fixed-height-horizontal-gap-medium-max: 1.333em;
 /* $dark: #333333; */
 $dark: black;
 $mid-grey: #999999;
@@ -770,7 +771,7 @@ img {
 
   @media screen and (min-width: $mid-screen-width) {
     display: grid;
-    grid-template-columns: $sidebar-width-narrow calc(100% - $sidebar-width-narrow);
+    grid-template-columns: $sidebar-width-narrow calc(97.5% - $sidebar-width-narrow);
     column-gap: 2.5%;
     align-items: flex-start;
     justify-items: stretch;
@@ -803,14 +804,14 @@ img {
   }
 
     @media screen and (min-width: $mlarge-screen-width) {
-      grid-template-columns: $sidebar-width-mid calc(100% - $sidebar-width-mid);
+      grid-template-columns: $sidebar-width-mid calc(97.5% - $sidebar-width-mid);
       > main {
        width: calc(95vw - $sidebar-width-mid - 12.5%);
       }
     }
 
     @media screen and (min-width: $large-screen-width) {
-      grid-template-columns: $sidebar-width calc(100% - $sidebar-width);
+      grid-template-columns: $sidebar-width calc(97.5% - $sidebar-width);
       > main {
         width: calc(95vw - $sidebar-width - 12.5%);
       }
@@ -819,7 +820,7 @@ img {
     @media screen and (min-width: $max-screen-width) {
       >main {
         /* min-width: calc($max-screen-width - $sidebar-width - 11.25%); */
-        width: calc($max-screen-width - $sidebar-width - 25%);
+        width: calc($max-screen-width-minus-gap - $sidebar-width - 12.5%);
       }
     }
 
@@ -1585,6 +1586,13 @@ figure {
       flex-flow: column nowrap;
     }
   }
+  @media (min-width: $max-screen-width) {
+    &.medium-height {
+      figure {
+        padding: 1vmin $fixed-height-horizontal-gap-medium-max;
+      }
+    }
+  }
   &.tall-height {
     left: $fixed-height-horizontal-gap-neg;
     width: calc(100% + $fixed-height-horizontal-gap + $fixed-height-horizontal-gap);
@@ -1833,8 +1841,11 @@ main > .related {
 }
 
 .artwork-list {
-  width: 100%;
-  max-width: 100%;
+  width: calc(100% + $fixed-height-horizontal-gap-medium);
+  @media (min-width: $max-screen-width) {
+    width: calc(100% + $fixed-height-horizontal-gap-medium-max);
+  }
+  max-width: 110%;
   padding-right: 0;
   figure.hidden {
     display: none;

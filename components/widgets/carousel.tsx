@@ -15,6 +15,17 @@ const ModalFigure = ({ item }: { item: MediaItem }) => {
     </figure>
 }
 
+const numSlidesToContainerWidth = (numSlides = 0):string =>  {
+  const pc = numSlides > 1 ? numSlides * 100 : 100;
+  return `${pc}%`;
+}
+
+const indexToLeftOffset = (index = 0, numSlides = 0):string =>  {
+  const ti = (index + numSlides) % numSlides;
+  const pc = 0 - (ti * 100);
+  return `${pc}%`;
+}
+
 
 const Carousel = ({ items }: { items: MediaItem[] }) => {
   const numSlides = items instanceof Array ? items.length : 0;
@@ -22,8 +33,8 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
   const context = useContext(TopContext);
   const hasSlides = numSlides > 0;
   const startCarousel = numSlides > 1;
-  const pc = numSlides > 1 ? numSlides * 100 : 100;
-  const [sectionStyles, setSectionStyles] = useState({ width: `${pc}%`, left: '0%'});
+  const width = numSlidesToContainerWidth(numSlides);
+  const [sectionStyles, setSectionStyles] = useState({ width, left: '0%'});
   const cls = ["carousel-container"];
   if (startCarousel) {
     cls.push("show-controls");
@@ -37,28 +48,16 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
   const scrollTo = useCallback(
     (index: number) => {
       if (index >= 0) {
-        const ti = index % items.length;
+        const numSlides = items.length;
+        const ti = index % numSlides
         const styles = { ...sectionStyles};
-        const pc = 0 - (ti * 100);
-        styles.left = `${pc}%`;
+        styles.width = numSlidesToContainerWidth(numSlides);
+        styles.left = indexToLeftOffset(ti, numSlides);
         setSectionStyles(styles);
       }
     },
     [items, sectionStyles, setSectionStyles]
   );
-
-
-  // set the id of the current slide to active id
-  // we need it to correctly highlight it's corresponding
-  // navigation dot.
-
-  /* const onSelect = useCallback(() => {
-    if (!embla) return;
-    setSelectedIndex(embla.selectedScrollSnap());
-  }, [embla, setSelectedIndex]); */
-
-  // make sure embla is mounted and return true operation's
-  // can be only performed on it if it's successfully mounted.
 
   const enlarge = () => {
     if (items.length > 0) {
@@ -73,12 +72,13 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
   const toNextPrev = useCallback((nextMode = true) => {
     if (context) {
       const diff = nextMode ? 1 : - 1;
-      const nextIndex = selectedIndex + diff + items.length;
-      const targetIndex = nextIndex % items.length;
+      const numSlides = items.length;
+      const targetIndex = (selectedIndex + diff + numSlides) % numSlides;
       setSelectedIndex(targetIndex);
       const styles = {...sectionStyles};
-      const pc = 0 - (targetIndex * 100);
-      styles.left = `${pc}%`;
+      styles.width = numSlidesToContainerWidth(numSlides);
+      styles.left = indexToLeftOffset(targetIndex, numSlides);
+      console.log(targetIndex, styles);
       setSectionStyles(styles);
     }
   }, [sectionStyles, setSectionStyles, context, selectedIndex, setSelectedIndex, items]);
@@ -98,19 +98,6 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
   
 
   useEffect(() => {
-/*     const setCarouselHeight = () => {
-      const refEl = document.querySelector('.carousel-container');
-      if (refEl instanceof HTMLElement) {
-        setCarouselImageMaxHeight(refEl, selectedIndex, window);
-        setTimeout(() => {
-          setCarouselImageMaxHeight(refEl, selectedIndex, window);
-            setTimeout(() => {
-              setCarouselImageMaxHeight(refEl, selectedIndex, window);
-          }, 750);
-        }, 500);
-      }
-    }
-    setCarouselHeight() */
     if (context) {
       if  (context.move !== 0) {
         toNextPrev(context.move > 0);
