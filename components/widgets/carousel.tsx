@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useContext, useRef } from "react";
 import { MediaItem } from "../../lib/entity-data";
 import { Image, useModal, Modal } from '@nextui-org/react';
 import { TopContext } from "../../pages/_app";
-import { setCarouselImageMaxHeight } from '../../lib/styles';
+// import { setCarouselImageMaxHeight } from '../../lib/styles';
 
 const ModalFigure = ({ item }: { item: MediaItem }) => {
   const alt = item.alt || '';
