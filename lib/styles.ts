@@ -117,26 +117,26 @@ export function resizeGridItem(
 
 export const setCarouselImageMaxHeight = (
   container: HTMLElement,
-  index = 0,
-  window: Window
+  window: Window,
 ) => {
   const figs = container.querySelectorAll(".media-items figure");
-
-  if (figs.length > 0 && index < figs.length) {
-    const fig = figs[index];
-    const img = fig.querySelector("img");
-    if (
-      img instanceof HTMLElement &&
-      img.classList.contains("adjusted") === false
-    ) {
-      const contRect = fig.getBoundingClientRect();
-      const { width, height } = contRect;
-      if (img.naturalHeight > window.innerHeight / 4) {
-        const as = img.naturalWidth / img.naturalHeight;
-        const tgHeight = width / as;
-        const cHeight = tgHeight > height ? height : tgHeight;
-        img.style.maxHeight = `${cHeight}px`;
-        img.classList.add("adjusted");
+  if (figs.length > 0) {
+    let maxHeight = 0;
+    for (const fig of figs) {
+      const img = fig.querySelector("img");
+      if (
+        img instanceof HTMLElement &&
+        img.classList.contains("adjusted") === false
+      ) {
+        const height = parseInt(window.getComputedStyle(img).height, 10);
+        if (height > maxHeight) {
+          maxHeight = height;
+        }
+      }
+    }
+    for (const fig of figs) {
+      if (fig instanceof HTMLElement) {
+        fig.style.maxHeight = `${maxHeight}px`;
       }
     }
   }

@@ -54,13 +54,13 @@ const buildOuterContextClasses = (asPath: string) => {
 export default function App({ Component, pageProps }: AppProps) {
   const { asPath } = useRouter();
   const className = buildOuterContextClasses(asPath);
-  
   const [height, setHeight] = useState(600);
   const [width, setWidth] = useState(1200);
   const [escaped, setEscaped] = useState(false);
   const [move, setMove] = useState(0);
   const [cns, setCns] = useState('');
-  
+  const theme = createTheme({ ...customTheme, className });
+
   const handleEscape = () => {
     setEscaped(true);
     setTimeout(() => {
@@ -108,7 +108,6 @@ export default function App({ Component, pageProps }: AppProps) {
   if (!queryClientRef.current) {
     queryClientRef.current = new QueryClient()
   }
-  const theme = createTheme({ ...customTheme, className });
   const contextProps = {
     height,
     width,

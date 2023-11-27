@@ -760,7 +760,9 @@ img {
         font-weight: 100;
       }
     }
-    
+    > article {
+      margin-left: $fixed-height-horizontal-gap / 4;
+    }
   }
 
   @media (max-width: $mid-screen-width) {
@@ -1210,6 +1212,8 @@ footer .credits-container > p:last-child {
     >.left-container {
       grid-area: left;
       align-self: flex-start;
+      justify-content: flex-start;
+      align-items: flex-start;
     }
   
     >.text-details {
@@ -1493,6 +1497,9 @@ body .nprogress {
 
 .news-list {
   top: -1em;
+  > .tall-height {
+    width: 100%;
+  }
 }
 
 .grid {
@@ -1576,6 +1583,7 @@ figure {
   }
 }
 
+
 .fixed-height-rows-grid,
 .fixed-height-rows {
   width: 100%;
@@ -1595,8 +1603,8 @@ figure {
     }
   }
   &.tall-height {
-    left: $fixed-height-horizontal-gap-neg;
-    width: calc(100% + $fixed-height-horizontal-gap + $fixed-height-horizontal-gap);
+    left: $fixed-height-horizontal-gap-neg / 2;
+    width: calc(100% + $fixed-height-horizontal-gap);
     figure {
       padding: 1vmin $fixed-height-horizontal-gap;
     }
@@ -1718,6 +1726,13 @@ figure {
   }
 }
 
+.grid-list {
+  > .columns{
+    position: relative;
+    left: $fixed-height-horizontal-gap / 4;
+    width: calc(100% - ($fixed-height-horizontal-gap / 2));
+  }
+}
 /*
 * Override for news. Remove to reinstate dotted border bottom
 */
@@ -1981,6 +1996,7 @@ main > .related {
     display: flex;
     flex-flow: row nowrap;
     align-items: flex-start;
+    justify-content: flex-start;
     max-height: 100%;
     transition: left 0.5s ease-in-out, height 0.375s ease-in-out;
     
@@ -1998,8 +2014,12 @@ main > .related {
       @media screen and (min-width: $max-screen-width) {
         height: calc(900px - 3em);
       } */
+      .nextui-image-container {
+        height: auto;
+        max-width: 100%;
+      }
       img {
-
+        max-width: 100%;
         @media (min-width: $mid-screen-width) {
           max-height: calc(100vh - 12em);
         }
@@ -2252,11 +2272,22 @@ main > .related {
   left: -0.25em;
 }
 
+main.listing-main > .section-header ,
+main.listing-main > .about-nav,
 main.news-container > .filter-nav,
 .exhibition-list .filter-nav {
-  left: -0.375em;
- /*  max-width: calc(100% - $fixed-height-horizontal-gap - 1em); */
-  width: calc(100% + 0.375em);
+  position: relative;
+}
+main.listing-main > .about-nav,
+.exhibition-list .filter-nav {
+  left: ($fixed-height-horizontal-gap / 4);
+  width: calc(100% - ($fixed-height-horizontal-gap * .625));
+}
+
+main.listing-main > .section-header,
+main.news-container > .filter-nav {
+  left: 0;
+  width: calc(100% - ($fixed-height-horizontal-gap * .625));
 }
 
 /* main.news-container > .filter-nav {

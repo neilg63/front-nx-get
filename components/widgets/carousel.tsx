@@ -98,9 +98,18 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
   }
   
   useEffect(() => {
+/*     const setCarouselHeight = (document: Document) => {
+      const refEl = document.querySelector('.carousel-container');
+      if (refEl instanceof HTMLElement) {
+        setCarouselImageMaxHeight(refEl, window);
+      }
+    }
     if (!initialised.current) {
       scrollTo(0);
-    }
+      setTimeout(() => {
+        setCarouselHeight(document);
+      }, 1000);
+    } */
     if (context) {
       if  (context.move !== 0) {
         toNextPrev(context.move > 0);
