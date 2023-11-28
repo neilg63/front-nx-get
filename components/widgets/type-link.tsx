@@ -12,7 +12,7 @@ const TypeLink = ({ value, basePath }: { value: any, basePath: string}) => {
   const isString = !isTerm && notEmptyString(value, 1);
   const name = isTerm ? value.name : isString ? value : '';
   const hasValue = notEmptyString(name);
-  const slug = isTerm && value instanceof TaxTerm ? value.slug : sanitize(name);
+  const slug = isTerm || isObjectWith(value, 'slug') ? value.slug : sanitize(name);
   return (
     <>
       { hasValue && 
