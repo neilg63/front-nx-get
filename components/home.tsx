@@ -60,10 +60,12 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
 
   const showSplash = () => {
     clearLocal('splash-viewed');
-    setSplashClasses('splash-overlay active');
+    setSplashClasses('splash-overlay active show-again');
   }
   useEffect(() => {
-    setSplashClasses(buildSplashClasses());
+    if (!splashClasses.includes('show-again')) {
+      setSplashClasses(buildSplashClasses());
+    }
     if (splashClasses.includes('active') && enableOverlay) {
       addBodyClass(document, 'show-fullscreen-overlay');
     } else {
@@ -94,7 +96,8 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
     }
       if (router.components instanceof Object) {
       const hasReferrers = Object.keys(router.components).some(p => globalPagePaths.includes(p) === false);
-      setEnableOverlay(!hasReferrers);
+      const enableOverlay = !hasReferrers || splashClasses.includes('show-again');
+      setEnableOverlay(enableOverlay);
     }
     
     currentExhibIntervalId.current = window.setInterval(() => {
