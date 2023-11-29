@@ -114,7 +114,7 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
       </Head>
       <Container {...containerProps} className="home-container">
         <section className='current-exhibition'>
-          <header className="home-header section-header"><i className='icon icon-home'></i></header>
+          <header className="home-header section-header"><i className='icon icon-home show-splash-trigger' onClick={() => showSplash()}></i></header>
           {hasCurrExhibs && <div className="nodes" style={currentExhibStyles}>
             {currentExhibitions.map((exhib, ei) => <ExhibitionPreview node={exhib} label={labels.get('current_exhibition')} key={['current-exhibitions', ei].join('-')} active={ei === activeExibitionIndex}  />)}  
           </div>}
