@@ -21,7 +21,6 @@ const renderClassNames = (item: SimpleMenuItem, subAlias = ''): string => {
   }
   switch (parts[0]) {
     case 'search':
-    case 'home':
       cls.push('prominent');
       break;
     default:

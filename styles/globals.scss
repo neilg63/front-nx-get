@@ -24,6 +24,7 @@ $fixed-height-horizontal-gap-neg: -2em; // -3vmin
 $fixed-height-horizontal-gap-max: 22.5px;
 $fixed-height-horizontal-gap-max-neg: -22.5px;
 $fixed-height-horizontal-gap-medium: 2vmin;
+$fixed-height-horizontal-gap-medium-single: 5vw;
 $fixed-height-horizontal-gap-medium-max: 1.333em;
 /* $dark: #333333; */
 $dark: black;
@@ -57,6 +58,11 @@ $dot-size: 2px;
 @mixin square-dots-top-bottom {
   /* @include custom-dots(); */
   border-top: dotted $dot-size $dark;
+  border-bottom: dotted $dot-size $dark;
+}
+
+@mixin square-dots-bottom {
+  /* @include custom-dots(); */
   border-bottom: dotted $dot-size $dark;
 }
 
@@ -333,10 +339,11 @@ header.header {
 
   .show-menu {
     .top-nav {
-      min-height: 19em;
+      min-height: 21em;
       max-height: 100vh;
       overflow-y: auto;
       overflow-x: hidden;
+      @include square-dots();
       ul {
         li.inner {
           opacity: 1;
@@ -351,13 +358,12 @@ header.header {
   @media (max-width: $mid-screen-width) {
     width: 100%;
     transition: max-height 0.625s ease-in-out;
-    min-height: 6rem;
-    max-height: 6rem;
+    min-height: 4rem;
+    max-height: 4rem;
     z-index: 50;
     overflow: hidden;
     margin-bottom: 1em;
     padding-bottom: 0.5em;
-    @include square-dots();
   }
   > ul {
     display: flex;
@@ -377,6 +383,8 @@ header.header {
       padding-top: 4rem;
       pointer-events: none;
       li {
+        text-align: left;
+        justify-content: flex-start;
         &.prominent {
           position: absolute;
           pointer-events: all;
@@ -420,22 +428,22 @@ header.header {
               }
             }
           }
-          &.section--home {
+  /*         &.section--home {
             top: 4rem;
             left: 0;
             max-width: 4em;
             padding-left: 0;
-          }
+          } */
         }
         &.inner {
-          padding: 0.25em 6rem;
+          padding: 0.25em 0;
           font-size: 1.25rem;
           line-height: 1.375;
           a {
             width: 100%;
           }
           opacity: 0;
-          text-align: center;
+          text-align: left;
           pointer-events: none;
           a {
             pointer-events: all;
@@ -451,18 +459,6 @@ header.header {
         right: auto;
         a {
           width: 100%;
-        }
-        &.has-sub {
-          a {
-            width: auto;
-            margin-right: 0.25em;
-          }
-          small {
-            font-size: 80%;
-            display: inline-block;
-            position: relative;
-            line-height: 1.5rem;
-          }
         }
         &.search-link {
           padding-bottom: 8em;
@@ -494,6 +490,27 @@ header.header {
           }
         }
       }
+
+      &.section--home {
+        margin-left: 0.0625em;
+        @media (min-width: $mini-screen-width) {
+          margin-left: 0;
+        }
+      }
+
+      &.has-sub {
+        a {
+          width: auto;
+          margin-right: 0.25em;
+        }
+        small {
+          font-size: 80%;
+          display: inline-block;
+          position: relative;
+          line-height: 1.5rem;
+        }
+      }
+
       &.search-link {
         > div:first-child {
           width: auto;
@@ -1590,8 +1607,12 @@ figure {
   &.medium-height {
     figure {
       display: flex;
-      padding: 1vmin $fixed-height-horizontal-gap-medium;
+      padding: 0;
+      margin-bottom: $fixed-height-horizontal-gap-medium-single;
       flex-flow: column nowrap;
+      @media (min-width: $mini-screen-width) {
+        padding: 1vmin $fixed-height-horizontal-gap-medium;
+      }
     }
   }
   @media (min-width: $max-screen-width) {
@@ -1603,10 +1624,17 @@ figure {
     }
   }
   &.tall-height {
-    left: $fixed-height-horizontal-gap-neg / 2;
-    width: calc(100% + $fixed-height-horizontal-gap);
+    left: 0;
+    width: 100%;
     figure {
-      padding: 1vmin $fixed-height-horizontal-gap;
+      padding: $fixed-height-horizontal-gap 0;
+    }
+    @media (min-width: $mini-screen-width) {
+      left: $fixed-height-horizontal-gap-neg / 2;
+      width: calc(100% + $fixed-height-horizontal-gap);
+      figure {
+        padding: 1vmin $fixed-height-horizontal-gap;
+      }
     }
   }
   
@@ -1682,8 +1710,12 @@ figure {
       a > figcaption {
         position: absolute;
         top: 100%;
-        left: $fixed-height-horizontal-gap;
-        right: $fixed-height-horizontal-gap;
+        left: 0;
+        right: 0;
+        @media (min-width: $mini-screen-width) {
+          left: $fixed-height-horizontal-gap;
+          right: $fixed-height-horizontal-gap;
+        }
         text-align: left;
         h3, p {
           line-height: 1.125;
@@ -1729,8 +1761,12 @@ figure {
 .grid-list {
   > .columns{
     position: relative;
-    left: $fixed-height-horizontal-gap / 4;
-    width: calc(100% - ($fixed-height-horizontal-gap / 2));
+    left: 0;
+    width: 100%;
+    @media (min-width: $mini-screen-width) {
+      left: $fixed-height-horizontal-gap / 4;
+      width: calc(100% - ($fixed-height-horizontal-gap / 2));
+    }
   }
 }
 /*
@@ -1857,8 +1893,12 @@ main > .related {
 }
 
 .artwork-list {
-  width: calc(100% + ($fixed-height-horizontal-gap-medium / 4));
-  left: (0 - ($fixed-height-horizontal-gap-medium / 8));
+  width: 100%;
+  left: 0;
+  @media (min-width: $mini-screen-width) {
+    width: calc(100% + ($fixed-height-horizontal-gap-medium / 4));
+    left: (0 - ($fixed-height-horizontal-gap-medium / 8));
+  }
   @media (min-width: $max-screen-width) {
     width: calc(100% + ($fixed-height-horizontal-gap-medium-max / 8));
   }
@@ -2168,7 +2208,10 @@ main > .related {
 }
 
 .filter-nav {
-  width: calc(100% - ($fixed-height-horizontal-gap / 1.5));
+  width: 100%;
+  @media (min-width: $mini-screen-width) {
+    width: calc(100% - ($fixed-height-horizontal-gap / 1.5));
+  }
   margin-bottom: 1em;
   position: relative;
   h1 {

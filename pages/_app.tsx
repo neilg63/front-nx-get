@@ -11,7 +11,6 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import { customTheme } from '../lib/styles';
 import { clearLocalCacheOnNewVersion } from '../lib/localstore';
-import { getThemeName } from '@nextui-org/react/types/theme/utils';
 
 declare global {
   interface Window { rowGrid: any; }
