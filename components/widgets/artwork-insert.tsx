@@ -68,6 +68,7 @@ const ArtworkInsert = ({ entity, basePath, site, meta }: { entity: NodeEntity, b
       <h3>{relatedItemsTitle('artwork')}</h3>
       <div className='fixed-height-rows medium-height inner-captions'>
       {entity.related_artworks.map((row: NodeEntity, index: number) => <ArtworkFigure key={relatedKey(row, index)} item={row} index={ index } />)}
+      <figure className="last-item"></figure>
       </div>
     </div>}
   </>

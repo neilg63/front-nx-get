@@ -48,6 +48,7 @@ const relatedPressPrinted = entity.hasRelatedPress ? entity.field_related_press.
       <h3>{contentTypes.artwork}</h3>
       <div className='fixed-height-rows medium-height inner-captions'>
         {entity.related_artworks.map((row: NodeEntity, index: number) => <ArtworkFigure key={relatedKey(row, index)} item={row} index={index} />)}
+        <figure className="last-item"></figure>
       </div>
       </div>}
      {entity.hasRelatedEssays && <div className='related-essays related body-section'>
