@@ -1608,15 +1608,14 @@ figure {
     figure {
       display: flex;
       padding: 0;
-      margin-bottom: $fixed-height-horizontal-gap-medium-single;
       flex-flow: column nowrap;
+
+      @media (max-width: $mini-screen-width) {
+        margin-bottom: $fixed-height-horizontal-gap-medium-single;
+      }
       @media (min-width: $mini-screen-width) {
         padding: 1vmin $fixed-height-horizontal-gap-medium;
-        /* margin-bottom: 1vmin; */
       }
-    /*   @media (min-width: $max-screen-width) {
-        margin-bottom: 10.8px;
-      } */
     }
   }
   @media (min-width: $max-screen-width) {
