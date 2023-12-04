@@ -194,7 +194,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
        if (context && !isLoading && scrollPage < pageData.numPages) {
          const relPage = scrollPage - pageData.page;
           const divisor = scrollPage < 2 ? 5 : relPage < 3 ? 4 : 3;
-          const stopVal = context.height / divisor;
+          const stopVal = context.height / divisor * 0.75; // decrease interval between scroll load events 
           const targetVal = scrollLoadPos + stopVal;
          if (st > targetVal) {
             setScrollLoadPos(st);
@@ -227,7 +227,15 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
         resetJustifiedRows("artwork-list-container", normaliseGrid);
       }
     }
+    
     setTimeout(normaliseGrid, 80);
+    setTimeout(() => {
+      if (!loading) {
+        if (!tempLocalBool('loading')) {
+          normaliseGrid();
+        }
+      }
+    }, 500);
     addEndClasses(document);
     setTimeout(() => {
      setTempLocalBool('loading', false);

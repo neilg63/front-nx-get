@@ -140,9 +140,10 @@ export const justifyRows = (containerId: string, allowAnyway = false) => {
               if (multiple > 1.333 && elLeft > 0) {
                 elWidth += elLeft;
                 multiple = containerWidth / elWidth;
-              } 
-              
-              const porHeight = elHeight * multiple;
+              }
+              // tweaks to prevent excessive height adjustments
+              const multiplier = multiple >= 1.01 ?  multiple > 1.6667 ? Math.pow(multiple, 0.983) : multiple > 1.5 ? Math.pow(multiple, 0.99) : multiple * 0.993 : 1;
+              const porHeight = multiplier > 2 ? elHeight * 2 : elHeight * multiplier;
               els.forEach((el) => {
                 if (el instanceof HTMLElement) {
                   if (el.classList.contains('resized') === false) {
