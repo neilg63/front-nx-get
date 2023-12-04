@@ -1877,6 +1877,35 @@ aside.sidebar {
       width: 100%;
     }
   }
+  @media (max-width: $max-screen-width) {
+    .fixed-height-rows.medium-height {
+      @media (max-width: $mlarge-screen-width) {
+        justify-content: flex-start;
+      }
+      > figure {
+        height: auto;
+        min-width: 100%;
+        @media (min-width: $mini-screen-width) {
+          height: 7.5rem;
+          width: auto;
+          min-width: auto;
+        }
+        @media (min-width: $mid-screen-width) {
+          height: 8.75rem;
+        }
+        @media (min-width: $mlarge-screen-width) {
+          height: 10rem;
+        }
+        @media (min-width: $large-screen-width) {
+          height: 11.25rem;
+        }
+        @media (min-width: $xlarge-screen-width) {
+          height: 12.5rem;
+        }
+      }
+    }
+  }
+  
 }
 
 main > .related {
