@@ -25,7 +25,7 @@ export const ShareWidget = ({ meta }: { meta: MetaDataSet }) => {
         url={url}
         title={title}
       >
-        <i className='icon icon-twitter'></i>
+        <i className='icon icon-x'></i>
       </TwitterShareButton>
        <EmailShareButton
         url={url}
