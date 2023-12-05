@@ -17,7 +17,6 @@ import { ShareWidget } from "./widgets/share-widget";
 const EssayPage: NextPage<BaseEntity> = (data) => {  
   const pageData = new PageDataSet(data);
   const { entity, meta } = pageData;
-  const nextAlias = '/about/essays';
   return <>
     <Head>
       <title>{meta.title}</title>
