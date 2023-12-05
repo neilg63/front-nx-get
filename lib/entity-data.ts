@@ -455,6 +455,11 @@ export class MediaItem {
     const ar = this.width! / this.height!;
     return { aspectRatio: ar.toString(), width };
   }
+
+  addAspectStyle() {
+    const ar = this.width! / this.height!;
+    return { aspectRatio: ar.toString() };
+  }
 }
 
 export class NodeEntity {

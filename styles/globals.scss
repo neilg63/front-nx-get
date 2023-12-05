@@ -1194,6 +1194,11 @@ footer .credits-container > p:last-child {
     width: 100%;
     text-align: center;
   }
+  .left-container {
+    figure {
+      max-width: 100%;
+    }
+  }
   @media (max-width: $mini-screen-width) {
     .left-container {
       width: 100%;
@@ -2090,9 +2095,12 @@ main > .related {
       .nextui-image-container {
         height: auto;
         max-width: 100%;
+        display: flex;
+        flex-direction: column;
       }
       img {
         max-width: 100%;
+        justify-self: flex-start;
         @media (min-width: $mid-screen-width) {
           max-height: calc(100vh - 12em);
         }
