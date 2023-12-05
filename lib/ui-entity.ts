@@ -1,7 +1,17 @@
 import { NodeEntity } from "./entity-data";
+import { basePath } from "./settings";
 import { notEmptyString } from "./utils";
 
-const imageStyles = ["max_650x650", "max_1300x1300", "max_2600x2600"];
+// const imageStyles = ["max_650x650", "max_1300x1300", "max_2600x2600"];
+
+const toImagePath = (value: string) => {
+  if (value.startsWith('https://') === false) {
+    const separator = value?.startsWith('/') ? '' : '/';
+    return [basePath, value].join(separator);
+  } else {
+    return value;
+  }
+}
 
 const correctLocalPath = (path = "") => {
   if (path.startsWith("/") === false && path.startsWith("https://") === false) {
@@ -25,9 +35,13 @@ export class MetaDataSet {
           switch (key) {
             case "title":
             case "description":
-            case "image":
               if (notEmptyString(value)) {
                 this[key] = value;
+              }
+              break;
+            case "image":
+              if (notEmptyString(value)) {
+                this.image = toImagePath(value);
               }
               break;
             case "path":

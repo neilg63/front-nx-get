@@ -1,10 +1,9 @@
 import { NextPage } from "next";
 import Link from 'next/link';
 import { BaseEntity } from "../lib/interfaces";
-import { MediaItem, NodeEntity, PageDataSet } from "../lib/entity-data";
+import { MediaItem, PageDataSet } from "../lib/entity-data";
 import Image from "next/image";
 import { defaultImageLoader } from "../lib/utils";
-import labels from "../lib/labels";
 import parse from "html-react-parser"
 import Head from "next/head";
 import SeoHead from "./layout/head";
