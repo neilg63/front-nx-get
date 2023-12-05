@@ -14,6 +14,8 @@ export const numScrollBatches = { standard: 5, large: 10 };
 
 export const defaultDeviceSize = { width: 800, height: 600 };
 
+export const singleColumnStartWidth = 675;
+
 export const isMinLargeSize = (contextRef: any = null) => {
   const context = contextRef instanceof Object ? contextRef : defaultDeviceSize;
   const screenHeight = context?.height || defaultDeviceSize.height;

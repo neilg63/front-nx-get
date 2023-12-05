@@ -12,7 +12,7 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import LoadMoreNav from "./widgets/load-more-nav";
 import BreadcrumbTitle from "./widgets/breadcrumb-title";
 import YearNav from "./widgets/year-nav";
-import { justifyRows, resetJustifiedRows } from "../lib/row-justify";
+import { smartJustify, smartResetJustified } from "../lib/row-justify";
 import { AppContextInterface } from "../pages/_app";
 
 export const TopContext = React.createContext<AppContextInterface | null>(null);
@@ -36,7 +36,7 @@ const NewsList: NextPage<BaseEntity> = (data) => {
     }, 200);
     addEndClasses(document)
     const normaliseGrid = () => {
-      justifyRows('news-list-container', true)
+      smartJustify("news-list-container", window);
     }
     setTimeout(normaliseGrid, 80);
     const onResize = () => {
@@ -45,7 +45,7 @@ const NewsList: NextPage<BaseEntity> = (data) => {
       const diff = cw > 20 ? Math.abs(cw - currWW) : 0;
       if (diff > 50) {
         setCurrWW(cw);
-        resetJustifiedRows("news-list-container", normaliseGrid);
+        smartResetJustified("news-list-container", window, normaliseGrid);
       }
     }
     const adjustGridRows = () => {

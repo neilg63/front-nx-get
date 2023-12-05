@@ -1,3 +1,6 @@
+import { Container } from "@nextui-org/react";
+import { singleColumnStartWidth } from "./settings";
+
 const imgPath = '.image-link';
 
 const isAppleSafari = () => {
@@ -181,9 +184,7 @@ export const justifyRows = (containerId: string, allowAnyway = false) => {
     }
   }
 }
-
-
-export const resetJustifiedRows = (containerId: string, justifyFunc: Function): void => {
+export const resetJustifiedRows = (containerId: string, justifyFunc: any = null): void => {
     const container = document.getElementById(containerId);
     if (container instanceof HTMLElement) {
       container.classList.remove('width-fixed');
@@ -210,7 +211,7 @@ export const resetJustifiedRows = (containerId: string, justifyFunc: Function): 
           }
         })
         if (justifyFunc instanceof Function) {
-          setTimeout(justifyFunc, 30);
+          setTimeout(justifyFunc, 60);
         }
       }
     }
@@ -230,4 +231,19 @@ export const resetLastItem = (containerId = '') => {
       }
     }
   }
+}
+
+
+
+export const smartJustify = (containerId: string, window: Window) => {
+  if (window && window.innerWidth > singleColumnStartWidth) {
+    justifyRows(containerId, true);
+  } else {
+    resetJustifiedRows(containerId);
+  }
+}
+
+export const smartResetJustified = (containerId: string, window: Window, normaliseGrid: Function) => {
+  const funcRef = (window && window.innerWidth > singleColumnStartWidth) ? normaliseGrid : null;
+  resetJustifiedRows(containerId, funcRef);
 }

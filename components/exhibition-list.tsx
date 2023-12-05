@@ -16,7 +16,7 @@ import { getScrollTop } from "../lib/dom";
 import BreadcrumbTitle from "./widgets/breadcrumb-title";
 import YearNav from "./widgets/year-nav";
 import { filterNavClassName, mapFilterOption, matchFilterMode, notEmptyString } from "../lib/utils";
-import { justifyRows, resetJustifiedRows } from "../lib/row-justify";
+import { smartJustify, smartResetJustified } from "../lib/row-justify";
 
 const filterOpts = [
   { key: 'all', name: 'All' },
@@ -132,7 +132,8 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
       setTimeout(fetchMoreItems, 500);
     }
     const normaliseGrid = () => {
-      justifyRows('exhibition-list-container', true)
+      smartJustify("exhibition-list-container", window);
+      
     }
     setTimeout(normaliseGrid, 80);
     const onResize = () => {
@@ -141,7 +142,7 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
       const diff = cw > 20 ? Math.abs(cw - currWW) : 0;
       if (diff > 50) {
         setCurrWW(cw);
-        resetJustifiedRows("exhibition-list-container", normaliseGrid);
+        smartResetJustified("exhibition-list-container", window, normaliseGrid);
       }
     }
     const adjustGridRows = () => {

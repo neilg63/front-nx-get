@@ -16,7 +16,7 @@ import { isMinLargeSize, numScrollBatches } from "../lib/settings";
 import ArtworkFigure from "./widgets/artwork-figure";
 import { loadMore } from "../lib/load-more";
 import YearNav from "./widgets/year-nav";
-import { justifyRows, resetJustifiedRows } from "../lib/row-justify";
+import { justifyRows, resetJustifiedRows, smartJustify, smartResetJustified } from "../lib/row-justify";
 /* import { fetchFullNode } from "../lib/api-view-results";
 import ArtworkInsert from "./widgets/artwork-insert"; */
 
@@ -215,7 +215,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       }
     }
     const normaliseGrid = () => {
-      justifyRows('artwork-list-container', true)
+      smartJustify("artwork-list-container", window);
     }
 
     const onResize = () => {
@@ -224,7 +224,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
       const diff = cw > 20 ? Math.abs(cw - currWW) : 0;
       if (diff > 20) {
         setCurrWW(cw);
-        resetJustifiedRows("artwork-list-container", normaliseGrid);
+        smartResetJustified("artwork-list-container", window, normaliseGrid);
       }
     }
     
