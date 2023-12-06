@@ -15,7 +15,7 @@ const TooltipContents = ({item}: {item: NodeEntity}) => {
 
 const ArtworkFigure = ({ item, index }: { item: NodeEntity, index: number }) => {
   return <figure id={itemId(item.uuid)} data-index={index} style={item.firstImage.calcAspectStyle()} className='node' title={ item.title}>
-  <Link href={item.path} className="image-holder"><a className="image-link" style={item.firstImage.calcAspectStyle()}>
+    <Link href={item.path} className="image-holder"><a className="image-link" style={item.firstImage.calcAspectStyle()}>
       {item.hasImage && <Image src={item.firstImage.preview} alt={item.alt}  width={'auto'} height={'100%'} objectFit='contain' style={item.firstImage.calcAspectStyle()} />}
       </a></Link>
     <figcaption>
