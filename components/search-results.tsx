@@ -116,10 +116,7 @@ const SearchResults: NextPage<BaseEntity> = (data) => {
   }, [containers, perPage, total, hasItems, setHasItems, showPaginator, router, setSearchStringFromPath, searchString, initialised]);
   const searchStringDisplay = decodeURIComponent(searchString).replace(/%20/g, ' ');
   return <>
-    <Head>
-      <title>{meta.title}</title>
-      <SeoHead meta={meta} />
-    </Head>
+    <SeoHead meta={meta} />
     <Container {...containerProps} className='search-results'>
       <fieldset className='row search-bar'>
         <Input placeholder={labels.search} value={searchStringDisplay} name='search_long' onChange={updateSearch} onKeyDown={e => (submitOnEnter(e))} className='long-text' id='search-results-long-search-field' aria-labelledby={labels.search} fullWidth={true} width='100%' shadow={false} rounded={false} onFocus={() => setSearchFocus(true)} onBlur={() => setSearchFocus(false)} />

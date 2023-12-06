@@ -82,10 +82,7 @@ const Timeline: NextPage<BaseEntity> = (data: any = null) => {
     }
   }, [hasSelectedItem, node, hasItems, selectedRef, items, navClasses, offset, context, itemWidth]);
   return <>
-    <Head>
-      <title>{meta.title}</title>
-      <SeoHead meta={meta} />
-    </Head>
+    <SeoHead meta={meta} />
     <Container {...containerProps} className='timeline-main listing-main'>
       <AboutNav current='/about/timeline' />
       <section className="timeline-item-container full-width">

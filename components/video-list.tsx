@@ -16,10 +16,7 @@ const VideoList: NextPage<BaseEntity> = (data) => {
   const { items, meta, total, perPage } = pageData;
   const showPaginator = total > perPage;
   return  <>
-    <Head>
-      <title>{meta.title}</title>
-      <SeoHead meta={meta} />
-    </Head>
+     <SeoHead meta={meta} />
     <Container {...containerProps} className='listing-main'>
       <header className="section-header">
             <h1>{contentTypes.gttv}</h1>

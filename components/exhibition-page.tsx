@@ -27,10 +27,7 @@ const hasRelatedPressReleases = relatedPressReleases.length > 0;
 const relatedPressPrinted = entity.hasRelatedPress ? entity.field_related_press.filter((p:NodeEntity) => p.isPressArticle) : [];
   const hasRelatedPressPrinted = relatedPressPrinted.length > 0;
   return  <>
-    <Head>
-      <title>{meta.title}</title>
-      <SeoHead meta={meta} />
-    </Head>
+    <SeoHead meta={meta} />
     <Container {...containerProps} className='exhibition-container left-align'>
       <article className="exhibition grid-2-header body-section">
         <h1 className='breadcrumb-title'><BreadcrumbTitle path={meta.path} title={entity.title} /></h1>

@@ -19,10 +19,7 @@ const PressList: NextPage<BaseEntity> = (data) => {
   const showPaginator = total > 0 && total > perPage;
   const download_label = pageData.label('download_pdf');
   return <>
-    <Head>
-      <title>{meta.title}</title>
-      <SeoHead meta={meta} />
-    </Head>
+    <SeoHead meta={meta} />
     <Container {...containerProps} className='about-listing-container listing-main'>
       <AboutNav current='/about/press' />
       <section className="press-list about-listing">

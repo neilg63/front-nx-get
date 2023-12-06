@@ -49,10 +49,7 @@ const PressLanding: NextPage<BaseEntity> = (data) => {
   const pressReleaseTitel = pageData.label('press_releases');
   const viewAllLabel = pageData.label('more_link', 'more');
   return <>
-    <Head>
-      <title>{meta.title}</title>
-      <SeoHead meta={meta} />
-    </Head>
+    <SeoHead meta={meta} />
     <Container {...containerProps} className='about-listing-container left-align listing-main'>
       <AboutNav current='/about/press' />
       <section className="press-landing about-listing text-max-width">

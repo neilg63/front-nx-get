@@ -47,10 +47,7 @@ const PublicationList: NextPage<BaseEntity> = (data) => {
     };
   }, [context, currWW]);
   return <>
-    <Head>
-      <title>{meta.title}</title>
-      <SeoHead meta={meta} />
-    </Head>
+   <SeoHead meta={meta} />
     <Container {...containerProps} className='about-listing-container listing-main'>
       <AboutNav current='/about/publications' />
       <section className="publication-list grid-list" id="publication-list-container">

@@ -252,10 +252,7 @@ const ArtworkList: NextPage<BaseEntity> = (data) => {
   }, [pageData, contextualTitle, subPath, router, types, context, scrollPage, scrollLoadPos, loading, maxScrollPages, selected, currWW]);
  
   return <>
-    <Head>
-      <title>{pageData.meta.title}</title>
-      <SeoHead meta={pageData.meta} />
-    </Head>
+    <SeoHead meta={pageData.meta} />
     <Container {...containerProps} className={ wrapperClasses(showDetail) }>
       <nav className={filterNavClassName(filterMode)}>
         <h1>{ contextualTitle }</h1>

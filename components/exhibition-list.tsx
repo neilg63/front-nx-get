@@ -160,10 +160,7 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
     }
   }, [pageData, loading, maxScrollPages, router,context, scrollLoadPos, scrollPage, subPath, currWW, setCurrWW])
   return  <>
-    <Head>
-      <title>{meta.title}</title>
-      <SeoHead meta={meta} />
-    </Head>
+    <SeoHead meta={meta} />
     <Container {...containerProps}>
       <section className="exhibition-list grid-list">
         <nav className={filterNavClassName(filterMode)}>

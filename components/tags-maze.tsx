@@ -23,6 +23,7 @@ const toKey = (prefix = '', slug = '', index = 0) => {
 
 const TagsMaze: NextPage<BaseEntity> = (data: BaseEntity) => {
   const pageData = new PageDataSet(data);
+  const { meta } = pageData;
   const context = useContext(TopContext);
   const router = useRouter();
   useEffect(() => {
@@ -33,10 +34,7 @@ const TagsMaze: NextPage<BaseEntity> = (data: BaseEntity) => {
     }
   }, [context, router])
   return <>
-    <Head>
-      <title>{pageData.meta.title}</title>
-        <SeoHead meta={pageData.meta} />
-      </Head>
+    <SeoHead meta={meta} />
     <Container {...containerProps} className='tags-container'>
       <h2 className='seo-hide'>{ labels.tag_list_title}</h2>
       <div className='tag-list'>

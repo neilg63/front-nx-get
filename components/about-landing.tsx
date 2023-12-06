@@ -20,10 +20,7 @@ const AboutLanding: NextPage<BaseEntity> = (data) => {
   const pathParts = currentPathRef.substring(1).split('/');
   const currentPath = pathParts.length < 2 ? '/about/bio' : currentPathRef;
   return <>
-    <Head>
-      <title>{meta.title}</title>
-      <SeoHead meta={meta} />
-    </Head>
+    <SeoHead meta={meta} />
     <Container {...containerProps} className='about-landing left-align listing-main'>
       <AboutNav current={currentPath} />
       <article className='about-article grid-half-header'>

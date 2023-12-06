@@ -26,10 +26,7 @@ const VideoPage: NextPage<BaseEntity> = (data ) => {
   const relatedPressPrinted = entity.hasRelatedPress ? entity.field_related_press.filter((p:NodeEntity) => p.isPressArticle) : [];
   const hasRelatedPressPrinted = relatedPressPrinted.length > 0;
   return  <>
-    <Head>
-      <title>{meta.title}</title>
-      <SeoHead meta={meta} />
-    </Head>
+    <SeoHead meta={meta} />
     <Container {...containerProps} className='video-container grid-sidebar'>
     <article className="video">
         <header className='breadcrumb-header'>

@@ -22,10 +22,7 @@ const PublicationPage: NextPage<BaseEntity> = (data ) => {
   const hasLink =  isObjectWith(entity.field_link, 'uri') && notEmptyString(entity.field_link.uri, 4);
   const showYear = isObjectWith(entity, 'field_year') && entity.field_year > 1000;
   return  <>
-    <Head>
-      <title>{meta.title}</title>
-      <SeoHead meta={meta} />
-    </Head>
+    <SeoHead meta={meta} />
     <Container {...containerProps} className='exhibition-container left-align'>
       <article className="exhibition grid-2-header body-section">
         <header className='breadcrumb-header'>

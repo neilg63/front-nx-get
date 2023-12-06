@@ -111,10 +111,7 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
   }, [splashClasses, context, enableOverlay, router, activeExibitionIndex, setActiveExibitionIndex, numCurrentExhibitions,setCurrentExhibStyles, currentExhibIntervalId]);
   return (
     <>
-      <Head>
-        <title>{meta.title}</title>
-        <SeoHead meta={meta} />
-      </Head>
+      <SeoHead meta={meta} />
       <Container {...containerProps} className="home-container">
         <section className='current-exhibition'>
           <header className="home-header section-header"><i className='icon icon-home show-splash-trigger' onClick={() => showSplash()}></i></header>
