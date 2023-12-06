@@ -388,6 +388,14 @@ export class MediaItem {
     return notEmptyString(this.field_credit);
   }
 
+  get hasTitle() {
+    return notEmptyString(this.title);
+  }
+
+  get hasCaption() {
+    return this.hasCredits || this.hasTitle;
+  }
+
   get imageStyles(): ImageStyleAttrs[] {
     return this.hasSizes ? toImageStyles(this.sizes) : [];
   }

@@ -2141,7 +2141,7 @@ main > .related {
         }
         span {
           display: inline-block;
-          &:last-child {
+          &:nth-child(2) {
             &:before {
               display: inline-block;
               content: ",";
