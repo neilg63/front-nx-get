@@ -2115,7 +2115,7 @@ main > .related {
       img {
         max-width: 100%;
         justify-self: flex-start;
-        @media (min-width: $mid-screen-width) {
+        /* @media (min-width: $mid-screen-width) {
           max-height: calc(100vh - 12em);
         }
       
@@ -2124,7 +2124,8 @@ main > .related {
         }
         @media (max-width: $mini-screen-width) {
           max-height: calc(100vh - 3em);  
-        }
+        } */
+        max-height: 100vh;
         @media (max-width: $mini-screen-width) and (orientation: portrait) {
           min-height: 50vw;
         }
@@ -2142,6 +2143,9 @@ main > .related {
         text-align: right;
         background-color: rgba(white, 0.75);
         font-size: 0.875rem;
+        z-index: 50;
+        user-select: none;
+        cursor: pointer;
         &:hover {
           opacity: 1;
         }
@@ -2158,14 +2162,14 @@ main > .related {
       }
     }
   }
-
+/* 
   &:hover {
     .media-items {
       figure figcaption {
         opacity: 1;
       }
     }
-  }
+  } */
 
   .enlarge-trigger {
     cursor: pointer;
