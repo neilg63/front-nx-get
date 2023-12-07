@@ -1474,6 +1474,12 @@ body .nprogress {
   }
 }
 
+.fixed-height-rows figure {
+  figcaption {
+    pointer-events: none;
+  }
+}
+
 .grid,
 .fixed-height-rows-grid.medium-height,
 .fixed-height-rows.medium-height {
