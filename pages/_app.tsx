@@ -71,7 +71,7 @@ export default function App({ Component, pageProps }: AppProps) {
     setMove(dir);
     setTimeout(() => {
       setMove(0);
-    }, 5);
+    }, 10);
   }
 
   const handleWindowResize = useCallback(() => {

@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useContext, useRef } from "react";
 import { MediaItem } from "../../lib/entity-data";
 import { Image, useModal, Modal } from '@nextui-org/react';
 import { TopContext } from "../../pages/_app";
+import { useRouter } from "next/router";
 // import { setCarouselImageMaxHeight } from '../../lib/styles';
 
 const ModalFigure = ({ item }: { item: MediaItem }) => {
@@ -43,8 +44,7 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
   const classNames = cls.join(" ");
  
   const [selectedIndex, setSelectedIndex] = useState(0);
-  
-
+  const router = useRouter();
 
   const scrollTo = useCallback(
     (index: number) => {
@@ -98,18 +98,10 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
   }
   
   useEffect(() => {
-/*     const setCarouselHeight = (document: Document) => {
-      const refEl = document.querySelector('.carousel-container');
-      if (refEl instanceof HTMLElement) {
-        setCarouselImageMaxHeight(refEl, window);
-      }
-    }
-    if (!initialised.current) {
+
+    router.events.on('routeChangeComplete', () => {
       scrollTo(0);
-      setTimeout(() => {
-        setCarouselHeight(document);
-      }, 1000);
-    } */
+    });
     if (context) {
       if  (context.move !== 0) {
         toNextPrev(context.move > 0);
@@ -118,8 +110,7 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
     return () => {
       initialised.current = true
     }
-  }, [context, toNextPrev, scrollTo]);
-
+  }, [context, router, toNextPrev, scrollTo]);
   return <>
     <div className={classNames}>
       {hasSlides && <section className="media-items flex" style={sectionStyles}>
