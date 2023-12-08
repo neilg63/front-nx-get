@@ -32,6 +32,7 @@ const buildSplashClasses = (): string => {
 const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
   const pageData = new CompoundPageDataSet(data);
   const context = useContext(TopContext);
+  const initialised = useRef(false);
   const router: any = useRouter();
   const { meta, labels, site } = pageData;
   const [splashClasses, setSplashClasses] = useState('splash-overlay');
@@ -94,10 +95,15 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
         hideSplash();
       }
     }
-      if (router.components instanceof Object) {
+    
+    if (router.components instanceof Object) {
       const hasReferrers = Object.keys(router.components).some(p => globalPagePaths.includes(p) === false);
       const enableOverlay = !hasReferrers || splashClasses.includes('show-again');
       setEnableOverlay(enableOverlay);
+    }
+
+    if (!initialised.current) {
+      setTimeout(calcExhibitionStyles, 125);
     }
     
     currentExhibIntervalId.current = window.setInterval(() => {
@@ -107,6 +113,7 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
     }, 3000);
     return () => {
       clearInterval(currentExhibIntervalId.current);
+      initialised.current = true;
     }
   }, [splashClasses, context, enableOverlay, router, activeExibitionIndex, setActiveExibitionIndex, numCurrentExhibitions,setCurrentExhibStyles, currentExhibIntervalId]);
   return (
