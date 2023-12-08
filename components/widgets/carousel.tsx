@@ -98,7 +98,9 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
   }
   
   useEffect(() => {
-
+    if (!initialised.current) {
+      scrollTo(0);
+    }
     router.events.on('routeChangeComplete', () => {
       scrollTo(0);
     });
