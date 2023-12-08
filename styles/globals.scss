@@ -2115,6 +2115,7 @@ main > .related {
       img {
         max-width: 100%;
         justify-self: flex-start;
+        height: auto;
         /* @media (min-width: $mid-screen-width) {
           max-height: calc(100vh - 12em);
         }
