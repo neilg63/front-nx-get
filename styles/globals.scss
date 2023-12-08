@@ -2097,15 +2097,9 @@ main > .related {
       /* flex: 0 0 100%; */
       flex: 1;
       position: relative;
-      max-height: calc(100vh - 6em);
+      max-height: 100vh;
+      height: auto;
 
-/*       > div > img {
-        max-height: 100vh;
-      } */
-      /* height: calc(50vw - 0.5em);
-      @media screen and (min-width: $max-screen-width) {
-        height: calc(900px - 3em);
-      } */
       .nextui-image-container {
         height: auto;
         max-width: 100%;
