@@ -118,9 +118,8 @@ const Carousel = ({ items }: { items: MediaItem[] }) => {
       {hasSlides && <section className="media-items flex" style={sectionStyles}>
             {items.map((item: MediaItem) => <figure key={item.uri} data-dims={item.dims('medium')} style={ item.addAspectStyle() }>
               <Image srcSet={item.srcSet} src={item.medium} alt={item.alt} width='auto' height='100%' objectFit='contain' css={ item.calcAspectStyle() } />
-              {item.hasCaption && <figcaption>
-                {item.hasTitle && <span className="title">{item.title}</span>}
-                {item.hasCredits && <span className="credits">{item.field_credit}</span>}
+              {item.hasCredits && <figcaption>
+                {item.field_credit}
               </figcaption>}
             </figure>)}
       </section>}
