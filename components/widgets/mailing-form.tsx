@@ -136,7 +136,8 @@ const MailingForm = ({ site }: { site: SiteInfo }) => {
   return (
     <div className="mailing-container">
         <form className="overlay-form mailing-form inner column">
-        <h3>{site.label('subscribe_title', 'Subscribe to mailing list')}</h3>
+        <h3>{site.label('subscribe_title', 'Gavin Turk Studio mailing list')}</h3>
+        <p className="info">{site.label('subscribe_info', 'You will receive updates from the artist Gavin Turk including; upcoming events, news and press releases')}</p>
         {showThanks ? <div className="body inner">{thanksMessage}</div> : <>
           <Input name='firstname' type='text' placeholder={nameLabel} size='lg' id='mailing-form-name' rounded={false} value={firstname} onChange={e => update(e)} aria-labelledby={nameLabel} />
           <Input name='lastname' type='text' placeholder={lastNameLabel} size='lg' id='mailing-form-name' rounded={false} value={lastname} onChange={e => update(e)} aria-labelledby={lastNameLabel} />
