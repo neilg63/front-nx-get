@@ -53,7 +53,7 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
   const hasNews = newsItems.length > 0;
   const videos = pageData.getEntities('latest_videos');
   const hasVideos = videos.length > 0;
-
+  const is404 = pageData.is404;
   const hideSplash = () => {
     toLocal('splash-viewed', true);
     setSplashClasses('splash-overlay');
@@ -122,6 +122,9 @@ const Home: NextPage<BaseEntity> = (data: BaseEntity) => {
       <Container {...containerProps} className="home-container">
         <section className='current-exhibition'>
           <header className="home-header section-header"><i className='icon icon-home show-splash-trigger' onClick={() => showSplash()}></i></header>
+          {is404 && <div className="message not-found">
+            {site.label("not_found_message", "The requested page cannot be found")}
+          </div>}
           {hasCurrExhibs && <div className="nodes" style={currentExhibStyles}>
             {currentExhibitions.map((exhib, ei) => <ExhibitionPreview node={exhib} label={labels.get('current_exhibition')} key={['current-exhibitions', ei].join('-')} active={ei === activeExibitionIndex}  />)}  
           </div>}

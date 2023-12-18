@@ -2661,6 +2661,14 @@ main.news-container > .filter-nav {
   }
 
   .current-exhibition {
+
+
+    > .message {
+      padding: 0 0 0.375em 0;
+      color: $danger;
+      margin-bottom: 1em;
+    }
+
     @media (min-width: $mini-screen-width) {
       grid-area: main;
     }
@@ -2714,6 +2722,8 @@ main.news-container > .filter-nav {
 
   }
   .news-previews {
+
+
     @media (min-width: $mini-screen-width) {
       grid-area: right;
     }

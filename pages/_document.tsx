@@ -1,9 +1,10 @@
 import React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+
 import { CssBaseline } from '@nextui-org/react';
 import { PageDataSet } from '../lib/entity-data';
 import { isObjectWith } from '../lib/utils';
-import { googleTagId } from '../lib/settings';
+// import { googleTagId } from '../lib/settings';
 
 class AppDocument extends Document {
   static async getInitialProps(ctx: any) {

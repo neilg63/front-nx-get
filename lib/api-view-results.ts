@@ -31,6 +31,7 @@ export const fetchFullNode = async (path: string): Promise<BaseEntity> => {
     ) + paramsToQueryString({ alias });
   const res = await fetch(uri);
   const data = res.status >= 200 && res.status < 300 ? await res.json() : {};
+  data.is404 = false;
   return data;
 };
 

@@ -821,6 +821,7 @@ export class PageDataSet {
   perPage = 0;
   total = 0;
   sets: Map<string, SlugNameNum[] | YearNum[]> = new Map();
+  is404 = false;
 
   constructor(inData: any = null) {
     if (inData instanceof Object) {
@@ -859,6 +860,9 @@ export class PageDataSet {
             this.sets.set(key, value);
           }
         });
+      }
+      if (keys.includes("is404")) {
+        this.is404 = inData.is404 === true;
       }
     }
   }

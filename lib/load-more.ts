@@ -30,7 +30,7 @@ const matchApihUriAndKey = (path = "", page = 1) => {
           base = second.startsWith("tag--")
             ? "artworks-by-tag"
             : "artworks-by-type";
-          second = second.includes("--") ? second.split("--").shift()! : second;
+          second = second.includes("--") ? second.split("--").pop()! : second;
         }
         break;
     }
