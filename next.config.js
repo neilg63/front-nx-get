@@ -3,7 +3,11 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   async redirects() {
-    return [
+    return [ {
+        source: '/biography',
+        destination: '/about',
+        permanent: true,
+      },
       {
         source: '/artworks/tags/:slug*',
         destination: '/artworks/tag--:slug*',
