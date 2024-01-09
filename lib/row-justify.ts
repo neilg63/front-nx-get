@@ -4,7 +4,7 @@ const imgPath = '.image-link';
 
 const isAppleSafari = () => {
   const { userAgent } = window.navigator;
-  
+
   if (typeof userAgent === 'string') {
     return /version\/\d.*?\bsafari\b/i.test(userAgent)
   } else {

@@ -37,7 +37,6 @@ export const artlogicMailing = {
   apiKey: "",
 };
 
-// export const googleTagId = 'G-PJTQ945ZGX';
-export const googleTagId = 'G-XYZ1234ABC';
+export const googleTagId = 'G-XPYPL33YW1';
 
 export const enableTimeline = false;

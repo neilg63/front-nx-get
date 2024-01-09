@@ -4,7 +4,7 @@ import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { CssBaseline } from '@nextui-org/react';
 import { PageDataSet } from '../lib/entity-data';
 import { isObjectWith } from '../lib/utils';
-// import { googleTagId } from '../lib/settings';
+import { googleTagId } from '../lib/settings';
 
 class AppDocument extends Document {
   static async getInitialProps(ctx: any) {
@@ -20,7 +20,7 @@ class AppDocument extends Document {
     const data: any = isObjectWith(props, 'pageProps')? props.pageProps : {};
     const pageData = new PageDataSet(data)
     const { meta } = pageData;
-    /* const googleTagUri = `https://www.googletagmanager.com/gtag/js?id=${googleTagId}` */
+    const googleTagUri = `https://www.googletagmanager.com/gtag/js?id=${googleTagId}`;
     return (
       <Html lang="en">
         <Head title={meta.title}>
@@ -30,7 +30,7 @@ class AppDocument extends Document {
           <Main />
           <NextScript />
           <script src="/js/global.js?v=4" defer={true} />
-          {/* <script async src={googleTagUri} id="google-tag-script" data-id={googleTagId}></script> */}
+          <script async src={googleTagUri} id="google-tag-script" data-id={googleTagId}></script>
         </body>
       </Html>
     );
