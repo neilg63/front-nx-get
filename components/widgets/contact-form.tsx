@@ -88,9 +88,9 @@ const ContactForm = ({ site }: { site: SiteInfo }) => {
       payload.set('subject', toFormValue(`Web site contact form Message from ${name}`));
       payload.set('mail', toFormValue(email));
       payload.set('message', toFormValue(message, 'plain'));
-      payload.set('form_id', toFormValue('contact_message_contact_form', 'plain'));
-      payload.set('source', toFormValue('api_submission', 'plain'));
-      
+      payload.set('form_id', 'contact_message_contact_form');
+      payload.set('source', 'api_submission');
+
       const uri = [process.env.NEXT_PUBLIC_DRUPAL_BASE_URL, 'entity/contact_message'].join('/');
       const data = Object.fromEntries(payload);
       try {
