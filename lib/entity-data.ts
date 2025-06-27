@@ -29,6 +29,7 @@ export class SimpleMenuItem {
   hasChildren = false;
   children: SimpleMenuItem[] = [];
   subtitle = "";
+  hasOverride = false;
 
   constructor(inData: any = null) {
     if (inData instanceof Object) {
@@ -59,7 +60,6 @@ export class SimpleMenuItem {
   get hasSubtitle() {
     return notEmptyString(this.subtitle, 1);
   }
-
 }
 
 export class SiteInfoCore {
@@ -101,18 +101,18 @@ export interface ContactData {
 }
 
 export class CreditInfo {
-  copyright = '';
-  privacy = '';
-  designed = '';
+  copyright = "";
+  privacy = "";
+  designed = "";
   constructor(inData: any = null) {
     if (inData instanceof Object) {
-      const { copyright, privacy, designed } = inData
+      const { copyright, privacy, designed } = inData;
       this.copyright = copyright;
       this.privacy = privacy;
       if (designed) {
         this.designed = designed;
       }
-    } else if (typeof inData === 'string') {
+    } else if (typeof inData === "string") {
       this.copyright = inData;
     }
   }
@@ -443,12 +443,14 @@ export class MediaItem {
   }
 
   get best() {
-    const mimeEnd = notEmptyString(this.filemime, 3) ? this.filemime.split('/').pop() : '';
+    const mimeEnd = notEmptyString(this.filemime, 3)
+      ? this.filemime.split("/").pop()
+      : "";
     switch (mimeEnd?.toLowerCase()) {
-      case 'gif':
-      case 'png':
-      case 'svg+xml':
-      case 'svg':
+      case "gif":
+      case "png":
+      case "svg+xml":
+      case "svg":
         return this.src;
       default:
         return this.size("max_2600x2600");

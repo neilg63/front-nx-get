@@ -21,6 +21,11 @@ const iconClassName = (uri = '') => {
   return cls.join(' ');
 }
 
+function mapFooterItem(item: SimpleMenuItem) {
+  item.hasOverride = /^\/(contact|press|subscribe)/i.test(item.path);
+  return item;
+}
+
 const Footer = ({ site }: { site: SiteInfo }) => {
   const { setVisible, bindings } = useModal();
   const [contactOn, setContactOn] = useState(false);
@@ -30,9 +35,8 @@ const Footer = ({ site }: { site: SiteInfo }) => {
   const siteObj = site instanceof Object ? site : { menus: {footer: [], social: []}, credits: new CreditInfo() };
   const { menus, credits } = siteObj;
   const hasMenus = menus instanceof Object;
-  const menuItems = hasMenus && menus.footer instanceof Array ? menus.footer : [];
+  const menuItems = hasMenus && menus.footer instanceof Array ? menus.footer.map(mapFooterItem) : [];
   const sociaItems = hasMenus && menus.social instanceof Array ? menus.social : [];
-  const router = useRouter();
   const privacyPath = '/info/privacy';
   const hasMenuItems = menuItems.length > 0;
   const siteInfo = new SiteInfo(site);
@@ -44,30 +48,36 @@ const Footer = ({ site }: { site: SiteInfo }) => {
       setMailingOn(false);
   }
 
-  const handleLink = (e: any) => {
+  const handleLink = (e: any, href: string) => {
     if (e instanceof Object) {
-      const { target } = e;
-      if (target && notEmptyString(target.href)) {
-        const relPath = target.href.split('/').pop();
-        e.preventDefault();
+      if (notEmptyString(href)) {
+        const relPath = href.split('/').pop();
+        console.log('relPath', relPath);
         switch (relPath) {
           case 'contact':
+           e.preventDefault();
             setVisible(true);
             setPressOn(false);
             setMailingOn(false);
             setContactOn(true);
             break;
           case 'press':
+
+            e.preventDefault();
             setVisible(true);
             setContactOn(false);
             setMailingOn(false);
             setPressOn(true);
             break;
           case 'subscribe':
+            e.preventDefault();
             setVisible(true);
             setContactOn(false);
             setPressOn(false);
             setMailingOn(true);
+            break;
+          default:
+            // default action
             break;
         }
       }
@@ -88,7 +98,7 @@ const Footer = ({ site }: { site: SiteInfo }) => {
           {hasMenuItems && <ul className='menu footer-menu column left'>
             {menuItems.map((item: SimpleMenuItem) => {
               return <li key={item.path}>
-                <a href={item.path} onClick={e => handleLink(e)}>{item.title}</a>
+                {item.hasOverride ? <a href={item.path} onClick={e => handleLink(e, item.path)}>{item.title}</a> : <Link href={item.path}><a>{item.title}</a></Link>}
               </li>
             })}
           </ul>}
