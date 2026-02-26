@@ -52,7 +52,6 @@ const Footer = ({ site }: { site: SiteInfo }) => {
     if (e instanceof Object) {
       if (notEmptyString(href)) {
         const relPath = href.split('/').pop();
-        console.log('relPath', relPath);
         switch (relPath) {
           case 'contact':
            e.preventDefault();

@@ -2,7 +2,6 @@ import { NextPage } from "next";
 import Link from 'next/link';
 import { BaseEntity, FilterOption, YearNum } from "../lib/interfaces";
 import { NodeEntity, PageDataSet } from "../lib/entity-data";
-import Head from "next/head";
 import SeoHead from "./layout/head";
 import { Container, Image } from "@nextui-org/react";
 import { addEndClasses, containerProps } from "../lib/styles";
@@ -47,7 +46,9 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
   const loadNextPrev = useCallback((forward = true) => {
     const currPath = router.asPath.split('?').shift();
     const nextPage = forward ? pageData.nextPageOffset : pageData.prevPageOffset(maxScrollPages);
-    if (pageData.mayLoad(maxScrollPages) && forward) {
+    const mayLoadMore = pageData.mayLoad(maxScrollPages);
+    const loadMoreMode = mayLoadMore && forward;
+    if (loadMoreMode) {
       setLoading(true);
       loadMore(router.asPath, nextPage).then((items: NodeEntity[]) => {
         pageData.addItems(items);
@@ -68,7 +69,7 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
         break;
       case 'all':
       case 'year':
-        if (/(exhibitions|\d\d\d\d)$/.test(currPath) === false) {
+        if (/(exhibitions)$/.test(currPath) === false) {
           const qStr = mode === 'year'? '?mode=year' : '';
           router.push('/exhibitions' + qStr);
         }
@@ -83,23 +84,23 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
   useEffect(() => {
     const fetchMoreItems = () => {
       setLoading(true);
-      const nextPage = pageData.nextPageOffset;
-      const isLarge = isMinLargeSize(context);
-      const max = isLarge ? numScrollBatches.large : numScrollBatches.standard;
-      if (pageData.mayLoad(max)) {
-        setScrollPage(nextPage);
-        loadMore(router.asPath, nextPage).then((items: NodeEntity[]) => {
-          pageData.addItems(items, true);
-          setTimeout(() => {
-            setLoading(false);
-          }, 1000);
-        });
-      }
+        const nextPage = pageData.nextPageOffset;
+        const isLarge = isMinLargeSize(context);
+        const max = isLarge ? numScrollBatches.large : numScrollBatches.standard;
+        if (pageData.mayLoad(max)) {
+          setScrollPage(nextPage);
+          loadMore(router.asPath, nextPage).then((items: NodeEntity[]) => {
+            pageData.addItems(items, true);
+            setTimeout(() => {
+              setLoading(false);
+            }, 1000);
+          });
+        }
     }
 
     const onScroll = () => {
        const st = getScrollTop();
-      const isLoading = loading;
+       const isLoading = loading;
       if (context && !isLoading && scrollPage < pageData.numPages) {
          const relPage = scrollPage - pageData.page;
           const divisor = scrollPage < 2 ? 4 : relPage < 3 ? 3.2 : 2.5;
@@ -158,7 +159,7 @@ const ExhibitionList: NextPage<BaseEntity> = (data) => {
       window.removeEventListener('resize', onResize);
       Router.events.off('routeChangeComplete', adjustGridRows);
     }
-  }, [pageData, loading, maxScrollPages, router,context, scrollLoadPos, scrollPage, subPath, currWW, setCurrWW])
+  }, [pageData, maxScrollPages, loading, router,context, scrollLoadPos, scrollPage, subPath, currWW, setCurrWW])
   return  <>
     <SeoHead meta={meta} />
     <Container {...containerProps}>

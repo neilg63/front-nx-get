@@ -24,6 +24,7 @@ const matchApihUriAndKey = (path = "", page = 1) => {
   const uriParts = [];
   if (parts.length > 1) {
     let second = parts[1];
+    let skipSecond = false;
     switch (base) {
       case "artworks":
         if (!isLifeYear(second)) {
@@ -33,9 +34,19 @@ const matchApihUriAndKey = (path = "", page = 1) => {
           second = second.includes("--") ? second.split("--").pop()! : second;
         }
         break;
+      case "exhibitions":
+      case "exhibitions-by-group":
+      case "exhibitions-by-solo":
+        if (!isLifeYear(second)) {
+          base = ["exhibitions", second].join("-by-");
+          skipSecond = true;
+        }
+        break;
     }
     uriParts.push(base);
-    uriParts.push(second);
+    if (!skipSecond) {
+      uriParts.push(second);
+    } 
   } else {
     uriParts.push(base);
   }
@@ -53,8 +64,11 @@ export const loadMore = async (
   try {
     const stored = fromLocal(key, 900);
     let items: any[] = [];
-    if (stored.valid && !stored.expired) {
-      if (stored.data instanceof Array && stored.data.length > 0) {
+    const storedOk = stored.valid && !stored.expired;
+    if (storedOk) {
+      //if (stored.data instanceof Array && stored.data.length > 0) {
+      // treat as valid if it's an array, even if empty, to avoid repeated API calls for empty pages
+      if (stored.data instanceof Array) {
         items = stored.data;
       }
     }

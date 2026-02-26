@@ -4,9 +4,8 @@ import ExhibitionList from '../../components/exhibition-list';
 import { extractPageIndexFromContext, extractYearUriFromParams, notEmptyString } from '../../lib/utils';
 
 const buildSoloGroupUri = (key: string) => {
-  const base = 'exhibitions-by-solo';
-  const suffix = key.startsWith('s') ? '1' : '0';
-  return [base, suffix].join('/');
+  const suffix = key.startsWith('s') ? 'solo' : 'group';
+  return 'exhibitions-by-' + suffix ;
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
